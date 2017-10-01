@@ -7,10 +7,9 @@ $ git clone https://github.com/cedricbonhomme/services.git
 $ cd services/
 /services$ pew install 3.6.2 --type CPython
 /services$ pew new --python=$(pew locate_python 3.6.2)  -a . -r requirements.txt services-dev
-services-dev/services$ cp src/conf/conf.cfg-sample src/conf/conf.cfg
-services-dev/services$ python src/manager.py db_create
 services-dev/services$ npm install bower
 services-dev/services$ bower install
+services-dev/services$ cp src/conf/conf.cfg-sample src/conf/conf.cfg
 services-dev/services$ ./create_db.sh
 services-dev/services$ python src/manager.py db_create
 services-dev/services$ python src/manager.py create_admin cedric@cedricbonhomme.org cedric bonhomme password
