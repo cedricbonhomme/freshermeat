@@ -3,8 +3,8 @@
 # Launch the application
 
 ```bash
-$ git clone https://
-$ cd services
+$ git clone https://github.com/cedricbonhomme/services.git
+$ cd services/
 /services$ pew install 3.6.2 --type CPython
 /services$ pew new --python=$(pew locate_python 3.6.2)  -a . -r requirements.txt services-dev
 services-dev/services$ cp src/conf/conf.cfg-sample src/conf/conf.cfg
