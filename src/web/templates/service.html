@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+{% block content %}
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Services</a></li>
+    <li class="breadcrumb-item active" id="service-name">Library</li>
+</ol>
+<div class="container">
+    <div class="row">
+        <div><p id="service-description"></p></div>
+    </div>
+    <div class="row">Please prodive us the following informations:</div>
+    <div class="row">
+        <div id="required_informations"></div>
+    </div>
+</div><!-- /.container -->
+
+<script>
+$(document).ready(function() {
+    var service = getUrlParameter('name');
+    var filters = [{"name": "name", "op": "like", "val": service}];
+    $.ajax({
+        url: 'http://127.0.0.1:5000/api/v1/service',
+        data: {"q": JSON.stringify({"filters": filters})},
+        dataType: "json",
+        contentType: "application/json",
+        success: function(data) {
+            $("#service-name").html(data.objects[0].name);
+            $("#service-description").html(data.objects[0].description);
+
+            $form = $("<form></form>");
+
+            data.objects[0].required_informations
+            .sort(function (a, b) {
+                return a.order - b.order ;
+            })
+            .map(function (required_information) {
+                console.log(required_information);
+                $form.append('<div class="form-group"><label for="exampleInputEmail1">'+ required_information.name +'</label><input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="' + required_information.name + '"></div>');
+            });
+            $form.append('<button type="submit" class="btn btn-primary">Submit</button>');
+            $('#required_informations').append($form);
+
+
+        }
+    });
+});
+
+var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+};
+
+</script>
+{% endblock %}

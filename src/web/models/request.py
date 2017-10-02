@@ -7,8 +7,7 @@ from sqlalchemy.dialects.postgresql import JSON
 from bootstrap import db
 
 class Request(db.Model, UserMixin):
-    """
-    Represent a request.
+    """Represent a request.
     """
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(), unique=True, nullable=False)
@@ -21,4 +20,4 @@ class Request(db.Model, UserMixin):
     service_id = db.Column(db.Integer(), db.ForeignKey('service.id'))
 
     # Relationship
-    service = db.relationship('Service', backref="concerns")
+    service = db.relationship('Service', backref="requests")
