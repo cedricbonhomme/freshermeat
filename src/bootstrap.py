@@ -37,7 +37,7 @@ from flask_sqlalchemy import SQLAlchemy
 # Create Flask application
 application = Flask('web', instance_relative_config=True)
 application.config.from_pyfile(os.environ.get('APPLICATION_SETTINGS',
-                                            'production.cfg'),
+                                            'development.cfg'),
                                 silent=False)
 
 set_logging(conf.LOG_PATH, log_level=conf.LOG_LEVEL)
