@@ -21,7 +21,7 @@ class RedirectForm(FlaskForm):
         if not self.next.data:
             self.next.data = misc_utils.get_redirect_target() or ''
 
-    def redirect(self, endpoint='home', **values):
+    def redirect(self, endpoint='services', **values):
         if misc_utils.is_safe_url(self.next.data):
             return redirect(self.next.data)
         target = misc_utils.get_redirect_target()

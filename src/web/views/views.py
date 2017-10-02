@@ -41,8 +41,8 @@ def handle_sqlalchemy_assertion_error(error):
     return error.args[0], 400
 
 
-@current_app.route('/services', methods=['GET'])
+@current_app.route('/', methods=['GET'])
 def services():
-    services = Service.query.all()
-    print(services[0].required_informations)
+    # services = Service.query.all()
+    # print(services[0].required_informations)
     return render_template('services.html')
