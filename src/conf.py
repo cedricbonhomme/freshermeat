@@ -58,11 +58,7 @@ try:
 except:
     PLATFORM_URL = "https://services.securitymadein.lu/"
 ADMIN_EMAIL = config.get('misc', 'admin_email')
-SECURITY_PASSWORD_SALT = config.get('misc', 'security_password_salt')
-try:
-    TOKEN_VALIDITY_PERIOD = config.getint('misc', 'token_validity_period')
-except:
-    TOKEN_VALIDITY_PERIOD = int(config.get('misc', 'token_validity_period'))
+
 if not ON_HEROKU:
     LOG_PATH = os.path.abspath(config.get('misc', 'log_path'))
 else:

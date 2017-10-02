@@ -1,8 +1,6 @@
 [misc]
 platform_url = https://services.securitymadein.lu/
 admin_email =
-security_password_salt = a secret to confirm user account
-token_validity_period = 3600
 log_path = ./var/log/services.log
 log_level = info
 [notification]
