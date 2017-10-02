@@ -32,3 +32,10 @@ services-dev/services$ python src/runserver.py
  * Debugger is active!
  * Debugger PIN: 204-397-194
 ```
+
+You can configure the database in ``src/instance/development.cfg``.
+
+
+You can add new services with the client script
+(``src/manager.py import_services``) or via a POST request to the API
+(http://127.0.0.1:5000/api/v1/service).
