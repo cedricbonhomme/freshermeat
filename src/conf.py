@@ -53,8 +53,6 @@ else:
     config = Config()
 
 
-WEBSERVER_SECRET = config.get('webserver', 'secret_key')
-
 try:
     PLATFORM_URL = config.get('misc', 'platform_url')
 except:

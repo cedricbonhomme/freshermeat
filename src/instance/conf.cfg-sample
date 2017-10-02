@@ -1,7 +1,3 @@
-[webserver]
-host = 0.0.0.0
-port = 5000
-secret_key = a secret only you know
 [misc]
 platform_url = https://services.securitymadein.lu/
 admin_email =

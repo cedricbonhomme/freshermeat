@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from flask import flash, url_for, redirect
-from flask_wtf import Form
+from flask_wtf import FlaskForm
 from wtforms import TextField, TextAreaField, PasswordField, \
         SubmitField, validators, HiddenField
 
@@ -10,7 +10,7 @@ from lib import misc_utils
 from web.models import User
 
 
-class RedirectForm(Form):
+class RedirectForm(FlaskForm):
     """
     Secure back redirects with WTForms.
     """
