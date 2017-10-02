@@ -6,6 +6,9 @@
 </ol>
 <div class="container">
     <div class="row">
+        <img id="service-logo" src="" width="300px"/>
+    </div>
+    <div class="row">
         <div><p id="service-description" class="lead"></p></div>
     </div>
     <div class="row">
@@ -31,6 +34,7 @@ $(document).ready(function() {
         contentType: "application/json",
         success: function(data) {
             $("#service-name").html(data.objects[0].name);
+            $("#service-logo").attr("src", data.objects[0].logo);
             $("#service-description").html(data.objects[0].description);
 
             $form = $("<form></form>");

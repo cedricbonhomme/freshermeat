@@ -1,11 +1,14 @@
 
 
-# Launch the application
+# Deploy the service
+
+## Requirements
 
 ```bash
 $ sudo apt-get install postgresql npm
 ```
 
+## Configure and install the application
 
 ```bash
 $ git clone https://github.com/cedricbonhomme/services.git
@@ -16,7 +19,6 @@ $ cd services/
 services-dev/services$ npm install bower
 services-dev/services$ node_modules/.bin/bower install
 
-services-dev/services$ cp src/instance/conf.cfg-sample src/instance/conf.cfg
 services-dev/services$ export APPLICATION_SETTINGS=development.cfg
 
 services-dev/services$ ./create_db.sh services_dev

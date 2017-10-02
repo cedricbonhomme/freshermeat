@@ -15,7 +15,7 @@
     {
         "name": "MISP",
         "short_description": "Open Source Threat Intelligence Platform & Open Standards For Threat Information Sharing",
-        "description": "Open Source Threat Intelligence Platform & Open Standards For Threat Information Sharing",
+        "description": "Malware Information Sharing Platform (MISP) allows organizations to share information about malware and their indicators. MISP users benefit from the collaborative knowledge about existing malware or threats. The aim of this trusted platform is to help improving the counter-measures used against targeted attacks and set-up preventive actions and detection.",
         "logo": "static/img/misp.png",
         "webpage": "http://misp-project.org",
         "required_informations" : [
