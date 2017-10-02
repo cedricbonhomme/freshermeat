@@ -3,6 +3,11 @@
 # Launch the application
 
 ```bash
+$ sudo apt-get install postgresql npm
+```
+
+
+```bash
 $ git clone https://github.com/cedricbonhomme/services.git
 $ cd services/
 /services$ pew install 3.6.2 --type CPython
