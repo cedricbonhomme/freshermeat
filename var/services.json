@@ -3,7 +3,8 @@
         "name": "MONARC",
         "short_description": "Method for an Optimised aNAlysis of Risks",
         "description": "Method for an Optimised aNAlysis of Risks",
-        "logo": "",
+        "logo": "static/img/monarc.png",
+        "webpage": "http://monarc.lu",
         "required_informations" : [
             {
                 "name": "Company name",
@@ -15,7 +16,8 @@
         "name": "MISP",
         "short_description": "Open Source Threat Intelligence Platform & Open Standards For Threat Information Sharing",
         "description": "Open Source Threat Intelligence Platform & Open Standards For Threat Information Sharing",
-        "logo": "",
+        "logo": "static/img/misp.png",
+        "webpage": "http://misp-project.org",
         "required_informations" : [
             {
                 "name": "Company name",
@@ -28,6 +30,36 @@
             {
                 "name": "Company logo",
                 "order": 2
+            }
+        ]
+    },
+    {
+        "name": "Passive DNS",
+        "short_description": "CIRCL Passive DNS is a database storing historical DNS records from various resources including malware analysis or partners. The DNS historical data is indexed, which makes it searchable for incident handlers, security analysts or researchers.",
+        "description": "CIRCL Passive DNS is a database storing historical DNS records from various resources including malware analysis or partners. The DNS historical data is indexed, which makes it searchable for incident handlers, security analysts or researchers.",
+        "logo": "static/img/passivedns.png",
+        "webpage": "https://www.circl.lu/services/passive-dns",
+        "required_informations" : [
+            {
+                "name": "Company name",
+                "order": 1
+            },
+            {
+                "name": "Foreseen use of the Passive DNS data",
+                "order": 2
+            }
+        ]
+    },
+    {
+        "name": "BGP Ranking",
+        "short_description": "BGP Ranking is a free software to calculate the security ranking of Internet Service Providers. The system is gathering external datasources (e.g. dshield, shadowserver, Arbor ATLAS) in order to evaluate the ranking over time.",
+        "description": "BGP Ranking is a free software to calculate the security ranking of Internet Service Providers. The system is gathering external datasources (e.g. dshield, shadowserver, Arbor ATLAS) in order to evaluate the ranking over time. The purpose is to detect any malicious activities of a specific AS number fast and to validate the data sources used for security.",
+        "logo": "static/img/bgpranking.png",
+        "webpage": "https://www.circl.lu/projects/bgpranking",
+        "required_informations" : [
+            {
+                "name": "Company name",
+                "order": 1
             }
         ]
     }

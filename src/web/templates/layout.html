@@ -7,11 +7,13 @@
         <meta name="description" content="Services" />
         <meta name="author" content="" />
 
-        <link rel="stylesheet" href="{{ url_for("static", filename="bower_components/bootstrap/dist/css/bootstrap.min.css") }}" >
+        <link rel="stylesheet" href="{{ url_for('static', filename='bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
 
-        <script src="{{ url_for("static", filename="bower_components/jquery/dist/jquery.min.js") }}"></script>
-        <script src="{{ url_for("static", filename="bower_components/popper.js/dist/popper.min.js") }}"></script>
-        <script src="{{ url_for("static", filename="bower_components/bootstrap/dist/js/bootstrap.min.js") }}"></script>
+        <script src="{{ url_for('static', filename='bower_components/jquery/dist/jquery.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='bower_components/popper.js/dist/popper.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='bower_components/lodash/dist/lodash.min.js') }}"></script>
 
         <title>Services</title>
         {% endblock %}
@@ -40,5 +42,11 @@
         </nav>
 
         {% block content %}{% endblock %}
+
+        <footer class="footer">
+            <div class="container">
+                <span class="text-muted">SECURITYMADEIN.LU</span>
+            </div>
+        </footer>
     </body>
 </html>

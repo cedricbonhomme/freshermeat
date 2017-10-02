@@ -16,6 +16,7 @@ def import_services(json_file):
                         short_description=service['short_description'],
                         description=service['description'],
                         logo=service['logo'],
+                        webpage=service['webpage'],
                         required_informations=service['required_informations'])
             db.session.add(new_service)
         db.session.commit()
