@@ -40,7 +40,8 @@ application.config.from_pyfile(os.environ.get('APPLICATION_SETTINGS',
                                             'development.cfg'),
                                 silent=False)
 
-set_logging(conf.LOG_PATH, log_level=conf.LOG_LEVEL)
+# set_logging(application.config['LOG_PATH'],
+#             log_level=application.config['LOG_LEVEL'])
 
 db = SQLAlchemy(application)
 

@@ -4,7 +4,7 @@ from flask import (request, render_template, flash,
                    url_for, redirect, current_app)
 
 from web import __version__
-from conf import API_ROOT, ADMIN_EMAIL
+from conf import API_v1_ROOT
 from web.models import Service
 
 logger = logging.getLogger(__name__)

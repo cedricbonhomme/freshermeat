@@ -3,7 +3,7 @@
 DB_NAME=$1
 
 if [ "$#" -ne 1 ]; then
-    echo "Illegal number of parameters."
+    echo "Missing parameter: db name."
     exit 1
 fi
 
