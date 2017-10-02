@@ -23,10 +23,10 @@ def db_empty():
         web.models.db_empty(db)
 
 @manager.command
-def db_create():
+def db_init():
     "Will create the database from conf parameters."
     with application.app_context():
-        web.models.db_create(db)
+        web.models.db_init(db)
 
 @manager.command
 def create_user(email, firstname, lastname, password):

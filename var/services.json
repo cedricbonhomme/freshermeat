@@ -1,0 +1,34 @@
+[
+    {
+        "name": "MONARC",
+        "short_description": "Method for an Optimised aNAlysis of Risks",
+        "description": "Method for an Optimised aNAlysis of Risks",
+        "logo": "",
+        "required_informations" : [
+            {
+                "name": "Company name",
+                "order": 1
+            }
+        ]
+    },
+    {
+        "name": "MISP",
+        "short_description": "Open Source Threat Intelligence Platform & Open Standards For Threat Information Sharing",
+        "description": "Open Source Threat Intelligence Platform & Open Standards For Threat Information Sharing",
+        "logo": "",
+        "required_informations" : [
+            {
+                "name": "Company name",
+                "order": 1
+            },
+            {
+                "name": "PGP key",
+                "order": 3
+            },
+            {
+                "name": "Company logo",
+                "order": 2
+            }
+        ]
+    }
+]

@@ -52,6 +52,6 @@ def db_empty(db):
 
         trans.commit()
 
-def db_create(db):
+def db_init(db):
     "Will create the database from conf parameters."
     db.create_all()

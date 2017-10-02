@@ -18,7 +18,7 @@ eproject.cfg
 # Vagrant:
 .vagrant/
 
-var/
+var/log/
 
 # Virtualenv
 venv
