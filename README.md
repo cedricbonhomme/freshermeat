@@ -21,7 +21,7 @@ services-dev/services$ export APPLICATION_SETTINGS=development.cfg
 
 services-dev/services$ ./create_db.sh services_dev
 services-dev/services$ python src/manager.py db_init
-services-dev/services$ python src/manager.py create_admin cedric@cedricbonhomme.org cedric bonhomme password
+services-dev/services$ python src/manager.py create_admin firstname.lastname@example.org firstname lastname your-password
 services-dev/services$ python src/manager.py import_services var/services.json
 
 services-dev/services$ python src/runserver.py
