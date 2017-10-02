@@ -27,7 +27,7 @@ services-dev/services$ python src/manager.py create_admin firstname.lastname@exa
 services-dev/services$ python src/manager.py import_services var/services.json
 
 services-dev/services$ python src/runserver.py
- * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+ * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
  * Restarting with stat
  * Debugger is active!
  * Debugger PIN: 204-397-194
