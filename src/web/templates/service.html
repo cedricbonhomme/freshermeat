@@ -18,7 +18,7 @@
         <p>Please prodive us the following informations</p>
     </div>
     <div class="row">
-        <div id="required_informations"></div>
+        <form id="required_informations"></form>
     </div>
 </div><!-- /.container -->
 
@@ -37,23 +37,52 @@ $(document).ready(function() {
             $("#service-logo").attr("src", data.objects[0].logo);
             $("#service-description").html(data.objects[0].description);
 
-            $form = $("<form></form>");
-
             data.objects[0].required_informations
             .sort(function (a, b) {
                 return a.order - b.order ;
             })
             .map(function (required_information) {
-                console.log(required_information);
-                $form.append('<div class="form-group"><label for="exampleInputEmail1">'+ required_information.name +'</label><input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="' + required_information.name + '"></div>');
+                $('#required_informations').append('<div class="form-group"><label for="exampleInputEmail1">'+ required_information.name +'</label><input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="' + required_information.name + '"></div>');
             });
-            $form.append('<button type="submit" class="btn btn-primary">Submit</button>');
-            $('#required_informations').append($form);
-
-
+            $('#required_informations').append('<button type="submit" id="submitButton" class="btn btn-primary">Submit</button>');
         }
     });
 });
+
+$("#required_informations").submit(function(event) {
+    event.preventDefault();
+    // $("form#required_informations :input").each(function(){
+    //     var input = $(this);
+    //     console.log(input);
+    // });
+
+    var map = {};
+    $("form#required_informations :input").each(function() {
+        console.log($(this));
+        map[$(this).attr("name")] = $(this).val();
+    });
+
+    console.log(map);
+
+    var values = [];
+    $('form#required_informations :input').each(function() {
+        values.push($(this).val());
+    });
+    console.log(values);
+
+
+    console.log($('#required_informations').serialize());
+    $.ajax({
+        url: "{{ url_for('serviceapi0.serviceapi',) }}",
+        type: 'post',
+        dataType: 'json',
+        data: $('#required_informations').serialize(),
+        success: function(data) {
+            console.log(data);
+        }
+    });
+});
+
 
 var getUrlParameter = function getUrlParameter(sParam) {
     var sPageURL = decodeURIComponent(window.location.search.substring(1)),
