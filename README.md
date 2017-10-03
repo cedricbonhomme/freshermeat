@@ -5,7 +5,8 @@
 ## Requirements
 
 ```bash
-$ sudo apt-get install postgresql npm
+$ sudo apt-get install postgresql npm python-pip
+$ sudo -H pip install pew
 ```
 
 ## Configure and install the application
