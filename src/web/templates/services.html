@@ -2,9 +2,11 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <h1>Our services</h1>
+        <div class="col">
+            <h1>Our services</h1>
+        </div>
     </div>
-    <div class="row" id="list-services"></div>
+    <div id="list-services"></div>
 </div><!-- /.container -->
 <script>
 $(document).ready(function() {
@@ -29,7 +31,7 @@ $(document).ready(function() {
 
         var $div_organization = $("<div>");
         $div_organization.append('<ol class="breadcrumb">' +
-                                '<li class="breadcrumb-item active">SECURITYMADEIN.LU</li>' +
+                                '<li class="breadcrumb-item active" >SECURITYMADEIN.LU</li>' +
                                 '<li class="breadcrumb-item active" id="service-name">' +
                                 '<a href="?organization=' + organization + '">' +
                                 organization + '</a></li></ol>');

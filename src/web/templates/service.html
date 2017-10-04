@@ -1,28 +1,49 @@
 {% extends "layout.html" %}
 {% block content %}
-<ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/">SECURITYMADEIN.LU</a></li>
-    <li class="breadcrumb-item"><a href="/" id="organization-name">Organization</a></li>
-    <li class="breadcrumb-item active" id="service-name">Library</li>
-</ol>
 <div class="container">
     <div class="row">
-        <img id="service-logo" src="" width="300px"/>
+        <div class="col">
+            <h1>Our services</h1>
+        </div>
     </div>
     <div class="row">
-        Website:&nbsp;<a id="service-website"></a>
+        <div class="col">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">SECURITYMADEIN.LU</a></li>
+                <li class="breadcrumb-item"><a href="/" id="organization-name">Organization</a></li>
+                <li class="breadcrumb-item active" id="service-name">Library</li>
+            </ol>
+        </div>
     </div>
     <div class="row">
-        <div><p id="service-description" class="lead"></p></div>
+        <div class="col">
+            <img id="service-logo" src="" width="300px"/>
+        </div>
     </div>
     <div class="row">
-        <h5>Interested by this service?</h5>
+        <div class="col">
+            Website:&nbsp;<a id="service-website"></a>
+        </div>
     </div>
     <div class="row">
-        <p>Please prodive us the following informations</p>
+        <div class="col">
+            <div><p id="service-description" class="lead"></p></div>
+        </div>
     </div>
     <div class="row">
-        <form id="required_informations"></form>
+        <div class="col">
+            <h5>Interested by this service?</h5>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <p>Please prodive us the following informations</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <form id="required_informations"></form>
+        </div>
     </div>
 </div><!-- /.container -->
 
