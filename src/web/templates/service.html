@@ -72,7 +72,10 @@ $(document).ready(function() {
                 return a.order - b.order ;
             })
             .map(function (required_information) {
-                $('#required_informations').append('<div class="form-group"><label for="exampleInputEmail1">'+ required_information.name +'</label><input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="' + required_information.name + '"></div>');
+                $('#required_informations').append('<div class="form-group"><label for="exampleInputEmail1">' +
+                                                    required_information.name +
+                                                    '</label><input type="text" class="form-control" required_information="' + required_information.name +'" placeholder="' +
+                                                    required_information.name + '"></div>');
             });
             $('#required_informations').append('<button type="submit" id="submitButton" class="btn btn-primary">Submit</button>');
         }
@@ -81,33 +84,24 @@ $(document).ready(function() {
 
 $("#required_informations").submit(function(event) {
     event.preventDefault();
-    // $("form#required_informations :input").each(function(){
-    //     var input = $(this);
-    //     console.log(input);
-    // });
 
-    var map = {};
-    $("form#required_informations :input").each(function() {
-        console.log($(this));
-        map[$(this).attr("name")] = $(this).val();
-    });
-
-    console.log(map);
-
-    var values = [];
+    var values = {};
     $('form#required_informations :input').each(function() {
-        values.push($(this).val());
+        values[$(this).attr('required_information')] = $(this).val();
     });
     console.log(values);
 
 
-    console.log($('#required_informations').serialize());
     $.ajax({
-        url: "{{ url_for('serviceapi0.serviceapi',) }}",
-        type: 'post',
+        url: "{{ url_for('requestapi0.requestapi') }}",
+        type: 'POST',
         dataType: 'json',
-        data: $('#required_informations').serialize(),
-        success: function(data) {
+        contentType: "application/json",
+        data: JSON.stringify(values),
+        headers: {
+            contentType: "application/json"
+        },
+        success: function(result) {
             console.log(data);
         }
     });

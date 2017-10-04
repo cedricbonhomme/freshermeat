@@ -1,12 +1,12 @@
 #! /usr/bin/env python
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 import datetime
 from flask import request, flash
 from flask_login import current_user
 from flask_restless import ProcessingException
 
-#from web.views.common import login_user_bundle
+# from web.views.common import login_user_bundle
 from web.models import User
 
 def auth_func(*args, **kw):
@@ -24,6 +24,7 @@ def auth_func(*args, **kw):
     if not current_user.is_authenticated:
         raise ProcessingException(description='Not authenticated!', code=401)
     return True
+
 
 def service_POST_preprocessor(data=None, **kw):
     """

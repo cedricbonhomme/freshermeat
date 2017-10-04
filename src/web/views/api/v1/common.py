@@ -9,6 +9,7 @@ from web.views.common import login_user_bundle
 
 url_prefix = '/api/v1'
 
+
 def auth_func(*args, **kw):
     if request.authorization:
         user = None
@@ -25,6 +26,7 @@ def auth_func(*args, **kw):
         login_user_bundle(user)
     if not current_user.is_authenticated:
         raise ProcessingException(description='Not authenticated!', code=401)
+
 
 class AbstractProcessor():
     """Abstract processors for the Web services.
