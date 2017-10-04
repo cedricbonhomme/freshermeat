@@ -69,6 +69,20 @@
     },
     {
         "organization": "CIRCL",
+        "name": "Passive SSL",
+        "short_description": "CIRCL Passive SSL is a database storing historical X.509 certificates seen per IP address.",
+        "description": "CIRCL Passive SSL is a database storing historical X.509 certificates seen per IP address. The Passive SSL historical data is indexed per IP address, which makes it searchable for incident handlers, security analysts or researchers.",
+        "logo": "static/img/pssl.png",
+        "website": "https://www.circl.lu/services/passive-ssl/",
+        "required_informations" : [
+            {
+                "name": "Name",
+                "order": 1
+            }
+        ]
+    },
+    {
+        "organization": "CIRCL",
         "name": "BGP Ranking",
         "short_description": "BGP Ranking is a free software to calculate the security ranking of Internet Service Providers. The system is gathering external datasources (e.g. dshield, shadowserver, Arbor ATLAS) in order to evaluate the ranking over time.",
         "description": "BGP Ranking is a free software to calculate the security ranking of Internet Service Providers. The system is gathering external datasources (e.g. dshield, shadowserver, Arbor ATLAS) in order to evaluate the ranking over time. The purpose is to detect any malicious activities of a specific AS number fast and to validate the data sources used for security.",
