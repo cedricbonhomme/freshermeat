@@ -1,3 +1,2 @@
 from web.views.api.v1.service import blueprint_service
-
-__all__ = ['service']
+from web.views.api.v1.request import blueprint_request

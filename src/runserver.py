@@ -20,6 +20,7 @@ with application.app_context():
 
     # API v1
     application.register_blueprint(views.api.v1.blueprint_service)
+    application.register_blueprint(views.api.v1.blueprint_request)
 
 
 if __name__ == '__main__':
