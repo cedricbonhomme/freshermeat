@@ -14,6 +14,20 @@
         ]
     },
     {
+        "organization": "CASES",
+        "name": "Diagnostic",
+        "short_description": "Your organization processes sensitive data every day. As a manager, you have an obligation to establish specific security procedures to protect this data. Identifying the best measures and defining the level of effectiveness required for each measure is a highly complex task",
+        "description": "Your organization processes sensitive data every day. As a manager, you have an obligation to establish specific security procedures (behavioral, organizational and technical) to protect this data. Moreover, these procedures must address the fundamental principles of necessity and proportionality. Identifying the best measures and defining the level of effectiveness required for each measure is a highly complex task. The CASES Diagnostic supports you in this process.",
+        "logo": "",
+        "website": "https://www.cases.lu/de/diagnostic.html",
+        "required_informations" : [
+            {
+                "name": "Company name",
+                "order": 1
+            }
+        ]
+    },
+    {
         "organization": "CIRCL",
         "name": "MISP",
         "short_description": "Open Source Threat Intelligence Platform & Open Standards For Threat Information Sharing",

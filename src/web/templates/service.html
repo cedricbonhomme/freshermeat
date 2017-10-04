@@ -1,7 +1,8 @@
 {% extends "layout.html" %}
 {% block content %}
 <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/">Services</a></li>
+    <li class="breadcrumb-item"><a href="/">SECURITYMADEIN.LU</a></li>
+    <li class="breadcrumb-item"><a href="/" id="organization-name">Organization</a></li>
     <li class="breadcrumb-item active" id="service-name">Library</li>
 </ol>
 <div class="container">
@@ -36,6 +37,9 @@ $(document).ready(function() {
         dataType: "json",
         contentType: "application/json",
         success: function(data) {
+            $("#organization-name").html(data.objects[0].organization);
+            $("#organization-name").attr("href", '/?organization=' +
+                                                data.objects[0].organization);
             $("#service-name").html(data.objects[0].name);
             $("#service-logo").attr("src", data.objects[0].logo);
             $("#service-website").html(data.objects[0].website);

@@ -9,6 +9,10 @@
 <script>
 $(document).ready(function() {
     $organizations = ["CASES", "CIRCL"];
+    $organization_param = getUrlParameter('organization');
+    if (typeof $organization_param !== 'undefined') {
+        $organizations = [$organization_param];
+    }
 
     var cardTemplate = _.template(
         '<div class="card">' +
@@ -24,8 +28,11 @@ $(document).ready(function() {
     $organizations.map(function (organization) {
 
         var $div_organization = $("<div>");
-        $div_organization.append('<ol class="breadcrumb"><li class="breadcrumb-item active">SMILE</li><li class="breadcrumb-item active" id="service-name"><a href="">'
-                                    + organization + '</a></li></ol>');
+        $div_organization.append('<ol class="breadcrumb">' +
+                                '<li class="breadcrumb-item active">SECURITYMADEIN.LU</li>' +
+                                '<li class="breadcrumb-item active" id="service-name">' +
+                                '<a href="?organization=' + organization + '">' +
+                                organization + '</a></li></ol>');
         $('#list-services').append($div_organization);
 
 
@@ -60,5 +67,20 @@ function shuffle(a) {
         [a[i - 1], a[j]] = [a[j], a[i - 1]];
     }
 }
+
+var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+};
 </script>
 {% endblock %}
