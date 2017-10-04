@@ -16,17 +16,20 @@ Migrate(application, db)
 manager = Manager(application)
 manager.add_command('db', MigrateCommand)
 
+
 @manager.command
 def db_empty():
     "Will drop every datas stocked in db."
     with application.app_context():
         web.models.db_empty(db)
 
+
 @manager.command
 def db_init():
     "Will create the database from conf parameters."
     with application.app_context():
         web.models.db_init(db)
+
 
 @manager.command
 def create_user(email, firstname, lastname, password):
@@ -35,12 +38,14 @@ def create_user(email, firstname, lastname, password):
     with application.app_context():
         scripts.create_user(email, firstname, lastname, password, False)
 
+
 @manager.command
 def create_admin(email, firstname, lastname, password):
     "Initializes an admin user"
     print("Creation of the admin user {} ...".format(email))
     with application.app_context():
         scripts.create_user(email, firstname, lastname, password, True)
+
 
 @manager.command
 def import_services(json_file):

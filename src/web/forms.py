@@ -4,7 +4,7 @@
 from flask import flash, url_for, redirect
 from flask_wtf import FlaskForm
 from wtforms import TextField, TextAreaField, PasswordField, \
-        SubmitField, validators, HiddenField
+                                        SubmitField, validators, HiddenField
 
 from lib import misc_utils
 from web.models import User

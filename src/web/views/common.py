@@ -1,7 +1,5 @@
-import json
-from functools import wraps
-from datetime import datetime
-from flask import current_app, Response
+
+from flask import current_app
 from flask_login import login_user
 from flask_principal import (Identity, Permission, RoleNeed,
                                  session_identity_loader, identity_changed)
@@ -17,4 +15,4 @@ def login_user_bundle(user):
     login_user(user)
     identity_changed.send(current_app, identity=Identity(user.id))
     session_identity_loader()
-    #TODO: set last_seen
+    # TODO: set last_seen

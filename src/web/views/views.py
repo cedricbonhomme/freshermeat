@@ -1,11 +1,7 @@
-import sys
 import logging
 from flask import (request, render_template, flash,
                    url_for, redirect, current_app)
 
-from web import __version__
-from conf import API_v1_ROOT
-from web.models import Service
 
 logger = logging.getLogger(__name__)
 
@@ -44,6 +40,7 @@ def handle_sqlalchemy_assertion_error(error):
 @current_app.route('/', methods=['GET'])
 def services():
     return render_template('services.html')
+
 
 @current_app.route('/service', methods=['GET'])
 def service():

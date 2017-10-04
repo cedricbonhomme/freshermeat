@@ -5,8 +5,12 @@
 
 import os
 import logging
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+import flask_restless
 
 import conf
+
 
 def set_logging(log_path=None, log_level=logging.INFO, modules=(),
                 log_format='%(asctime)s %(levelname)s %(message)s'):
@@ -31,8 +35,6 @@ def set_logging(log_path=None, log_level=logging.INFO, modules=(),
             handler.setLevel(log_level)
         logger.setLevel(log_level)
 
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 
 # Create Flask application
 application = Flask('web', instance_relative_config=True)
@@ -46,7 +48,6 @@ application.config.from_pyfile(os.environ.get('APPLICATION_SETTINGS',
 db = SQLAlchemy(application)
 
 # Create the Flask-Restless API manager.
-import flask_restless
 manager = flask_restless.APIManager(application, flask_sqlalchemy_db=db)
 
 
