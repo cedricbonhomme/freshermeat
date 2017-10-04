@@ -4,12 +4,12 @@
     <div class="row">
         <h1>Our services</h1>
     </div>
-    <div class="row">
-        <div id="list-services" class="card-columns"></div>
-    </div>
+    <div class="row" id="list-services"></div>
 </div><!-- /.container -->
 <script>
 $(document).ready(function() {
+    $organizations = ["CASES", "CIRCL"];
+
     var cardTemplate = _.template(
         '<div class="card">' +
           '<img class="card-img-top" src="<%= logo %>" alt="Card image cap">' +
@@ -19,22 +19,46 @@ $(document).ready(function() {
             '<a href="<%= service_details %>" class="btn btn-primary">Learn more</a>' +
           '</div>' +
         '</div>');
-    $.ajax({
-        url: "{{ url_for('serviceapi0.serviceapi',) }}",
-        dataType: "json",
-        contentType: "application/json",
-        success: function(services) {
-            services.objects.map(function (service) {
-                var cardHTML = cardTemplate({
-                    'logo': service.logo,
-                    'service_name': service.name,
-                    'service_description': service.description,
-                    'service_details': 'service?name='+service.name
-                 });
-                 $('#list-services').append(cardHTML);
-            });
-        }
-    });
+
+    shuffle($organizations);
+    $organizations.map(function (organization) {
+
+        var $div_organization = $("<div>");
+        $div_organization.append('<ol class="breadcrumb"><li class="breadcrumb-item active">SMILE</li><li class="breadcrumb-item active" id="service-name"><a href="">'
+                                    + organization + '</a></li></ol>');
+        $('#list-services').append($div_organization);
+
+
+        var $div_organization_columns = $("<div>", {"class": "card-columns"});
+
+        var filters = [{"name": "organization", "op": "like", "val": organization}];
+        $.ajax({
+            url: "{{ url_for('serviceapi0.serviceapi',) }}",
+            data: {"q": JSON.stringify({"filters": filters})},
+            dataType: "json",
+            contentType: "application/json",
+            success: function(services) {
+                services.objects.map(function (service) {
+                    var cardHTML = cardTemplate({
+                        'logo': service.logo,
+                        'service_name': service.name,
+                        'service_description': service.description,
+                        'service_details': 'service?name='+service.name
+                     });
+                     $div_organization_columns.append(cardHTML);
+                });
+            }
+        });
+        $('#list-services').append($div_organization_columns);
+    })
+
 });
+
+function shuffle(a) {
+    for (let i = a.length; i; i--) {
+        let j = Math.floor(Math.random() * i);
+        [a[i - 1], a[j]] = [a[j], a[i - 1]];
+    }
+}
 </script>
 {% endblock %}

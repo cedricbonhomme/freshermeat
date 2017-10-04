@@ -14,6 +14,7 @@ def import_services(json_file):
         for service in services:
 
             new_service = Service(name=service['name'],
+                        organization=service['organization'],
                         short_description=service['short_description'],
                         description=service['description'],
                         logo=service['logo'],
