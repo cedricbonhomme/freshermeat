@@ -9,6 +9,9 @@
         <img id="service-logo" src="" width="300px"/>
     </div>
     <div class="row">
+        Website:&nbsp;<a id="service-website"></a>
+    </div>
+    <div class="row">
         <div><p id="service-description" class="lead"></p></div>
     </div>
     <div class="row">
@@ -35,6 +38,8 @@ $(document).ready(function() {
         success: function(data) {
             $("#service-name").html(data.objects[0].name);
             $("#service-logo").attr("src", data.objects[0].logo);
+            $("#service-website").html(data.objects[0].website);
+            $("#service-website").attr("href", data.objects[0].website);
             $("#service-description").html(data.objects[0].description);
 
             data.objects[0].required_informations

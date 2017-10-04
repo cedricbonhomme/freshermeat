@@ -1,10 +1,11 @@
 #! /usr/bin/python
-#-*- coding:utf-8 -*
+# -*- coding:utf-8 -*
 
 import json
 
 from web.models import Service
 from bootstrap import db
+
 
 def import_services(json_file):
     with open(json_file) as json_file:
@@ -16,7 +17,7 @@ def import_services(json_file):
                         short_description=service['short_description'],
                         description=service['description'],
                         logo=service['logo'],
-                        webpage=service['webpage'],
+                        website=service['website'],
                         required_informations=service['required_informations'])
             db.session.add(new_service)
         db.session.commit()

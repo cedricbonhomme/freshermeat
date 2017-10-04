@@ -10,7 +10,7 @@ class Service(db.Model):
     name = db.Column(db.String(100), unique=True)
     short_description = db.Column(db.String(300), unique=True)
     description = db.Column(db.String(), unique=True)
-    webpage = db.Column(db.String())
+    website = db.Column(db.String())
     logo = db.Column(db.String())
 
     required_informations = db.Column(db.JSON)
