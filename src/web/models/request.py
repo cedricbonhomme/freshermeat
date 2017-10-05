@@ -10,7 +10,7 @@ class Request(db.Model, UserMixin):
     """Represent a request.
     """
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(), unique=True, nullable=False)
+    email = db.Column(db.String(), nullable=False)
     firstname = db.Column(db.String(), default='')
     lastname = db.Column(db.String(), default='')
     created_at = db.Column(db.DateTime(), default=datetime.utcnow)
