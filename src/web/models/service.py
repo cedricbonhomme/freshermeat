@@ -14,7 +14,7 @@ class Service(db.Model):
     website = db.Column(db.String())
     logo = db.Column(db.String())
 
-    required_informations = db.Column(db.JSON)
+    required_informations = db.Column(JSON)
 
     def __repr__(self):
         return '<Name %r>' % (self.name)
