@@ -14,7 +14,7 @@ with application.app_context():
     populate_g()
 
     from web import views
-    # application.register_blueprint(views.admin_bp)
+    application.register_blueprint(views.admin_bp)
     # application.register_blueprint(views.users_bp)
     # application.register_blueprint(views.user_bp)
 

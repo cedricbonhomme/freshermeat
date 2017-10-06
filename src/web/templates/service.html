@@ -52,6 +52,7 @@
                 <div class="form-group">
                     <input type="text" class="form-control" required-information="lastname" placeholder="Lastname">
                 </div>
+                <input type="hidden" id="service-id-input" name="service-id-input" required-information="service_id" value="">
             </form>
         </div>
     </div>
@@ -76,6 +77,7 @@ $(document).ready(function() {
             $("#service-website").html(data.objects[0].website);
             $("#service-website").attr("href", data.objects[0].website);
             $("#service-description").html(data.objects[0].description);
+            $("#service-id-input").val(data.objects[0].id);
 
             data.objects[0].required_informations
             .sort(function (a, b) {
