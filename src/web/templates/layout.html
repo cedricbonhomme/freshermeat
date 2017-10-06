@@ -30,8 +30,13 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     {% if current_user.is_authenticated and current_user.is_admin %}
+                        {% if current_user.is_admin %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('admin.dashboard') }}">Dashboard</a>
+                            </li>
+                        {% endif %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('admin.dashboard') }}">Dashboard</a>
+                        <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
                     </li>
                     {% endif %}
                 </ul>
