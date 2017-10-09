@@ -13,7 +13,7 @@ class Request(db.Model, UserMixin):
     email = db.Column(db.String(), nullable=False)
     firstname = db.Column(db.String(), default='')
     lastname = db.Column(db.String(), default='')
-    created_at = db.Column(db.DateTime(), default=datetime.utcnow())
+    created_at = db.Column(db.DateTime(), default=datetime.utcnow)
 
     required_informations = db.Column(JSON)
 

@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h4>{{ request.service.name }}</h4>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <p>Creation date: {{ request.created_at }}</p>
+            <p>Requester email: {{ request.email }}</p>
+            <p>Requester firstname and lastname: {{ request.firstname }}, {{ request.lastname }}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <h4>Required informations</h4>
+            <table class="table">
+                <tbody>
+                    {% for key, value in request.required_informations.items() %}
+                      <tr>
+                          <th scope="row">{{ key }}</th>
+                          <td>{{ value }}</td>
+                      </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div><!-- /.container -->
+<script>
+$(document).ready(function() {
+});
+</script>
+{% endblock %}
