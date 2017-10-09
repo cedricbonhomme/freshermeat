@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <br />
+            {{ pagination.links }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h1>Recent requests</h1>
+            <table class="table">
+                <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Service</th>
+                      <th>Email</th>
+                      <th>Firstname</th>
+                      <th>Lastname</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for request in requests %}
+                    <tr>
+                        <td><a href="">{{ request.id }}</a></td>
+                        <td>{{ request.service.name }}</td>
+                        <td>{{ request.email }}</td>
+                        <td>{{ request.firstname }}</td>
+                        <td>{{ request.lastname }}</td>
+                    </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {{ pagination.links }}
+        </div>
+    </div>
+</div><!-- /.container -->
+<script>
+$(document).ready(function() {
+});
+</script>
+{% endblock %}
