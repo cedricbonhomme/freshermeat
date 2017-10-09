@@ -1,6 +1,12 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
+    <div class="alert alert-success alert-dismissible" role="alert" id="alert-box">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong>Holy guacamole!</strong> Request sent!
+    </div>
     <div class="row">
         <div class="col">
             <h1>Our services</h1>
@@ -44,27 +50,22 @@
         <div class="col">
             <form id="required-informations">
                 <div class="form-group">
-                    <input type="text" class="form-control" required-information="email" placeholder="Email">
+                    <input type="email" class="form-control" required-information="email" placeholder="Email" id="form-email">
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" required-information="firstname" placeholder="Firstname">
+                    <input type="text" class="form-control" required-information="firstname" placeholder="Firstname" id="form-firstname">
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" required-information="lastname" placeholder="Lastname">
+                    <input type="text" class="form-control" required-information="lastname" placeholder="Lastname" id="form-lastname">
                 </div>
-                <input type="hidden" id="service-id-input" name="service-id-input" required-information="service_id" value="">
+                <input type="hidden" id="service-id-input" name="service-id-input" required-information="service_id" value="" id="form-email">
             </form>
         </div>
-    </div>
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-        <strong>Holy guacamole!</strong> You should check in on some of those fields below.
     </div>
 </div><!-- /.container -->
 
 <script>
+$("#alert-box").hide();
 $(document).ready(function() {
     // Get information about the service in the URL parameter
     var service = getUrlParameter('name');
@@ -128,7 +129,8 @@ $("#required-informations").submit(function(event) {
             contentType: "application/json"
         },
         success: function(result) {
-            console.log(data);
+            // console.log(result);
+            $("#alert-box").show();
         }
     });
 });
