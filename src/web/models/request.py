@@ -1,10 +1,10 @@
 
 from datetime import datetime
 from flask_login import UserMixin
-from werkzeug import check_password_hash
 from sqlalchemy.dialects.postgresql import JSON
 
 from bootstrap import db
+
 
 class Request(db.Model, UserMixin):
     """Represent a request.

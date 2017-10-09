@@ -1,7 +1,6 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import datetime
 from flask import request, flash
 from flask_login import current_user
 from flask_restless import ProcessingException
