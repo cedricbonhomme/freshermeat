@@ -33,8 +33,8 @@ def dashboard(per_page):
 @admin_permission.require(http_exception=403)
 def request(request_id=None):
     request = models.Request.query.filter(models.Request.id == request_id). \
-                                            first()
-    if request.required_informations == None:
+                                                                        first()
+    if request.required_informations is None:
         request.required_informations = {}
 
     if not request.checked:
