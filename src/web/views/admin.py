@@ -5,6 +5,7 @@ from flask_paginate import Pagination, get_page_args
 from sqlalchemy import desc
 
 from web.views.common import admin_permission
+from bootstrap import db
 from web import models
 
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
@@ -35,4 +36,9 @@ def request(request_id=None):
                                             first()
     if request.required_informations == None:
         request.required_informations = {}
+
+    if not request.checked:
+        request.checked = True
+        db.session.commit()
+
     return render_template('admin/request.html', request=request)

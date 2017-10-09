@@ -13,6 +13,10 @@ class Request(db.Model, UserMixin):
     email = db.Column(db.String(), nullable=False)
     firstname = db.Column(db.String(), default='')
     lastname = db.Column(db.String(), default='')
+
+    checked = db.Column(db.Boolean(), default=False)
+    notification_sent = db.Column(db.Boolean(), default=False)
+
     created_at = db.Column(db.DateTime(), default=datetime.utcnow)
 
     required_informations = db.Column(JSON)

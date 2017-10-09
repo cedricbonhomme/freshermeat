@@ -3,17 +3,25 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <h4>{{ request.service.name }}</h4>
+            <h4>Request status</h4>
+            <p>Creation date: <b>{{ request.created_at }}</b></p>
+            <p>Service concerned: <b>{{ request.service.name }}</b></p>
+            <p>Checked: <b>{{ 'Yes' if request.checked else 'No'}}</b></p>
+            <p>Notification sent: <b>{{ 'Yes' if request.notification_sent else 'No'}}</b></p>
         </div>
     </div>
 
+    <br />
+
     <div class="row">
         <div class="col">
-            <p>Creation date: {{ request.created_at }}</p>
-            <p>Requester email: {{ request.email }}</p>
-            <p>Requester firstname and lastname: {{ request.firstname }}, {{ request.lastname }}</p>
+            <h4>Requester</h4>
+            <p>Email: <b>{{ request.email }}</b></p>
+            <p>Firstname, Lastname: <b>{{ request.firstname }}, {{ request.lastname }}</b></p>
         </div>
     </div>
+
+    <br />
 
     <div class="row">
         <div class="col">
