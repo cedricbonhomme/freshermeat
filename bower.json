@@ -11,6 +11,7 @@
   ],
   "dependencies": {
     "bootstrap": "^4.0.0-beta",
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.4",
+    "datatables": "^1.10.16"
   }
 }

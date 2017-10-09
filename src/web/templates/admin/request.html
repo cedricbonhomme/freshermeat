@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col">
             <h4>Request status</h4>
-            <p>Creation date: <b>{{ request.created_at }}</b></p>
+            <p>Creation date: <b>{{ request.created_at | datetimeformat }}</b></p>
             <p>Service concerned: <b>{{ request.service.name }}</b></p>
             <p>Checked: <b>{{ 'Yes' if request.checked else 'No'}}</b></p>
             <p>Notification sent: <b>{{ 'Yes' if request.notification_sent else 'No'}}</b></p>

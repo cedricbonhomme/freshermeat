@@ -16,8 +16,7 @@
                       <th>ID</th>
                       <th>Service</th>
                       <th>Email</th>
-                      <th>Firstname</th>
-                      <th>Lastname</th>
+                      <th>Date</th>
                   </tr>
               </thead>
               <tbody>
@@ -26,8 +25,7 @@
                         <td><a href="{{ url_for('admin.request', request_id=request.id) }}">{{ request.id }}</a></td>
                         <td>{{ request.service.name }}</td>
                         <td>{{ request.email }}</td>
-                        <td>{{ request.firstname }}</td>
-                        <td>{{ request.lastname }}</td>
+                        <td>{{ request.created_at | datetimeformat }}</td>
                     </tr>
                   {% endfor %}
               </tbody>
@@ -42,6 +40,7 @@
 </div><!-- /.container -->
 <script>
 $(document).ready(function() {
+    $('.table').dataTable();
 });
 </script>
 {% endblock %}
