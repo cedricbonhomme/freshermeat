@@ -41,4 +41,5 @@ def request(request_id=None):
         request.checked = True
         db.session.commit()
 
+
     return render_template('admin/request.html', request=request)
