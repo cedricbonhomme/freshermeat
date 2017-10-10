@@ -39,7 +39,9 @@
 </div><!-- /.container -->
 <script>
 $(document).ready(function() {
-    $('.table').dataTable();
+    $('.table').dataTable( {
+        paginate: false
+    });
 });
 </script>
 {% endblock %}

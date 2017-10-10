@@ -42,15 +42,21 @@ application.config.from_pyfile(os.environ.get('APPLICATION_SETTINGS',
                                             'development.cfg'),
                                 silent=False)
 
+
+db = SQLAlchemy(application)
+
+
 # Jinja filters
 def datetimeformat(value, format='%Y-%m-%d %H:%M'):
     return value.strftime(format)
+
+
 application.jinja_env.filters['datetimeformat'] = datetimeformat
+
 
 # set_logging(application.config['LOG_PATH'],
 #             log_level=application.config['LOG_LEVEL'])
 
-db = SQLAlchemy(application)
 
 # Create the Flask-Restless API manager.
 manager = flask_restless.APIManager(application, flask_sqlalchemy_db=db)
