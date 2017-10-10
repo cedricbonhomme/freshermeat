@@ -14,10 +14,10 @@ def auth_func(*args, **kw):
         user = User.query.filter(name == request.authorization.username).first()
         if not user:
             raise ProcessingException("Couldn't authenticate your user",
-                                        code=401)
+                                      code=401)
         if not user.check_password(request.authorization.password):
             raise ProcessingException("Couldn't authenticate your user",
-                                        code=401)
+                                      code=401)
         if not user.is_active:
             raise ProcessingException("User is desactivated", code=401)
         login_user_bundle(user)

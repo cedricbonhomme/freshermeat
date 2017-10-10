@@ -8,9 +8,10 @@ from web.views.api.v1 import processors
 from web.views.api.v1.common import url_prefix
 
 
-blueprint_service = manager.create_api_blueprint(models.Service,
-                    url_prefix=url_prefix,
-                    methods=['GET', 'POST', 'PUT', 'DELETE'],
-                    preprocessors=dict(
-                             POST=[processors.auth_func],
-                             DELETE=[processors.auth_func]))
+blueprint_service = manager.create_api_blueprint(
+    models.Service,
+    url_prefix=url_prefix,
+    methods=['GET', 'POST', 'PUT', 'DELETE'],
+    preprocessors=dict(
+        POST=[processors.auth_func],
+        DELETE=[processors.auth_func]))
