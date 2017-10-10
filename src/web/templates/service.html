@@ -50,13 +50,13 @@
         <div class="col">
             <form id="required-informations">
                 <div class="form-group">
-                    <input type="email" class="form-control" required-information="email" placeholder="Email" id="form-email">
+                    <input type="email" class="form-control" required-information="email" placeholder="Email" id="form-email" required="true">
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" required-information="firstname" placeholder="Firstname" id="form-firstname">
+                    <input type="text" class="form-control" required-information="firstname" placeholder="Firstname" id="form-firstname" required="true">
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" required-information="lastname" placeholder="Lastname" id="form-lastname">
+                    <input type="text" class="form-control" required-information="lastname" placeholder="Lastname" id="form-lastname" required="true">
                 </div>
                 <input type="hidden" id="service-id-input" name="service-id-input" required-information="service_id" value="" id="form-email">
             </form>
@@ -95,7 +95,7 @@ $(document).ready(function() {
                 .append('<div class="form-group">'
                         + '<input type="text" class="form-control service-specific" required-information="'
                         + required_information.name +'" placeholder="'
-                        + required_information.name + '"></div>');
+                        + required_information.name + '" required="true"></div>');
             });
             $('#required-informations')
             .append('<button type="submit" id="submitButton" class="btn btn-primary">Submit</button>');
