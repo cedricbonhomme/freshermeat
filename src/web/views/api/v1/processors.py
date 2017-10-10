@@ -26,6 +26,16 @@ def auth_func(*args, **kw):
     return True
 
 
+def post_preprocessor(data=None, **kw):
+    """Accepts a single argument, `data`, which is the dictionary of
+    fields to set on the new instance of the model.
+    """
+    if not all(kw['result'].values()):
+        pass
+        # TODO
+        # ProcessingException("Not enough data", code=422)
+
+
 def post_postprocessor(result=None, **kw):
     """Accepts a single argument, `result`, which is the dictionary
     representation of the created instance of the model.

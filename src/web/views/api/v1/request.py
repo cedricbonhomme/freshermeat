@@ -11,6 +11,6 @@ blueprint_request = manager.create_api_blueprint(models.Request,
                                     url_prefix=url_prefix,
                                     methods=['POST'],
                                     postprocessors = {
-                                        'POST': [processors.post_postprocessor]
-                                    }
-                                    )
+                                        'POST': [processors.post_preprocessor,
+                                                processors.post_postprocessor]
+                                    })
