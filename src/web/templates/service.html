@@ -94,8 +94,8 @@ $(document).ready(function() {
                 $('#required-informations')
                 .append('<div class="form-group">'
                         + '<input type="text" class="form-control service-specific" required-information="'
-                        + required_information.name +'" placeholder="'
-                        + required_information.name + '" required="true"></div>');
+                        + required_information.name + '" placeholder="'
+                        + required_information.name + '" ' + (required_information.required ? ' required' : '') + '></div>');
             });
             $('#required-informations')
             .append('<button type="submit" id="submitButton" class="btn btn-primary">Submit</button>');
