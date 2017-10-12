@@ -34,9 +34,9 @@
                 <ul class="navbar-nav mr-auto w-100 justify-content-end">
                     {% if current_user.is_authenticated and current_user.is_admin %}
                         {% if current_user.is_admin %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ url_for('admin.dashboard') }}">Dashboard</a>
-                            </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_bp.dashboard') }}">Dashboard</a>
+                        </li>
                         {% endif %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>

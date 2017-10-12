@@ -9,5 +9,6 @@ Flask-Restless
 Flask-SSLify
 Flask-Migrate
 Flask-Script
-WTForms
+Flask-Admin
 Flask-paginate
+WTForms
