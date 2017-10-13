@@ -26,9 +26,10 @@ def dashboard(per_page):
                             search=False, record_name='requests',
                             per_page=per_page)
 
-    return render_template('admin/dashboard.html',
-                            requests=requests.order_by(desc(models.Request.created_at)).offset(offset).limit(per_page),
-                            pagination=pagination)
+    return render_template('admin/dashboard.html', requests=requests.order_by(
+                           desc(models.Request.created_at)
+                           ).offset(offset).limit(per_page),
+                           pagination=pagination)
 
 
 @admin_bp.route('/request/<request_id>', methods=['GET'])
@@ -44,31 +45,33 @@ def request(request_id=None):
         request.checked = True
         db.session.commit()
 
-
     return render_template('admin/request.html', request=request)
 
 
-
+# Flask-Admin views
 
 class UserView(ModelView):
     column_exclude_list = ['pwdhash']
     column_editable_list = ['email', 'firstname', 'lastname']
+
     def is_accessible(self):
         return current_user.is_authenticated and current_user.is_admin
+
 
 class ServiceView(ModelView):
     def is_accessible(self):
         return current_user.is_authenticated and current_user.is_admin
 
-menu_link_back_dashboard = MenuLink(name='Back to dashboard',
-                             url='/admin/dashboard')
+
+menu_link_back_dashboard = MenuLink(name='Dashboard',
+                                    url='/admin/dashboard')
 
 admin_flask = Admin(current_app,
-                name='Management of data',
-                template_mode='bootstrap3',
-                index_view=AdminIndexView(
+                    name='Management of data',
+                    template_mode='bootstrap3',
+                    index_view=AdminIndexView(
                         name='Home',
-                        url='/admin/data_management'
+                        url='/admin/data_management/'
                     ))
 admin_flask.add_view(UserView(models.User, db.session))
 admin_flask.add_view(ServiceView(models.Service, db.session))
