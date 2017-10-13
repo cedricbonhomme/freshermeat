@@ -3,6 +3,7 @@ from sqlalchemy.dialects.postgresql import JSON
 
 from bootstrap import db
 
+
 class Service(db.Model):
     """Represent a service.
     """

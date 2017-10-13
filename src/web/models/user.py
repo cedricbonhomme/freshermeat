@@ -5,6 +5,7 @@ from werkzeug import check_password_hash
 
 from bootstrap import db
 
+
 class User(db.Model, UserMixin):
     """
     Represent a user.

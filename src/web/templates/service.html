@@ -93,7 +93,7 @@ $(document).ready(function() {
             .map(function (required_information) {
                 $('#required-informations')
                 .append('<div class="form-group">'
-                        + '<input type="text" class="form-control service-specific" required-information="'
+                        + '<input type="' + required_information.type + '" class="form-control service-specific" required-information="'
                         + required_information.name + '" placeholder="'
                         + required_information.name + '" ' + (required_information.required ? ' required' : '') + '></div>');
             });
@@ -111,7 +111,12 @@ $("#required-informations").submit(function(event) {
     $('form#required-informations :input').each(function() {
         if (! $(this).is( ":button" )) {
             if ($(this).hasClass('service-specific')) {
-                service_required_informations[$(this).attr('required-information')] = $(this).val();
+                if ($(this).attr('type') == 'file') {
+                    console.log($(this)[0].files[0]);
+                    service_required_informations[$(this).attr('required-information')] = $(this)[0].files[1];
+                } else {
+                    service_required_informations[$(this).attr('required-information')] = $(this).val();
+                }
             } else {
                 requests_informations[$(this).attr('required-information')] = $(this).val();
             }
