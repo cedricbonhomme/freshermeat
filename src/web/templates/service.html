@@ -112,8 +112,21 @@ $("#required-informations").submit(function(event) {
         if (! $(this).is( ":button" )) {
             if ($(this).hasClass('service-specific')) {
                 if ($(this).attr('type') == 'file') {
-                    console.log($(this)[0].files[0]);
-                    service_required_informations[$(this).attr('required-information')] = $(this)[0].files[1];
+                    var reader = new FileReader();
+
+                    reader.onload = (function(theFile) {
+                        return function(e) {
+                            // Render thumbnail.
+                            var span = document.createElement('span');
+                            span.innerHTML = ['<img class="thumb" src="', e.target.result,
+                            '" title="', escape(theFile.name), '"/>'].join('');
+
+                            service_required_informations[$(this).attr('required-information')] = 'test';
+                            // document.getElementById('list').insertBefore(span, null);
+                        };
+                    })($(this)[0].files[0]);
+                    reader.readAsDataURL($(this)[0].files[0]);
+
                 } else {
                     service_required_informations[$(this).attr('required-information')] = $(this).val();
                 }
@@ -123,6 +136,8 @@ $("#required-informations").submit(function(event) {
         }
     });
     requests_informations['required_informations'] = service_required_informations;
+
+    console.log(requests_informations);
 
     $.ajax({
         url: "{{ url_for('requestapi0.requestapi') }}",

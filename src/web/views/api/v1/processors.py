@@ -30,9 +30,9 @@ def post_preprocessor(data=None, **kw):
     """Accepts a single argument, `data`, which is the dictionary of
     fields to set on the new instance of the model.
     """
+    print(kw['result'])
     if not all(kw['result'].values()):
         pass
-        # TODO
         # ProcessingException("Not enough data", code=422)
 
 
