@@ -41,7 +41,8 @@
 <script>
 $(document).ready(function() {
     $('.table').dataTable( {
-        paginate: false
+        paginate: false,
+        "order": [[ 3, "desc" ]] // sort on date
     });
 });
 </script>

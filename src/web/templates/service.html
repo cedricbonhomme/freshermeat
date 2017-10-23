@@ -50,15 +50,15 @@
         <div class="col">
             <form id="required-informations">
                 <div class="form-group">
-                    <input type="email" class="form-control" required-information="email" placeholder="Email" id="form-email" required="true">
+                    <input type="email" class="form-control" name="email" placeholder="Email" id="form-email" value="" required="true">
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" required-information="firstname" placeholder="Firstname" id="form-firstname" required="true">
+                    <input type="text" class="form-control" name="firstname" placeholder="Firstname" id="form-firstname" value="" required="true">
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" required-information="lastname" placeholder="Lastname" id="form-lastname" required="true">
+                    <input type="text" class="form-control" name="lastname" placeholder="Lastname" id="form-lastname" value="" required="true">
                 </div>
-                <input type="hidden" id="service-id-input" name="service-id-input" required-information="service_id" value="" id="form-email">
+                <input type="hidden" id="service-id-input" name="service_id" value="">
             </form>
         </div>
     </div>
@@ -93,15 +93,32 @@ $(document).ready(function() {
             .map(function (required_information) {
                 $('#required-informations')
                 .append('<div class="form-group">'
-                        + '<input type="' + required_information.type + '" class="form-control service-specific" required-information="'
+                        + '<input type="' + required_information.type + '" class="form-control service-specific" name="'
                         + required_information.name + '" placeholder="'
                         + required_information.name + '" ' + (required_information.required ? ' required' : '') + '></div>');
             });
             $('#required-informations')
-            .append('<button type="submit" id="submitButton" class="btn btn-primary">Submit</button>');
+            .append('<button type="submit" value="OK" class="btn btn-primary">OK</button>');
         }
     });
+
+    $('#required-informations').on('change', 'input[type=file]', function () {
+        var reader = new FileReader();
+        var cur_input = $(this);
+        reader.onload = (function(theFile) {
+            return function(e) {
+                // Render thumbnail.
+                // var span = document.createElement('span');
+                // span.innerHTML = ['<img class="thumb" src="', e.target.result,
+                // '" title="', escape(theFile.name), '"/>'].join('');
+                cur_input.attr('data', e.target.result);
+                // document.getElementById('list').insertBefore(span, null);
+            };
+        })($(this)[0].files[0]);
+        reader.readAsDataURL($(this)[0].files[0]);
+    });
 });
+
 
 $("#required-informations").submit(function(event) {
     event.preventDefault();
@@ -112,32 +129,17 @@ $("#required-informations").submit(function(event) {
         if (! $(this).is( ":button" )) {
             if ($(this).hasClass('service-specific')) {
                 if ($(this).attr('type') == 'file') {
-                    var reader = new FileReader();
-
-                    reader.onload = (function(theFile) {
-                        return function(e) {
-                            // Render thumbnail.
-                            var span = document.createElement('span');
-                            span.innerHTML = ['<img class="thumb" src="', e.target.result,
-                            '" title="', escape(theFile.name), '"/>'].join('');
-
-                            service_required_informations[$(this).attr('required-information')] = 'test';
-                            // document.getElementById('list').insertBefore(span, null);
-                        };
-                    })($(this)[0].files[0]);
-                    reader.readAsDataURL($(this)[0].files[0]);
-
+                    service_required_informations[$(this).attr('name')] = $(this).attr('data');
                 } else {
-                    service_required_informations[$(this).attr('required-information')] = $(this).val();
+                    service_required_informations[$(this).attr('name')] = $(this).val();
                 }
             } else {
-                requests_informations[$(this).attr('required-information')] = $(this).val();
+                requests_informations[$(this).attr('name')] = $(this).val();
             }
         }
     });
-    requests_informations['required_informations'] = service_required_informations;
 
-    console.log(requests_informations);
+    requests_informations['required_informations'] = service_required_informations;
 
     $.ajax({
         url: "{{ url_for('requestapi0.requestapi') }}",

@@ -40,18 +40,24 @@
             <h1>Required informations</h1>
             <table class="table">
                 <tbody>
-                    {% for key, value in request.required_informations.items() %}
-                      <tr>
-                          <th scope="row">{{ key }}</th>
-                          <td>{{ value }}</td>
-                      </tr>
+                    {% for info in request.service.required_informations %}
+                    <tr>
+                        <th scope="row">{{ info['name'] }}</th>
+                        {% if request.required_informations[info['name']] %}
+                            {% if 'image' in info['mimetype'] %}
+                              <td><img src="{{ request.required_informations[info['name']] }}" width='200px' /></td>
+                            {% else %}
+                              <td>{{ request.required_informations[info['name']] }}</td>
+                            {% endif %}
+                        {% else %}
+                            <td><b>Not provided by requester.</b></td>
+                        {% endif %}
+                    </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
-
-
 
 </div><!-- /.container -->
 <script>

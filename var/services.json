@@ -11,6 +11,7 @@
                 "name": "Company name",
                 "order": 1,
                 "type": "text",
+                "mimetype": "text/plain",
                 "required": true
             }
         ]
@@ -27,6 +28,7 @@
                 "name": "Company name",
                 "order": 1,
                 "type": "text",
+                "mimetype": "text/plain",
                 "required": true
             }
         ]
@@ -43,18 +45,21 @@
                 "name": "Company name",
                 "order": 1,
                 "type": "text",
+                "mimetype": "text/plain",
                 "required": true
             },
             {
                 "name": "PGP key",
                 "order": 3,
                 "type": "text",
+                "mimetype": "text/plain",
                 "required": true
             },
             {
                 "name": "Company logo",
                 "order": 2,
                 "type": "file",
+                "mimetype": "image/png;image/jpeg",
                 "required": false
             }
         ]
@@ -71,12 +76,14 @@
                 "name": "Company name",
                 "order": 1,
                 "type": "text",
+                "mimetype": "text/plain",
                 "required": true
             },
             {
                 "name": "Foreseen use of the Passive DNS data",
                 "order": 2,
                 "type": "text",
+                "mimetype": "text/plain",
                 "required": true
             }
         ]
@@ -93,6 +100,7 @@
                 "name": "Name",
                 "order": 1,
                 "type": "text",
+                "mimetype": "text/plain",
                 "required": true
             }
         ]
@@ -109,6 +117,7 @@
                 "name": "Company name",
                 "order": 1,
                 "type": "text",
+                "mimetype": "text/plain",
                 "required": true
             }
         ]
