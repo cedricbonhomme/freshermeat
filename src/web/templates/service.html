@@ -93,8 +93,9 @@ $(document).ready(function() {
             .map(function (required_information) {
                 $('#required-informations')
                 .append('<div class="form-group">'
-                        + '<input type="' + required_information.type + '" class="form-control service-specific" name="'
-                        + required_information.name + '" placeholder="'
+                        + '<input type="' + required_information.type + '" class="form-control service-specific" '
+                        + 'accept="' + required_information.mimetype + '" '
+                        + 'name="' + required_information.name + '" placeholder="'
                         + required_information.name + '" ' + (required_information.required ? ' required' : '') + '></div>');
             });
             $('#required-informations')

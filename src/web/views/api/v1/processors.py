@@ -40,5 +40,5 @@ def post_postprocessor(result=None, **kw):
     """Accepts a single argument, `result`, which is the dictionary
     representation of the created instance of the model.
     """
-    print(result)
+    pass
     # send the notification...
