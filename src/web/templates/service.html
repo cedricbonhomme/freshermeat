@@ -67,6 +67,18 @@
 <script>
 $("#alert-box").hide();
 $(document).ready(function() {
+
+    var inputTemplate = _.template(
+        '<input type="<%= input_type %>" class="form-control service-specific" '
+        + 'accept="<%= mime_type %>" '
+        + 'name="<%= name %>" placeholder="<%= name %>" <%= required %>>');
+
+    var textAreaTemplate = _.template(
+        '<textarea class="form-control service-specific" '
+        + 'accept="<%= mime_type %>" '
+        + 'name="<%= name %>" cols="90" rows="80" <%= required %>></textarea>');
+
+
     // Get information about the service in the URL parameter
     var service = getUrlParameter('name');
     var filters = [{"name": "name", "op": "like", "val": service}];
@@ -91,12 +103,27 @@ $(document).ready(function() {
                 return a.order - b.order ;
             })
             .map(function (required_information) {
+
+                if (required_information.mimetype == "text/plain" ||
+                        required_information.mimetype == "image/png;image/jpeg") {
+                    var cardInput = inputTemplate({
+                        'input_type': required_information.type,
+                        'mime_type': required_information.mimetype,
+                        'name': required_information.name,
+                        'placeholder': required_information.name,
+                        'required': required_information.required ? ' required' : ''
+                     });
+                } else {
+                    var cardInput = textAreaTemplate({
+                        'mime_type': required_information.mimetype,
+                        'name': required_information.name,
+                        'required': required_information.required ? ' required' : ''
+                    });
+                }
+
+
                 $('#required-informations')
-                .append('<div class="form-group">'
-                        + '<input type="' + required_information.type + '" class="form-control service-specific" '
-                        + 'accept="' + required_information.mimetype + '" '
-                        + 'name="' + required_information.name + '" placeholder="'
-                        + required_information.name + '" ' + (required_information.required ? ' required' : '') + '></div>');
+                .append('<div class="form-group">'+ cardInput + '</div>');
             });
             $('#required-informations')
             .append('<button type="submit" value="OK" class="btn btn-primary">OK</button>');

@@ -12,3 +12,4 @@ Flask-Script
 Flask-Admin
 Flask-paginate
 WTForms
+python-gnupg

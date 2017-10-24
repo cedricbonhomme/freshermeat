@@ -52,8 +52,9 @@
                 "name": "PGP key",
                 "order": 3,
                 "type": "text",
-                "mimetype": "text/plain",
-                "required": true
+                "mimetype": "application/pgp-keys",
+                "required": true,
+                "checks": ["check_gpg"]
             },
             {
                 "name": "Company logo",
