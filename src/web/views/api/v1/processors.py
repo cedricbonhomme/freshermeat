@@ -44,7 +44,7 @@ def post_preprocessor(data=None, **kw):
                 continue
             checks.append(check_function(parameter))
     if not all(checks):
-        raise ProcessingException("Do not pass all check", code=422)
+        raise ProcessingException("The values you submitted do not pass all checks!", code=422)
 
 
 def post_postprocessor(result=None, **kw):

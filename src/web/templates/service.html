@@ -5,7 +5,8 @@
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
-        <strong>Success</strong> Request sent!
+        <strong id="alert-box-message-title">Success</strong>
+        <span id="alert-box-message-content">Request sent!</span>
     </div>
     <div class="row">
         <div class="col">
@@ -121,7 +122,6 @@ $(document).ready(function() {
                     });
                 }
 
-
                 $('#required-informations')
                 .append('<div class="form-group">'+ cardInput + '</div>');
             });
@@ -151,6 +151,8 @@ $(document).ready(function() {
 $("#required-informations").submit(function(event) {
     event.preventDefault();
 
+    $("#alert-box").hide();
+
     var requests_informations = {};
     var service_required_informations = {};
     $('form#required-informations :input').each(function() {
@@ -179,7 +181,15 @@ $("#required-informations").submit(function(event) {
             contentType: "application/json"
         },
         success: function(result) {
-            // console.log(result);
+            $("#alert-box").attr('class', 'alert alert-success alert-dismissible');
+            $("#alert-box-message-title").html('Success');
+            $("#alert-box-message-content").html('Request sent!');
+            $("#alert-box").show();
+        },
+        error: function(error) {
+            $("#alert-box").attr('class', 'alert alert-danger alert-dismissible');
+            $("#alert-box-message-title").html('Error');
+            $("#alert-box-message-content").html($.parseJSON(error.responseText).message);
             $("#alert-box").show();
         }
     });
