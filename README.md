@@ -7,15 +7,15 @@
 ```bash
 $ sudo apt-get install postgresql npm python-pip
 $ sudo -H pip install pew
+
+$ sudo apt-get install clamav-daemon clamav-freshclam clamav-unofficial-sigs
+$ sudo freshclam
+$ sudo systemctl start clamav-daemon.service
 ```
 
 ## Configure and install the application
 
 ```bash
-$ sudo apt-get install clamav-daemon clamav-freshclam clamav-unofficial-sigs
-$ sudo freshclam
-$ sudo systemctl start clamav-daemon.service
-
 $ git clone https://github.com/cedricbonhomme/services.git
 $ cd services/
 /services$ pew install 3.6.2 --type CPython
