@@ -46,6 +46,8 @@
                         {% if request.required_informations[info['name']] %}
                             {% if 'image' in info['mimetype'] %}
                               <td><img src="{{ request.required_informations[info['name']] }}" width='200px' /></td>
+                            {% elif 'application/pgp-keys' in info['mimetype'] or 'textarea' in info['type'] %}
+                                <td><pre><code>{{ request.required_informations[info['name']] }}</code></pre></td>
                             {% else %}
                               <td>{{ request.required_informations[info['name']] }}</td>
                             {% endif %}

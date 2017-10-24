@@ -51,7 +51,7 @@
             {
                 "name": "PGP key",
                 "order": 3,
-                "type": "text",
+                "type": "textarea",
                 "mimetype": "application/pgp-keys",
                 "required": true,
                 "checks": ["check_clamav_stream", "check_gpg"]
@@ -60,7 +60,7 @@
                 "name": "Company logo",
                 "order": 2,
                 "type": "file",
-                "mimetype": "image/png;image/jpeg",
+                "mimetype": "image/png,image/jpeg",
                 "required": false,
                 "checks": ["check_clamav_stream"]
             }
