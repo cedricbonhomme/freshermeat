@@ -10,12 +10,8 @@
 </div><!-- /.container -->
 <script>
 $(document).ready(function() {
-    $organizations = ["CASES", "CIRCL"];
-    $organization_param = getUrlParameter('organization');
-    if (typeof $organization_param !== 'undefined') {
-        $organizations = [$organization_param];
-    }
 
+    // card template for the services
     var cardTemplate = _.template(
         '<div class="card">' +
           '<img class="card-img-top" src="<%= logo %>" alt="Card image cap">' +
@@ -26,40 +22,59 @@ $(document).ready(function() {
           '</div>' +
         '</div>');
 
-    shuffle($organizations);
-    $organizations.map(function (organization) {
+    $.ajax({ // Get the list of organizations
+        url: "{{ url_for('serviceapi0.serviceapi',) }}",
+        dataType: "json",
+        contentType: "application/json",
+        success: function(services) {
+            var organizations = [];
 
-        var $div_organization = $("<div>");
-        $div_organization.append('<ol class="breadcrumb">' +
-                                '<li class="breadcrumb-item active" >SECURITYMADEIN.LU</li>' +
-                                '<li class="breadcrumb-item active" id="service-name">' +
-                                '<a href="?organization=' + organization + '">' +
-                                organization + '</a></li></ol>');
-        $('#list-services').append($div_organization);
+            services.objects.map(function(service) {
+                organizations.push(service.organization);
+            });
 
-        var $div_organization_columns = $("<div>", {"class": "card-columns"});
-
-        var filters = [{"name": "organization", "op": "like", "val": organization}];
-        $.ajax({
-            url: "{{ url_for('serviceapi0.serviceapi',) }}",
-            data: {"q": JSON.stringify({"filters": filters})},
-            dataType: "json",
-            contentType: "application/json",
-            success: function(services) {
-                services.objects.map(function (service) {
-                    var cardHTML = cardTemplate({
-                        'logo': service.logo,
-                        'service_name': service.name,
-                        'service_description': service.description,
-                        'service_details': 'service?name='+service.name
-                     });
-                     $div_organization_columns.append(cardHTML);
-                });
+            organizations = $.unique(organizations)
+            organization_param = getUrlParameter('organization'); // If the organization is specified in the URL
+            if (typeof organization_param !== 'undefined') {
+                organizations = [organization_param];
             }
-        });
-        $('#list-services').append($div_organization_columns);
-    })
 
+            shuffle(organizations); // Radomize the list of organisations
+
+            organizations.map(function (organization) {
+
+                var div_organization = $("<div>");
+                div_organization.append('<ol class="breadcrumb">' +
+                                        '<li class="breadcrumb-item active" >SECURITYMADEIN.LU</li>' +
+                                        '<li class="breadcrumb-item active" id="service-name">' +
+                                        '<a href="?organization=' + organization + '">' +
+                                        organization + '</a></li></ol>');
+                $('#list-services').append(div_organization);
+
+                var div_organization_columns = $("<div>", {"class": "card-columns"});
+
+                var filters = [{"name": "organization", "op": "like", "val": organization}];
+                $.ajax({
+                    url: "{{ url_for('serviceapi0.serviceapi',) }}",
+                    data: {"q": JSON.stringify({"filters": filters})},
+                    dataType: "json",
+                    contentType: "application/json",
+                    success: function(services) {
+                        services.objects.map(function (service) {
+                            var cardHTML = cardTemplate({
+                                'logo': service.logo,
+                                'service_name': service.name,
+                                'service_description': service.description,
+                                'service_details': 'service?name='+service.name
+                             });
+                             div_organization_columns.append(cardHTML);
+                        });
+                    }
+                });
+                $('#list-services').append(div_organization_columns);
+            })
+        }
+    });
 });
 </script>
 {% endblock %}
