@@ -31,14 +31,14 @@ def post_preprocessor(data=None, **kw):
     """Accepts a single argument, `data`, which is the dictionary of
     fields to set on the new instance of the model.
     """
-    service_id = kw['result']['service_id']
+    service_id = data['service_id']
     service = Service.query.filter(Service.id == service_id).first()
     checks = []
     for info in service.required_informations:
         for check in info.get('checks', []):
             check_function = getattr(lib.checks, check)
             try:
-                parameter = kw['result']['required_informations'][info['name']]
+                parameter = data['required_informations'][info['name']]
             except KeyError:
                 # an non-required information that was not submitted by the user
                 continue
