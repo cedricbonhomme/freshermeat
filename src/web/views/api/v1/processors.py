@@ -41,7 +41,6 @@ def post_preprocessor(data=None, **kw):
                 parameter = kw['result']['required_informations'][info['name']]
                 checks.append(check_function(parameter))
     if not all(checks):
-        print('oups')
         raise ProcessingException("Do not pass check", code=422)
 
 
