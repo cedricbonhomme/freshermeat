@@ -37,7 +37,11 @@ def post_preprocessor(data=None, **kw):
     for info in service.required_informations:
         for check in info.get('checks', []):
             check_function = getattr(lib.checks, check)
-            parameter = kw['result']['required_informations'][info['name']]
+            try:
+                parameter = kw['result']['required_informations'][info['name']]
+            except KeyError:
+                # an non-required information that was not submitted by the user
+                continue
             checks.append(check_function(parameter))
     if not all(checks):
         raise ProcessingException("Do not pass all check", code=422)

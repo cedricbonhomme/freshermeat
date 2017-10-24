@@ -6,7 +6,9 @@ from six import BytesIO
 def check_gpg(public_key):
     gpg = gnupg.GPG()
     import_result = gpg.import_keys(public_key)
-    if import_result.results[0]['fingerprint'] is not None:
+    print(import_result.results)
+    if import_result.results and \
+                        import_result.results[0]['fingerprint'] is not None:
         return True
     return False
 

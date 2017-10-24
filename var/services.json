@@ -61,7 +61,8 @@
                 "order": 2,
                 "type": "file",
                 "mimetype": "image/png;image/jpeg",
-                "required": false
+                "required": false,
+                "checks": ["check_clamav_stream"]
             }
         ]
     },
