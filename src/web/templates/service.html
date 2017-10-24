@@ -77,7 +77,7 @@ $(document).ready(function() {
     var textAreaTemplate = _.template(
         '<textarea class="form-control service-specific" '
         + 'accept="<%= mime_type %>" '
-        + 'name="<%= name %>" cols="90" rows="5" <%= required %>></textarea>');
+        + 'name="<%= name %>" cols="90" rows="5" <%= required %>><%= name %></textarea>');
 
 
     // Get information about the service in the URL parameter
@@ -118,7 +118,8 @@ $(document).ready(function() {
                     var cardInput = textAreaTemplate({
                         'mime_type': required_information.mimetype,
                         'name': required_information.name,
-                        'required': required_information.required ? ' required' : ''
+                        'required': required_information.required ? ' required' : '',
+                        'name': required_information.name
                     });
                 }
 
