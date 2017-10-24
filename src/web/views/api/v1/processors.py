@@ -35,13 +35,12 @@ def post_preprocessor(data=None, **kw):
     service = Service.query.filter(Service.id == service_id).first()
     checks = []
     for info in service.required_informations:
-        if 'checks' in info:
-            for check in info['checks']:
-                check_function = getattr(lib.checks, check)
-                parameter = kw['result']['required_informations'][info['name']]
-                checks.append(check_function(parameter))
+        for check in info.get('checks', []):
+            check_function = getattr(lib.checks, check)
+            parameter = kw['result']['required_informations'][info['name']]
+            checks.append(check_function(parameter))
     if not all(checks):
-        raise ProcessingException("Do not pass check", code=422)
+        raise ProcessingException("Do not pass all check", code=422)
 
 
 def post_postprocessor(result=None, **kw):

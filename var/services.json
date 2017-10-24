@@ -54,7 +54,7 @@
                 "type": "text",
                 "mimetype": "application/pgp-keys",
                 "required": true,
-                "checks": ["check_gpg"]
+                "checks": ["check_clamav_stream", "check_gpg"]
             },
             {
                 "name": "Company logo",

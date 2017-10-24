@@ -13,3 +13,4 @@ Flask-Admin
 Flask-paginate
 WTForms
 python-gnupg
+clamd
