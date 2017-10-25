@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 from threading import Thread
-from functools import wraps
 
 
 def async(f):
