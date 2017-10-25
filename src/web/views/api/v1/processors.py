@@ -61,3 +61,5 @@ def post_postprocessor(result=None, **kw):
     """
     pass
     # send the notification...
+    # new_request_notification(result)
+    # mark the request as 'sent'
