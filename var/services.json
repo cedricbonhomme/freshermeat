@@ -84,7 +84,7 @@
             {
                 "name": "Foreseen use of the Passive DNS data",
                 "order": 2,
-                "type": "text",
+                "type": "textarea",
                 "mimetype": "text/plain",
                 "required": true
             }

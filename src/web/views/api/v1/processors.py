@@ -36,15 +36,22 @@ def post_preprocessor(data=None, **kw):
     checks = []
     for info in service.required_informations:
         for check in info.get('checks', []):
-            check_function = getattr(lib.checks, check)
             try:
+                check_function = getattr(lib.checks, check)
+            except AttributeError:
+                # the check 'check' do not exists
+                continue
+            try:
+                # 'parameter' is the content submited by the user that we want
+                # to check against check_function
                 parameter = data['required_informations'][info['name']]
             except KeyError:
-                # an non-required information that was not submitted by the user
+                # a non-required information that was not submitted by the user
                 continue
             checks.append(check_function(parameter))
     if not all(checks):
-        raise ProcessingException("The values you submitted do not pass all checks!", code=422)
+        raise ProcessingException(
+            "The values you submitted do not pass all checks!", code=422)
 
 
 def post_postprocessor(result=None, **kw):
