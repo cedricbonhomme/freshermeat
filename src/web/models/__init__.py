@@ -8,12 +8,12 @@ from .request import Request
 __all__ = ['Service', 'User', 'Request']
 
 from sqlalchemy.engine import reflection
-from sqlalchemy.schema import (
-        MetaData,
-        Table,
-        DropTable,
-        ForeignKeyConstraint,
-        DropConstraint)
+from sqlalchemy.schema import (MetaData,
+                               Table,
+                               DropTable,
+                               ForeignKeyConstraint,
+                               DropConstraint)
+
 
 def db_empty(db):
     "Will drop every datas stocked in db."
@@ -49,8 +49,8 @@ def db_empty(db):
 
     for table in tbs:
         conn.execute(DropTable(table))
+    # trans.commit()
 
-        trans.commit()
 
 def db_init(db):
     "Will create the database from conf parameters."
