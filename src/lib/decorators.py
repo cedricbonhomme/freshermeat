@@ -4,8 +4,6 @@
 from threading import Thread
 from functools import wraps
 
-from flask_login import login_required
-
 
 def async(f):
     """
