@@ -3,6 +3,7 @@ from datetime import datetime
 from flask_login import UserMixin
 from sqlalchemy.orm import validates
 from sqlalchemy.dialects.postgresql import JSON
+from validate_email import validate_email
 
 from bootstrap import db
 
@@ -30,6 +31,7 @@ class Request(db.Model, UserMixin):
     @validates('email')
     def validates_email(self, key, value):
         assert len(value) <= 100
+        assert validate_email(value)
         return str(value).strip()
 
     @validates('firstname')

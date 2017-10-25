@@ -12,5 +12,6 @@ Flask-Script
 Flask-Admin
 Flask-paginate
 WTForms
+validate_email
 python-gnupg
 clamd
