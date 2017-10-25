@@ -30,16 +30,16 @@ class Request(db.Model, UserMixin):
 
     @validates('email')
     def validates_email(self, key, value):
-        assert len(value) <= 100
-        assert validate_email(value)
+        assert len(value) <= 100, 'email too long'
+        assert validate_email(value), 'email not valid'
         return str(value).strip()
 
     @validates('firstname')
     def validates_firstname(self, key, value):
-        assert len(value) <= 100
+        assert len(value) <= 100, 'firstname too long'
         return str(value).strip()
 
     @validates('lastname')
     def validates_lastname(self, key, value):
-        assert len(value) <= 100
+        assert len(value) <= 100, 'lastname too long'
         return str(value).strip()
