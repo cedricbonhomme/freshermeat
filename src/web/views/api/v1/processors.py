@@ -31,6 +31,9 @@ def auth_func(*args, **kw):
 def post_preprocessor(data=None, **kw):
     """Accepts a single argument, `data`, which is the dictionary of
     fields to set on the new instance of the model.
+
+    Before the creation of a new request, the content submited by the user
+    is checked against the appropriate function.
     """
     service_id = data['service_id']
     service = Service.query.filter(Service.id == service_id).first()
@@ -58,6 +61,9 @@ def post_preprocessor(data=None, **kw):
 def post_postprocessor(result=None, **kw):
     """Accepts a single argument, `result`, which is the dictionary
     representation of the created instance of the model.
+
+    Right after the creation a new request, a notification is sent to the
+    service responsible.
     """
     pass
     # send the notification...
