@@ -6,7 +6,6 @@ Flask-Login
 Flask-Principal
 Flask-WTF
 Flask-Restless
-Flask-SSLify
 Flask-Migrate
 Flask-Script
 Flask-Admin

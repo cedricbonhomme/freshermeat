@@ -29,10 +29,7 @@ def send(*args, **kwargs):
     This functions enables to send email through SendGrid
     or a SMTP server.
     """
-    if conf.ON_HEROKU:
-        send_sendgrid(**kwargs)
-    else:
-        send_smtp(**kwargs)
+    send_smtp(**kwargs)
 
 
 def send_smtp(to="", bcc="", subject="", plaintext="", html=""):

@@ -5,11 +5,6 @@ from flask import g
 
 from bootstrap import conf, application, populate_g
 
-if conf.ON_HEROKU:
-    from flask_sslify import SSLify
-    SSLify(application, subdomains=True)
-
-
 with application.app_context():
     populate_g()
 
