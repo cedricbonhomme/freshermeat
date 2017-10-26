@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from flask import request, flash
+from flask import request
 from flask_login import current_user
 from flask_restless import ProcessingException
 
@@ -46,7 +46,7 @@ def post_preprocessor(data=None, **kw):
                 # the check 'check' do not exists
                 continue
             try:
-                # 'parameter' is the content submited by the user that we want
+                # 'parameter' is the content submitted by the user that we want
                 # to check against check_function
                 parameter = data['required_informations'][info['name']]
             except KeyError:
