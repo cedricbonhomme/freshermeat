@@ -1,9 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from flask import g
-
-from bootstrap import conf, application, populate_g
+from bootstrap import application, populate_g
 
 with application.app_context():
     populate_g()
