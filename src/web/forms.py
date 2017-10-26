@@ -30,7 +30,7 @@ class RedirectForm(FlaskForm):
 
 class SigninForm(RedirectForm):
     """
-    Sign in form (connection to newspipe).
+    Sign in form.
     """
     email = TextField("Email",
             [validators.Length(min=3, max=35),
@@ -53,7 +53,8 @@ class SigninForm(RedirectForm):
             validated = False
         else:
             if not user.is_active:
-                self.email_or_nickmane.errors.append('User is desactivated')
+                self.email_or_nickmane.errors.append(
+                    'Wrong email address or password')
                 validated = False
             if not user.check_password(self.password.data):
                 self.password.errors.append('Wrong email address or password')
