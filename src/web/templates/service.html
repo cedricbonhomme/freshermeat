@@ -89,6 +89,16 @@ $(document).ready(function() {
         + 'accept="<%= mime_type %>" '
         + 'name="<%= name %>" cols="90" rows="5" <%= required %>><%= name %></textarea>');
 
+    $('#required-informations').on('change', 'input[type=file]', function () {
+        var reader = new FileReader();
+        var cur_input = $(this);
+        reader.onload = (function(theFile) {
+            return function(e) {
+                cur_input.attr('data', e.target.result);
+            };
+        })($(this)[0].files[0]);
+        reader.readAsDataURL($(this)[0].files[0]);
+    });
 
     // Get information about the service in the URL parameter
     var service = getUrlParameter('name');
@@ -139,22 +149,6 @@ $(document).ready(function() {
             $('#required-informations')
             .append('<button type="submit" value="OK" class="btn btn-primary">OK</button>');
         }
-    });
-
-    $('#required-informations').on('change', 'input[type=file]', function () {
-        var reader = new FileReader();
-        var cur_input = $(this);
-        reader.onload = (function(theFile) {
-            return function(e) {
-                // Render thumbnail.
-                // var span = document.createElement('span');
-                // span.innerHTML = ['<img class="thumb" src="', e.target.result,
-                // '" title="', escape(theFile.name), '"/>'].join('');
-                cur_input.attr('data', e.target.result);
-                // document.getElementById('list').insertBefore(span, null);
-            };
-        })($(this)[0].files[0]);
-        reader.readAsDataURL($(this)[0].files[0]);
     });
 });
 
