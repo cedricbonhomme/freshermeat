@@ -5,7 +5,7 @@
 ## Requirements
 
 ```bash
-$ sudo apt-get install postgresql npm python-pip
+$ sudo apt-get install libbz2-dev postgresql npm python-pip
 $ sudo -H pip install pew
 
 $ sudo apt-get install clamav-daemon clamav-freshclam clamav-unofficial-sigs

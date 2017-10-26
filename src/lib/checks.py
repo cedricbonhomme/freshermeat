@@ -1,15 +1,17 @@
-import gnupg
+import pgpy
 import clamd
 from six import BytesIO
 
 
 def check_gpg(public_key):
-    gpg = gnupg.GPG()
-    import_result = gpg.import_keys(public_key)
-    print(import_result.results)
-    if import_result.results and \
-                        import_result.results[0]['fingerprint'] is not None:
+    try:
+        key, _ = pgpy.PGPKey.from_blob(public_key)
+    except ValueError:
+        return False
+
+    if not key.is_expired and key.is_public:
         return True
+
     return False
 
 
