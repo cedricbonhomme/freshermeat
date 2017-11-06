@@ -21,9 +21,6 @@ $ cd services/
 /services$ pew install 3.6.2 --type CPython
 /services$ pew new --python=$(pew locate_python 3.6.2)  -a . -r requirements.txt services-dev
 
-services-dev/services$ npm install bower
-services-dev/services$ node_modules/.bin/bower install
-
 services-dev/services$ export APPLICATION_SETTINGS=development.cfg
 
 services-dev/services$ ./create_db.sh services_dev

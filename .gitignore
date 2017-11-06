@@ -29,4 +29,4 @@ src/conf/conf.cfg
 
 # js and node files
 node_modules
-src/web/static/bower_components/
+src/web/static/npm_components
