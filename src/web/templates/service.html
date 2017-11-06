@@ -184,6 +184,7 @@ $("#required-informations").submit(function(event) {
             contentType: "application/json"
         },
         success: function(result) {
+            $('#required-informations').trigger("reset");
             $("#modal-message-title").html('Success');
             $("#modal-message-content").html('Request sent! We will get back to you soon.');
             $('#modal-message').modal('show');
