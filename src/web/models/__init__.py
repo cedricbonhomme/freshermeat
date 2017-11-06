@@ -8,11 +8,29 @@ from .request import Request
 __all__ = ['Service', 'User', 'Request']
 
 from sqlalchemy.engine import reflection
+from sqlalchemy import create_engine
 from sqlalchemy.schema import (MetaData,
                                Table,
                                DropTable,
                                ForeignKeyConstraint,
                                DropConstraint)
+
+
+def db_create(db, db_config_dict, database_name):
+    db_conn_format = "postgresql://{user}:{password}@{host}:{port}/{database}"
+    db_conn_uri_default = (db_conn_format.format(
+        database='postgres',
+        **db_config_dict))
+    engine_default = create_engine(db_conn_uri_default)
+    conn = engine_default.connect()
+    conn.execute("COMMIT")
+    conn.execute("CREATE DATABASE %s" % database_name)
+    conn.close()
+
+
+def db_init(db):
+    "Will create the database from conf parameters."
+    db.create_all()
 
 
 def db_empty(db):
@@ -51,8 +69,3 @@ def db_empty(db):
             conn.execute(DropTable(table))
 
         trans.commit()
-
-
-def db_init(db):
-    "Will create the database from conf parameters."
-    db.create_all()

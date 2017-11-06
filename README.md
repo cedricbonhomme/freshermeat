@@ -25,7 +25,7 @@ services-dev/services$ npm install
 
 services-dev/services$ export APPLICATION_SETTINGS=development.cfg
 
-services-dev/services$ ./create_db.sh services_dev
+services-dev/services$ python src/manager.py db_create
 services-dev/services$ python src/manager.py db_init
 services-dev/services$ python src/manager.py create_admin firstname.lastname@example.org firstname lastname your-password
 services-dev/services$ python src/manager.py import_services var/services.json
