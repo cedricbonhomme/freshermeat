@@ -92,7 +92,15 @@ def send_request_notification(request_id=None):
                                   .first()
     except Exception as e:
         print(e)
-    new_request_notification(req)
+    try:
+        new_request_notification(req)
+        req.notification_sent = True
+        db.session.commit()
+        flash('Email sent.', 'info')
+    except Exception as e:
+        flash('Impossible to send email.', 'danger')
+        print(e)
+    return redirect(url_for('admin_bp.request', request_id=req.id))
 
 
 # Flask-Admin views

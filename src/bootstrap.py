@@ -8,6 +8,7 @@ import logging
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import flask_restless
+from flask_mail import Mail
 
 import conf
 
@@ -39,9 +40,8 @@ application = Flask('web', instance_relative_config=True)
 application.config.from_pyfile(os.environ.get(
                                'APPLICATION_SETTINGS',
                                'development.cfg'), silent=False)
-
-
 db = SQLAlchemy(application)
+mail = Mail(application)
 
 
 # Jinja filters

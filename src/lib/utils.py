@@ -31,5 +31,5 @@ def rebuild_url(url, base_split):
     return urllib.parse.urlunsplit(new_split)
 
 
-def redirect_url(default='home'):
+def redirect_url(default='services'):
     return request.args.get('next') or request.referrer or url_for(default)

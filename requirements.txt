@@ -10,6 +10,7 @@ Flask-Migrate
 Flask-Script
 Flask-Admin
 Flask-paginate
+Flask-Mail
 WTForms
 validate_email
 PGPy
