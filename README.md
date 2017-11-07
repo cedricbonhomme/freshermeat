@@ -13,6 +13,13 @@ $ sudo freshclam
 $ sudo systemctl start clamav-daemon.service
 ```
 
+PostgreSQL is required to store JSON values in the database.
+
+libbz2-dev is required by the Python library which will check PGP key.
+
+clamav related packages are required because the application is able to scan
+files posted by the users through the forms or the API.
+
 ## Configure and install the application
 
 ```bash
