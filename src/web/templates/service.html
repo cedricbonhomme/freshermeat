@@ -102,7 +102,7 @@ $(document).ready(function() {
 
     // Get information about the service in the URL parameter
     var service = getUrlParameter('name');
-    var filters = [{"name": "name", "op": "like", "val": service}];
+    var filters = [{"name": "name", "op": "eq", "val": service}];
     $.ajax({
         url: "{{ url_for('serviceapi0.serviceapi',) }}",
         data: {"q": JSON.stringify({"filters": filters})},

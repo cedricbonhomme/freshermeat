@@ -15,6 +15,7 @@ class Service(db.Model):
     website = db.Column(db.String())
     logo = db.Column(db.String())
     notification_email = db.Column(db.String(), default='')
+    enabled = db.Column(db.Boolean(), default=True)
 
     required_informations = db.Column(JSON)
 

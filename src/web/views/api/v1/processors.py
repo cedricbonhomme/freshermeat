@@ -33,11 +33,15 @@ def post_preprocessor(data=None, **kw):
     """Accepts a single argument, `data`, which is the dictionary of
     fields to set on the new instance of the model.
 
+    Checks if the service corresponding to user's request is enabled.
     Before the creation of a new request, the content submited by the user
-    is checked against the appropriate function.
+    is checked against the appropriate functions.
     """
     service_id = data['service_id']
     service = Service.query.filter(Service.id == service_id).first()
+    if not service.enabled:
+        raise ProcessingException(
+            "Service currently not available.", code=422)
     checks = []
     for info in service.required_informations:
         for check in info.get('checks', []):
