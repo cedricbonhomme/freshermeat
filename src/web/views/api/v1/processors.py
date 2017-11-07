@@ -6,6 +6,7 @@ from flask_login import current_user
 from flask_restless import ProcessingException
 
 import lib.checks
+from bootstrap import db
 from notifications.notifications import new_request_notification
 from web.views.common import login_user_bundle
 from web.models import User, Service, Request
@@ -65,7 +66,17 @@ def post_postprocessor(result=None, **kw):
     Right after the creation a new request, a notification is sent to the
     service responsible.
     """
-    pass
-    # send the notification...
-    # new_request_notification(result)
-    # mark the request as 'sent'
+    new_request = None
+    try:
+        new_request = Request.query.filter(Request.id == result['id']).first()
+    except Exception as e:
+        print(e)
+
+    if new_request:
+        # send the notification...
+        try:
+            new_request_notification(new_request)
+            new_request.notification_sent = True
+            db.session.commit()
+        except Exception as e:
+            print(e)
