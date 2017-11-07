@@ -17,16 +17,16 @@ PostgreSQL is required to store JSON values in the database.
 
 libbz2-dev is required by the Python library which will check PGP key.
 
-clamav related packages are required because the application is able to scan
-files posted by the users through the forms or the API.
+clamav related packages are required because this application is able to scan
+files posted by the users through the forms or the API ;-)
 
 ## Configure and install the application
 
 ```bash
 $ git clone https://github.com/cedricbonhomme/services.git
 $ cd services/
-/services$ pew install 3.6.2 --type CPython
-/services$ pew new --python=$(pew locate_python 3.6.2)  -a . -r requirements.txt services-dev
+/services$ pew install 3.6.3 --type CPython
+/services$ pew new --python=$(pew locate_python 3.6.3)  -a . -r requirements.txt services-dev
 
 services-dev/services$ npm install
 
