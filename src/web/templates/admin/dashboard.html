@@ -20,7 +20,7 @@
               </thead>
               <tbody>
                   {% for request in requests %}
-                    <tr {% if not request.checked or not request.notification_sent  %}class="table-warning"{% endif %}>
+                    <tr {% if not request.checked %}class="table-warning"{% endif %}>
                         <td><a href="{{ url_for('admin_bp.request', request_id=request.id) }}">{{ request.id }}</a></td>
                         <td>{{ request.service.name }}</td>
                         <td>{{ request.email }}</td>

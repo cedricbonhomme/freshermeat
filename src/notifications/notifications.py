@@ -26,7 +26,6 @@ def new_request_notification(request):
     """
     New request notification.
     """
-    plaintext = render_template('emails/new_request.txt')
-
-    emails.send(to=request.email, bcc=application.config['NOTIFICATION_EMAIL'],
-                subject="New request", plaintext=plaintext)
+    plaintext = render_template('emails/new_request.txt', request=request)
+    subject = "[{service}] New request".format(service=request.service.name)
+    emails.send(to=request.email, subject=subject, plaintext=plaintext)

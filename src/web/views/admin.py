@@ -1,5 +1,6 @@
 
-from flask import Blueprint, render_template, current_app
+from flask import Blueprint, render_template, redirect, url_for, current_app, \
+                flash
 from flask_login import login_required, current_user
 from flask_paginate import Pagination, get_page_args
 from sqlalchemy import desc
@@ -8,6 +9,7 @@ from flask_admin.contrib.sqla import ModelView
 from flask_admin.menu import MenuLink
 
 from web.views.common import admin_permission
+from notifications.notifications import new_request_notification
 from bootstrap import db
 from web import models
 
@@ -46,6 +48,51 @@ def request(request_id=None):
         db.session.commit()
 
     return render_template('admin/request.html', request=request)
+
+
+@admin_bp.route('/request/<request_id>/delete', methods=['GET'])
+@login_required
+@admin_permission.require(http_exception=403)
+def delete_request(request_id=None):
+    """Delete a request."""
+    try:
+        models.Request.query.filter(models.Request.id == request_id).delete()
+        db.session.commit()
+        flash('Request deleted.', 'info')
+    except Exception as e:
+        flash('Impossible to delete request.', 'danger')
+        print(e)
+    return redirect(url_for('admin_bp.dashboard'))
+
+
+@admin_bp.route('/request/<request_id>/mark_as_unchecked', methods=['GET'])
+@login_required
+@admin_permission.require(http_exception=403)
+def mark_as_unchecked(request_id=None):
+    """Mark a request as unchecked."""
+    try:
+        req = models.Request.query.filter(models.Request.id == request_id) \
+                                  .first()
+        models.Request.query.filter(models.Request.id == request_id) \
+                            .update({'checked': not req.checked})
+        db.session.commit()
+    except Exception as e:
+        print(e)
+    return redirect(url_for('admin_bp.dashboard'))
+
+
+@admin_bp.route('/request/<request_id>/send_request_notification', methods=['GET'])
+@login_required
+@admin_permission.require(http_exception=403)
+def send_request_notification(request_id=None):
+    """Send a notification for the request."""
+    req = None
+    try:
+        req = models.Request.query.filter(models.Request.id == request_id) \
+                                  .first()
+    except Exception as e:
+        print(e)
+    new_request_notification(req)
 
 
 # Flask-Admin views

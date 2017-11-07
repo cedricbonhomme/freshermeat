@@ -15,9 +15,9 @@
                     Actions
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">Re-send notification</a>
-                    <a class="dropdown-item" href="#">Mark as unchecked</a>
-                    <a class="dropdown-item" href="#">Delete</a>
+                    <a class="dropdown-item" href="{{ url_for('admin_bp.send_request_notification', request_id=request.id) }}">Re-send notification</a>
+                    <a class="dropdown-item" href="{{ url_for('admin_bp.mark_as_unchecked', request_id=request.id) }}">Mark as {% if request.checked %}un{% endif %}checked</a>
+                    <a class="dropdown-item" href="{{ url_for('admin_bp.delete_request', request_id=request.id) }}" onclick="return confirm('You are going to delete this request.');">Delete</a>
                 </div>
             </div>
         </div>
