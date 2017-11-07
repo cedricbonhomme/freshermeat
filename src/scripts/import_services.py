@@ -12,13 +12,14 @@ def import_services(json_file):
         services = json.loads(json_file.read())
 
         for service in services:
-
-            new_service = Service(name=service['name'],
+            new_service = Service(
+                        name=service['name'],
                         organization=service['organization'],
                         short_description=service['short_description'],
                         description=service['description'],
                         logo=service['logo'],
                         website=service['website'],
-                        required_informations=service['required_informations'])
+                        required_informations=service['required_informations'],
+                        notification_email=service['notification_email'])
             db.session.add(new_service)
         db.session.commit()

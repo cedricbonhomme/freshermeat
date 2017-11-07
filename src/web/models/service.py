@@ -14,6 +14,7 @@ class Service(db.Model):
     description = db.Column(db.String(), unique=True)
     website = db.Column(db.String())
     logo = db.Column(db.String())
+    notification_email = db.Column(db.String(), default='')
 
     required_informations = db.Column(JSON)
 

@@ -32,7 +32,6 @@ def db_init(db):
     "Will create the database from conf parameters."
     db.create_all()
 
-
 def db_empty(db):
     "Will drop every datas stocked in db."
     # From http://www.sqlalchemy.org/trac/wiki/UsageRecipes/DropEverything

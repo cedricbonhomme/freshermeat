@@ -14,7 +14,8 @@
                 "mimetype": "text/plain",
                 "required": true
             }
-        ]
+        ],
+        "notification_email": "info@cases.lu"
     },
     {
         "organization": "CASES",
@@ -31,7 +32,8 @@
                 "mimetype": "text/plain",
                 "required": true
             }
-        ]
+        ],
+        "notification_email": "info@cases.lu"
     },
     {
         "organization": "CIRCL",
@@ -64,7 +66,8 @@
                 "required": false,
                 "checks": ["check_clamav_stream"]
             }
-        ]
+        ],
+        "notification_email": "info@circl.lu"
     },
     {
         "organization": "CIRCL",
@@ -88,7 +91,8 @@
                 "mimetype": "text/plain",
                 "required": true
             }
-        ]
+        ],
+        "notification_email": "info@circl.lu"
     },
     {
         "organization": "CIRCL",
@@ -105,7 +109,8 @@
                 "mimetype": "text/plain",
                 "required": true
             }
-        ]
+        ],
+        "notification_email": "info@circl.lu"
     },
     {
         "organization": "CIRCL",
@@ -122,6 +127,7 @@
                 "mimetype": "text/plain",
                 "required": true
             }
-        ]
+        ],
+        "notification_email": "info@circl.lu"
     }
 ]
