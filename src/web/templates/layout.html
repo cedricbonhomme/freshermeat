@@ -10,6 +10,8 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='npm_components/bootstrap/dist/css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='npm_components/datatables.net-bs4/css/dataTables.bootstrap4.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='npm_components/font-awesome/css/font-awesome.min.css') }}">
+
 
         <script src="{{ url_for('static', filename='npm_components/jquery/dist/jquery.min.js') }}"></script>
         <script src="{{ url_for('static', filename='npm_components/popper.js/dist/umd/popper.min.js') }}"></script>
@@ -39,14 +41,16 @@
                                 Administration
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="{{ url_for('admin_bp.dashboard') }}">Dashboard</a>
-                                <a class="dropdown-item" href="{{ url_for('admin.index') }}">Data management</a>
+                                <a class="dropdown-item" href="{{ url_for('admin_bp.dashboard') }}"><i class="fa fa-tachometer" aria-hidden="true"></i>&nbsp;Dashboard</a>
+                                <a class="dropdown-item" href="{{ url_for('admin.index') }}"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;Database</a>
                             </div>
                         </li>
                         {% endif %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                        <a class="nav-link" href="{{ url_for('logout') }}" title="Sign out"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
                     </li>
+                    {% else %}
+                        <a class="nav-link" href="{{ url_for('login') }}" title="Sign in"><i class="fa fa-sign-in" aria-hidden="true"></i></a>
                     {% endif %}
                 </ul>
             </div>

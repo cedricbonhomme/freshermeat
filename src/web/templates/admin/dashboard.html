@@ -16,6 +16,7 @@
                       <th>Service</th>
                       <th>Email</th>
                       <th>Date</th>
+                      <th>Status</th>
                   </tr>
               </thead>
               <tbody>
@@ -25,6 +26,7 @@
                         <td>{{ request.service.name }}</td>
                         <td>{{ request.email }}</td>
                         <td>{{ request.created_at | datetimeformat }}</td>
+                        <td>{% if not request.notification_sent %}<i class="fa fa-envelope" aria-hidden="true" title="Notification not sent"></i>{% endif %}</td>
                     </tr>
                   {% endfor %}
               </tbody>
