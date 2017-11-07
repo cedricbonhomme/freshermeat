@@ -37,7 +37,8 @@ services-dev/services$ python src/runserver.py
  * Debugger PIN: 204-397-194
 ```
 
-You can configure the database in ``src/instance/development.cfg``.
+You can configure the application in ``src/instance/development.cfg`` or create
+your own file and export it in the variable ``APPLICATION_SETTINGS``.
 
 
 You can add new services with the client script
