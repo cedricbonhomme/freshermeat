@@ -22,7 +22,7 @@
               <tbody>
                   {% for request in requests %}
                     <tr {% if not request.checked %}class="table-warning"{% endif %}>
-                        <td><a href="{{ url_for('admin_bp.request', request_id=request.id) }}">{{ request.id }}</a></td>
+                        <td><a href="{{ url_for('admin_bp.view_request', request_id=request.id) }}">{{ request.id }}</a></td>
                         <td>{{ request.service.name }}</td>
                         <td>{{ request.email }}</td>
                         <td>{{ request.created_at | datetimeformat }}</td>

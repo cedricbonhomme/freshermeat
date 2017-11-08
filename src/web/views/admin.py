@@ -1,6 +1,6 @@
 
 from flask import Blueprint, render_template, redirect, url_for, current_app, \
-                flash
+                flash, request
 from flask_login import login_required, current_user
 from flask_paginate import Pagination, get_page_args
 from sqlalchemy import desc
@@ -20,7 +20,12 @@ admin_bp = Blueprint('admin_bp', __name__, url_prefix='/admin')
 @login_required
 @admin_permission.require(http_exception=403)
 def dashboard(per_page):
+    organization_name = request.args.get('org', False)
+
     requests = models.Request.query
+    if organization_name:
+        requests = requests.filter(models.Request.service.has(
+                                   organization=organization_name))
 
     page, per_page, offset = get_page_args()
     pagination = Pagination(page=page, total=requests.count(),
@@ -37,7 +42,7 @@ def dashboard(per_page):
 @admin_bp.route('/request/<request_id>', methods=['GET'])
 @login_required
 @admin_permission.require(http_exception=403)
-def request(request_id=None):
+def view_request(request_id=None):
     request = models.Request.query.filter(models.Request.id == request_id). \
                                                                         first()
     if request.required_informations is None:
@@ -100,7 +105,7 @@ def send_request_notification(request_id=None):
     except Exception as e:
         flash('Impossible to send email.', 'danger')
         print(e)
-    return redirect(url_for('admin_bp.request', request_id=req.id))
+    return redirect(url_for('admin_bp.view_request', request_id=req.id))
 
 
 # Flask-Admin views
