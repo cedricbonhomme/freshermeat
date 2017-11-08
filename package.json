@@ -1,19 +1,23 @@
 {
-  "name": "services",
-  "version": "0.0.1",
-  "license": "AGPL-3.0",
-  "dependencies": {
-    "bootstrap": "^4.0.0-beta",
-    "datatables.net-bs4": "^1.10.16",
-    "font-awesome": "^4.7.0",
-    "jquery": ">=1.9.1",
-    "lodash": "^4.17.4",
-    "popper.js": "^1.12.6"
-  },
-  "engines": {
-    "yarn": ">= 1.0.0"
-  },
-  "scripts": {
-    "postinstall": "node -e \"try { require('fs').symlinkSync(require('path').resolve('node_modules/'), 'src/web/static/npm_components', 'junction') } catch (e) { }\""
-  }
+    "name": "services",
+    "version": "0.0.1",
+    "license": "AGPL-3.0",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/cedricbonhomme/services.git"
+    },
+    "dependencies": {
+        "bootstrap": "^4.0.0-beta",
+        "datatables.net-bs4": "^1.10.16",
+        "font-awesome": "^4.7.0",
+        "jquery": ">=1.9.1",
+        "lodash": "^4.17.4",
+        "popper.js": "^1.12.6"
+    },
+    "engines": {
+        "yarn": ">= 1.0.0"
+    },
+    "scripts": {
+        "postinstall": "node -e \"try { require('fs').symlinkSync(require('path').resolve('node_modules/'), 'src/web/static/npm_components', 'junction') } catch (e) { }\""
+    }
 }
