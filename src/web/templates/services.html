@@ -39,9 +39,11 @@ $(document).ready(function() {
                 organizations = [organization_param];
             }
 
-            shuffle(organizations); // Radomize the list of organisations
-
-            organizations.map(function (organization) {
+            organizations
+            .sort(function (a, b) {
+                return a > b ;
+            })
+            .map(function (organization) {
 
                 var div_organization = $("<div>");
                 div_organization.append('<ol class="breadcrumb">' +
@@ -61,7 +63,11 @@ $(document).ready(function() {
                     dataType: "json",
                     contentType: "application/json",
                     success: function(services) {
-                        services.objects.map(function (service) {
+                        services.objects
+                        .sort(function (a, b) {
+                            return a.name > b.name ;
+                        })
+                        .map(function (service) {
                             var cardHTML = cardTemplate({
                                 'logo': service.logo,
                                 'service_name': service.name,
