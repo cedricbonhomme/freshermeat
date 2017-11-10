@@ -8,7 +8,7 @@
         "website": "http://monarc.lu",
         "required_informations" : [
             {
-                "name": "Company name",
+                "name": "Organization name",
                 "order": 1,
                 "type": "text",
                 "mimetype": "text/plain",
@@ -26,7 +26,7 @@
         "website": "https://www.cases.lu/de/diagnostic.html",
         "required_informations" : [
             {
-                "name": "Company name",
+                "name": "Organization name",
                 "order": 1,
                 "type": "text",
                 "mimetype": "text/plain",
@@ -39,12 +39,12 @@
         "organization": "CIRCL",
         "name": "MISP",
         "short_description": "Open Source Threat Intelligence Platform & Open Standards For Threat Information Sharing",
-        "description": "Malware Information Sharing Platform (MISP) allows organizations to share information about malware and their indicators. MISP users benefit from the collaborative knowledge about existing malware or threats. The aim of this trusted platform is to help improving the counter-measures used against targeted attacks and set-up preventive actions and detection.",
+        "description": "A threat intelligence platform for sharing, storing and correlating Indicators of Compromises of targeted attacks, threat intelligence, financial fraud information, vulnerability information or even counter-terrorism information. Discover how MISP is used today in multiple organisations. Not only to store, share, collaborate on cyber security indicators, malware analysis, but also to use the IOCs and information to detect and prevent attacks or threats against ICT infrastructures, organisations or people.",
         "logo": "static/img/misp.png",
-        "website": "http://misp-project.org",
+        "website": "https://www.circl.lu/services/misp-malware-information-sharing-platform/",
         "required_informations" : [
             {
-                "name": "Company name",
+                "name": "Organization name",
                 "order": 1,
                 "type": "text",
                 "mimetype": "text/plain",
@@ -78,7 +78,7 @@
         "website": "https://www.circl.lu/services/passive-dns",
         "required_informations" : [
             {
-                "name": "Company name",
+                "name": "Organization name",
                 "order": 1,
                 "type": "text",
                 "mimetype": "text/plain",
@@ -121,7 +121,7 @@
         "website": "https://www.circl.lu/projects/bgpranking",
         "required_informations" : [
             {
-                "name": "Company name",
+                "name": "Organization name",
                 "order": 1,
                 "type": "text",
                 "mimetype": "text/plain",

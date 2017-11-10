@@ -52,12 +52,12 @@
     </div>
     <div class="row">
         <div class="col">
-            <h4>Interested by this service?</h4>
+            <h4>Interested in this service?</h4>
         </div>
     </div>
     <div class="row">
         <div class="col">
-            <p>Please, prodive us the following information and we will get back to you.</p>
+            <p>Please provide the following information and we will get back to you.</p>
         </div>
     </div>
     <div class="row">
@@ -81,10 +81,15 @@
 <script>
 $(document).ready(function() {
 
-    var inputTemplate = _.template(
+    var inputTextTemplate = _.template(
         '<input type="<%= input_type %>" class="form-control service-specific" '
         + 'accept="<%= mime_type %>" '
         + 'name="<%= name %>" placeholder="<%= name %>" <%= required %>>');
+
+    var inputFileTemplate = _.template(
+        '<input type="<%= input_type %>" class="form-control service-specific" '
+        + 'accept="<%= mime_type %>" '
+        + 'name="<%= name %>" <%= required %>><%= name %></>');
 
     var textAreaTemplate = _.template(
         '<textarea class="form-control service-specific" '
@@ -127,9 +132,16 @@ $(document).ready(function() {
             })
             .map(function (required_information) {
 
-                if (required_information.type == "text" ||
-                        required_information.type == "file") {
-                    var cardInput = inputTemplate({
+                if (required_information.type == "text") {
+                    var cardInput = inputTextTemplate({
+                        'input_type': required_information.type,
+                        'mime_type': required_information.mimetype,
+                        'name': required_information.name,
+                        'placeholder': required_information.name,
+                        'required': required_information.required ? ' required' : ''
+                     });
+                } else if (required_information.type == "file")  {
+                    var cardInput = inputFileTemplate({
                         'input_type': required_information.type,
                         'mime_type': required_information.mimetype,
                         'name': required_information.name,
