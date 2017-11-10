@@ -59,7 +59,7 @@
                 "checks": ["check_clamav_stream", "check_gpg"]
             },
             {
-                "name": "Company logo",
+                "name": "Organization logo (48x48px .png)",
                 "order": 2,
                 "type": "file",
                 "mimetype": "image/png,image/jpeg",
