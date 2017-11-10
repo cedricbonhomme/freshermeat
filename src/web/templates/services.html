@@ -44,13 +44,11 @@ $(document).ready(function() {
                 return a > b ;
             })
             .map(function (organization) {
-
                 var div_organization = $("<div>");
                 div_organization.append('<ol class="breadcrumb">' +
-                                        '<li class="breadcrumb-item active" >SECURITYMADEIN.LU</li>' +
+                                        '<li class="breadcrumb-item active" >' + (typeof organization_param !== 'undefined' ? '<a href="/">SECURITYMADEIN.LU</a>' : 'SECURITYMADEIN.LU') + '</li>' +
                                         '<li class="breadcrumb-item active" id="service-name">' +
-                                        '<a href="?organization=' + organization + '">' +
-                                        organization + '</a></li></ol>');
+                                        (typeof organization_param == 'undefined' ? '<a href="?organization='+ organization  +'">' + organization + '</a>' : organization) + '</li></ol>');
                 $('#list-services').append(div_organization);
 
                 var div_organization_columns = $("<div>", {"class": "card-columns"});
