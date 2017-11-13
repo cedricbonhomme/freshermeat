@@ -1,11 +1,13 @@
 import logging
 
+from datetime import datetime
 from flask import render_template, session, url_for, redirect, current_app
 from flask_login import LoginManager, logout_user, login_required, current_user
 from flask_principal import (Principal, AnonymousIdentity, UserNeed,
-                                 identity_changed, identity_loaded,
-                                 session_identity_loader)
+                             identity_changed, identity_loaded,
+                             session_identity_loader)
 
+from bootstrap import db
 from web.models import User
 from web.views.common import admin_role, api_role, login_user_bundle
 from web.forms import SigninForm
@@ -44,8 +46,8 @@ def load_user(user_id):
 @current_app.before_request
 def before_request():
     if current_user.is_authenticated:
-        # TODO: set last seen
-        pass
+        current_user.last_seen = datetime.utcnow()
+        db.session.commit()
 
 
 @current_app.route('/login', methods=['GET', 'POST'])
