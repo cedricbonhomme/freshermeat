@@ -4,13 +4,15 @@
         {% block head %}
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="description" content="Services" />
-        <meta name="author" content="" />
+        <meta name="description" content="SECURITYMADEIN.LU - Services" />
+        <meta name="author" content="SECURITYMADEIN.LU" />
 
+        {% block head_css %}
         <link rel="stylesheet" href="{{ url_for('static', filename='npm_components/bootstrap/dist/css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='npm_components/datatables.net-bs4/css/dataTables.bootstrap4.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='npm_components/font-awesome/css/font-awesome.min.css') }}">
+        {% endblock %}
 
 
         <script src="{{ url_for('static', filename='npm_components/jquery/dist/jquery.min.js') }}"></script>
@@ -24,14 +26,16 @@
         <title>SECURITYMADEIN.LU - Services</title>
         {% endblock %}
     </head>
+    {% block page_body %}
     <body>
-
+        {% block main_menu %}
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <a class="navbar-brand" href="/">SECURITYMADEIN.LU</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
+            {% block menu_links %}
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto w-100 justify-content-end">
                     {% if current_user.is_authenticated and current_user.is_admin %}
@@ -42,7 +46,9 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" href="{{ url_for('admin_bp.dashboard') }}"><i class="fa fa-tachometer" aria-hidden="true"></i>&nbsp;Dashboard</a>
-                                <a class="dropdown-item" href="{{ url_for('admin.index') }}"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;Database</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{ url_for('user.edit_view') }}"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;Users</a>
+                                <a class="dropdown-item" href="{{ url_for('service.edit_view') }}"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;Services</a>
                             </div>
                         </li>
                         {% endif %}
@@ -52,7 +58,9 @@
                     {% endif %}
                 </ul>
             </div>
+            {% endblock %}
         </nav>
+        {% endblock %}
 
         <br />
 
@@ -72,6 +80,9 @@
         </div>
 
         {% block content %}{% endblock %}
+        <div class="container">
+        {% block body %}{% endblock %}
+        </div>
 
         <footer class="footer">
             <div class="container">
@@ -79,4 +90,5 @@
             </div>
         </footer>
     </body>
+    {% endblock %}
 </html>

@@ -133,7 +133,8 @@ menu_link_back_dashboard = MenuLink(name='Dashboard',
                                     url='/admin/dashboard')
 admin_flask = Admin(current_app,
                     name='Management of data',
-                    template_mode='bootstrap3',
+                    # template_mode='bootstrap3',
+                    base_template='layout.html',
                     index_view=CustomAdminIndexView(
                         name='Home',
                         url='/admin'
