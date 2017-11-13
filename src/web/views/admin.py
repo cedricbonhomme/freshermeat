@@ -113,6 +113,7 @@ def send_request_notification(request_id=None):
 class UserView(ModelView):
     column_exclude_list = ['pwdhash']
     column_editable_list = ['email', 'firstname', 'lastname']
+    can_create = False
 
     def is_accessible(self):
         return current_user.is_authenticated and current_user.is_admin
@@ -123,15 +124,19 @@ class ServiceView(ModelView):
         return current_user.is_authenticated and current_user.is_admin
 
 
+class CustomAdminIndexView(AdminIndexView):
+    def is_accessible(self):
+        return current_user.is_authenticated and current_user.is_admin
+
+
 menu_link_back_dashboard = MenuLink(name='Dashboard',
                                     url='/admin/dashboard')
-
 admin_flask = Admin(current_app,
                     name='Management of data',
                     template_mode='bootstrap3',
-                    index_view=AdminIndexView(
+                    index_view=CustomAdminIndexView(
                         name='Home',
-                        url='/admin/data_management/'
+                        url='/admin'
                     ))
 admin_flask.add_view(UserView(models.User, db.session))
 admin_flask.add_view(ServiceView(models.Service, db.session))
