@@ -3,7 +3,7 @@
         "organization": "CASES",
         "name": "MONARC",
         "short_description": "Method for an Optimised aNAlysis of Risks",
-        "description": "Method for an Optimised aNAlysis of Risks",
+        "description": "Method for an Optimised aNAlysis of Risks.<br />You can use the form below if you want an access to the <a href=\"https://my.monarc.lu\">MONARC SaaS offer</a>. For general questions you can send an email to <a href=\"mailto:info@cases.lu?subject=MONARC\">info@cases.lu</a>.",
         "logo": "static/img/monarc.png",
         "website": "http://monarc.lu",
         "required_informations" : [
