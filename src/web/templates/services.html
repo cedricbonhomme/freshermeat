@@ -69,7 +69,7 @@ $(document).ready(function() {
                             var cardHTML = cardTemplate({
                                 'logo': service.logo,
                                 'service_name': service.name,
-                                'service_description': service.description,
+                                'service_description': service.short_description,
                                 'service_details': 'service?name='+service.name
                              });
                              div_organization_columns.append(cardHTML);
