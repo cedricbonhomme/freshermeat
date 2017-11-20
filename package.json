@@ -10,9 +10,9 @@
         "bootstrap": "^4.0.0-beta",
         "datatables.net-bs4": "^1.10.16",
         "font-awesome": "^4.7.0",
-        "jquery": ">=1.9.1",
+        "jquery": ">=3.2.1",
         "lodash": "^4.17.4",
-        "popper.js": "^1.12.6"
+        "popper.js": "^1.12.9"
     },
     "engines": {
         "yarn": ">= 1.0.0"
