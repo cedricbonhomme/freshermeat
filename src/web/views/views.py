@@ -2,7 +2,7 @@ import logging
 from flask import render_template, flash, url_for, redirect, current_app, \
                     request
 
-from web.models import Service
+from web.models import Project
 
 
 logger = logging.getLogger(__name__)
@@ -42,8 +42,8 @@ def services():
 
 @current_app.route('/service', methods=['GET'])
 def service():
-    service_name = request.args.get('name')
-    if Service.query.filter(Service.name == service_name).count() == 0:
-        flash('Unknown service.', 'warning')
+    project_name = request.args.get('name')
+    if Project.query.filter(Project.name == project_name).count() == 0:
+        flash('Unknown project.', 'warning')
         return redirect(url_for('services'))
     return render_template('service.html')

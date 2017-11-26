@@ -8,8 +8,8 @@ from web.views.api.v1 import processors
 from web.views.api.v1.common import url_prefix
 
 
-blueprint_service = manager.create_api_blueprint(
-    models.Service,
+blueprint_project = manager.create_api_blueprint(
+    models.Project,
     url_prefix=url_prefix,
     methods=['GET', 'POST', 'PUT', 'DELETE'],
     exclude_columns=['requests', 'notification_email'],

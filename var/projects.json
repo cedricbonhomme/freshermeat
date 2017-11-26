@@ -1,10 +1,8 @@
 [
     {
-        "organization": "CASES",
         "name": "MONARC",
         "short_description": "Method for an Optimised aNAlysis of Risks",
         "description": "Method for an Optimised aNAlysis of Risks.<br />You can use the form below if you want an access to the <a href=\"https://my.monarc.lu\">MONARC SaaS offer</a>. For general questions you can send an email to <a href=\"mailto:info@cases.lu?subject=MONARC\">info@cases.lu</a>.",
-        "logo": "static/img/monarc.png",
         "website": "http://monarc.lu",
         "required_informations" : [
             {
@@ -18,11 +16,9 @@
         "notification_email": "info@cases.lu"
     },
     {
-        "organization": "CASES",
         "name": "Diagnostic",
         "short_description": "Your organization processes sensitive data every day. As a manager, you have an obligation to establish specific security procedures to protect this data. Identifying the best measures and defining the level of effectiveness required for each measure is a highly complex task",
         "description": "Your organization processes sensitive data every day. As a manager, you have an obligation to establish specific security procedures (behavioral, organizational and technical) to protect this data. Moreover, these procedures must address the fundamental principles of necessity and proportionality. Identifying the best measures and defining the level of effectiveness required for each measure is a highly complex task. The CASES Diagnostic supports you in this process.",
-        "logo": "",
         "website": "https://www.cases.lu/de/diagnostic.html",
         "required_informations" : [
             {
@@ -36,11 +32,9 @@
         "notification_email": "info@cases.lu"
     },
     {
-        "organization": "CIRCL",
         "name": "MISP",
         "short_description": "Open Source Threat Intelligence Platform & Open Standards For Threat Information Sharing",
         "description": "A threat intelligence platform for sharing, storing and correlating Indicators of Compromises of targeted attacks, threat intelligence, financial fraud information, vulnerability information or even counter-terrorism information. Discover how MISP is used today in multiple organisations. Not only to store, share, collaborate on cyber security indicators, malware analysis, but also to use the IOCs and information to detect and prevent attacks or threats against ICT infrastructures, organisations or people.",
-        "logo": "static/img/misp.png",
         "website": "https://www.circl.lu/services/misp-malware-information-sharing-platform/",
         "required_informations" : [
             {
@@ -70,11 +64,9 @@
         "notification_email": "info@circl.lu"
     },
     {
-        "organization": "CIRCL",
         "name": "Passive DNS",
         "short_description": "CIRCL Passive DNS is a database storing historical DNS records from various resources including malware analysis or partners. The DNS historical data is indexed, which makes it searchable for incident handlers, security analysts or researchers.",
         "description": "CIRCL Passive DNS is a database storing historical DNS records from various resources including malware analysis or partners. The DNS historical data is indexed, which makes it searchable for incident handlers, security analysts or researchers.",
-        "logo": "static/img/passivedns.png",
         "website": "https://www.circl.lu/services/passive-dns",
         "required_informations" : [
             {
@@ -95,11 +87,9 @@
         "notification_email": "info@circl.lu"
     },
     {
-        "organization": "CIRCL",
         "name": "Passive SSL",
         "short_description": "CIRCL Passive SSL is a database storing historical X.509 certificates seen per IP address.",
         "description": "CIRCL Passive SSL is a database storing historical X.509 certificates seen per IP address. The Passive SSL historical data is indexed per IP address, which makes it searchable for incident handlers, security analysts or researchers.",
-        "logo": "static/img/pssl.png",
         "website": "https://www.circl.lu/services/passive-ssl/",
         "required_informations" : [
             {
@@ -113,11 +103,9 @@
         "notification_email": "info@circl.lu"
     },
     {
-        "organization": "CIRCL",
         "name": "BGP Ranking",
         "short_description": "BGP Ranking is a free software to calculate the security ranking of Internet Service Providers. The system is gathering external datasources (e.g. dshield, shadowserver, Arbor ATLAS) in order to evaluate the ranking over time.",
         "description": "BGP Ranking is a free software to calculate the security ranking of Internet Service Providers. The system is gathering external datasources (e.g. dshield, shadowserver, Arbor ATLAS) in order to evaluate the ranking over time. The purpose is to detect any malicious activities of a specific AS number fast and to validate the data sources used for security.",
-        "logo": "static/img/bgpranking.png",
         "website": "https://www.circl.lu/projects/bgpranking",
         "required_informations" : [
             {

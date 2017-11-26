@@ -12,7 +12,7 @@ with application.app_context():
     # application.register_blueprint(views.user_bp)
 
     # API v1
-    application.register_blueprint(views.api.v1.blueprint_service)
+    application.register_blueprint(views.api.v1.blueprint_project)
     application.register_blueprint(views.api.v1.blueprint_request)
 
 

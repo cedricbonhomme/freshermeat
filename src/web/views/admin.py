@@ -24,7 +24,7 @@ def dashboard(per_page):
 
     requests = models.Request.query
     if organization_name:
-        requests = requests.filter(models.Request.service.has(
+        requests = requests.filter(models.Request.project.has(
                                    organization=organization_name))
 
     page, per_page, offset = get_page_args()
@@ -119,7 +119,7 @@ class UserView(ModelView):
         return current_user.is_authenticated and current_user.is_admin
 
 
-class ServiceView(ModelView):
+class ProjectView(ModelView):
     def is_accessible(self):
         return current_user.is_authenticated and current_user.is_admin
 
@@ -140,5 +140,5 @@ admin_flask = Admin(current_app,
                         url='/admin'
                     ))
 admin_flask.add_view(UserView(models.User, db.session))
-admin_flask.add_view(ServiceView(models.Service, db.session))
+admin_flask.add_view(ProjectView(models.Project, db.session))
 admin_flask.add_link(menu_link_back_dashboard)

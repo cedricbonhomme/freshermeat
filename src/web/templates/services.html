@@ -3,34 +3,34 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <h1>Our services</h1>
+            <h1>Our projects</h1>
         </div>
     </div>
-    <div id="list-services"></div>
+    <div id="list-projects"></div>
 </div><!-- /.container -->
 <script>
 $(document).ready(function() {
 
-    // card template for the services
+    // card template for the projects
     var cardTemplate = _.template(
         '<div class="card">' +
           '<img class="card-img-top" src="<%= logo %>" alt="Card image cap">' +
           '<div class="card-body">' +
-            '<h4 class="card-title"><%= service_name %></h4>' +
-            '<p class="card-text"><%= service_description %></p>' +
-            '<a href="<%= service_details %>" class="btn btn-primary">Learn more</a>' +
+            '<h4 class="card-title"><%= project_name %></h4>' +
+            '<p class="card-text"><%= project_description %></p>' +
+            '<a href="<%= project_details %>" class="btn btn-primary">Learn more</a>' +
           '</div>' +
         '</div>');
 
     $.ajax({ // Get the list of organizations
-        url: "{{ url_for('serviceapi0.serviceapi',) }}",
+        url: "{{ url_for('projectapi0.projectapi',) }}",
         dataType: "json",
         contentType: "application/json",
-        success: function(services) {
+        success: function(projects) {
             var organizations = [];
 
-            services.objects.map(function(service) {
-                organizations.push(service.organization);
+            projects.objects.map(function(project) {
+                organizations.push(project.organization);
             });
 
             organizations = $.unique(organizations)
@@ -47,36 +47,36 @@ $(document).ready(function() {
                 var div_organization = $("<div>");
                 div_organization.append('<ol class="breadcrumb">' +
                                         '<li class="breadcrumb-item active" >' + (typeof organization_param !== 'undefined' ? '<a href="/">SECURITYMADEIN.LU</a>' : 'SECURITYMADEIN.LU') + '</li>' +
-                                        '<li class="breadcrumb-item active" id="service-name">' +
+                                        '<li class="breadcrumb-item active" id="project-name">' +
                                         (typeof organization_param == 'undefined' ? '<a href="?organization='+ organization  +'">' + organization + '</a>' : organization) + '</li></ol>');
-                $('#list-services').append(div_organization);
+                $('#list-projects').append(div_organization);
 
                 var div_organization_columns = $("<div>", {"class": "card-columns"});
 
                 var filters = [{"name": "organization", "op": "like", "val": organization},
                                 {"name": "enabled", "op": "eq", "val": true}];
                 $.ajax({
-                    url: "{{ url_for('serviceapi0.serviceapi',) }}",
+                    url: "{{ url_for('projectapi0.projectapi',) }}",
                     data: {"q": JSON.stringify({"filters": filters})},
                     dataType: "json",
                     contentType: "application/json",
-                    success: function(services) {
-                        services.objects
+                    success: function(projects) {
+                        projects.objects
                         .sort(function (a, b) {
                             return a.name > b.name ;
                         })
-                        .map(function (service) {
+                        .map(function (project) {
                             var cardHTML = cardTemplate({
-                                'logo': service.logo,
-                                'service_name': service.name,
-                                'service_description': service.short_description,
-                                'service_details': 'service?name='+service.name
+                                'logo': project.logo,
+                                'project_name': project.name,
+                                'project_description': project.short_description,
+                                'project_details': 'project?name='+project.name
                              });
                              div_organization_columns.append(cardHTML);
                         });
                     }
                 });
-                $('#list-services').append(div_organization_columns);
+                $('#list-projects').append(div_organization_columns);
             })
         }
     });

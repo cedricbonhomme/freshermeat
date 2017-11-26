@@ -23,6 +23,10 @@ class User(db.Model, UserMixin):
     is_admin = db.Column(db.Boolean(), default=False)
     is_api = db.Column(db.Boolean(), default=False)
 
+    # relationship
+    projects = db.relationship('Project', backref='maintainer', lazy='dynamic',
+                               cascade='all,delete-orphan')
+
     def get_id(self):
         """
         Return the id of the user.

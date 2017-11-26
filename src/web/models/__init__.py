@@ -2,10 +2,13 @@
 # -*- coding: utf-8 -*-
 
 from .user import User
-from .service import Service
+from .project import Project
+from .organization import Organization
+from .tag import Tag
+from .icon import Icon
 from .request import Request
 
-__all__ = ['Service', 'User', 'Request']
+__all__ = ['Project', 'User', 'Organization', 'Tag', 'Request']
 
 from sqlalchemy.engine import reflection
 from sqlalchemy import create_engine

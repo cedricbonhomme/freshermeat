@@ -9,7 +9,7 @@ import lib.checks
 from bootstrap import db
 from notifications.notifications import new_request_notification
 from web.views.common import login_user_bundle
-from web.models import User, Service, Request
+from web.models import User, Project, Request
 
 
 def auth_func(*args, **kw):
@@ -33,17 +33,17 @@ def post_preprocessor(data=None, **kw):
     """Accepts a single argument, `data`, which is the dictionary of
     fields to set on the new instance of the model.
 
-    Checks if the service corresponding to user's request is enabled.
+    Checks if the project corresponding to user's request is enabled.
     Before the creation of a new request, the content submited by the user
     is checked against the appropriate functions.
     """
-    service_id = data['service_id']
-    service = Service.query.filter(Service.id == service_id).first()
-    if not service.enabled:
+    project_id = data['project_id']
+    project = Project.query.filter(Project.id == project_id).first()
+    if not project.enabled:
         raise ProcessingException(
-            "Service currently not available.", code=422)
+            "Project currently not available.", code=422)
     checks = []
-    for info in service.required_informations:
+    for info in project.required_informations:
         for check in info.get('checks', []):
             try:
                 check_function = getattr(lib.checks, check)
@@ -68,7 +68,7 @@ def post_postprocessor(result=None, **kw):
     representation of the created instance of the model.
 
     Right after the creation a new request, a notification is sent to the
-    service responsible.
+    project responsible.
     """
     new_request = None
     try:

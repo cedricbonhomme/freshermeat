@@ -54,11 +54,11 @@ def create_admin(email, firstname, lastname, password):
 
 
 @manager.command
-def import_services(json_file):
-    "Import services from a JSON file"
-    print("Importing services from {} ...".format(json_file))
+def import_projects(json_file):
+    "Import projects from a JSON file"
+    print("Importing projects from {} ...".format(json_file))
     with application.app_context():
-        scripts.import_services(json_file)
+        scripts.import_projects(json_file)
 
 
 if __name__ == '__main__':
