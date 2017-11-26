@@ -1,5 +1,15 @@
 
 
+# Presentation
+
+Functionalities:
+
+- release tracking;
+- vulnerability tracking (CVE);
+- repository statistics;
+- contact the project manager.
+
+
 # Deploy the service
 
 ## Requirements
