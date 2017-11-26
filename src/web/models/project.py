@@ -23,12 +23,12 @@ class Project(db.Model):
     maintainer_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
     icon_url = db.Column(db.String(), db.ForeignKey('icon.url'), default=None)
 
-    # # relationships
-    # tag_objs = db.relationship('Tag', back_populates='project',
-    #                              cascade='all,delete-orphan',
-    #                              lazy=False,
-    #                              foreign_keys='[Tag.project_id]')
-    # tags = association_proxy('tag_objs', 'text')
+    # relationships
+    tag_objs = db.relationship('Tag',
+                                cascade='all,delete-orphan',
+                                lazy=False,
+                                foreign_keys='[Tag.project_id]')
+    tags = association_proxy('tag_objs', 'text')
 
 
     def __repr__(self):

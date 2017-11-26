@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 
 from .user import User
+from .tag import Tag
 from .project import Project
 from .organization import Organization
-from .tag import Tag
 from .icon import Icon
 from .request import Request
 

@@ -12,9 +12,9 @@ class Tag(db.Model):
                            db.ForeignKey('project.id', ondelete='CASCADE'),
                            primary_key=True)
 
-    # # relationships
-    # article = db.relationship('Project', back_populates='tag_objs',
-    #                                                 foreign_keys=[project_id])
+    # relationships
+    article = db.relationship('Project', back_populates='tag_objs',
+                                                    foreign_keys=[project_id])
 
     def __init__(self, text):
         self.text = text
