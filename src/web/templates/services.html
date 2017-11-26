@@ -23,17 +23,11 @@ $(document).ready(function() {
         '</div>');
 
     $.ajax({ // Get the list of organizations
-        url: "{{ url_for('projectapi0.projectapi',) }}",
+        url: "{{ url_for('organizationapi0.organizationapi',) }}",
         dataType: "json",
         contentType: "application/json",
-        success: function(projects) {
-            var organizations = [];
+        success: function(organizations) {
 
-            projects.objects.map(function(project) {
-                organizations.push(project.organization);
-            });
-
-            organizations = $.unique(organizations)
             organization_param = getUrlParameter('organization'); // If the organization is specified in the URL
             if (typeof organization_param !== 'undefined') {
                 organizations = [organization_param];
@@ -41,7 +35,7 @@ $(document).ready(function() {
 
             organizations
             .sort(function (a, b) {
-                return a > b ;
+                return a.name > b.name ;
             })
             .map(function (organization) {
                 var div_organization = $("<div>");
