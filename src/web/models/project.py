@@ -24,7 +24,7 @@ class Project(db.Model):
     icon_url = db.Column(db.String(), db.ForeignKey('icon.url'), default=None)
 
     # relationships
-    tag_objs = db.relationship('Tag',
+    tag_objs = db.relationship('Tag', back_populates='project',
                                 cascade='all,delete-orphan',
                                 lazy=False,
                                 foreign_keys='[Tag.project_id]')
@@ -33,6 +33,3 @@ class Project(db.Model):
 
     def __repr__(self):
         return '<Name %r>' % (self.name)
-
-    def __eq__(self, other):
-        return self.name == other.name

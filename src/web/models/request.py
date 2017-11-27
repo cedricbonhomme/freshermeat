@@ -27,7 +27,7 @@ class Request(db.Model, UserMixin):
     project_id = db.Column(db.Integer(), db.ForeignKey('project.id'))
 
     # relationships
-    service = db.relationship('Project', backref="requests")
+    project = db.relationship('Project', backref="requests")
 
     @validates('email')
     def validates_email(self, key, value):

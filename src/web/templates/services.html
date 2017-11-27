@@ -22,18 +22,18 @@ $(document).ready(function() {
           '</div>' +
         '</div>');
 
+    organization_param = getUrlParameter('organization'); // If the organization is specified in the URL
+    var filters = [];
+    if (typeof organization_param !== 'undefined') {
+        filters = [{"name": "name", "op": "eq", "val": organization_param}];
+    }
     $.ajax({ // Get the list of organizations
         url: "{{ url_for('organizationapi0.organizationapi',) }}",
+        data: {"q": JSON.stringify({"filters": filters})},
         dataType: "json",
         contentType: "application/json",
         success: function(organizations) {
-
-            organization_param = getUrlParameter('organization'); // If the organization is specified in the URL
-            if (typeof organization_param !== 'undefined') {
-                organizations = [organization_param];
-            }
-
-            organizations
+            organizations.objects
             .sort(function (a, b) {
                 return a.name > b.name ;
             })
@@ -42,12 +42,12 @@ $(document).ready(function() {
                 div_organization.append('<ol class="breadcrumb">' +
                                         '<li class="breadcrumb-item active" >' + (typeof organization_param !== 'undefined' ? '<a href="/">SECURITYMADEIN.LU</a>' : 'SECURITYMADEIN.LU') + '</li>' +
                                         '<li class="breadcrumb-item active" id="project-name">' +
-                                        (typeof organization_param == 'undefined' ? '<a href="?organization='+ organization  +'">' + organization + '</a>' : organization) + '</li></ol>');
+                                        (typeof organization_param == 'undefined' ? '<a href="?organization='+ organization.name  +'">' + organization.name + '</a>' : organization.name) + '</li></ol>');
                 $('#list-projects').append(div_organization);
 
                 var div_organization_columns = $("<div>", {"class": "card-columns"});
 
-                var filters = [{"name": "organization", "op": "like", "val": organization},
+                var filters = [{"name": "organization_id", "op": "eq", "val": organization.id},
                                 {"name": "enabled", "op": "eq", "val": true}];
                 $.ajax({
                     url: "{{ url_for('projectapi0.projectapi',) }}",

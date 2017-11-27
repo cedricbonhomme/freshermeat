@@ -40,7 +40,7 @@ def services():
     return render_template('services.html')
 
 
-@current_app.route('/service', methods=['GET'])
+@current_app.route('/project', methods=['GET'])
 def service():
     project_name = request.args.get('name')
     if Project.query.filter(Project.name == project_name).count() == 0:

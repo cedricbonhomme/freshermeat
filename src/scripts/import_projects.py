@@ -3,7 +3,7 @@
 
 import json
 
-from web.models import Project
+from web.models import Project, Organization, get_or_create
 from bootstrap import db
 
 
@@ -19,5 +19,9 @@ def import_projects(json_file):
                         website=project['website'],
                         required_informations=project['required_informations'],
                         notification_email=project['notification_email'])
+
+            organization = get_or_create(db.session, Organization, **project['organization'])
+
+            new_project.organization_id = organization.id
             db.session.add(new_project)
         db.session.commit()

@@ -13,7 +13,10 @@
                 "required": true
             }
         ],
-        "notification_email": "info@cases.lu"
+        "notification_email": "info@cases.lu",
+        "organization": {
+            "name": "CASES"
+        }
     },
     {
         "name": "Diagnostic",
@@ -29,7 +32,10 @@
                 "required": true
             }
         ],
-        "notification_email": "info@cases.lu"
+        "notification_email": "info@cases.lu",
+        "organization": {
+            "name": "CASES"
+        }
     },
     {
         "name": "MISP",
@@ -61,7 +67,10 @@
                 "checks": ["check_clamav_stream"]
             }
         ],
-        "notification_email": "info@circl.lu"
+        "notification_email": "info@circl.lu",
+        "organization": {
+            "name": "CIRCL"
+        }
     },
     {
         "name": "Passive DNS",
@@ -84,7 +93,10 @@
                 "required": true
             }
         ],
-        "notification_email": "info@circl.lu"
+        "notification_email": "info@circl.lu",
+        "organization": {
+            "name": "CIRCL"
+        }
     },
     {
         "name": "Passive SSL",
@@ -101,6 +113,10 @@
             }
         ],
         "notification_email": "info@circl.lu"
+        ,
+        "organization": {
+            "name": "CIRCL"
+        }
     },
     {
         "name": "BGP Ranking",
@@ -116,6 +132,9 @@
                 "required": true
             }
         ],
-        "notification_email": "info@circl.lu"
+        "notification_email": "info@circl.lu",
+        "organization": {
+            "name": "CIRCL"
+        }
     }
 ]

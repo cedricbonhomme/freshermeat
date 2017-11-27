@@ -19,6 +19,17 @@ from sqlalchemy.schema import (MetaData,
                                DropConstraint)
 
 
+def get_or_create(session, model, **kwargs):
+    instance = session.query(model).filter_by(**kwargs).first()
+    if instance:
+        return instance
+    else:
+        instance = model(**kwargs)
+        session.add(instance)
+        session.commit()
+        return instance
+
+
 def db_create(db, db_config_dict, database_name):
     db_conn_format = "postgresql://{user}:{password}@{host}:{port}/{database}"
     db_conn_uri_default = (db_conn_format.format(

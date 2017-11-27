@@ -21,7 +21,7 @@
     </div>
     <div class="row">
         <div class="col">
-            <h1>Our services</h1>
+            <h1>Our projects</h1>
         </div>
     </div>
     <div class="row">
@@ -29,30 +29,30 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">SECURITYMADEIN.LU</a></li>
                 <li class="breadcrumb-item"><a href="/" id="organization-name">Organization</a></li>
-                <li class="breadcrumb-item active" id="service-name">Service</li>
+                <li class="breadcrumb-item active" id="project-name">Project</li>
             </ol>
         </div>
     </div>
     <div class="row">
         <div class="col mx-auto">
             <div class="text-center">
-                <img id="service-logo" src="" width="300px" />
+                <img id="project-logo" src="" width="300px" />
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col">
-            <div><p id="service-description" class="lead text-justify"></p></div>
+            <div><p id="project-description" class="lead text-justify"></p></div>
         </div>
     </div>
     <div class="row">
         <div class="col">
-            <p>Website:&nbsp;<a id="service-website"></a></p>
+            <p>Website:&nbsp;<a id="project-website"></a></p>
         </div>
     </div>
     <div class="row">
         <div class="col">
-            <h4>Interested in this service?</h4>
+            <h4>Interested in this project?</h4>
         </div>
     </div>
     <div class="row">
@@ -72,7 +72,7 @@
                 <div class="form-group">
                     <input type="text" class="form-control" name="lastname" placeholder="Lastname" id="form-lastname" value="" required="true">
                 </div>
-                <input type="hidden" id="service-id-input" name="service_id" value="">
+                <input type="hidden" id="project-id-input" name="project_id" value="">
             </form>
         </div>
     </div>
@@ -82,17 +82,17 @@
 $(document).ready(function() {
 
     var inputTextTemplate = _.template(
-        '<input type="<%= input_type %>" class="form-control service-specific" '
+        '<input type="<%= input_type %>" class="form-control project-specific" '
         + 'accept="<%= mime_type %>" '
         + 'name="<%= name %>" placeholder="<%= name %>" <%= required %>>');
 
     var inputFileTemplate = _.template(
-        '<input type="<%= input_type %>" class="form-control service-specific" '
+        '<input type="<%= input_type %>" class="form-control project-specific" '
         + 'accept="<%= mime_type %>" '
         + 'name="<%= name %>" <%= required %>><%= name %></>');
 
     var textAreaTemplate = _.template(
-        '<textarea class="form-control service-specific" '
+        '<textarea class="form-control project-specific" '
         + 'accept="<%= mime_type %>" '
         + 'name="<%= name %>" cols="90" rows="5" <%= required %>><%= name %></textarea>');
 
@@ -107,24 +107,24 @@ $(document).ready(function() {
         reader.readAsDataURL($(this)[0].files[0]);
     });
 
-    // Get information about the service in the URL parameter
-    var service = getUrlParameter('name');
-    var filters = [{"name": "name", "op": "eq", "val": service}];
+    // Get information about the project in the URL parameter
+    var project = getUrlParameter('name');
+    var filters = [{"name": "name", "op": "eq", "val": project}];
     $.ajax({
-        url: "{{ url_for('serviceapi0.serviceapi',) }}",
+        url: "{{ url_for('projectapi0.projectapi',) }}",
         data: {"q": JSON.stringify({"filters": filters})},
         dataType: "json",
         contentType: "application/json",
         success: function(data) {
-            $("#organization-name").html(data.objects[0].organization);
+            $("#organization-name").html(data.objects[0].organization.name);
             $("#organization-name").attr("href", '/?organization=' +
-                                                data.objects[0].organization);
-            $("#service-name").html(data.objects[0].name);
-            $("#service-logo").attr("src", data.objects[0].logo);
-            $("#service-website").html(data.objects[0].website);
-            $("#service-website").attr("href", data.objects[0].website);
-            $("#service-description").html(data.objects[0].description);
-            $("#service-id-input").val(data.objects[0].id);
+                                            data.objects[0].organization.name);
+            $("#project-name").html(data.objects[0].name);
+            $("#project-logo").attr("src", data.objects[0].logo);
+            $("#project-website").html(data.objects[0].website);
+            $("#project-website").attr("href", data.objects[0].website);
+            $("#project-description").html(data.objects[0].description);
+            $("#project-id-input").val(data.objects[0].id);
 
             data.objects[0].required_informations
             .sort(function (a, b) {
@@ -171,14 +171,14 @@ $("#required-informations").submit(function(event) {
     event.preventDefault();
 
     var requests_informations = {};
-    var service_required_informations = {};
+    var project_required_informations = {};
     $('form#required-informations :input').each(function() {
         if (! $(this).is( ":button" )) {
-            if ($(this).hasClass('service-specific')) {
+            if ($(this).hasClass('project-specific')) {
                 if ($(this).attr('type') == 'file') {
-                    service_required_informations[$(this).attr('name')] = $(this).attr('data');
+                    project_required_informations[$(this).attr('name')] = $(this).attr('data');
                 } else {
-                    service_required_informations[$(this).attr('name')] = $(this).val();
+                    project_required_informations[$(this).attr('name')] = $(this).val();
                 }
             } else {
                 requests_informations[$(this).attr('name')] = $(this).val();
@@ -186,7 +186,7 @@ $("#required-informations").submit(function(event) {
         }
     });
 
-    requests_informations['required_informations'] = service_required_informations;
+    requests_informations['required_informations'] = project_required_informations;
 
     $.ajax({
         url: "{{ url_for('requestapi0.requestapi') }}",

@@ -123,6 +123,9 @@ class ProjectView(ModelView):
     def is_accessible(self):
         return current_user.is_authenticated and current_user.is_admin
 
+class TagView(ModelView):
+    def is_accessible(self):
+        return current_user.is_authenticated and current_user.is_admin
 
 class CustomAdminIndexView(AdminIndexView):
     def is_accessible(self):
@@ -133,12 +136,12 @@ menu_link_back_dashboard = MenuLink(name='Dashboard',
                                     url='/admin/dashboard')
 admin_flask = Admin(current_app,
                     name='Management of data',
-                    # template_mode='bootstrap3',
-                    base_template='layout.html',
+                    template_mode='bootstrap3',
                     index_view=CustomAdminIndexView(
                         name='Home',
                         url='/admin'
                     ))
 admin_flask.add_view(UserView(models.User, db.session))
 admin_flask.add_view(ProjectView(models.Project, db.session))
+admin_flask.add_view(TagView(models.Tag, db.session))
 admin_flask.add_link(menu_link_back_dashboard)
