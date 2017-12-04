@@ -1,6 +1,5 @@
-from flask import Blueprint, render_template, redirect, url_for, current_app, \
-                flash, request
-from flask_login import login_required, current_user
+from flask import Blueprint, render_template, redirect, url_for, flash
+from flask_login import login_required
 
 from bootstrap import db
 from web.models import Project, Organization
@@ -13,7 +12,6 @@ projects_bp = Blueprint('projects_bp', __name__, url_prefix='/projects')
 @projects_bp.route('/', methods=['GET'])
 def list_projects():
     return render_template('projects.html')
-
 
 
 @project_bp.route('/create', methods=['GET'])

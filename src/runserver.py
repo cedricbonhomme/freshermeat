@@ -12,6 +12,8 @@ with application.app_context():
     # application.register_blueprint(views.user_bp)
     application.register_blueprint(views.project_bp)
     application.register_blueprint(views.projects_bp)
+    application.register_blueprint(views.organization_bp)
+    application.register_blueprint(views.organizations_bp)
 
     # API v1
     application.register_blueprint(views.api.v1.blueprint_organization)
