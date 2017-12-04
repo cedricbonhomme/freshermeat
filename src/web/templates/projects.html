@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1>Projects</h1>
+        </div>
+    </div>
+    <div id="list-projects"></div>
+</div><!-- /.container -->
+<script>
+$(document).ready(function() {
+
+    // card template for the projects
+    var cardTemplate = _.template(
+        '<div class="card">' +
+          '<img class="card-img-top" src="<%= logo %>" alt="Card image cap">' +
+          '<div class="card-body">' +
+            '<h4 class="card-title"><%= project_name %></h4>' +
+            '<p class="card-text"><%= project_description %></p>' +
+            '<a href="<%= project_details %>" class="btn btn-primary">Learn more</a>' +
+          '</div>' +
+        '</div>');
+
+    organization_param = getUrlParameter('organization'); // If the organization is specified in the URL
+    var filters = [];
+    if (typeof organization_param !== 'undefined') {
+        filters = [{"name": "name", "op": "eq", "val": organization_param}];
+    }
+    $.ajax({ // Get the list of organizations
+        url: "{{ url_for('organizationapi0.organizationapi',) }}",
+        data: {"q": JSON.stringify({"filters": filters})},
+        dataType: "json",
+        contentType: "application/json",
+        success: function(organizations) {
+            organizations.objects
+            .sort(function (a, b) {
+                return a.name > b.name ;
+            })
+            .map(function (organization) {
+                var div_organization = $("<div>");
+                div_organization.append('<ol class="breadcrumb">' +
+                                        '<li class="breadcrumb-item active" id="project-name">' +
+                                        (typeof organization_param == 'undefined' ? '<a href="?organization='+ organization.name  +'">' + organization.name + '</a>' : organization.name) + '</li></ol>');
+                $('#list-projects').append(div_organization);
+
+                var div_organization_columns = $("<div>", {"class": "card-columns"});
+
+                var filters = [{"name": "organization_id", "op": "eq", "val": organization.id},
+                                {"name": "enabled", "op": "eq", "val": true}];
+                $.ajax({
+                    url: "{{ url_for('projectapi0.projectapi',) }}",
+                    data: {"q": JSON.stringify({"filters": filters})},
+                    dataType: "json",
+                    contentType: "application/json",
+                    success: function(projects) {
+                        projects.objects
+                        .sort(function (a, b) {
+                            return a.name > b.name ;
+                        })
+                        .map(function (project) {
+                            var cardHTML = cardTemplate({
+                                'logo': project.logo,
+                                'project_name': project.name,
+                                'project_description': project.short_description,
+                                'project_details': 'project?name='+project.name
+                             });
+                             div_organization_columns.append(cardHTML);
+                        });
+                    }
+                });
+                $('#list-projects').append(div_organization_columns);
+            })
+        }
+    });
+});
+</script>
+{% endblock %}

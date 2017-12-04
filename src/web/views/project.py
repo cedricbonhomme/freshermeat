@@ -10,6 +10,12 @@ project_bp = Blueprint('project_bp', __name__, url_prefix='/project')
 projects_bp = Blueprint('projects_bp', __name__, url_prefix='/projects')
 
 
+@projects_bp.route('/', methods=['GET'])
+def list_projects():
+    return render_template('projects.html')
+
+
+
 @project_bp.route('/create', methods=['GET'])
 @project_bp.route('/edit/<int:project_id>', methods=['GET'])
 @login_required

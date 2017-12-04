@@ -21,6 +21,7 @@
         <script src="{{ url_for('static', filename='npm_components/datatables.net/js/jquery.dataTables.js') }}"></script>
         <script src="{{ url_for('static', filename='npm_components/datatables.net-bs4/js/dataTables.bootstrap4.js') }}"></script>
         <script src="{{ url_for('static', filename='npm_components/lodash/lodash.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='npm_components/tinymce/tinymce.min.js') }}"></script>
         <script src="{{ url_for('static', filename='js/utils.js') }}"></script>
 
         <title>SECURITYMADEIN.LU - Services</title>
@@ -38,7 +39,10 @@
             {% block menu_links %}
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto w-100 justify-content-end">
-                    {% if current_user.is_authenticated and current_user.is_admin %}
+                    {% if current_user.is_authenticated %}
+                        <li class="nav-item">
+                              <a class="nav-link" href="{{ url_for('projects_bp.list_projects') }}" title="Projects">Projects</a>
+                        </li>
                         {% if current_user.is_admin %}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
