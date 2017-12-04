@@ -54,7 +54,7 @@ freshermeat/freshermeat$ python src/runserver.py
  * Debugger PIN: 204-397-194
 ```
 
-You can also use the script ''test-init-db.sh'' to populate the database
+You can also use the script ``test-init-db.sh`` to populate the database
 with sample values:
 
 ```bash
@@ -62,6 +62,7 @@ freshermeat/freshermeat$ ./test-init-db.sh
 Importing projects from var/projects.json ...
 Creation of the admin user alan.turing@example.org ...
 Creation of the user john.doe@example.org ...
+
 freshermeat/freshermeat$ python src/runserver.py
 * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
 * Restarting with stat
