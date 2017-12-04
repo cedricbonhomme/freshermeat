@@ -40,7 +40,7 @@ def db_init():
 @manager.command
 def create_user(email, firstname, lastname, password):
     "Initializes a user"
-    print("Creation of the user {} ...".format(name))
+    print("Creation of the user {} ...".format(email))
     with application.app_context():
         scripts.create_user(email, firstname, lastname, password, False)
 

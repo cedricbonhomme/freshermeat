@@ -33,31 +33,46 @@ files posted by the users through the forms or the API ;-)
 ## Configure and install the application
 
 ```bash
-$ git clone https://github.com/cedricbonhomme/services.git
-$ cd services/
-/services$ pew install 3.6.3 --type CPython
-/services$ pew new --python=$(pew locate_python 3.6.3)  -a . -r requirements.txt services-dev
+$ git clone https://github.com/cedricbonhomme/Freshermeat.git
+$ cd Freshermeat/
+freshermeat$ pew install 3.6.3 --type CPython
+freshermeat$ pew new --python=$(pew locate_python 3.6.3)  -a . -r requirements.txt freshermeat
 
-services-dev/services$ npm install
+freshermeat/freshermeat$ npm install
 
-services-dev/services$ export APPLICATION_SETTINGS=development.cfg
+freshermeat/freshermeat$ export APPLICATION_SETTINGS=development.cfg
 
-services-dev/services$ python src/manager.py db_create
-services-dev/services$ python src/manager.py db_init
-services-dev/services$ python src/manager.py create_admin firstname.lastname@example.org firstname lastname your-password
-services-dev/services$ python src/manager.py import_services var/services.json
+freshermeat/freshermeat$ python src/manager.py db_empty
+freshermeat/freshermeat$ python src/manager.py db_init
+freshermeat/freshermeat$ python src/manager.py create_admin firstname.lastname@example.org firstname lastname your-password
+freshermeat/freshermeat$ python src/manager.py import_projects var/projects.json
 
-services-dev/services$ python src/runserver.py
+freshermeat/freshermeat$ python src/runserver.py
  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
  * Restarting with stat
  * Debugger is active!
  * Debugger PIN: 204-397-194
 ```
 
+You can also use the script ''test-init-db.sh'' to populate the database
+with sample values:
+
+```bash
+freshermeat/freshermeat$ ./test-init-db.sh
+Importing projects from var/projects.json ...
+Creation of the admin user alan.turing@example.org ...
+Creation of the user john.doe@example.org ...
+freshermeat/freshermeat$ python src/runserver.py
+* Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+* Restarting with stat
+* Debugger is active!
+* Debugger PIN: 204-397-194
+```
+
 You can configure the application in ``src/instance/development.cfg`` or create
 your own file and export it in the variable ``APPLICATION_SETTINGS``.
 
 
-You can add new services with the client script
-(``src/manager.py import_services``) or via a POST request to the API
-(http://127.0.0.1:5000/api/v1/service).
+You can add new projects with the client script
+(``src/manager.py import_projects``) or via a POST request to the API
+(http://127.0.0.1:5000/api/v1/project).
