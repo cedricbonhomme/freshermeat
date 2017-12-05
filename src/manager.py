@@ -23,12 +23,14 @@ def db_empty():
     with application.app_context():
         web.models.db_empty(db)
 
+
 @manager.command
 def db_create():
     "Will create the database."
     with application.app_context():
         web.models.db_create(db, application.config['DB_CONFIG_DICT'],
-                            application.config['DATABASE_NAME'])
+                             application.config['DATABASE_NAME'])
+
 
 @manager.command
 def db_init():

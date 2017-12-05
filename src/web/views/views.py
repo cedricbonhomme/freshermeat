@@ -34,5 +34,4 @@ def handle_sqlalchemy_assertion_error(error):
 
 @current_app.route('/', methods=['GET'])
 def index():
-    # return render_template('index.html')
-    return render_template('projects.html')
+    return render_template('index.html')
