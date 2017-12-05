@@ -27,7 +27,7 @@
     <div class="row">
         <div class="col">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/">SECURITYMADEIN.LU</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('services_bp.list_services') }}">SECURITYMADEIN.LU</a></li>
                 <li class="breadcrumb-item"><a href="/" id="organization-name">Organization</a></li>
                 <li class="breadcrumb-item active" id="project-name">Project</li>
             </ol>
@@ -117,7 +117,7 @@ $(document).ready(function() {
         contentType: "application/json",
         success: function(data) {
             $("#organization-name").html(data.objects[0].organization.name);
-            $("#organization-name").attr("href", '/?organization=' +
+            $("#organization-name").attr("href", '/services?organization=' +
                                             data.objects[0].organization.name);
             $("#project-name").html(data.objects[0].name);
             $("#project-logo").attr("src", data.objects[0].logo);

@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col mx-auto">
+            <div class="text-center">
+                <img id="project-logo" src="" width="300px" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div><p id="project-description" class="lead text-justify"></p></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <p>Website:&nbsp;<a id="project-website"></a></p>
+        </div>
+    </div>
+</div><!-- /.container -->
+<script>
+$(document).ready(function() {
+    // Get information about the project in the URL parameter
+    var url = window.location.pathname;
+    var project = url.split("/").slice(-1)[0];
+    var filters = [{"name": "name", "op": "eq", "val": project}];
+    $.ajax({
+        url: "{{ url_for('projectapi0.projectapi',) }}",
+        data: {"q": JSON.stringify({"filters": filters})},
+        dataType: "json",
+        contentType: "application/json",
+        success: function(data) {
+            $("#organization-name").html(data.objects[0].organization.name);
+            $("#organization-name").attr("href", '/?organization=' +
+                                            data.objects[0].organization.name);
+            $("#project-name").html(data.objects[0].name);
+            $("#project-logo").attr("src", data.objects[0].logo);
+            $("#project-website").html(data.objects[0].website);
+            $("#project-website").attr("href", data.objects[0].website);
+            $("#project-description").html(data.objects[0].description);
+            $("#project-id-input").val(data.objects[0].id);
+        }
+    });
+});
+</script>
+{% endblock %}

@@ -1,8 +1,5 @@
 import logging
-from flask import render_template, flash, url_for, redirect, current_app, \
-                    request
-
-from web.models import Project
+from flask import render_template, url_for, redirect, current_app, flash
 
 
 logger = logging.getLogger(__name__)
@@ -36,14 +33,6 @@ def handle_sqlalchemy_assertion_error(error):
 
 
 @current_app.route('/', methods=['GET'])
-def services():
-    return render_template('services.html')
-
-
-@current_app.route('/project', methods=['GET'])
-def service():
-    project_name = request.args.get('name')
-    if Project.query.filter(Project.name == project_name).count() == 0:
-        flash('Unknown project.', 'warning')
-        return redirect(url_for('services'))
-    return render_template('service.html')
+def index():
+    # return render_template('index.html')
+    return render_template('projects.html')

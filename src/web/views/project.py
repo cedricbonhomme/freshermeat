@@ -14,6 +14,11 @@ def list_projects():
     return render_template('projects.html')
 
 
+@project_bp.route('/<string:project_name>', methods=['GET'])
+def get(project_name=None):
+    return render_template('project.html')
+
+
 @project_bp.route('/create', methods=['GET'])
 @project_bp.route('/edit/<int:project_id>', methods=['GET'])
 @login_required
@@ -22,14 +27,16 @@ def form(project_id=None):
     head_titles = [action]
 
     form = AddProjectForm()
-    form.organization_id.choices = [(org.id, org.name) for org in Organization.query.all()]
+    form.organization_id.choices = [(org.id, org.name) for org in
+                                    Organization.query.all()]
 
     if project_id is None:
         return render_template('edit_project.html', action=action,
                                head_titles=head_titles, form=form)
     project = Project.query.filter(Project.id == project_id).first()
     form = AddProjectForm(obj=project)
-    form.organization_id.choices = [(org.id, org.name) for org in Organization.query.all()]
+    form.organization_id.choices = [(org.id, org.name) for org in
+                                    Organization.query.all()]
     action = "Edit project"
     head_titles = [action]
     head_titles.append(project.name)

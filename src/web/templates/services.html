@@ -40,7 +40,7 @@ $(document).ready(function() {
             .map(function (organization) {
                 var div_organization = $("<div>");
                 div_organization.append('<ol class="breadcrumb">' +
-                                        '<li class="breadcrumb-item active" >' + (typeof organization_param !== 'undefined' ? '<a href="/">SECURITYMADEIN.LU</a>' : 'SECURITYMADEIN.LU') + '</li>' +
+                                        '<li class="breadcrumb-item active" >' + (typeof organization_param !== 'undefined' ? '<a href="' + {{ url_for('services_bp.list_services') }} + '">SECURITYMADEIN.LU</a>' : 'SECURITYMADEIN.LU') + '</li>' +
                                         '<li class="breadcrumb-item active" id="project-name">' +
                                         (typeof organization_param == 'undefined' ? '<a href="?organization='+ organization.name  +'">' + organization.name + '</a>' : organization.name) + '</li></ol>');
                 $('#list-projects').append(div_organization);
@@ -64,7 +64,7 @@ $(document).ready(function() {
                                 'logo': project.logo,
                                 'project_name': project.name,
                                 'project_description': project.short_description,
-                                'project_details': 'project?name='+project.name
+                                'project_details': '/service?name='+project.name
                              });
                              div_organization_columns.append(cardHTML);
                         });
