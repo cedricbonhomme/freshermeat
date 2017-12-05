@@ -1,5 +1,6 @@
 
 from datetime import datetime
+from sqlalchemy.orm import validates
 
 from web.models import Project
 from bootstrap import db
@@ -20,3 +21,9 @@ class Organization(db.Model):
     # relationship
     projects = db.relationship(Project, backref='organization', lazy='dynamic',
                                cascade='all,delete-orphan')
+
+    @validates('name')
+    def validates_bio(self, key, value):
+        assert len(value) <= 100, \
+            AssertionError("maximum length for name: 100")
+        return value.replace(' ', '').strip()

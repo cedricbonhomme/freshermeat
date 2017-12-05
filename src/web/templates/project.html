@@ -10,6 +10,7 @@
     </div>
     <div class="row">
         <div class="col">
+            <h2 id="project-name"></h2>
             <div><p id="project-description" class="lead text-justify"></p></div>
         </div>
     </div>
@@ -30,16 +31,16 @@ $(document).ready(function() {
         data: {"q": JSON.stringify({"filters": filters})},
         dataType: "json",
         contentType: "application/json",
-        success: function(data) {
-            $("#organization-name").html(data.objects[0].organization.name);
+        success: function(project) {
+            $("#organization-name").html(project.objects[0].organization.name);
             $("#organization-name").attr("href", '/?organization=' +
-                                            data.objects[0].organization.name);
-            $("#project-name").html(data.objects[0].name);
-            $("#project-logo").attr("src", data.objects[0].logo);
-            $("#project-website").html(data.objects[0].website);
-            $("#project-website").attr("href", data.objects[0].website);
-            $("#project-description").html(data.objects[0].description);
-            $("#project-id-input").val(data.objects[0].id);
+                                            project.objects[0].organization.name);
+            $("#project-name").html(project.objects[0].name);
+            $("#project-logo").attr("src", project.objects[0].logo);
+            $("#project-website").html(project.objects[0].website);
+            $("#project-website").attr("href", project.objects[0].website);
+            $("#project-description").html(project.objects[0].description);
+            $("#project-id-input").val(project.objects[0].id);
         }
     });
 });

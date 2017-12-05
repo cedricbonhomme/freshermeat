@@ -2,6 +2,7 @@
 from datetime import datetime
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.dialects.postgresql import JSON
+from sqlalchemy.orm import validates
 from sqlalchemy import event
 
 from bootstrap import db
@@ -32,6 +33,12 @@ class Project(db.Model):
                                lazy=False,
                                foreign_keys='[Tag.project_id]')
     tags = association_proxy('tag_objs', 'text')
+
+    @validates('name')
+    def validates_bio(self, key, value):
+        assert len(value) <= 100, \
+            AssertionError("maximum length for name: 100")
+        return value.replace(' ', '').strip()
 
     def __repr__(self):
         return '<Name %r>' % (self.name)
