@@ -1,4 +1,6 @@
 
+from datetime import datetime
+
 from web.models import Project
 from bootstrap import db
 
@@ -10,6 +12,7 @@ class Organization(db.Model):
     name = db.Column(db.String(100), unique=True)
     description = db.Column(db.String())
     website = db.Column(db.String())
+    last_updated = db.Column(db.DateTime(), default=datetime.utcnow())
 
     # foreign keys
     icon_url = db.Column(db.String(), db.ForeignKey('icon.url'), default=None)

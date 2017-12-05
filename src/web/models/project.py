@@ -1,4 +1,5 @@
 
+from datetime import datetime
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.dialects.postgresql import JSON
 
@@ -14,6 +15,7 @@ class Project(db.Model):
     description = db.Column(db.String(), unique=True)
     website = db.Column(db.String())
     enabled = db.Column(db.Boolean(), default=True)
+    last_updated = db.Column(db.DateTime(), default=datetime.utcnow())
 
     notification_email = db.Column(db.String(), default='')
     required_informations = db.Column(JSON)
