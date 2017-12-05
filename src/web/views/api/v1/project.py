@@ -15,4 +15,5 @@ blueprint_project = manager.create_api_blueprint(
     exclude_columns=['requests', 'notification_email'],
     preprocessors=dict(
         POST=[processors.auth_func],
+        PUT=[processors.auth_func],
         DELETE=[processors.auth_func]))
