@@ -5,10 +5,11 @@ from .user import User
 from .tag import Tag
 from .project import Project
 from .organization import Organization
+from .cve import CVE
 from .icon import Icon
 from .request import Request
 
-__all__ = ['Project', 'User', 'Organization', 'Tag', 'Request']
+__all__ = ['Project', 'User', 'Organization', 'Tag', 'Request', 'CVE']
 
 from sqlalchemy.engine import reflection
 from sqlalchemy import create_engine
@@ -45,6 +46,7 @@ def db_create(db, db_config_dict, database_name):
 def db_init(db):
     "Will create the database from conf parameters."
     db.create_all()
+
 
 def db_empty(db):
     "Will drop every datas stocked in db."

@@ -33,6 +33,8 @@ class Project(db.Model):
                                lazy=False,
                                foreign_keys='[Tag.project_id]')
     tags = association_proxy('tag_objs', 'text')
+    cves = db.relationship('CVE', backref='project', lazy='dynamic',
+                               cascade='all,delete-orphan')
 
     @validates('name')
     def validates_bio(self, key, value):
