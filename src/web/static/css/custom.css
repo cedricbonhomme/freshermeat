@@ -9,6 +9,16 @@ body {
 img {
     padding: 5px;
 }
+.banner {
+  background: url(/static/img/20141019T151624.png) no-repeat center center ;
+  background-size: cover;
+  height: 350px;
+  line-height: 350px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: normal;
+  color: white;
+}
 /* Sticky footer */
 .footer {
   position: absolute;
