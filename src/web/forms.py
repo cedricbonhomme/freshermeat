@@ -70,6 +70,7 @@ class AddProjectForm(FlaskForm):
     short_description = TextField("Short description",
                     [validators.Required("Please enter a short description")])
     website = TextField("Website", [validators.Optional()])
+    tags = TextField("Tags")
     organization_id = SelectField("Organization", [validators.Optional()],
                                   coerce=int)
     organization_id.choices = [(org.id, org.name) for org in Organization.query.all()]

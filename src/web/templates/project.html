@@ -1,31 +1,42 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-        <div class="col mx-auto">
-            <div class="text-center">
-                <img id="project-logo" src="" width="300px" />
+        <div class="col-1">
+            <img id="project-logo" src="" width="50px" />
+        </div>
+        <div class="col">
+            <img id="project-logo" src="" width="300px" />
+            <h4 id="project-name"></h4>
+            <small><a href="{{ url_for('project_bp.form', project_id=project.id) }}">Edit</a></small>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Description</h5>
+                    <div><p id="project-description" class="text-justify"></p></div>
+                    <h5>Tags</h5>
+                    <div id="project-tags"></div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <h2 id="project-name"></h2>
-            <div><p id="project-description" class="lead text-justify"></p></div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <p>Website:&nbsp;<a id="project-website"></a></p>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <p>Website:&nbsp;<a id="project-website"></a></p>
+                </div>
+            </div>
         </div>
     </div>
 </div><!-- /.container -->
 <script>
 $(document).ready(function() {
     // Get information about the project in the URL parameter
-    var url = window.location.pathname;
-    var project = url.split("/").slice(-1)[0];
-    var filters = [{"name": "name", "op": "eq", "val": project}];
+    // var url = window.location.pathname;
+    // var project = url.split("/").slice(-1)[0];
+    var filters = [{"name": "name", "op": "eq", "val": "{{ project.name }}"}];
     $.ajax({
         url: "{{ url_for('projectapi0.projectapi',) }}",
         data: {"q": JSON.stringify({"filters": filters})},
@@ -41,6 +52,7 @@ $(document).ready(function() {
             $("#project-website").attr("href", project.objects[0].website);
             $("#project-description").html(project.objects[0].description);
             $("#project-id-input").val(project.objects[0].id);
+            $("#project-tags").html(project.objects[0].tags.join(', '));
         }
     });
 });

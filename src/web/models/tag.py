@@ -16,5 +16,6 @@ class Tag(db.Model):
     project = db.relationship('Project', back_populates='tag_objs',
                                                     foreign_keys=[project_id])
 
-    def __init__(self, text):
+    def __init__(self, text, project_id):
         self.text = text
+        self.project_id = project_id

@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import login_required
 
 from bootstrap import db
-from web.models import Project, Organization
+from web.models import get_or_create, Project, Organization, Tag
 from web.forms import AddProjectForm
 
 project_bp = Blueprint('project_bp', __name__, url_prefix='/project')
@@ -16,7 +16,8 @@ def list_projects():
 
 @project_bp.route('/<string:project_name>', methods=['GET'])
 def get(project_name=None):
-    return render_template('project.html')
+    project = Project.query.filter(Project.name == project_name).first()
+    return render_template('project.html', project=project)
 
 
 @project_bp.route('/create', methods=['GET'])
@@ -37,6 +38,7 @@ def form(project_id=None):
     form = AddProjectForm(obj=project)
     form.organization_id.choices = [(org.id, org.name) for org in
                                     Organization.query.all()]
+    form.tags.data = ", ".join(project.tags)
     action = "Edit project"
     head_titles = [action]
     head_titles.append(project.name)
@@ -58,6 +60,10 @@ def process_form(project_id=None):
 
     if project_id is not None:
         project = Project.query.filter(Project.id == project_id).first()
+        for tag in form.tags.data.split(','):
+            get_or_create(db.session, Tag, **{'text': tag.strip(),
+                                              'project_id': project.id})
+        del form.tags
         form.populate_obj(project)
         db.session.commit()
         flash('Project {project_name} successfully updated.'.
@@ -71,6 +77,9 @@ def process_form(project_id=None):
                           website=form.website.data)
     db.session.add(new_project)
     db.session.commit()
+    for tag in form.tags.data.split(','):
+        get_or_create(db.session, Tag, **{'text': tag.strip(),
+                                          'project_id': new_project.id})
     flash('Project {project_name} successfully created.'.
           format(project_name=new_project.name), 'success')
 
