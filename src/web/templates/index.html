@@ -3,39 +3,36 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <h1>Projects</h1>
-            <div id="list-projects"></div>
+            <h3>Projects</h3>
+            <div id="list-projects" class="list-group"></div>
         </div>
         <div class="col">
-            <h1>Organizations</h1>
+            <h3>Organizations</h3>
             <div id="list-organizations"></div>
         </div>
     </div>
 </div><!-- /.container -->
 <script>
 $(document).ready(function() {
-
-    // card template for the projects
-    var cardProjectTemplate = _.template(
-        '<div class="card">' +
-          '<img class="card-img-top" src="<%= logo %>" alt="Card image cap">' +
-          '<div class="card-body">' +
-            '<h4 class="card-title"><%= project_name %></h4>' +
-            '<p class="card-text"><%= project_description %></p>' +
-            '<a href="<%= project_details %>" class="btn btn-primary">Learn more</a>' +
+    // template for the projects
+    var projectTemplate = _.template(
+        '<a href="<%= project_url %>" class="list-group-item list-group-item-action flex-column align-items-start">' +
+          '<div class="d-flex w-100 justify-content-between">' +
+            '<h5 class="mb-1"><%= project_name %></h5>' +
+            '<small><%= project_last_update %></small>' +
           '</div>' +
-        '</div>');
+          '<p class="mb-1"><%= project_description %></p>' +
+        '</a>');
 
-    // card template for the organizations
-    var cardOrganizationTemplate = _.template(
-        '<div class="card">' +
-          '<img class="card-img-top" src="<%= logo %>" alt="Card image cap">' +
-          '<div class="card-body">' +
-            '<h4 class="card-title"><%= organization_name %></h4>' +
-            '<p class="card-text"><%= organization_website %></p>' +
-            '<a href="<%= organization_details %>" class="btn btn-primary">Learn more</a>' +
+    // template for the organizations
+    var organizationTemplate = _.template(
+        '<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">' +
+          '<div class="d-flex w-100 justify-content-between">' +
+            '<h5 class="mb-1"><%= organization_name %></h5>' +
+            '<small><%= organization_last_update %></small>' +
           '</div>' +
-        '</div>');
+          '<p class="mb-1"><%= organization_description %></p>' +
+        '</a>');
 
     $.ajax({ // Get the list of projects
         url: "{{ url_for('projectapi0.projectapi',) }}",
@@ -47,11 +44,11 @@ $(document).ready(function() {
                 return a.last_updated > b.last_updated ;
             })
             .map(function (project) {
-                var cardHTML = cardProjectTemplate({
-                    'logo': '',
+                var cardHTML = projectTemplate({
+                    'project_url': '/project/'+project.name,
                     'project_name': project.name,
                     'project_description': project.short_description,
-                    'project_details': '/project/'+project.name
+                    'project_last_update': moment(project.last_updated).fromNow()
                  });
                  $('#list-projects').append(cardHTML);
             });
@@ -68,11 +65,10 @@ $(document).ready(function() {
                 return a.last_updated > b.last_updated ;
             })
             .map(function (organization) {
-                var cardHTML = cardOrganizationTemplate({
-                    'logo': '',
+                var cardHTML = organizationTemplate({
                     'organization_name': organization.name,
-                    'organization_website': organization.website,
-                    'organization_details': '/organization/'+organization.name
+                    'organization_description': organization.description,
+                    'organization_last_update': moment(organization.last_updated).fromNow()
                  });
                  $('#list-organizations').append(cardHTML);
             });
