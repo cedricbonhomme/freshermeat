@@ -2,6 +2,7 @@
 from datetime import datetime
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.dialects.postgresql import JSON
+from sqlalchemy import event
 
 from bootstrap import db
 
@@ -27,11 +28,18 @@ class Project(db.Model):
 
     # relationships
     tag_objs = db.relationship('Tag', back_populates='project',
-                                cascade='all,delete-orphan',
-                                lazy=False,
-                                foreign_keys='[Tag.project_id]')
+                               cascade='all,delete-orphan',
+                               lazy=False,
+                               foreign_keys='[Tag.project_id]')
     tags = association_proxy('tag_objs', 'text')
-
 
     def __repr__(self):
         return '<Name %r>' % (self.name)
+
+
+@event.listens_for(Project, 'before_update')
+def update_modified_on_update_listener(mapper, connection, target):
+    """Event listener that runs before a record is updated, and sets the
+    last_updated field accordingly.
+    """
+    target.last_updated = datetime.utcnow()

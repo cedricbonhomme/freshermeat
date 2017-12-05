@@ -19,7 +19,7 @@ $(document).ready(function() {
         '<a href="<%= project_url %>" class="list-group-item list-group-item-action flex-column align-items-start">' +
           '<div class="d-flex w-100 justify-content-between">' +
             '<h5 class="mb-1"><%= project_name %></h5>' +
-            '<small><%= project_last_update %></small>' +
+            '<small>updated <%= project_last_update %></small>' +
           '</div>' +
           '<p class="mb-1"><%= project_description %></p>' +
         '</a>');
@@ -29,7 +29,7 @@ $(document).ready(function() {
         '<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">' +
           '<div class="d-flex w-100 justify-content-between">' +
             '<h5 class="mb-1"><%= organization_name %></h5>' +
-            '<small><%= organization_last_update %></small>' +
+            '<small>updated <%= organization_last_update %></small>' +
           '</div>' +
           '<p class="mb-1"><%= organization_description %></p>' +
         '</a>');
@@ -41,7 +41,7 @@ $(document).ready(function() {
         success: function(projects) {
             projects.objects
             .sort(function (a, b) {
-                return a.last_updated > b.last_updated ;
+                return a.last_updated < b.last_updated ;
             })
             .map(function (project) {
                 var cardHTML = projectTemplate({
@@ -62,7 +62,7 @@ $(document).ready(function() {
         success: function(organizations) {
             organizations.objects
             .sort(function (a, b) {
-                return a.last_updated > b.last_updated ;
+                return a.last_updated < b.last_updated ;
             })
             .map(function (organization) {
                 var cardHTML = organizationTemplate({
