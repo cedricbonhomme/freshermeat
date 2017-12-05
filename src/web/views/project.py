@@ -50,7 +50,8 @@ def form(project_id=None):
 @login_required
 def process_form(project_id=None):
     form = AddProjectForm()
-    form.organization_id.choices = [(org.id, org.name) for org in Organization.query.all()]
+    form.organization_id.choices = [(org.id, org.name) for org in
+                                    Organization.query.all()]
 
     if not form.validate():
         return render_template('edit_project.html', form=form)
@@ -64,14 +65,13 @@ def process_form(project_id=None):
         return redirect(url_for('project_bp.form', project_id=project.id))
 
     # Create a new project
-    new_project = Project(
-                name=form.name.data,
-                short_description=form.short_description.data,
-                description=form.description.data,
-                website=form.website.data)
+    new_project = Project(name=form.name.data,
+                          short_description=form.short_description.data,
+                          description=form.description.data,
+                          website=form.website.data)
     db.session.add(new_project)
     db.session.commit()
     flash('Project {project_name} successfully created.'.
-           format(project_name=new_project.name), 'success')
+          format(project_name=new_project.name), 'success')
 
     return redirect(url_for('project_bp.form', project_id=new_project.id))
