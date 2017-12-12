@@ -5,6 +5,7 @@ from flask import flash, url_for, redirect
 from flask_wtf import FlaskForm
 from wtforms import (TextField, TextAreaField, PasswordField, BooleanField,
                      SelectField, SubmitField, validators, HiddenField)
+from flask_wtf.file import FileField
 
 from lib import misc_utils
 from web.models import User, Organization
@@ -74,5 +75,6 @@ class AddProjectForm(FlaskForm):
     organization_id = SelectField("Organization", [validators.Optional()],
                                   coerce=int)
     organization_id.choices = [(org.id, org.name) for org in Organization.query.all()]
+    logo = FileField("Logo")
     enabled = BooleanField("Enabled", default=True)
     submit = SubmitField("Save")

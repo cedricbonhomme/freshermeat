@@ -1,6 +1,9 @@
+import os
 import logging
-from flask import render_template, url_for, redirect, current_app, flash
+from flask import (render_template, url_for, redirect, current_app, flash,
+                  send_from_directory)
 
+from bootstrap import application
 
 logger = logging.getLogger(__name__)
 
@@ -30,6 +33,14 @@ def internal_server_error(error):
 @current_app.errorhandler(AssertionError)
 def handle_sqlalchemy_assertion_error(error):
     return error.args[0], 400
+
+
+@current_app.route('/public/<path:filename>', methods=['GET'])
+def uploaded_pictures(filename='Ladybug.jpg', methods=['GET']):
+    """
+    Exposes public files (media uploaded by users, etc.).
+    """
+    return send_from_directory(os.path.abspath(application.config['UPLOAD_FOLDER']), filename)
 
 
 @current_app.route('/', methods=['GET'])

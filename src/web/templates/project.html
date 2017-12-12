@@ -3,7 +3,9 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-1">
-            <img id="project-logo" src="" width="50px" />
+            {% if project.icon_url  %}
+            <img id="project-logo" src="{{ url_for('uploaded_pictures', filename=project.icon_url) }}" width="150px" />
+            {% endif %}
         </div>
         <div class="col">
             <img id="project-logo" src="" width="300px" />

@@ -2,7 +2,7 @@
 {% block content %}
 <div class="container">
         <h3>{{ action }}</h3>
-        <form action="" method="post" name="save" class="form-horizontal">
+        <form action="" method="post" name="save" enctype="multipart/form-data" class="form-horizontal">
             {{ form.hidden_tag() }}
             <div class="form-group">
                 <label for="{{ form.name.id }}" class="control-label">{{ form.name.label }}</label>
@@ -50,6 +50,14 @@
                     {{ form.organization_id(class_="form-control") }}
                 </div>
                 {% for error in form.organization_id.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.logo.id }}" class="control-label">{{ form.logo.label }}</label>
+                <div>
+                    {{ form.logo(class_="form-control") }}
+                </div>
+                {% for error in form.logo.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
             </div>
 
             <div class="form-group">

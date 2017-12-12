@@ -1,9 +1,12 @@
-from flask import Blueprint, render_template, redirect, url_for, flash
+import os
+from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_required
+from werkzeug.utils import secure_filename
 
-from bootstrap import db
-from web.models import get_or_create, Project, Organization, Tag
+from bootstrap import db, application
+from web.models import get_or_create, Project, Organization, Tag, Icon
 from web.forms import AddProjectForm
+from web.utils import misc
 
 project_bp = Blueprint('project_bp', __name__, url_prefix='/project')
 projects_bp = Blueprint('projects_bp', __name__, url_prefix='/projects')
@@ -64,6 +67,31 @@ def process_form(project_id=None):
             get_or_create(db.session, Tag, **{'text': tag.strip(),
                                               'project_id': project.id})
         del form.tags
+
+
+        f = form.logo.data
+        if f:
+            try:
+                icon_url = os.path.join(application.config['UPLOAD_FOLDER'], project.icon_url)
+                os.unlink(icon_url)
+                old_icon = Icon.query.filter(Icon.url == project.icon_url).first()
+                db.session.delete(old_icon)
+                project.icon_url = None
+                db.session.commit()
+            except Exception as e:
+                print(e)
+
+            filename = secure_filename(f.filename)
+            icon_url = os.path.join(application.config['UPLOAD_FOLDER'], filename)
+            f.save(icon_url)
+
+            new_icon = Icon(url=filename)
+            db.session.add(new_icon)
+            db.session.commit()
+            project.icon_url = new_icon.url
+
+
+
         form.populate_obj(project)
         db.session.commit()
         flash('Project {project_name} successfully updated.'.

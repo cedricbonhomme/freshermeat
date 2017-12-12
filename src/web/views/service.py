@@ -16,7 +16,8 @@ def list_services():
 @service_bp.route('/', methods=['GET'])
 def service():
     project_name = request.args.get('name')
-    if Project.query.filter(Project.name == project_name).count() == 0:
+    project = Project.query.filter(Project.name == project_name).first()
+    if not project:
         flash('Unknown project.', 'warning')
         return redirect(url_for(services_bp.list_services))
-    return render_template('service.html')
+    return render_template('service.html', project=project)
