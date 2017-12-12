@@ -53,11 +53,11 @@ def before_request():
 @current_app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('services'))
+        return redirect(url_for('index'))
     form = SigninForm()
     if form.validate_on_submit():
         login_user_bundle(form.user)
-        return form.redirect('services')
+        return form.redirect('index')
     return render_template('login.html', form=form)
 
 
