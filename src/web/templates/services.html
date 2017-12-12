@@ -40,7 +40,6 @@ $(document).ready(function() {
             .map(function (organization) {
                 var div_organization = $("<div>");
                 div_organization.append('<ol class="breadcrumb">' +
-                                        '<li class="breadcrumb-item active" >' + (typeof organization_param !== 'undefined' ? '<a href="' + {{ url_for('services_bp.list_services') }} + '">SECURITYMADEIN.LU</a>' : 'SECURITYMADEIN.LU') + '</li>' +
                                         '<li class="breadcrumb-item active" id="project-name">' +
                                         (typeof organization_param == 'undefined' ? '<a href="?organization='+ organization.name  +'">' + organization.name + '</a>' : organization.name) + '</li></ol>');
                 $('#list-projects').append(div_organization);
