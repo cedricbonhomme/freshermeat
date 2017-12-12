@@ -17,6 +17,8 @@
         <div class="col">
             <h3>Organizations</h3>
             <div id="list-organizations"></div>
+            <h3>People</h3>
+            <div id="list-people"></div>
         </div>
     </div>
 </div><!-- /.container -->
@@ -34,7 +36,7 @@ $(document).ready(function() {
 
     // template for the organizations
     var organizationTemplate = _.template(
-        '<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">' +
+        '<a href="<%= organization_url %>" class="list-group-item list-group-item-action flex-column align-items-start">' +
           '<div class="d-flex w-100 justify-content-between">' +
             '<h5 class="mb-1"><%= organization_name %></h5>' +
             '<small>updated <%= organization_last_update %></small>' +
@@ -74,6 +76,7 @@ $(document).ready(function() {
             })
             .map(function (organization) {
                 var cardHTML = organizationTemplate({
+                    'organization_url': '/organization/'+organization.name,
                     'organization_name': organization.name,
                     'organization_description': organization.description,
                     'organization_last_update': moment(organization.last_updated).fromNow()

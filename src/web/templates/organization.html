@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-1">
+            <img id="organization-logo" src="" width="50px" />
+        </div>
+        <div class="col">
+            <img id="organization-logo" src="" width="300px" />
+            <h4 id="organization-name">{{ organization.name }}</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <p>Website:&nbsp;<a id="organization-website"></a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- /.container -->
+<script>
+</script>
+{% endblock %}
