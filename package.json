@@ -1,10 +1,10 @@
 {
-    "name": "services",
+    "name": "freshermeat",
     "version": "0.0.1",
     "license": "AGPL-3.0",
     "repository": {
         "type": "git",
-        "url": "git://github.com/cedricbonhomme/services.git"
+        "url": "git://github.com/cedricbonhomme/freshermeat.git"
     },
     "dependencies": {
         "bootstrap": "^4.0.0-beta",
