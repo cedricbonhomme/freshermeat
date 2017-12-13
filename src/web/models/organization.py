@@ -15,6 +15,8 @@ class Organization(db.Model):
     website = db.Column(db.String())
     last_updated = db.Column(db.DateTime(), default=datetime.utcnow())
 
+    cve_vendor = db.Column(db.String(), default='')
+
     # foreign keys
     icon_url = db.Column(db.String(), db.ForeignKey('icon.url'), default=None)
 

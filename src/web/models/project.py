@@ -19,6 +19,11 @@ class Project(db.Model):
     enabled = db.Column(db.Boolean(), default=True)
     last_updated = db.Column(db.DateTime(), default=datetime.utcnow())
 
+    # if cve_vendor is the empty string use the parent property
+    # (organization.cve_vendor)
+    cve_vendor = db.Column(db.String(), default='')
+    cve_product = db.Column(db.String(), unique=True, nullable=False)
+
     notification_email = db.Column(db.String(), default='')
     required_informations = db.Column(JSON)
 
@@ -44,6 +49,13 @@ class Project(db.Model):
 
     def __repr__(self):
         return '<Name %r>' % (self.name)
+
+
+@event.listens_for(Project, 'before_insert')
+def page_defaults(mapper, configuration, target):
+    # `cve_product` defaults to `name`
+    if not target.cve_product:
+        target.cve_product = target.name.lower()
 
 
 @event.listens_for(Project, 'before_update')
