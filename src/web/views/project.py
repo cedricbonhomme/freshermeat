@@ -72,6 +72,7 @@ def process_form(project_id=None):
 
         f = form.logo.data
         if f:
+            # update the logo of the project
             try:
                 # Delete the previous icon
                 icon_url = os.path.join(application.config['UPLOAD_FOLDER'],
@@ -86,7 +87,7 @@ def process_form(project_id=None):
                 print(e)
 
             #filename = secure_filename(f.filename)
-            filename = str(uuid.uuid4())
+            filename = str(uuid.uuid4()) + '.png'
             icon_url = os.path.join(application.config['UPLOAD_FOLDER'],
                                     filename)
             f.save(icon_url)
