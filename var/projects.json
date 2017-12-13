@@ -70,7 +70,9 @@
         "notification_email": "info@circl.lu",
         "organization": {
             "name": "CIRCL"
-        }
+        },
+        "cve_vendor": "misp",
+        "cve_product": "misp",
     },
     {
         "name": "Passive DNS",
