@@ -15,3 +15,4 @@ WTForms
 validate_email
 PGPy
 clamd
+git+https://github.com/cve-search/PyCVESearch.git
