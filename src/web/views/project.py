@@ -1,4 +1,5 @@
 import os
+import uuid
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_required
 from werkzeug.utils import secure_filename
@@ -72,17 +73,22 @@ def process_form(project_id=None):
         f = form.logo.data
         if f:
             try:
-                icon_url = os.path.join(application.config['UPLOAD_FOLDER'], project.icon_url)
+                # Delete the previous icon
+                icon_url = os.path.join(application.config['UPLOAD_FOLDER'],
+                                        project.icon_url)
                 os.unlink(icon_url)
-                old_icon = Icon.query.filter(Icon.url == project.icon_url).first()
+                old_icon = Icon.query.filter(Icon.url == project.icon_url) \
+                                     .first()
                 db.session.delete(old_icon)
                 project.icon_url = None
                 db.session.commit()
             except Exception as e:
                 print(e)
 
-            filename = secure_filename(f.filename)
-            icon_url = os.path.join(application.config['UPLOAD_FOLDER'], filename)
+            #filename = secure_filename(f.filename)
+            filename = str(uuid.uuid4())
+            icon_url = os.path.join(application.config['UPLOAD_FOLDER'],
+                                    filename)
             f.save(icon_url)
 
             new_icon = Icon(url=filename)
