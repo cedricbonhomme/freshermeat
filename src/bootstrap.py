@@ -16,7 +16,7 @@ import conf
 def set_logging(log_path=None, log_level=logging.INFO, modules=(),
                 log_format='%(asctime)s %(levelname)s %(message)s'):
     if not modules:
-        modules = ('root', 'bootstrap', 'runserver', 'web',)
+        modules = ('workers.fetch_cve', 'bootstrap', 'runserver', 'web',)
     if log_path:
         if not os.path.exists(os.path.dirname(log_path)):
             os.makedirs(os.path.dirname(log_path))
@@ -52,8 +52,7 @@ def datetimeformat(value, format='%Y-%m-%d %H:%M'):
 application.jinja_env.filters['datetimeformat'] = datetimeformat
 
 
-# set_logging(application.config['LOG_PATH'],
-#             log_level=application.config['LOG_LEVEL'])
+set_logging(application.config['LOG_PATH'])
 
 
 # Create the Flask-Restless API manager.

@@ -77,3 +77,20 @@ your own file and export it in the variable ``APPLICATION_SETTINGS``.
 You can add new projects with the client script
 (``src/manager.py import_projects``) or via a POST request to the API
 (http://127.0.0.1:5000/api/v1/project).
+
+
+
+## Workers
+
+### Retrieving CVEs
+
+```bash
+freshermeat/freshermeat$ python src/manager.py fetch_cve_asyncio
+```
+
+You can launch the CVE fetcher periodically with cron.
+
+
+### Release tracking
+
+TODO.
