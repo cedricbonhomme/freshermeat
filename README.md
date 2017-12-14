@@ -90,6 +90,12 @@ freshermeat/freshermeat$ python src/manager.py fetch_cve_asyncio
 
 You can launch the CVE fetcher periodically with cron.
 
+You can query the CVE API:
+
+```bash
+$ curl http://127.0.0.1:5000/api/v1/CVE
+```
+
 
 ### Release tracking
 
