@@ -28,6 +28,7 @@
         <div class="col-4">
             <div class="card">
                 <div class="card-body">
+                    <h5>Links</h5>
                     <p>Website:&nbsp;<a id="project-website"></a></p>
                 </div>
             </div>
@@ -35,6 +36,17 @@
         <div class="col-4">
             <h5>Recent CVE</h5>
             <div id="list-cves" class="list-group"></div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Recent releases</h5>
+                    <div id="project-releases"></div>
+                </div>
+            </div>
         </div>
     </div>
 </div><!-- /.container -->
@@ -59,7 +71,19 @@ $(document).ready(function() {
             $("#project-website").attr("href", project.objects[0].website);
             $("#project-description").html(project.objects[0].description);
             $("#project-id-input").val(project.objects[0].id);
-            $("#project-tags").html(project.objects[0].tags.join(', '));
+
+            project.objects[0].tags.map(function(tag){
+                var a = document.createElement('a');
+                var linkText = document.createTextNode(tag);
+                a.appendChild(linkText);
+                a.setAttribute('title', tag);
+                a.setAttribute('class', 'btn btn-outline-dark');
+                a.setAttribute('href', '/projects/?tag='+tag);
+                $("#project-tags").append(a);
+                $("#project-tags").append('&nbsp;');
+            })
+
+            // $("#project-tags").html(project.objects[0].tags.join(', '));
         }
     });
 
