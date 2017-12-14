@@ -11,8 +11,4 @@ from web.views.api.v1.common import url_prefix
 blueprint_cve = manager.create_api_blueprint(
     models.CVE,
     url_prefix=url_prefix,
-    methods=['GET', 'POST', 'PUT', 'DELETE'],
-    preprocessors=dict(
-        POST=[processors.auth_func],
-        PUT=[processors.auth_func],
-        DELETE=[processors.auth_func]))
+    methods=['GET'])
