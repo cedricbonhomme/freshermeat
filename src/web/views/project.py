@@ -64,7 +64,12 @@ def process_form(project_id=None):
 
     if project_id is not None:
         project = Project.query.filter(Project.id == project_id).first()
-        for tag in form.tags.data.split(','):
+        new_tags = form.tags.data.strip().split(',')
+        for tag in project.tag_objs:
+            if tag.text not in new_tags:
+                db.session.delete(tag)
+        db.session.commit()
+        for tag in new_tags:
             get_or_create(db.session, Tag, **{'text': tag.strip(),
                                               'project_id': project.id})
         del form.tags
