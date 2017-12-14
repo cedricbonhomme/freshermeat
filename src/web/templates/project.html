@@ -13,6 +13,7 @@
             <small><a href="{{ url_for('project_bp.form', project_id=project.id) }}">Edit</a></small>
         </div>
     </div>
+
     <div class="row">
         <div class="col-4">
             <div class="card">
@@ -30,6 +31,10 @@
                     <p>Website:&nbsp;<a id="project-website"></a></p>
                 </div>
             </div>
+        </div>
+        <div class="col-4">
+            <h5>Recent CVE</h5>
+            <div id="list-cves" class="list-group"></div>
         </div>
     </div>
 </div><!-- /.container -->
@@ -55,6 +60,39 @@ $(document).ready(function() {
             $("#project-description").html(project.objects[0].description);
             $("#project-id-input").val(project.objects[0].id);
             $("#project-tags").html(project.objects[0].tags.join(', '));
+        }
+    });
+
+
+    var cveTemplate = _.template(
+        '<a href="<%= cve_url %>" class="list-group-item list-group-item-action flex-column align-items-start">' +
+          '<div class="d-flex w-100 justify-content-between">' +
+            '<h5 class="mb-1"><%= cve_id %></h5>' +
+            '<small>published <%= published_at %></small>' +
+          '</div>' +
+          '<p class="mb-1"><%= cve_summary %></p>' +
+        '</a>');
+
+    var filters = [{"name": "project_id", "op": "eq", "val": "{{ project.id }}"}];
+    $.ajax({
+        url: "{{ url_for('CVEapi0.CVEapi',) }}",
+        data: {"q": JSON.stringify({"filters": filters})},
+        dataType: "json",
+        contentType: "application/json",
+        success: function(cves) {
+          cves.objects
+          .sort(function (a, b) {
+              return a.published_at < b.published_at ;
+          })
+          .map(function(cve){
+            var cardHTML = cveTemplate({
+                'cve_url': 'http://cve.circl.lu/cve/' + cve.cve_id,
+                'cve_id': cve.cve_id,
+                'published_at': moment(cve.published_at).fromNow(),
+                'cve_summary': cve.summary
+             });
+             $('#list-cves').append(cardHTML);
+          })
         }
     });
 });

@@ -3,6 +3,7 @@
 
 import asyncio
 import logging
+from datetime import datetime
 from pycvesearch import CVESearch
 
 from bootstrap import db
@@ -31,8 +32,13 @@ async def insert_database(project):
                             project.name)
         logger.info('Inserting CVE for {}'.format(project.name))
         for cve in cves:
+
+            published_at = datetime.strptime(cve['Published'],
+                                             "%Y-%m-%dT%H:%M:%S.%f")
+
             get_or_create(db.session, CVE, **{'cve_id': cve['id'],
                                               'summary': cve['summary'],
+                                              'published_at': published_at,
                                               'project_id': project.id})
     return cves
 
