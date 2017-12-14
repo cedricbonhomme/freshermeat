@@ -72,7 +72,7 @@
             "name": "CIRCL"
         },
         "cve_vendor": "misp",
-        "cve_product": "misp",
+        "cve_product": "misp"
     },
     {
         "name": "Passive DNS",
