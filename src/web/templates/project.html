@@ -7,9 +7,10 @@
             <img id="project-logo" src="{{ url_for('uploaded_pictures', filename=project.icon_url) }}" width="150px" />
             {% endif %}
         </div>
-        <div class="col">
-            <img id="project-logo" src="" width="300px" />
+        <div class="col-1">
             <h4 id="project-name"></h4>
+        </div>
+        <div class="col">
             <small><a href="{{ url_for('project_bp.form', project_id=project.id) }}">Edit</a></small>
         </div>
     </div>

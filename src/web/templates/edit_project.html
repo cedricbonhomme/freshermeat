@@ -1,7 +1,16 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
-        <h3>{{ action }}</h3>
+    <div class="row">
+        <div class="col-2">
+            <h4>{{ action }}</h4>
+        </div>
+        <div class="col">
+            <small><a href="{{ url_for('project_bp.get', project_name=project.name) }}">project page</a></small>
+        </div>
+    </div>
+
+
         <form action="" method="post" name="save" enctype="multipart/form-data" class="form-horizontal">
             {{ form.hidden_tag() }}
             <div class="form-group">
