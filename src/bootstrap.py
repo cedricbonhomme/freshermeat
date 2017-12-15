@@ -11,8 +11,6 @@ from flask_sqlalchemy import SQLAlchemy
 import flask_restless
 from flask_mail import Mail
 
-import conf
-
 
 def set_logging(log_path=None, log_level=logging.INFO, modules=(),
                 log_format='%(asctime)s %(levelname)s %(message)s'):
