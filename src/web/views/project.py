@@ -2,7 +2,6 @@ import os
 import uuid
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_required
-from werkzeug.utils import secure_filename
 
 from bootstrap import db, application
 from web.models import get_or_create, Project, Organization, Tag, Icon
@@ -91,12 +90,12 @@ def process_form(project_id=None):
             except Exception as e:
                 print(e)
 
-            #filename = secure_filename(f.filename)
+            # save the picture
             filename = str(uuid.uuid4()) + '.png'
             icon_url = os.path.join(application.config['UPLOAD_FOLDER'],
                                     filename)
             f.save(icon_url)
-
+            # create the corresponding new icon object
             new_icon = Icon(url=filename)
             db.session.add(new_icon)
             db.session.commit()

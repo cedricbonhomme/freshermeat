@@ -24,9 +24,8 @@ var/log/
 venv
 build
 
-src/conf/conf.cfg
-.coverage
-
 # js and node files
 node_modules
 src/web/static/npm_components
+
+src/web/public/
