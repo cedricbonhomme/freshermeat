@@ -102,23 +102,38 @@ def process_form(project_id=None):
             project.icon_url = new_icon.url
 
 
-
         form.populate_obj(project)
         db.session.commit()
         flash('Project {project_name} successfully updated.'.
               format(project_name=form.name.data), 'success')
         return redirect(url_for('project_bp.form', project_id=project.id))
 
+
     # Create a new project
     new_project = Project(name=form.name.data,
                           short_description=form.short_description.data,
                           description=form.description.data,
-                          website=form.website.data)
+                          website=form.website.data,
+                          organization_id=form.organization_id.data)
     db.session.add(new_project)
     db.session.commit()
+    # Tags
     for tag in form.tags.data.split(','):
         get_or_create(db.session, Tag, **{'text': tag.strip(),
                                           'project_id': new_project.id})
+    # Logo
+    f = form.logo.data
+    if f:
+        # save the picture
+        filename = str(uuid.uuid4()) + '.png'
+        icon_url = os.path.join(application.config['UPLOAD_FOLDER'],
+                                filename)
+        f.save(icon_url)
+        # create the corresponding new icon object
+        new_icon = Icon(url=filename)
+        db.session.add(new_icon)
+        new_project.icon_url = new_icon.url
+    db.session.commit()
     flash('Project {project_name} successfully created.'.
           format(project_name=new_project.name), 'success')
 
