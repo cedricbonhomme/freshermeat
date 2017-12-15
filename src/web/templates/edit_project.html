@@ -5,9 +5,11 @@
         <div class="col-2">
             <h4>{{ action }}</h4>
         </div>
+        {% if action == "Edit project" %}
         <div class="col">
             <small><a href="{{ url_for('project_bp.get', project_name=project.name) }}">project page</a></small>
         </div>
+        {% endif %}
     </div>
 
 
