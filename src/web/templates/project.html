@@ -29,8 +29,14 @@
         <div class="col-4">
             <div class="card">
                 <div class="card-body">
-                    <h5>Links</h5>
-                    <p>Website:&nbsp;<a id="project-website"></a></p>
+                    <h5>Reference</h5>
+                    <p><a id="project-website">Homepage</a></p>
+                    {% if project.required_informations %}
+                        <p><a href="{{ url_for('service_bp.service', name=project.name) }}">Related service</a></p>
+                    {% endif %}
+                    {% if project.maintainer_id %}
+                        <p><a href="#">Maintainer</a></p>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -68,7 +74,6 @@ $(document).ready(function() {
                                             project.objects[0].organization.name);
             $("#project-name").html(project.objects[0].name);
             $("#project-logo").attr("src", project.objects[0].logo);
-            $("#project-website").html(project.objects[0].website);
             $("#project-website").attr("href", project.objects[0].website);
             $("#project-description").html(project.objects[0].description);
             $("#project-id-input").val(project.objects[0].id);

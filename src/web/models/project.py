@@ -25,7 +25,7 @@ class Project(db.Model):
     cve_product = db.Column(db.String(), unique=True, nullable=False)
 
     notification_email = db.Column(db.String(), default='')
-    required_informations = db.Column(JSON)
+    required_informations = db.Column(JSON, default=None)
 
     # foreign keys
     organization_id = db.Column(db.Integer(), db.ForeignKey('organization.id'))
