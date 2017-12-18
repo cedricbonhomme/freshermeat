@@ -5,11 +5,13 @@ from .user import User
 from .tag import Tag
 from .project import Project
 from .organization import Organization
+from .release import Release
 from .cve import CVE
 from .icon import Icon
 from .request import Request
 
-__all__ = ['Project', 'User', 'Organization', 'Tag', 'Request', 'CVE']
+__all__ = ['Project', 'Release', 'User',
+           'Organization', 'Tag', 'Request', 'CVE']
 
 from sqlalchemy.engine import reflection
 from sqlalchemy import create_engine

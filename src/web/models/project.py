@@ -40,6 +40,8 @@ class Project(db.Model):
     tags = association_proxy('tag_objs', 'text')
     cves = db.relationship('CVE', backref='project', lazy='dynamic',
                                cascade='all,delete-orphan')
+    releases = db.relationship('Release', backref='project', lazy='dynamic',
+                               cascade='all,delete-orphan')
 
     @validates('name')
     def validates_bio(self, key, value):
