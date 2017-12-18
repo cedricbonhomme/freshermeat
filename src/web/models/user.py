@@ -12,8 +12,6 @@ class User(db.Model, UserMixin):
     """
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(), unique=True, nullable=False)
-    firstname = db.Column(db.String(), default='')
-    lastname = db.Column(db.String(), default='')
     pwdhash = db.Column(db.String(), nullable=False)
     created_at = db.Column(db.DateTime(), default=datetime.utcnow())
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow())

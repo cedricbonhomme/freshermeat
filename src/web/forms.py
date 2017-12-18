@@ -5,6 +5,7 @@ from flask import flash, url_for, redirect
 from flask_wtf import FlaskForm
 from wtforms import (TextField, TextAreaField, PasswordField, BooleanField,
                      SelectField, SubmitField, validators, HiddenField)
+from wtforms.fields.html5 import EmailField
 from flask_wtf.file import FileField
 
 from lib import misc_utils
@@ -54,8 +55,7 @@ class SigninForm(RedirectForm):
             validated = False
         else:
             if not user.is_active:
-                self.email_or_nickmane.errors.append(
-                    'Wrong email address or password')
+                self.email.errors.append('Wrong email address or password')
                 validated = False
             if not user.check_password(self.password.data):
                 self.password.errors.append('Wrong email address or password')
@@ -77,4 +77,18 @@ class AddProjectForm(FlaskForm):
     organization_id.choices = [(org.id, org.name) for org in Organization.query.all()]
     logo = FileField("Logo")
     enabled = BooleanField("Enabled", default=True)
+    submit = SubmitField("Save")
+
+
+class UserForm(FlaskForm):
+    """
+    Create or edit a user (for the administrator).
+    """
+    email = EmailField("Email",
+               [validators.Length(min=6, max=254),
+                validators.Required("Please enter your email.")])
+    password = PasswordField("Password")
+    is_active = BooleanField("Active", default=True)
+    is_admin = BooleanField("Admin", default=False)
+    is_api = BooleanField("API", default=False)
     submit = SubmitField("Save")

@@ -7,10 +7,12 @@ from sqlalchemy import desc
 from flask_admin import Admin, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.menu import MenuLink
+from werkzeug import generate_password_hash
 
 from web.views.common import admin_permission
 from notifications.notifications import new_request_notification
 from bootstrap import db
+from web.forms import UserForm
 from web import models
 
 admin_bp = Blueprint('admin_bp', __name__, url_prefix='/admin')
@@ -108,22 +110,85 @@ def send_request_notification(request_id=None):
     return redirect(url_for('admin_bp.view_request', request_id=req.id))
 
 
+@admin_bp.route('/users', methods=['GET'])
+@login_required
+@admin_permission.require(http_exception=403)
+def list_users():
+    users = models.User.query.all()
+    return render_template('admin/users.html', users=users)
+
+
+@admin_bp.route('/user/create', methods=['GET'])
+@admin_bp.route('/user/edit/<int:user_id>', methods=['GET'])
+@login_required
+@admin_permission.require(http_exception=403)
+def form_user(user_id=None):
+    action = "Add a user"
+    head_titles = [action]
+    form = UserForm()
+    if user_id is None:
+        return render_template('admin/edit_user.html', action=action,
+                               head_titles=head_titles, form=form)
+
+    user = models.User.query.filter(models.User.id == user_id).first()
+    form = UserForm(obj=user)
+    action = "Edit user"
+    head_titles = [action]
+    head_titles.append(user.email)
+    return render_template('admin/edit_user.html', action=action,
+                           head_titles=head_titles,
+                           form=form, user=user)
+
+
+@admin_bp.route('/user/create', methods=['POST'])
+@admin_bp.route('/user/edit/<int:user_id>', methods=['POST'])
+@login_required
+def process_user_form(user_id=None):
+    form = UserForm()
+
+    if not form.validate():
+        return render_template('admin/edit_user.html', form=form)
+
+    if user_id is not None:
+        user = models.User.query.filter(models.User.id == user_id).first()
+        form.populate_obj(user)
+        if form.password.data:
+            user.pwdhash = generate_password_hash(form.password.data)
+        db.session.commit()
+        flash('User {user_email} successfully updated.'.
+              format(user_email=form.email.data), 'success')
+        return redirect(url_for('admin_bp.form_user', user_id=user.id))
+
+    # Create a new user
+    new_user = models.User(email=form.email.data,
+                           is_active=True,
+                           pwdhash=generate_password_hash(form.password.data))
+    db.session.add(new_user)
+    db.session.commit()
+    flash('User {user_email} successfully created.'.
+          format(user_email=new_user.email), 'success')
+
+    return redirect(url_for('admin_bp.form_user', user_id=new_user.id))
+
+
+@admin_bp.route('/user/delete/<int:user_id>', methods=['GET'])
+@login_required
+@admin_permission.require(http_exception=403)
+def delete_user(user_id=None):
+    pass
+
+
+@admin_bp.route('/user/toggle/<int:user_id>', methods=['GET'])
+@login_required
+@admin_permission.require(http_exception=403)
+def toggle_user(user_id=None):
+    pass
+
+
+
 # Flask-Admin views
 
-class UserView(ModelView):
-    column_exclude_list = ['pwdhash']
-    column_editable_list = ['email', 'firstname', 'lastname']
-    can_create = False
-
-    def is_accessible(self):
-        return current_user.is_authenticated and current_user.is_admin
-
-
 class ProjectView(ModelView):
-    def is_accessible(self):
-        return current_user.is_authenticated and current_user.is_admin
-
-class TagView(ModelView):
     def is_accessible(self):
         return current_user.is_authenticated and current_user.is_admin
 
@@ -141,7 +206,5 @@ admin_flask = Admin(current_app,
                         name='Home',
                         url='/admin'
                     ))
-admin_flask.add_view(UserView(models.User, db.session))
 admin_flask.add_view(ProjectView(models.Project, db.session))
-admin_flask.add_view(TagView(models.Tag, db.session))
 admin_flask.add_link(menu_link_back_dashboard)

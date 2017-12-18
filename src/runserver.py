@@ -8,8 +8,8 @@ with application.app_context():
 
     from web import views
     application.register_blueprint(views.admin_bp)
-    # application.register_blueprint(views.users_bp)
-    # application.register_blueprint(views.user_bp)
+    application.register_blueprint(views.users_bp)
+    application.register_blueprint(views.user_bp)
     application.register_blueprint(views.project_bp)
     application.register_blueprint(views.projects_bp)
     application.register_blueprint(views.organization_bp)
