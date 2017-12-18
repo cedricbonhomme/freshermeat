@@ -16,7 +16,8 @@
         "notification_email": "info@cases.lu",
         "organization": {
             "name": "CASES"
-        }
+        },
+        "automatic_release_tracking": "github:https://api.github.com/repos/monarc-project/MonarcAppFO/releases"
     },
     {
         "name": "Diagnostic",
@@ -72,7 +73,8 @@
             "name": "CIRCL"
         },
         "cve_vendor": "misp",
-        "cve_product": "misp"
+        "cve_product": "misp",
+        "automatic_release_tracking": "github:https://api.github.com/repos/misp/misp/releases"
     },
     {
         "name": "Passive DNS",

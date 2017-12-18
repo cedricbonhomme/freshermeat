@@ -11,7 +11,7 @@ from sqlalchemy import and_
 
 import web.models
 import scripts
-from workers import fetch_cve
+from workers import fetch_cve, fetch_release_github
 
 
 logger = logging.getLogger('manager')
@@ -91,6 +91,16 @@ def fetch_cve_asyncio(cve_vendor=None):
 
         logger.info('CVE fetcher finished in {} seconds.' \
             .format((end - start).seconds))
+
+
+@manager.command
+def fetch_releases():
+    github_release = web.models.Project.query.filter(web.models.Project.automatic_release_tracking.like('github:%'))
+
+    for project in github_release:
+        fetch_release_github.fetch_release(project)
+
+
 
 if __name__ == '__main__':
     manager.run()

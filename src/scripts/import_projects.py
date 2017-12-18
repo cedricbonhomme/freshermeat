@@ -19,8 +19,9 @@ def import_projects(json_file):
                         website=project['website'],
                         required_informations=project['required_informations'],
                         notification_email=project['notification_email'],
-                        cve_vendor=project['cve_vendor'] if 'cve_vendor' in project else '',
-                        cve_product=project['cve_product'] if 'cve_product' in project else '')
+                        cve_vendor=project.get('cve_vendor', ''),
+                        cve_product=project.get('cve_product', ''),
+                        automatic_release_tracking=project.get('automatic_release_tracking', ''))
 
             organization = get_or_create(db.session, Organization, **project['organization'])
 

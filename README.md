@@ -99,4 +99,6 @@ $ curl http://127.0.0.1:5000/api/v1/CVE
 
 ### Release tracking
 
-TODO.
+```bash
+freshermeat/freshermeat$ python src/manager.py fetch_releases
+```

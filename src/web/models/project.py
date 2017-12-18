@@ -24,6 +24,8 @@ class Project(db.Model):
     cve_vendor = db.Column(db.String(), default='')
     cve_product = db.Column(db.String(), unique=True, nullable=False)
 
+    automatic_release_tracking = db.Column(db.String())
+
     notification_email = db.Column(db.String(), default='')
     required_informations = db.Column(JSON, default=None)
 
