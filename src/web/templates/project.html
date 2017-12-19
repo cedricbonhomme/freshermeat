@@ -2,13 +2,13 @@
 {% block content %}
 <div class="container-fluid">
     <div class="row">
-        <div class="col-1">
+        <div class="col-2">
             {% if project.icon_url  %}
-            <img id="project-logo" src="{{ url_for('uploaded_pictures', filename=project.icon_url) }}" width="100px" />
+            <img id="project-logo" src="{{ url_for('uploaded_pictures', filename=project.icon_url) }}" width="200px" />
             {% endif %}
         </div>
         <div class="col-2">
-            <h1 id="project-name"></h1>
+            <h3 id="project-name"></h3>
             <small><a href="{{ url_for('project_bp.form', project_id=project.id) }}">Edit</a></small>
         </div>
     </div>
@@ -20,10 +20,11 @@
                     <h5>Description</h5>
                     <div><p id="project-description" class="text-justify"></p></div>
                     <h5>Tags</h5>
-                    <div id="project-tags"></div>
+                    <div id="project-tags" class="btn-toolbar"></div>
                 </div>
             </div>
         </div>
+
         <div class="col-4">
             <div class="card">
                 <div class="card-body">
@@ -37,19 +38,18 @@
                     {% endif %}
                 </div>
             </div>
-        </div>
-        <div class="col-4">
-            <h5>Recent CVE</h5>
-            <div id="list-cves" class="list-group"></div>
-        </div>
-    </div>
-    <br />
-    <div class="row">
-        <div class="col-4">
+            <br />
+            <div class="card">
                 <div class="card-body">
-                    <h5>Recent releases</h5>
-                    <div id="project-releases" class="list-group"></div>
+                    <h5>Recent CVE</h5>
+                    <div id="list-cves" class="list-group"></div>
                 </div>
+            </div>
+        </div>
+
+        <div class="col-4">
+            <h5>Recent releases</h5>
+            <div id="project-releases" class="list-group"></div>
         </div>
     </div>
 </div><!-- /.container -->
@@ -79,13 +79,12 @@ $(document).ready(function() {
                 var linkText = document.createTextNode(tag);
                 a.appendChild(linkText);
                 a.setAttribute('title', tag);
-                a.setAttribute('class', 'btn btn-outline-dark');
+                a.setAttribute('class', 'btn btn-outline-dark btn-sm');
+                a.setAttribute('style', 'margin:1px');
                 a.setAttribute('href', '/projects/?tag='+tag);
                 $("#project-tags").append(a);
                 $("#project-tags").append('&nbsp;');
             })
-
-            // $("#project-tags").html(project.objects[0].tags.join(', '));
         }
     });
 
@@ -96,7 +95,7 @@ $(document).ready(function() {
             '<h5 class="mb-1"><%= cve_id %></h5>' +
             '<small>published <%= published_at %></small>' +
           '</div>' +
-          '<p class="mb-1"><%= cve_summary %></p>' +
+          '<p class="mb-1 text-justify"><%= cve_summary %></p>' +
         '</a>');
     var filters = [{"name": "project_id", "op": "eq", "val": "{{ project.id }}"}];
     $.ajax({
@@ -123,12 +122,12 @@ $(document).ready(function() {
 
 
     var releaseTemplate = _.template(
-        '<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">' +
+        '<a href="<%= release_url %>" class="list-group-item list-group-item-action flex-column align-items-start">' +
           '<div class="d-flex w-100 justify-content-between">' +
             '<h5 class="mb-1"><%= version %></h5>' +
             '<small>published <%= published_at %></small>' +
           '</div>' +
-          '<p class="mb-1"><%= changes %></p>' +
+          '<p class="mb-1 text-justify text-truncate"><%= changes %></p>' +
         '</a>');
     var filters = [{"name": "project_id", "op": "eq", "val": "{{ project.id }}"}];
     $.ajax({
@@ -143,6 +142,7 @@ $(document).ready(function() {
           })
           .map(function(release){
             var cardHTML = releaseTemplate({
+                'release_url': release.release_url,
                 'version': release.version,
                 'published_at': moment(release.published_at).fromNow(),
                 'changes': release.changes

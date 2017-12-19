@@ -17,8 +17,8 @@ def import_projects(json_file):
                         short_description=project['short_description'],
                         description=project['description'],
                         website=project['website'],
-                        required_informations=project['required_informations'],
-                        notification_email=project['notification_email'],
+                        required_informations=project.get('required_informations', None),
+                        notification_email=project.get('notification_email', None),
                         cve_vendor=project.get('cve_vendor', ''),
                         cve_product=project.get('cve_product', ''),
                         automatic_release_tracking=project.get('automatic_release_tracking', ''))

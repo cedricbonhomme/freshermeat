@@ -11,7 +11,8 @@ class Release(db.Model):
     state = db.Column(db.String(), default='')  #ie: stable
     scope = db.Column(db.String(), default='')  #ie: minor bugfix feature
     changes = db.Column(db.String(), default='')
-    download = db.Column(db.String(), default='')
+    release_url = db.Column(db.String(), default='')
+    download_url = db.Column(db.String(), default='')
     published_at = db.Column(db.DateTime(), default=datetime.utcnow())
 
     # foreign keys

@@ -36,7 +36,8 @@
         "notification_email": "info@cases.lu",
         "organization": {
             "name": "CASES"
-        }
+        },
+        "automatic_release_tracking": "github:https://api.github.com/repos/CASES-LU/diagnostic/releases"
     },
     {
         "name": "MISP",
@@ -75,6 +76,18 @@
         "cve_vendor": "misp",
         "cve_product": "misp",
         "automatic_release_tracking": "github:https://api.github.com/repos/misp/misp/releases"
+    },
+    {
+        "name": "AIL framework",
+        "short_description": "Analysis Information Leak framework ",
+        "description": "AIL is a modular framework to analyse potential information leaks from unstructured data sources like pastes from Pastebin or similar services or unstructured data streams. AIL framework is flexible and can be extended to support other functionalities to mine or process sensitive information.",
+        "website": "https://github.com/CIRCL/AIL-framework",
+        "organization": {
+            "name": "CIRCL"
+        },
+        "cve_vendor": "cirl",
+        "cve_product": "ail",
+        "automatic_release_tracking": "github:https://api.github.com/repos/CIRCL/AIL-framework/releases"
     },
     {
         "name": "Passive DNS",

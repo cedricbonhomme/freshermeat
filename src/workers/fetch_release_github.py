@@ -23,7 +23,8 @@ def fetch_release(project):
                 published_at = datetime.utcnow()
             new_release = Release(version=release['tag_name'],
                                   changes=release['body'],
-                                  download=release['tarball_url'],
+                                  release_url=release['html_url'],
+                                  download_url=release['tarball_url'],
                                   published_at=published_at,
                                   project_id=project.id)
 
