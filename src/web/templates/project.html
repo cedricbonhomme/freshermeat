@@ -65,9 +65,11 @@ $(document).ready(function() {
         dataType: "json",
         contentType: "application/json",
         success: function(project) {
-            $("#organization-name").html(project.objects[0].organization.name);
-            $("#organization-name").attr("href", '/?organization=' +
-                                            project.objects[0].organization.name);
+            if (project.objects[0].organization) {
+              $("#organization-name").html(project.objects[0].organization.name);
+              $("#organization-name").attr("href", '/?organization=' +
+                                              project.objects[0].organization.name);
+            }
             $("#project-name").html(project.objects[0].name);
             $("#project-logo").attr("src", project.objects[0].logo);
             $("#project-website").attr("href", project.objects[0].website);

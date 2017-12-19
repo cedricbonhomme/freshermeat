@@ -31,16 +31,18 @@ def form(project_id=None):
     head_titles = [action]
 
     form = AddProjectForm()
-    form.organization_id.choices = [(org.id, org.name) for org in
-                                    Organization.query.all()]
+    form.organization_id.choices = [(0, '')]
+    form.organization_id.choices.extend([(org.id, org.name) for org in
+                                                    Organization.query.all()])
 
     if project_id is None:
         return render_template('edit_project.html', action=action,
                                head_titles=head_titles, form=form)
     project = Project.query.filter(Project.id == project_id).first()
     form = AddProjectForm(obj=project)
-    form.organization_id.choices = [(org.id, org.name) for org in
-                                    Organization.query.all()]
+    form.organization_id.choices = [(0, '')]
+    form.organization_id.choices.extend([(org.id, org.name) for org in
+                                                    Organization.query.all()])
     form.tags.data = ", ".join(project.tags)
     action = "Edit project"
     head_titles = [action]
@@ -55,11 +57,15 @@ def form(project_id=None):
 @login_required
 def process_form(project_id=None):
     form = AddProjectForm()
-    form.organization_id.choices = [(org.id, org.name) for org in
-                                    Organization.query.all()]
+    form.organization_id.choices = [(0, '')]
+    form.organization_id.choices.extend([(org.id, org.name) for org in
+                                                    Organization.query.all()])
 
     if not form.validate():
         return render_template('edit_project.html', form=form)
+
+    if form.organization_id.data == 0:
+        form.organization_id.data = None
 
     if project_id is not None:
         project = Project.query.filter(Project.id == project_id).first()

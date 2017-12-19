@@ -74,7 +74,9 @@ class AddProjectForm(FlaskForm):
     tags = TextField("Tags")
     organization_id = SelectField("Organization", [validators.Optional()],
                                   coerce=int)
-    organization_id.choices = [(org.id, org.name) for org in Organization.query.all()]
+    organization_id.choices = [(0, '')]
+    organization_id.choices.extend([(org.id, org.name) for org in
+                                                Organization.query.all()])
     logo = FileField("Logo")
     enabled = BooleanField("Enabled", default=True)
     submit = SubmitField("Save")
