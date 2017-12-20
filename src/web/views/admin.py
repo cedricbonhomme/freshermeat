@@ -26,8 +26,10 @@ def dashboard(per_page):
 
     requests = models.Request.query
     if organization_name:
-        requests = requests.filter(models.Request.project.has(
-                                   organization=organization_name))
+        orga = models.Organization.query.filter(models.Organization.name == organization_name).first()
+        if orga:
+            requests = requests.filter(models.Request.project.has(
+                                       organization_id=orga.id))
 
     page, per_page, offset = get_page_args()
     pagination = Pagination(page=page, total=requests.count(),
