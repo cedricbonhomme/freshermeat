@@ -16,6 +16,8 @@ class User(db.Model, UserMixin):
     created_at = db.Column(db.DateTime(), default=datetime.utcnow())
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow())
 
+    public_profile = db.Column(db.Boolean(), default=True)
+
     # user rights
     is_active = db.Column(db.Boolean(), default=False)
     is_admin = db.Column(db.Boolean(), default=False)
