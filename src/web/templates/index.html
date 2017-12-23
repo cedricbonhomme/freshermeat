@@ -1,22 +1,22 @@
 {% extends "layout.html" %}
 {% block body %}
 <div class="container-fluid">
-  <div class="banner row">
-      <div class="col">
-          <br /><br />
-          <h1>Open source software release tracker</h1>
-      </div>
-  </div>
+    <div class="banner row">
+        <div class="col">
+            <br /><br />
+            <h1>Open source software release tracker</h1>
+        </div>
+    </div>
 </div>
 <div class="container">
     <div class="row">
         <div class="col">
             <h3>Projects
-            {% if current_user.is_authenticated %}
-            <a href="{{ url_for('project_bp.form') }}">
-              <i class="fa fa-plus-circle" aria-hidden="true"></i>
-            </a>
-            {% endif %}
+                {% if current_user.is_authenticated %}
+                <a href="{{ url_for('project_bp.form') }}">
+                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                </a>
+                {% endif %}
             </h3>
             <div id="list-projects" class="list-group"></div>
         </div>
@@ -33,21 +33,21 @@ $(document).ready(function() {
     // template for the projects
     var projectTemplate = _.template(
         '<a href="<%= project_url %>" class="list-group-item list-group-item-action flex-column align-items-start">' +
-          '<div class="d-flex w-100 justify-content-between">' +
-            '<h5 class="mb-1"><%= project_name %></h5>' +
-            '<small>updated <%= project_last_update %></small>' +
-          '</div>' +
-          '<p class="mb-1"><%= project_description %></p>' +
+            '<div class="d-flex w-100 justify-content-between">' +
+                '<h5 class="mb-1"><%= project_name %></h5>' +
+                '<small>updated <%= project_last_update %></small>' +
+            '</div>' +
+            '<p class="mb-1"><%= project_description %></p>' +
         '</a>');
 
     // template for the organizations
     var organizationTemplate = _.template(
         '<a href="<%= organization_url %>" class="list-group-item list-group-item-action flex-column align-items-start">' +
-          '<div class="d-flex w-100 justify-content-between">' +
-            '<h5 class="mb-1"><%= organization_name %></h5>' +
-            '<small>updated <%= organization_last_update %></small>' +
-          '</div>' +
-          '<p class="mb-1"><%= organization_description %></p>' +
+            '<div class="d-flex w-100 justify-content-between">' +
+                '<h5 class="mb-1"><%= organization_name %></h5>' +
+                '<small>updated <%= organization_last_update %></small>' +
+            '</div>' +
+            '<p class="mb-1"><%= organization_description %></p>' +
         '</a>');
 
     var filters = [{"name": "enabled", "op": "eq", "val": true}];
@@ -57,42 +57,42 @@ $(document).ready(function() {
         dataType: "json",
         contentType: "application/json",
         success: function(projects) {
-            projects.objects
-            .sort(function (a, b) {
-                return a.last_updated < b.last_updated ;
-            })
-            .map(function (project) {
-                var cardHTML = projectTemplate({
-                    'project_url': '/project/'+project.name,
-                    'project_name': project.name,
-                    'project_description': project.short_description,
-                    'project_last_update': moment(project.last_updated).fromNow()
-                 });
-                 $('#list-projects').append(cardHTML);
-            });
-        }
-    });
+                projects.objects
+                .sort(function (a, b) {
+                    return a.last_updated < b.last_updated ;
+                })
+                .map(function (project) {
+                    var cardHTML = projectTemplate({
+                        'project_url': '/project/'+project.name,
+                        'project_name': project.name,
+                        'project_description': project.short_description,
+                        'project_last_update': moment(project.last_updated).fromNow()
+                     });
+                     $('#list-projects').append(cardHTML);
+                });
+            }
+        });
 
     $.ajax({ // Get the list of organizations
         url: "{{ url_for('organizationapi0.organizationapi',) }}",
         dataType: "json",
         contentType: "application/json",
         success: function(organizations) {
-            organizations.objects
-            .sort(function (a, b) {
-                return a.last_updated < b.last_updated ;
-            })
-            .map(function (organization) {
-                var cardHTML = organizationTemplate({
-                    'organization_url': '/organization/'+organization.name,
-                    'organization_name': organization.name,
-                    'organization_description': organization.description,
-                    'organization_last_update': moment(organization.last_updated).fromNow()
-                 });
-                 $('#list-organizations').append(cardHTML);
-            });
-        }
-    });
+                organizations.objects
+                .sort(function (a, b) {
+                    return a.last_updated < b.last_updated ;
+                })
+                .map(function (organization) {
+                    var cardHTML = organizationTemplate({
+                        'organization_url': '/organization/'+organization.name,
+                        'organization_name': organization.name,
+                        'organization_description': organization.description,
+                        'organization_last_update': moment(organization.last_updated).fromNow()
+                     });
+                     $('#list-organizations').append(cardHTML);
+                });
+            }
+        });
 });
 </script>
 {% endblock %}

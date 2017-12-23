@@ -1,98 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        {% block head %}
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="description" content="SECURITYMADEIN.LU - Services" />
-        <meta name="author" content="SECURITYMADEIN.LU" />
+<head>
+    {% block head %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Freshermeat" />
+    <meta name="author" content="Freshermeat" />
 
-        {% block head_css %}
-        <link rel="stylesheet" href="{{ url_for('static', filename='npm_components/bootstrap/dist/css/bootstrap.min.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='npm_components/datatables.net-bs4/css/dataTables.bootstrap4.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='npm_components/font-awesome/css/font-awesome.min.css') }}">
-        {% endblock %}
-
-        <script src="{{ url_for('static', filename='npm_components/jquery/dist/jquery.min.js') }}"></script>
-        <script src="{{ url_for('static', filename='npm_components/popper.js/dist/umd/popper.min.js') }}"></script>
-        <script src="{{ url_for('static', filename='npm_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-        <script src="{{ url_for('static', filename='npm_components/datatables.net/js/jquery.dataTables.js') }}"></script>
-        <script src="{{ url_for('static', filename='npm_components/datatables.net-bs4/js/dataTables.bootstrap4.js') }}"></script>
-        <script src="{{ url_for('static', filename='npm_components/lodash/lodash.min.js') }}"></script>
-        <script src="{{ url_for('static', filename='npm_components/moment/min/moment.min.js') }}"></script>
-        <script src="{{ url_for('static', filename='npm_components/tinymce/tinymce.min.js') }}"></script>
-        <script src="{{ url_for('static', filename='js/utils.js') }}"></script>
-
-        <title>Freshermeat</title>
-        {% endblock %}
-    </head>
-    {% block page_body %}
-    <body>
-        {% block main_menu %}
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="/">Freshermeat</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            {% block menu_links %}
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto w-100 justify-content-end">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('projects_bp.list_projects') }}" title="Projects">Projects</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('organizations_bp.list_organizations') }}" title="Organizations">Organizations</a>
-                    </li>
-                    {% if current_user.is_authenticated %}
-                        {% if current_user.is_admin %}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Administration
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="{{ url_for('admin_bp.dashboard') }}"><i class="fa fa-tachometer" aria-hidden="true"></i>&nbsp;Dashboard</a>
-                                <a class="dropdown-item" href="{{ url_for('admin_bp.list_users') }}"><i class="fa fa-user" aria-hidden="true"></i>&nbsp;Users</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{{ url_for('project.edit_view') }}"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;Projects</a>
-                            </div>
-                        </li>
-                        {% endif %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('logout') }}" title="Sign out"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
-                    </li>
-                    {% endif %}
-                </ul>
-            </div>
-            {% endblock %}
-        </nav>
-        {% endblock %}
-
-
-        <div class="container alert-message">
-        {% block messages %}
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    {% for category, message in messages %}
-                        <div class="alert alert-{{category}}">
-                            <button type="button" class="close" data-dismiss="alert">&times;</button>
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
-        {% endblock %}
-        </div>
-
-        {% block content %}{% endblock %}
-        {% block body %}{% endblock %}
-
-        <footer class="footer">
-            <div class="container">
-                <span class="text-muted"><a href="#">Freshermeat</a></span>
-            </div>
-        </footer>
-    </body>
+    {% block head_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='npm_components/bootstrap/dist/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='npm_components/datatables.net-bs4/css/dataTables.bootstrap4.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='npm_components/font-awesome/css/font-awesome.min.css') }}">
     {% endblock %}
+
+    <script src="{{ url_for('static', filename='npm_components/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='npm_components/popper.js/dist/umd/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='npm_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='npm_components/datatables.net/js/jquery.dataTables.js') }}"></script>
+    <script src="{{ url_for('static', filename='npm_components/datatables.net-bs4/js/dataTables.bootstrap4.js') }}"></script>
+    <script src="{{ url_for('static', filename='npm_components/lodash/lodash.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='npm_components/moment/min/moment.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='npm_components/tinymce/tinymce.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/utils.js') }}"></script>
+
+    <title>Freshermeat</title>
+    {% endblock %}
+</head>
+{% block page_body %}
+<body>
+{% block main_menu %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">Freshermeat</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        {% block menu_links %}
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto w-100 justify-content-end">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('projects_bp.list_projects') }}" title="Projects">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('organizations_bp.list_organizations') }}" title="Organizations">Organizations</a>
+                </li>
+                {% if current_user.is_authenticated %}
+                {% if current_user.is_admin %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Administration</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{{ url_for('admin_bp.dashboard') }}"><i class="fa fa-tachometer" aria-hidden="true"></i>&nbsp;Dashboard</a>
+                        <a class="dropdown-item" href="{{ url_for('admin_bp.list_users') }}"><i class="fa fa-user" aria-hidden="true"></i>&nbsp;Users</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ url_for('project.edit_view') }}"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;Projects</a>
+                    </div>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('logout') }}" title="Sign out"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('login') }}" title="Sign in"><i class="fa fa-sign-in" aria-hidden="true"></i></a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+        {% endblock %}
+    </nav>
+{% endblock %}
+
+
+<div class="container alert-message">
+{% block messages %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{category}}">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+{% endblock %}
+</div>
+
+{% block content %}{% endblock %}
+{% block body %}{% endblock %}
+
+<footer class="footer">
+    <div class="container-fluid">
+        <span class="text-muted"><a href="https://github.com/cedricbonhomme/Freshermeat">Freshermeat</a></span>
+        <span class="text-muted">GNU Affero General Public License</span>
+    </div>
+</footer>
+</body>
+{% endblock %}
 </html>
