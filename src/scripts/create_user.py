@@ -6,8 +6,9 @@ from werkzeug import generate_password_hash
 from web.models import User
 from bootstrap import db
 
-def create_user(email, password, is_admin):
-    user = User(email=email,
+def create_user(nickname, email, password, is_admin):
+    user = User(nickname=nickname,
+                email=email,
                 pwdhash=generate_password_hash(password),
                 is_active=True,
                 is_admin=is_admin)

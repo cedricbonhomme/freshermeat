@@ -34,9 +34,9 @@ class SigninForm(RedirectForm):
     """
     Sign in form.
     """
-    email = TextField("Email",
-            [validators.Length(min=3, max=35),
-            validators.Required("Please enter your email address.")])
+    nickname = TextField("Nickname",
+            [validators.Length(min=3, max=30),
+            validators.Required("Please enter your nickname.")])
     password = PasswordField('Password',
             [validators.Required("Please enter a password."),
              validators.Length(min=6, max=100)])
@@ -48,17 +48,17 @@ class SigninForm(RedirectForm):
 
     def validate(self):
         validated = super().validate()
-        user = User.query.filter(User.email == self.email.data).first()
+        user = User.query.filter(User.nickname == self.nickname.data).first()
         if not user:
-            self.email.errors.append(
-                'Wrong email address or password')
+            self.nickname.errors.append(
+                'Impossible to login.')
             validated = False
         else:
             if not user.is_active:
-                self.email.errors.append('Wrong email address or password')
+                self.nickname.errors.append('Impossible to login.')
                 validated = False
             if not user.check_password(self.password.data):
-                self.password.errors.append('Wrong email address or password')
+                self.password.errors.append('Impossible to login.')
                 validated = False
             self.user = user
         return validated
@@ -86,10 +86,13 @@ class UserForm(FlaskForm):
     """
     Create or edit a user (for the administrator).
     """
+    nickname = TextField("Nickname",
+            [validators.Length(min=3, max=30),
+            validators.Required("Please enter your nickname.")])
     email = EmailField("Email",
-               [validators.Length(min=6, max=254),
-                validators.Required("Please enter your email.")])
+               [validators.Length(max=254)])
     password = PasswordField("Password")
+    public_profile = BooleanField("Public profile", default=True)
     is_active = BooleanField("Active", default=True)
     is_admin = BooleanField("Admin", default=False)
     is_api = BooleanField("API", default=False)

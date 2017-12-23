@@ -44,19 +44,19 @@ def db_init():
 
 
 @manager.command
-def create_user(email, password):
+def create_user(nickname, email, password):
     "Initializes a user"
-    print("Creation of the user {} ...".format(email))
+    print("Creation of the user {} ...".format(nickname))
     with application.app_context():
-        scripts.create_user(email, password, False)
+        scripts.create_user(nickname, email, password, False)
 
 
 @manager.command
-def create_admin(email, password):
+def create_admin(nickname, email, password):
     "Initializes an admin user"
-    print("Creation of the admin user {} ...".format(email))
+    print("Creation of the admin user {} ...".format(nickname))
     with application.app_context():
-        scripts.create_user(email, password, True)
+        scripts.create_user(nickname, email, password, True)
 
 
 @manager.command

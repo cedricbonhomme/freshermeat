@@ -1,6 +1,7 @@
 
 from datetime import datetime
 from flask_login import UserMixin
+from sqlalchemy.orm import validates    
 from werkzeug import check_password_hash
 
 from bootstrap import db
@@ -11,7 +12,8 @@ class User(db.Model, UserMixin):
     Represent a user.
     """
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(), unique=True, nullable=False)
+    email = db.Column(db.String(), unique=True, default='')
+    nickname = db.Column(db.String(), unique=True, nullable=False)
     pwdhash = db.Column(db.String(), nullable=False)
     created_at = db.Column(db.DateTime(), default=datetime.utcnow())
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow())
@@ -38,3 +40,9 @@ class User(db.Model, UserMixin):
         Check the password of the user.
         """
         return check_password_hash(self.pwdhash, password)
+
+    @validates('nickname')
+    def validates_nickname(self, key, value):
+        assert 3 <= len(value) <= 30, \
+            AssertionError("maximum length for nickname: 30")
+        return value.replace(' ', '').strip()

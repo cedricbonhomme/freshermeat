@@ -8,11 +8,17 @@
     <form action="" method="post" name="saveprofileform" id="profileform">
         {{ form.hidden_tag() }}
 
+        {{ form.nickname.label }}
+        {{ form.nickname(class_="form-control") }} {% for error in form.nickname.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+
         {{ form.email.label }}
         {{ form.email(class_="form-control") }} {% for error in form.email.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
 
         {{ form.password.label }}
         {{ form.password(class_="form-control") }} {% for error in form.password.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+
+        {{ form.public_profile.label }}
+        {{ form.public_profile(class_="form-control") }} {% for error in form.public_profile.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
 
         {{ form.is_active.label }}
         {{ form.is_active(class_="form-control") }} {% for error in form.is_active.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}

@@ -46,7 +46,7 @@ class Project(db.Model):
                                cascade='all,delete-orphan')
 
     @validates('name')
-    def validates_bio(self, key, value):
+    def validates_name(self, key, value):
         assert len(value) <= 100, \
             AssertionError("maximum length for name: 100")
         return value.replace(' ', '').strip()

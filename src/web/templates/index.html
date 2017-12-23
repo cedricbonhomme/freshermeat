@@ -50,6 +50,16 @@ $(document).ready(function() {
             '<p class="mb-1"><%= organization_description %></p>' +
         '</a>');
 
+    // template for the users
+    var userTemplate = _.template(
+        '<a href="<%= user_url %>" class="list-group-item list-group-item-action flex-column align-items-start">' +
+            '<div class="d-flex w-100 justify-content-between">' +
+                '<h5 class="mb-1"><%= organization_name %></h5>' +
+                '<small>updated <%= organization_last_update %></small>' +
+            '</div>' +
+            '<p class="mb-1"><%= organization_description %></p>' +
+        '</a>');
+
     var filters = [{"name": "enabled", "op": "eq", "val": true}];
     $.ajax({ // Get the list of enabled projects
         url: "{{ url_for('projectapi0.projectapi',) }}",
