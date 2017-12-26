@@ -4,8 +4,9 @@
 
 Functionalities:
 
-- release tracking;
+- software release tracking;
 - vulnerability tracking (CVE);
+- subscribe to releases of projects via an ATOM feed;
 - repository statistics;
 - contact the project manager.
 
