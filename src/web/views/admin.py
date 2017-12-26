@@ -157,13 +157,17 @@ def process_user_form(user_id=None):
         if form.password.data:
             user.pwdhash = generate_password_hash(form.password.data)
         db.session.commit()
-        flash('User {user_email} successfully updated.'.
-              format(user_email=form.email.data), 'success')
+        flash('User {user_nickname} successfully updated.'.
+              format(user_nickname=form.nickname.data), 'success')
         return redirect(url_for('admin_bp.form_user', user_id=user.id))
 
     # Create a new user
-    new_user = models.User(email=form.email.data,
-                           is_active=True,
+    new_user = models.User(nickname=form.nickname.data,
+                           email=form.email.data,
+                           public_profile=form.public_profile.data,
+                           is_active=form.is_active.data,
+                           is_admin=form.is_admin.data,
+                           is_api=form.is_api.data,
                            pwdhash=generate_password_hash(form.password.data))
     db.session.add(new_user)
     db.session.commit()

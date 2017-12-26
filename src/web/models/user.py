@@ -1,7 +1,7 @@
 
 from datetime import datetime
 from flask_login import UserMixin
-from sqlalchemy.orm import validates    
+from sqlalchemy.orm import validates
 from werkzeug import check_password_hash
 
 from bootstrap import db
@@ -12,7 +12,7 @@ class User(db.Model, UserMixin):
     Represent a user.
     """
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(), unique=True, default='')
+    email = db.Column(db.String(), default='')
     nickname = db.Column(db.String(), unique=True, nullable=False)
     pwdhash = db.Column(db.String(), nullable=False)
     created_at = db.Column(db.DateTime(), default=datetime.utcnow())
