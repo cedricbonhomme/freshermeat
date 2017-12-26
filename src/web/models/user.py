@@ -26,8 +26,7 @@ class User(db.Model, UserMixin):
     is_api = db.Column(db.Boolean(), default=False)
 
     # relationship
-    projects = db.relationship('Project', backref='maintainer', lazy='dynamic',
-                               cascade='all,delete-orphan')
+    positions = db.relationship('Project', backref='manager', lazy='dynamic')
 
     def get_id(self):
         """

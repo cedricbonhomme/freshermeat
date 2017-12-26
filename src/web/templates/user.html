@@ -6,7 +6,48 @@
             <h4>{{ user.nickname }}</h4>
         </div>
     </div>
+    <div class="row">
+        <div class="col">
+            <h5>Managed projects</h5>
+            <div id="list-projects" class="list-group"></div>
+        </div>
+    </div>
 </div><!-- /.container -->
 <script>
+$(document).ready(function() {
+    // template for the projects
+    var projectTemplate = _.template(
+        '<a href="<%= project_url %>" class="list-group-item list-group-item-action flex-column align-items-start">' +
+            '<div class="d-flex w-100 justify-content-between">' +
+                '<h5 class="mb-1"><%= project_name %></h5>' +
+                '<small>updated <%= project_last_update %></small>' +
+            '</div>' +
+            '<p class="mb-1"><%= project_description %></p>' +
+        '</a>');
+
+    var filters = [{"name": "enabled", "op": "eq", "val": true},
+                    {"name": "manager_id", "op": "eq", "val": {{ user.id }}}];
+    $.ajax({ // Get the list of enabled projects
+        url: "{{ url_for('projectapi0.projectapi',) }}",
+        data: {"q": JSON.stringify({"filters": filters})},
+        dataType: "json",
+        contentType: "application/json",
+        success: function(projects) {
+                projects.objects
+                .sort(function (a, b) {
+                    return a.last_updated < b.last_updated ;
+                })
+                .map(function (project) {
+                    var cardHTML = projectTemplate({
+                        'project_url': '/project/'+project.name,
+                        'project_name': project.name,
+                        'project_description': project.short_description,
+                        'project_last_update': moment(project.last_updated).fromNow()
+                     });
+                     $('#list-projects').append(cardHTML);
+                });
+            }
+        });
+});
 </script>
 {% endblock %}
