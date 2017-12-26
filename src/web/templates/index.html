@@ -54,10 +54,8 @@ $(document).ready(function() {
     var userTemplate = _.template(
         '<a href="<%= user_url %>" class="list-group-item list-group-item-action flex-column align-items-start">' +
             '<div class="d-flex w-100 justify-content-between">' +
-                '<h5 class="mb-1"><%= organization_name %></h5>' +
-                '<small>updated <%= organization_last_update %></small>' +
+                '<h5 class="mb-1"><%= user_nickname %></h5>' +
             '</div>' +
-            '<p class="mb-1"><%= organization_description %></p>' +
         '</a>');
 
     var filters = [{"name": "enabled", "op": "eq", "val": true}];
@@ -100,6 +98,26 @@ $(document).ready(function() {
                         'organization_last_update': moment(organization.last_updated).fromNow()
                      });
                      $('#list-organizations').append(cardHTML);
+                });
+            }
+        });
+
+
+    $.ajax({ // Get the list of users
+        url: "{{ url_for('userapi0.userapi',) }}",
+        dataType: "json",
+        contentType: "application/json",
+        success: function(users) {
+                users.objects
+                // .sort(function (a, b) {
+                //     return a.last_updated < b.last_updated ;
+                // })
+                .map(function (user) {
+                    var cardHTML = userTemplate({
+                        'user_url': '/user/'+user.nickname,
+                        'user_nickname': user.nickname
+                     });
+                     $('#list-people').append(cardHTML);
                 });
             }
         });

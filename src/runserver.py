@@ -20,6 +20,7 @@ with application.app_context():
     # API v1
     application.register_blueprint(views.api.v1.blueprint_organization)
     application.register_blueprint(views.api.v1.blueprint_project)
+    application.register_blueprint(views.api.v1.blueprint_user)
     application.register_blueprint(views.api.v1.blueprint_release)
     application.register_blueprint(views.api.v1.blueprint_cve)
     application.register_blueprint(views.api.v1.blueprint_request)
