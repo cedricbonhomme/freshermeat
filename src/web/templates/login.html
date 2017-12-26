@@ -11,9 +11,9 @@
                         {{ form.hidden_tag() }}
 
                         <div class="form-group">
-                        {{ form.nickname(class_="form-control", placeholder='Your nickname') }}
+                        {{ form.login(class_="form-control", placeholder='Your login') }}
                         </div>
-                        {% for message in form.nickname.errors %}
+                        {% for message in form.login.errors %}
                             <div class="alert alert-warning" role="alert">{{ message }}</div>
                         {% endfor %}
 

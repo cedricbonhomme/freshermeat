@@ -1,4 +1,4 @@
-
+import re
 from datetime import datetime
 from flask_login import UserMixin
 from sqlalchemy.orm import validates
@@ -12,8 +12,8 @@ class User(db.Model, UserMixin):
     Represent a user.
     """
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(), default='')
-    nickname = db.Column(db.String(), unique=True, nullable=False)
+    login = db.Column(db.String(), unique=True, nullable=False)
+    email = db.Column(db.String(254), default='')
     pwdhash = db.Column(db.String(), nullable=False)
     created_at = db.Column(db.DateTime(), default=datetime.utcnow())
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow())
@@ -40,8 +40,8 @@ class User(db.Model, UserMixin):
         """
         return check_password_hash(self.pwdhash, password)
 
-    @validates('nickname')
-    def validates_nickname(self, key, value):
+    @validates('login')
+    def validates_login(self, key, value):
         assert 3 <= len(value) <= 30, \
-            AssertionError("maximum length for nickname: 30")
-        return value.replace(' ', '').strip()
+            AssertionError("maximum length for login: 30")
+        return re.sub('[^a-zA-Z0-9_\.]', '', value.replace(' ', '').strip())

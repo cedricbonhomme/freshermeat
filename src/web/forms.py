@@ -34,9 +34,9 @@ class SigninForm(RedirectForm):
     """
     Sign in form.
     """
-    nickname = TextField("Nickname",
+    login = TextField("Login",
             [validators.Length(min=3, max=30),
-            validators.Required("Please enter your nickname.")])
+            validators.Required("Please enter your login.")])
     password = PasswordField('Password',
             [validators.Required("Please enter a password."),
              validators.Length(min=6, max=100)])
@@ -48,14 +48,14 @@ class SigninForm(RedirectForm):
 
     def validate(self):
         validated = super().validate()
-        user = User.query.filter(User.nickname == self.nickname.data).first()
+        user = User.query.filter(User.login == self.login.data).first()
         if not user:
-            self.nickname.errors.append(
+            self.login.errors.append(
                 'Impossible to login.')
             validated = False
         else:
             if not user.is_active:
-                self.nickname.errors.append('Impossible to login.')
+                self.login.errors.append('Impossible to login.')
                 validated = False
             if not user.check_password(self.password.data):
                 self.password.errors.append('Impossible to login.')
@@ -86,9 +86,9 @@ class UserForm(FlaskForm):
     """
     Create or edit a user (for the administrator).
     """
-    nickname = TextField("Nickname",
+    login = TextField("Login",
             [validators.Length(min=3, max=30),
-            validators.Required("Please enter your nickname.")])
+            validators.Required("Please enter your login.")])
     email = EmailField("Email",
                [validators.Length(max=254)])
     password = PasswordField("Password")

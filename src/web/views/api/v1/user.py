@@ -23,7 +23,7 @@ def pre_get_many(search_params=None, **kw):
 blueprint_user = manager.create_api_blueprint(
         models.User,
         url_prefix=url_prefix,
-        include_columns=['nickname'],
+        include_columns=['login'],
         methods=['GET'],
         preprocessors={
             'GET_MANY': [pre_get_many]

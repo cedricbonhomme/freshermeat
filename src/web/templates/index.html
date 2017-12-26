@@ -54,7 +54,7 @@ $(document).ready(function() {
     var userTemplate = _.template(
         '<a href="<%= user_url %>" class="list-group-item list-group-item-action flex-column align-items-start">' +
             '<div class="d-flex w-100 justify-content-between">' +
-                '<h5 class="mb-1"><%= user_nickname %></h5>' +
+                '<h5 class="mb-1"><%= user_login %></h5>' +
             '</div>' +
         '</a>');
 
@@ -114,8 +114,8 @@ $(document).ready(function() {
                 // })
                 .map(function (user) {
                     var cardHTML = userTemplate({
-                        'user_url': '/user/'+user.nickname,
-                        'user_nickname': user.nickname
+                        'user_url': '/user/'+user.login,
+                        'user_login': user.login
                      });
                      $('#list-people').append(cardHTML);
                 });
