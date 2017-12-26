@@ -2,6 +2,7 @@ import os
 import uuid
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_required
+from werkzeug.contrib.atom import AtomFeed
 
 from bootstrap import db, application
 from web.models import get_or_create, Project, Organization, Tag, Icon
@@ -21,6 +22,20 @@ def list_projects():
 def get(project_name=None):
     project = Project.query.filter(Project.name == project_name).first()
     return render_template('project.html', project=project)
+
+
+@project_bp.route('/<string:project_name>/releases.atom', methods=['GET'])
+def recent_releases(project_name=None):
+    """Generates a feed for the releases."""
+    feed = AtomFeed('Recent releases',
+                     feed_url=request.url, url=request.url_root)
+    project = Project.query.filter(Project.name == project_name).first()
+    for release in project.releases:
+        feed.add(release.version, release.changes,
+                 id=release.id,
+                 url=release.release_url,
+                 updated=release.published_at)
+    return feed.get_response()
 
 
 @project_bp.route('/create', methods=['GET'])
