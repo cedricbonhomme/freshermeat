@@ -18,7 +18,7 @@
             <div class="form-group">
                 <label for="{{ form.name.id }}" class="control-label">{{ form.name.label }}</label>
                 <div>
-                    {{ form.name(class_="form-control", size="100%") }}
+                    {{ form.name(class_="form-control") }}
                 </div>
                 {% for error in form.name.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
             </div>
@@ -26,7 +26,7 @@
             <div class="form-group">
                 <label for="{{ form.short_description.id }}" class="control-label">{{ form.short_description.label }}</label>
                 <div>
-                    {{ form.short_description(class_="form-control", size="100%", placeholder='Optional') }}
+                    {{ form.short_description(class_="form-control", placeholder='Optional') }}
                 </div>
                 {% for error in form.short_description.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
             </div>
@@ -34,15 +34,23 @@
             <div class="form-group">
                 <label for="{{ form.description.id }}" class="control-label">{{ form.description.label }}</label>
                 <div>
-                    {{ form.description(class_="form-control", size="100%", placeholder='Optional') }}
+                    {{ form.description(class_="form-control", placeholder='Optional') }}
                 </div>
                 {% for error in form.description.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
             </div>
 
             <div class="form-group">
+                <label for="{{ form.tags.id }}" class="control-label">{{ form.licenses.label }}</label>
+                <div>
+                    {{ form.licenses(class_="form-control") }}
+                </div>
+                {% for error in form.licenses.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+            </div>
+
+            <div class="form-group">
                 <label for="{{ form.tags.id }}" class="control-label">{{ form.tags.label }}</label>
                 <div>
-                    {{ form.tags(class_="form-control", size="100%") }}
+                    {{ form.tags(class_="form-control") }}
                 </div>
                 {% for error in form.tags.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
             </div>
@@ -50,7 +58,7 @@
             <div class="form-group">
                 <label for="{{ form.website.id }}" class="control-label">{{ form.website.label }}</label>
                 <div>
-                    {{ form.website(class_="form-control", size="100%", placeholder='Optional') }}
+                    {{ form.website(class_="form-control", placeholder='Optional') }}
                 </div>
                 {% for error in form.website.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
             </div>

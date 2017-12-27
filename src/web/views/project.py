@@ -5,7 +5,7 @@ from flask_login import login_required
 from werkzeug.contrib.atom import AtomFeed
 
 from bootstrap import db, application
-from web.models import get_or_create, Project, Organization, Tag, Icon
+from web.models import get_or_create, Project, Organization, Tag, Icon, License
 from web.forms import AddProjectForm
 from web.utils import misc
 
@@ -57,7 +57,9 @@ def form(project_id=None):
     form = AddProjectForm(obj=project)
     form.organization_id.choices = [(0, '')]
     form.organization_id.choices.extend([(org.id, org.name) for org in
-                                                    Organization.query.all()])
+                                            Organization.query.all()])
+    form.licenses.data = [license.id for license in
+                                            project.licenses]
     form.tags.data = ", ".join(project.tags)
     action = "Edit project"
     head_titles = [action]
@@ -84,6 +86,8 @@ def process_form(project_id=None):
 
     if project_id is not None:
         project = Project.query.filter(Project.id == project_id).first()
+
+        # Tags
         new_tags = [tag for tag in form.tags.data.strip().split(',') if tag]
         for tag in project.tag_objs:
             if tag.text not in new_tags:
@@ -94,10 +98,17 @@ def process_form(project_id=None):
                                               'project_id': project.id})
         del form.tags
 
+        # Licenses
+        new_licenses = []
+        for license_id in form.licenses.data:
+            license = License.query.filter(License.id == license_id).first()
+            new_licenses.append(license)
+        project.licenses = new_licenses
+        del form.licenses
 
+        # Logo
         f = form.logo.data
         if f:
-            # update the logo of the project
             try:
                 # Delete the previous icon
                 icon_url = os.path.join(application.config['UPLOAD_FOLDER'],
@@ -142,6 +153,15 @@ def process_form(project_id=None):
     for tag in form.tags.data.split(','):
         get_or_create(db.session, Tag, **{'text': tag.strip(),
                                           'project_id': new_project.id})
+
+    # Licenses
+    new_licenses = []
+    for license_id in form.licenses.data:
+        license = License.query.filter(License.id == license_id).first()
+        new_licenses.append(license)
+    new_project.licenses = new_licenses
+    del form.licenses
+
     # Logo
     f = form.logo.data
     if f:

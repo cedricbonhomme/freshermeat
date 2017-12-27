@@ -4,12 +4,13 @@
 from flask import flash, url_for, redirect
 from flask_wtf import FlaskForm
 from wtforms import (TextField, TextAreaField, PasswordField, BooleanField,
-                     SelectField, SubmitField, validators, HiddenField)
+                     SelectField, SubmitField, validators, HiddenField,
+                     SelectMultipleField)
 from wtforms.fields.html5 import EmailField
 from flask_wtf.file import FileField
 
 from lib import misc_utils
-from web.models import User, Organization
+from web.models import User, Organization, License
 
 
 class RedirectForm(FlaskForm):
@@ -71,6 +72,9 @@ class AddProjectForm(FlaskForm):
     short_description = TextField("Short description",
                     [validators.Required("Please enter a short description")])
     website = TextField("Website", [validators.Optional()])
+    licenses = SelectMultipleField("Licenses", coerce=int,
+                        choices=[(license.id, license.name) for license in
+                                    License.query.all()])
     tags = TextField("Tags")
     organization_id = SelectField("Organization", [validators.Optional()],
                                   coerce=int)
