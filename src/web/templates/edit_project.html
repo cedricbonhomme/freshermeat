@@ -12,104 +12,104 @@
         {% endif %}
     </div>
 
-
-        <form action="" method="post" name="save" enctype="multipart/form-data" class="form-horizontal">
-            {{ form.hidden_tag() }}
-            <div class="form-group">
-                <label for="{{ form.name.id }}" class="control-label">{{ form.name.label }}</label>
-                <div>
-                    {{ form.name(class_="form-control") }}
-                </div>
-                {% for error in form.name.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+    <form action="" method="post" name="save" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            <label for="{{ form.name.id }}" class="control-label">{{ form.name.label }}</label>
+            <div>
+                {{ form.name(class_="form-control") }}
             </div>
+            {% for error in form.name.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+        </div>
 
-            <div class="form-group">
-                <label for="{{ form.short_description.id }}" class="control-label">{{ form.short_description.label }}</label>
-                <div>
-                    {{ form.short_description(class_="form-control", placeholder='Optional') }}
-                </div>
-                {% for error in form.short_description.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+        <div class="form-group">
+            <label for="{{ form.short_description.id }}" class="control-label">{{ form.short_description.label }}</label>
+            <div>
+                {{ form.short_description(class_="form-control", placeholder='Optional') }}
             </div>
+            {% for error in form.short_description.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+        </div>
 
-            <div class="form-group">
-                <label for="{{ form.description.id }}" class="control-label">{{ form.description.label }}</label>
-                <div>
-                    {{ form.description(class_="form-control", placeholder='Optional') }}
-                </div>
-                {% for error in form.description.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+        <div class="form-group">
+            <label for="{{ form.description.id }}" class="control-label">{{ form.description.label }}</label>
+            <div>
+                {{ form.description(class_="form-control", placeholder='Optional') }}
             </div>
+            {% for error in form.description.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+        </div>
 
-            <div class="form-group">
-                <label for="{{ form.tags.id }}" class="control-label">{{ form.licenses.label }}</label>
-                <div>
-                    {{ form.licenses(class_="form-control") }}
-                </div>
-                {% for error in form.licenses.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+        <div class="form-group">
+            <label for="{{ form.licenses.id }}" class="control-label">{{ form.licenses.label }}</label>
+            <div>
+                {{ form.licenses(class_="form-control, selectpicker", **{'data-live-search':'true'}) }}
             </div>
+            {% for error in form.licenses.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+        </div>
 
-            <div class="form-group">
-                <label for="{{ form.tags.id }}" class="control-label">{{ form.tags.label }}</label>
-                <div>
-                    {{ form.tags(class_="form-control") }}
-                </div>
-                {% for error in form.tags.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+        <div class="form-group">
+            <label for="{{ form.tags.id }}" class="control-label">{{ form.tags.label }}</label>
+            <div>
+                {{ form.tags(class_="form-control") }}
             </div>
+            {% for error in form.tags.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+        </div>
 
-            <div class="form-group">
-                <label for="{{ form.website.id }}" class="control-label">{{ form.website.label }}</label>
-                <div>
-                    {{ form.website(class_="form-control", placeholder='Optional') }}
-                </div>
-                {% for error in form.website.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+        <div class="form-group">
+            <label for="{{ form.website.id }}" class="control-label">{{ form.website.label }}</label>
+            <div>
+                {{ form.website(class_="form-control", placeholder='Optional') }}
             </div>
+            {% for error in form.website.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+        </div>
 
-            <div class="form-group">
-                <label for="{{ form.organization_id.id }}" class="control-label">{{ form.organization_id.label }}</label>
-                <div>
-                    {{ form.organization_id(class_="form-control") }}
-                </div>
-                {% for error in form.organization_id.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+        <div class="form-group">
+            <label for="{{ form.organization_id.id }}" class="control-label">{{ form.organization_id.label }}</label>
+            <div>
+                {{ form.organization_id(class_="form-control, selectpicker", **{'data-live-search':'true'}) }}
             </div>
+            {% for error in form.organization_id.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+        </div>
 
-            <div class="form-group">
-                <label for="{{ form.logo.id }}" class="control-label">{{ form.logo.label }}</label>
-                <div>
-                    {{ form.logo(class_="form-control") }}
-                </div>
-                {% for error in form.logo.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+        <div class="form-group">
+            <label for="{{ form.logo.id }}" class="control-label">{{ form.logo.label }}</label>
+            <div>
+                {{ form.logo(class_="form-control") }}
             </div>
+            {% for error in form.logo.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+        </div>
 
-            <div class="form-group">
-                <label for="{{ form.enabled.id }}" class="control-label">{{ form.enabled.label }}</label>
-                <div>
-                    {{ form.enabled(class_="form-control") }}
-                </div>
-                {% for error in form.enabled.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+        <div class="form-group">
+            <label for="{{ form.enabled.id }}" class="control-label">{{ form.enabled.label }}</label>
+            <div>
+                {{ form.enabled(class_="form-control") }}
             </div>
+            {% for error in form.enabled.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+        </div>
 
-            <div class="form-group">
-                <div class="">
-                    {{ form.submit(class_="btn btn-default") }}
-                </div>
+        <div class="form-group">
+            <div class="">
+                {{ form.submit(class_="btn btn-default") }}
             </div>
-        </form>
+        </div>
+    </form>
 </div><!-- /.container -->
 <script>
 $(document).ready(function() {
-  tinymce.init({
-    selector: 'textarea',
-    height: 500,
-    menubar: false,
-    plugins: [
-      'advlist autolink lists link image charmap print preview anchor textcolor',
-      'searchreplace visualblocks code fullscreen',
-      'insertdatetime media table contextmenu paste code help'
-    ],
-    toolbar: 'insert | undo redo |  formatselect | bold italic backcolor  | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
-    content_css: [
-      '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
-      '//www.tinymce.com/css/codepen.min.css']
-  });
+    $('.selectpicker').selectpicker();
+    tinymce.init({
+        selector: 'textarea',
+        height: 500,
+        menubar: false,
+        plugins: [
+          'advlist autolink lists link image charmap print preview anchor textcolor',
+          'searchreplace visualblocks code fullscreen',
+          'insertdatetime media table contextmenu paste code help'
+        ],
+        toolbar: 'insert | undo redo |  formatselect | bold italic backcolor  | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
+        content_css: [
+          '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+          '//www.tinymce.com/css/codepen.min.css']
+    });
 });
 </script>
 {% endblock %}
