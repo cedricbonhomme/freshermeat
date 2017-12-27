@@ -27,9 +27,9 @@ def get(project_name=None):
 @project_bp.route('/<string:project_name>/releases.atom', methods=['GET'])
 def recent_releases(project_name=None):
     """Generates a feed for the releases."""
-    feed = AtomFeed('Recent releases',
-                     feed_url=request.url, url=request.url_root)
     project = Project.query.filter(Project.name == project_name).first()
+    feed = AtomFeed('Recent releases for {}'.format(project.name),
+                     feed_url=request.url, url=request.url_root)
     for release in project.releases:
         feed.add(release.version, release.changes,
                  id=release.id,
