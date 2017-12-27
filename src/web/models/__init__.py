@@ -4,13 +4,14 @@
 from .user import User
 from .tag import Tag
 from .project import Project
+from .license import License
 from .organization import Organization
 from .release import Release
 from .cve import CVE
 from .icon import Icon
 from .request import Request
 
-__all__ = ['Project', 'Release', 'User',
+__all__ = ['Project', 'License', 'Release', 'User',
            'Organization', 'Tag', 'Request', 'CVE']
 
 from sqlalchemy.engine import reflection

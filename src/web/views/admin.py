@@ -198,6 +198,10 @@ class ProjectView(ModelView):
     def is_accessible(self):
         return current_user.is_authenticated and current_user.is_admin
 
+class LicenseView(ModelView):
+    def is_accessible(self):
+        return current_user.is_authenticated and current_user.is_admin
+
 class CustomAdminIndexView(AdminIndexView):
     def is_accessible(self):
         return current_user.is_authenticated and current_user.is_admin
@@ -213,4 +217,5 @@ admin_flask = Admin(current_app,
                         url='/admin'
                     ))
 admin_flask.add_view(ProjectView(models.Project, db.session))
+admin_flask.add_view(LicenseView(models.License, db.session))
 admin_flask.add_link(menu_link_back_dashboard)

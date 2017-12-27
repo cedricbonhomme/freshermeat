@@ -23,6 +23,8 @@
                 <div class="card-body">
                     <h5>Description</h5>
                     <div><p id="project-description" class="text-justify"></p></div>
+                    <h5>License</h5>
+                    <div id="project-licenses" class="btn-toolbar"></div>
                     <h5>Tags</h5>
                     <div id="project-tags" class="btn-toolbar"></div>
                 </div>
@@ -90,6 +92,17 @@ $(document).ready(function() {
                 a.setAttribute('href', '/projects/?tag='+tag);
                 $("#project-tags").append(a);
                 $("#project-tags").append('&nbsp;');
+            })
+
+            project.objects[0].licenses.map(function(license){
+                var a = document.createElement('a');
+                var linkText = document.createTextNode(license.name);
+                a.appendChild(linkText);
+                a.setAttribute('title', license.name);
+                a.setAttribute('class', 'btn btn-outline-dark btn-sm');
+                a.setAttribute('style', 'margin:1px');
+                $("#project-licenses").append(a);
+                $("#project-licenses").append('&nbsp;');
             })
         }
     });
