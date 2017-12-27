@@ -68,6 +68,14 @@ def import_projects(json_file):
 
 
 @manager.command
+def import_osi_approved_licenses():
+    "Import OSI approved licenses."
+    print("Importing OSI approved licenses...")
+    with application.app_context():
+        scripts.import_osi_approved_licenses()
+
+
+@manager.command
 def fetch_cve_asyncio(cve_vendor=None):
     "Crawl the CVE with asyncio."
     import asyncio

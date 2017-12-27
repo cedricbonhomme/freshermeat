@@ -47,6 +47,7 @@ freshermeat/freshermeat$ python src/manager.py db_empty
 freshermeat/freshermeat$ python src/manager.py db_init
 freshermeat/freshermeat$ python src/manager.py create_admin firstname.lastname@example.org firstname lastname your-password
 freshermeat/freshermeat$ python src/manager.py import_projects var/projects.json
+freshermeat/freshermeat$ python src/manager.py import_osi_approved_licenses
 
 freshermeat/freshermeat$ python src/runserver.py
  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
@@ -61,8 +62,9 @@ with sample values:
 ```bash
 freshermeat/freshermeat$ ./test-init-db.sh
 Importing projects from var/projects.json ...
-Creation of the admin user alan.turing@example.org ...
-Creation of the user john.doe@example.org ...
+Importing OSI approved licenses...
+Creation of the admin user alan ...
+Creation of the user john ...
 
 freshermeat/freshermeat$ python src/runserver.py
 * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
