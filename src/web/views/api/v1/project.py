@@ -12,7 +12,7 @@ blueprint_project = manager.create_api_blueprint(
     models.Project,
     url_prefix=url_prefix,
     methods=['GET', 'POST', 'PUT', 'DELETE'],
-    exclude_columns=['requests', 'notification_email'],
+    exclude_columns=['requests', 'notification_email', 'tag_objs'],
     preprocessors=dict(
         POST=[processors.auth_func],
         PUT=[processors.auth_func],
