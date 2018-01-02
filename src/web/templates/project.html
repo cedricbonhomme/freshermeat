@@ -101,6 +101,7 @@ $(document).ready(function() {
                 a.setAttribute('title', license.name);
                 a.setAttribute('class', 'btn btn-outline-dark btn-sm');
                 a.setAttribute('style', 'margin:1px');
+                a.setAttribute('href', '/projects/?license='+license.name);
                 $("#project-licenses").append(a);
                 $("#project-licenses").append('&nbsp;');
             })
