@@ -135,9 +135,12 @@ def process_form(project_id=None):
 
 
         form.populate_obj(project)
-        db.session.commit()
-        flash('Project {project_name} successfully updated.'.
-              format(project_name=form.name.data), 'success')
+        try:
+            db.session.commit()
+            flash('Project {project_name} successfully updated.'.
+                  format(project_name=form.name.data), 'success')
+        except Exception as e:
+            form.name.errors.append('Name already exists.')
         return redirect(url_for('project_bp.form', project_id=project.id))
 
 
@@ -148,7 +151,11 @@ def process_form(project_id=None):
                           website=form.website.data,
                           organization_id=form.organization_id.data)
     db.session.add(new_project)
-    db.session.commit()
+    try:
+        db.session.commit()
+    except Exception as e:
+        # TODO: display the error
+        return redirect(url_for('project_bp.form', project_id=new_project.id))
     # Tags
     for tag in form.tags.data.split(','):
         get_or_create(db.session, Tag, **{'text': tag.strip(),

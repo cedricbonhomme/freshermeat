@@ -95,18 +95,6 @@ class AddProjectForm(FlaskForm):
 
     submit = SubmitField("Save")
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-    def validate(self):
-        validated = super().validate()
-        project = Project.query.filter(Project.name == self.name.data).first()
-        if not project:
-            self.name.errors.append(
-                'Name already used.')
-            validated = False
-        return validated
-
 
 class UserForm(FlaskForm):
     """

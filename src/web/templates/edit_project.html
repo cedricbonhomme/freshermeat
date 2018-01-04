@@ -14,7 +14,7 @@
 
     <form action="" method="post" name="save" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
-        <h4>General project Information</h4>
+        <h4 id="general-information">General project Information</h4>
         <div class="form-row">
             <div class="col">
                 <div class="form-group">
@@ -95,22 +95,27 @@
 
         <hr />
 
-        <h4>Release submission</h4>
+        <h4 id="release-submission">Release submission</h4>
         <h5>Automatic release tracking</h5>
         <div class="form-row">
             <div class="form-group col-md-12">
-                <label for="{{ form.automatic_release_tracking.id }}" class="control-label">{{ form.automatic_release_tracking.label }}</label>
                 <div>
                     {{ form.automatic_release_tracking(class_="form-control", placeholder='github:https://api.github.com/repos/<username>/<repository>/releases') }}
                 </div>
                 {% for error in form.automatic_release_tracking.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
             Future releases will be automatically created. Currently only GitHub is supported.
             </div>
+        <h5>Submiting a release programmatically</h5>
+        <pre><code>curl -i --user <var>login</var>:<var>password</var>
+     -H "Content-Type: application/json" -H "Accept: application/json" -X POST
+     -d '{"project_id":8,"version":"0.1","state":"stable","scope":"minor bugfix","changes":"This new release..."}'
+     {{ url | instance_domain_name }}/api/v1/release</code></pre>
         </div>
+        <p>This example uses the API in order to submit a new release.</p>
 
         <hr />
 
-        <h4>Vulnerability tracking</h4>
+        <h4 id="Vulnerability-tracking">Vulnerability tracking</h4>
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="{{ form.cve_vendor.id }}" class="control-label">{{ form.cve_vendor.label }}</label>

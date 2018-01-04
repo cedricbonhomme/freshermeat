@@ -14,7 +14,7 @@ from web.models import User, Project, Request
 
 def auth_func(*args, **kw):
     if request.authorization:
-        user = User.query.filter(name == request.authorization.username).first()
+        user = User.query.filter(User.login == request.authorization.username).first()
         if not user:
             raise ProcessingException("Couldn't authenticate your user",
                                       code=401)

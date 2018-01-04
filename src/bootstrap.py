@@ -6,7 +6,7 @@
 import os
 import errno
 import logging
-from flask import Flask
+from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 import flask_restless
 from flask_mail import Mail
@@ -55,9 +55,11 @@ mail = Mail(application)
 # Jinja filters
 def datetimeformat(value, format='%Y-%m-%d %H:%M'):
     return value.strftime(format)
-
+def instance_domain_name(*args):
+    return request.url_root
 
 application.jinja_env.filters['datetimeformat'] = datetimeformat
+application.jinja_env.filters['instance_domain_name'] = instance_domain_name
 
 
 set_logging(application.config['LOG_PATH'])
