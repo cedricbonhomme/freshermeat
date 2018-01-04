@@ -10,7 +10,7 @@ from wtforms.fields.html5 import EmailField
 from flask_wtf.file import FileField
 
 from lib import misc_utils
-from web.models import User, Organization, License
+from web.models import Project, User, Organization, License
 
 
 class RedirectForm(FlaskForm):
@@ -66,15 +66,18 @@ class SigninForm(RedirectForm):
 
 
 class AddProjectForm(FlaskForm):
-    name = TextField("Name", [validators.Optional()])
-    description = TextAreaField("Please enter a description",
-                            [validators.Optional()])
+    name = TextField("Name",
+                    [validators.Required("Please enter a name")])
+    description = TextAreaField("Description",
+                    [validators.Required("Please enter a description")])
     short_description = TextField("Short description",
                     [validators.Required("Please enter a short description")])
     website = TextField("Website", [validators.Optional()])
-    licenses = SelectMultipleField("Licenses", coerce=int,
-                        choices=[(license.id, license.name) for license in
-                                    License.query.all()])
+    licenses = SelectMultipleField("Licenses",
+                    [validators.Required("Please choose a license")],
+                    coerce=int,
+                    choices=[(license.id, license.name) for license in
+                                                    License.query.all()])
     tags = TextField("Tags")
     organization_id = SelectField("Organization", [validators.Optional()],
                                   coerce=int)
@@ -83,7 +86,26 @@ class AddProjectForm(FlaskForm):
                                                 Organization.query.all()])
     logo = FileField("Logo")
     enabled = BooleanField("Enabled", default=True)
+
+    automatic_release_tracking = TextField("Automatic Release Tracking",
+                    [validators.Optional()])
+
+    cve_vendor =  TextField("CVE vendor", [validators.Optional()])
+    cve_product = TextField("CVE product", [validators.Optional()])
+
     submit = SubmitField("Save")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def validate(self):
+        validated = super().validate()
+        project = Project.query.filter(Project.name == self.name.data).first()
+        if not project:
+            self.name.errors.append(
+                'Name already used.')
+            validated = False
+        return validated
 
 
 class UserForm(FlaskForm):
