@@ -41,6 +41,8 @@ class Project(db.Model):
     icon_url = db.Column(db.String(), db.ForeignKey('icon.url'), default=None)
 
     # relationships
+    code_locations = db.relationship('Code', backref='project', lazy='dynamic',
+                               cascade='all,delete-orphan')
     tag_objs = db.relationship('Tag', back_populates='project',
                                cascade='all,delete-orphan',
                                lazy=False,

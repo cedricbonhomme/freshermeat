@@ -11,19 +11,19 @@ def import_projects(json_file):
     with open(json_file) as json_file:
         projects = json.loads(json_file.read())
 
-        for project in projects:
+        for proj in projects:
             new_project = Project(
-                        name=project['name'],
-                        short_description=project['short_description'],
-                        description=project['description'],
-                        website=project['website'],
-                        required_informations=project.get('required_informations', None),
-                        notification_email=project.get('notification_email', None),
-                        cve_vendor=project.get('cve_vendor', ''),
-                        cve_product=project.get('cve_product', ''),
-                        automatic_release_tracking=project.get('automatic_release_tracking', ''))
+                        name=proj['name'],
+                        short_description=proj['short_description'],
+                        description=proj['description'],
+                        website=proj['website'],
+                        required_informations=proj.get('required_informations', None),
+                        notification_email=proj.get('notification_email', None),
+                        cve_vendor=proj.get('cve_vendor', ''),
+                        cve_product=proj.get('cve_product', ''),
+                        automatic_release_tracking=proj.get('automatic_release_tracking', ''))
 
-            organization = get_or_create(db.session, Organization, **project['organization'])
+            organization = get_or_create(db.session, Organization, **proj['organization'])
 
             new_project.organization_id = organization.id
             db.session.add(new_project)
