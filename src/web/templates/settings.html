@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h3>Settings</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <a href="{{ url_for('project_bp.form', project_id=project.id) }}">Edit project description</a>
+        </div>
+        <div class="col">
+            <a href="{{ url_for('project_bp.code_locations', project_name=project.name) }}">Edit code locations</a>
+        </div>
+    </div>
+</div><!-- /.container -->
+{% endblock %}

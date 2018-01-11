@@ -3,7 +3,7 @@
 
 import json
 
-from web.models import Project, Organization, get_or_create
+from web.models import Project, Code, Organization, get_or_create
 from bootstrap import db
 
 
@@ -24,6 +24,10 @@ def import_projects(json_file):
                         automatic_release_tracking=proj.get('automatic_release_tracking', ''))
 
             organization = get_or_create(db.session, Organization, **proj['organization'])
+
+            for code_location in proj.get('code_locations', []):
+                code = get_or_create(db.session, Code, **code_location)
+                new_project.code_locations.append(code)
 
             new_project.organization_id = organization.id
             db.session.add(new_project)

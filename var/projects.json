@@ -17,7 +17,21 @@
         "organization": {
             "name": "CASES"
         },
-        "automatic_release_tracking": "github:https://api.github.com/repos/monarc-project/MonarcAppFO/releases"
+        "automatic_release_tracking": "github:https://api.github.com/repos/monarc-project/MonarcAppFO/releases",
+        "code_locations": [
+            {
+                "repository_url": "https://github.com/monarc-project/MonarcAppFO.git",
+                "scm_type": "Git"
+            },
+            {
+                "repository_url": "https://github.com/monarc-project/zm-core.git",
+                "scm_type": "Git"
+            },
+            {
+                "repository_url": "https://github.com/monarc-project/zm-client.git",
+                "scm_type": "Git"
+            }
+        ]
     },
     {
         "name": "Diagnostic",
@@ -75,7 +89,13 @@
         },
         "cve_vendor": "misp",
         "cve_product": "misp",
-        "automatic_release_tracking": "github:https://api.github.com/repos/misp/misp/releases"
+        "automatic_release_tracking": "github:https://api.github.com/repos/misp/misp/releases",
+        "code_locations": [
+            {
+                "repository_url": "https://github.com/MISP/MISP.git",
+                "scm_type": "Git"
+            }
+        ]
     },
     {
         "name": "AIL framework",

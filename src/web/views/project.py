@@ -5,8 +5,8 @@ from flask_login import login_required
 from werkzeug.contrib.atom import AtomFeed
 
 from bootstrap import db, application
-from web.models import get_or_create, Project, Organization, Tag, Icon, License
-from web.forms import AddProjectForm
+from web.models import get_or_create, Project, Code, Organization, Tag, Icon, License
+from web.forms import AddProjectForm, CodeForm
 from web.utils import misc
 
 project_bp = Blueprint('project_bp', __name__, url_prefix='/project')
@@ -22,6 +22,43 @@ def list_projects():
 def get(project_name=None):
     project = Project.query.filter(Project.name == project_name).first()
     return render_template('project.html', project=project)
+
+
+@project_bp.route('/<string:project_name>/settings', methods=['GET'])
+def settings(project_name=None):
+    project = Project.query.filter(Project.name == project_name).first()
+    return render_template('settings.html', project=project)
+
+
+@project_bp.route('/<string:project_name>/code', methods=['GET'])
+def code_locations(project_name=None):
+    project = Project.query.filter(Project.name == project_name).first()
+
+    form = CodeForm()
+
+    return render_template('code.html', project=project, form=form)
+
+
+@project_bp.route('/<string:project_name>/code', methods=['POST'])
+@login_required
+def code_locations_process(project_name=None):
+    project = Project.query.filter(Project.name == project_name).first()
+
+    form = CodeForm()
+
+    if not form.validate():
+        return render_template('code.html', project=project, form=form)
+
+    new_code = Code(repository_url=form.repository_url.data,
+                    scm_type=form.scm_type.data,
+                    project_id=project.id)
+    db.session.add(new_code)
+    try:
+        db.session.commit()
+        flash('New location successfully created.', 'success')
+    except Exception as e:
+        print(e)
+    return render_template('code.html', project=project, form=form)
 
 
 @project_bp.route('/<string:project_name>/releases.atom', methods=['GET'])

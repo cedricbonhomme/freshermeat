@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h3>Code locations</h3>
+            <table id="table-codes" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Repository type</th>
+                        <th>Repository location</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for code in project.code_locations %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ code.scm_type }}</td>
+                        <td>{{ code.repository_url }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+
+            <h4>Add a new code location</h4>
+            <form action="" method="post">
+                {{ form.hidden_tag() }}
+
+                <div class="form-group">
+                {{ form.repository_url(class_="form-control", placeholder='Repository URL') }}
+                </div>
+                {% for message in form.repository_url.errors %}
+                    <div class="alert alert-warning" role="alert">{{ message }}</div>
+                {% endfor %}
+
+                <div class="form-group">
+                {{ form.scm_type(class_="form-control", placeholder='Repository type') }}
+                </div>
+                {% for message in form.scm_type.errors %}
+                    <div class="alert alert-warning" role="alert">{{ message }}</div>
+                {% endfor %}
+
+                {{ form.submit(class_="btn btn-default") }}
+            </form>
+        </div>
+    </div>
+</div><!-- /.container -->
+{% endblock %}

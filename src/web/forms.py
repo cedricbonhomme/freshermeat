@@ -111,3 +111,14 @@ class UserForm(FlaskForm):
     is_admin = BooleanField("Admin", default=False)
     is_api = BooleanField("API", default=False)
     submit = SubmitField("Save")
+
+
+class CodeForm(FlaskForm):
+    """
+    Management of code locations.
+    """
+    repository_url = TextField("Repository URL",
+            [validators.Required("Please enter your login.")])
+    scm_type = SelectField("Repository type", [validators.Required()],
+                                  coerce=str, choices = [('Git', 'Git')])
+    submit = SubmitField("Save")
