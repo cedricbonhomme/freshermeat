@@ -10,6 +10,7 @@
                         <th>#</th>
                         <th>Repository type</th>
                         <th>Repository location</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -18,6 +19,7 @@
                         <td>{{ loop.index }}</td>
                         <td>{{ code.scm_type }}</td>
                         <td>{{ code.repository_url }}</td>
+                        <th><i class="fa fa-trash" aria-hidden="true"></i></th>
                     </tr>
                 {% endfor %}
                 </tbody>
