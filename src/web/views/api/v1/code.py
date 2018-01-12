@@ -12,4 +12,5 @@ blueprint_code = manager.create_api_blueprint(
     models.Code,
     url_prefix=url_prefix,
     methods=['GET', 'DELETE', 'DELETE_SINGLE'],
-    preprocessors=dict(DELETE_SINGLE=[processors.auth_func]))
+    preprocessors=dict(DELETE_SINGLE=[processors.auth_func],
+                       DELETE=[processors.auth_func]))
