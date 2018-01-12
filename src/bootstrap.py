@@ -56,7 +56,7 @@ mail = Mail(application)
 def datetimeformat(value, format='%Y-%m-%d %H:%M'):
     return value.strftime(format)
 def instance_domain_name(*args):
-    return request.url_root
+    return request.url_root.replace('http', 'https')
 
 application.jinja_env.filters['datetimeformat'] = datetimeformat
 application.jinja_env.filters['instance_domain_name'] = instance_domain_name

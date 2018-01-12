@@ -108,7 +108,7 @@
         <h5>Submiting a release programmatically</h5>
         <pre><code>curl -i --user <var>login</var>:<var>password</var>
      -H "Content-Type: application/json" -H "Accept: application/json" -X POST
-     -d '{"project_id":8,"version":"0.1","state":"stable","scope":"minor bugfix","changes":"This new release..."}'
+     -d '{"project_id":{{ project.id }},"version":"0.1","state":"stable","scope":"minor bugfix","changes":"This new release..."}'
      {{ url | instance_domain_name }}/api/v1/release</code></pre>
         </div>
         <p>This example uses the API in order to submit a new release.</p>
