@@ -105,3 +105,12 @@ $ curl http://127.0.0.1:5000/api/v1/CVE
 ```bash
 freshermeat/freshermeat$ python src/manager.py fetch_releases
 ```
+
+
+# License
+
+This software is licensed under
+[GNU Affero General Public License version 3](https://www.gnu.org/licenses/agpl-3.0.html)
+
+Copyright (C) 2017-2018 [Cédric Bonhomme](https://www.cedricbonhomme.org)
+
