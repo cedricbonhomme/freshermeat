@@ -1,5 +1,15 @@
 {% extends "layout.html" %}
 {% block body %}
+<div id="messageModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div id="modal-content" class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Error</h5>
+        </div>
+        <div class="modal-body"></div>
+    </div>
+  </div>
+</div>
 <div class="container">
     <div class="row">
         <div class="col">
@@ -66,7 +76,8 @@ $( ".delete-code" ).on( "click", function() {
             row.remove();
         },
         error: function(e) {
-            console.log(e);
+            $('.modal-body').html(e.statusText);
+            $('#messageModal').modal('show');
         }
     });
 });
