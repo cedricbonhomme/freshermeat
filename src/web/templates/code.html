@@ -15,11 +15,11 @@
                 </thead>
                 <tbody>
                 {% for code in project.code_locations %}
-                    <tr>
+                    <tr code-id="{{ code.id }}">
                         <td>{{ loop.index }}</td>
                         <td>{{ code.scm_type }}</td>
                         <td>{{ code.repository_url }}</td>
-                        <th><i class="fa fa-trash" aria-hidden="true"></i></th>
+                        <th><i class="fa fa-trash delete-code" aria-hidden="true"></i></th>
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -49,4 +49,27 @@
         </div>
     </div>
 </div><!-- /.container -->
+<script>
+$(document).ready(function() {
+$( ".delete-code" ).on( "click", function() {
+    answer = confirm('You are going to delete this code location.');
+    if (!answer) {
+        return;
+    }
+    var row = $(this).closest('tr');
+    $.ajax({
+        type: "DELETE",
+        url: "{{ url_for('codeapi0.codeapi',) }}" + "/" + row.attr('code-id'),
+        dataType: "json",
+        contentType: "application/json",
+        success: function(result) {
+            row.remove();
+        },
+        error: function(e) {
+            console.log(e);
+        }
+    });
+});
+});
+</script>
 {% endblock %}
