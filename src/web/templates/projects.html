@@ -38,7 +38,7 @@ $(document).ready(function() {
     }
     license_param = getUrlParameter('license');
     if (typeof license_param !== 'undefined') {
-        filters.push({"name":"licenses","op":"any","val":{"name":"name","op":"eq","val": license_param}});
+        filters.push({"name":"licenses","op":"any","val":{"name":"license_id","op":"eq","val": license_param}});
     }
     $.ajax({ // Get the list of enabled projects
         url: "{{ url_for('projectapi0.projectapi',) }}",

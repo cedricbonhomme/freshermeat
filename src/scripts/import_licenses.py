@@ -12,7 +12,8 @@ def import_osi_approved_licenses():
     if r.status_code == 200:
         result = json.loads(r.content)
         db.session.bulk_save_objects(
-                                [License(name=license['name'])
+                                [License(name=license['name'],
+                                         license_id=license['licenseId'])
                                  for license in result['licenses']
                                  if license['isOsiApproved']
                                  and not license['isDeprecatedLicenseId']])
