@@ -22,7 +22,6 @@ class Project(db.Model):
     short_description = db.Column(db.String(300), unique=True)
     description = db.Column(db.String(), unique=True)
     website = db.Column(db.String())
-    enabled = db.Column(db.Boolean(), default=True)
     last_updated = db.Column(db.DateTime(), default=datetime.utcnow())
 
     # if cve_vendor is the empty string use the parent property
@@ -32,6 +31,7 @@ class Project(db.Model):
 
     automatic_release_tracking = db.Column(db.String())
 
+    service_enabled = db.Column(db.Boolean(), default=False)
     notification_email = db.Column(db.String(), default='')
     required_informations = db.Column(JSON, default=None)
 

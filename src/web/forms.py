@@ -85,7 +85,6 @@ class AddProjectForm(FlaskForm):
     organization_id.choices.extend([(org.id, org.name) for org in
                                                 Organization.query.all()])
     logo = FileField("Logo")
-    enabled = BooleanField("Enabled", default=True)
 
     automatic_release_tracking = TextField("Automatic Release Tracking",
                     [validators.Optional()])

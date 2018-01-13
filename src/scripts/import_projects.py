@@ -17,6 +17,7 @@ def import_projects(json_file):
                         short_description=proj['short_description'],
                         description=proj['description'],
                         website=proj['website'],
+                        service_enabled=proj.get('service_enabled', False),
                         required_informations=proj.get('required_informations', None),
                         notification_email=proj.get('notification_email', None),
                         cve_vendor=proj.get('cve_vendor', ''),

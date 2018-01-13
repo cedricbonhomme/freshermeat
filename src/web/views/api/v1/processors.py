@@ -38,7 +38,7 @@ def post_preprocessor(data=None, **kw):
     """
     project_id = data['project_id']
     project = Project.query.filter(Project.id == project_id).first()
-    if not project.enabled:
+    if not project.service_enabled:
         raise ProcessingException(
             "Project currently not available.", code=422)
     checks = []

@@ -40,7 +40,7 @@ $(document).ready(function() {
     if (typeof license_param !== 'undefined') {
         filters.push({"name":"licenses","op":"any","val":{"name":"license_id","op":"eq","val": license_param}});
     }
-    $.ajax({ // Get the list of enabled projects
+    $.ajax({ // Get the list of projects
         url: "{{ url_for('projectapi0.projectapi',) }}",
         data: {"q": JSON.stringify({"filters": filters})},
         dataType: "json",

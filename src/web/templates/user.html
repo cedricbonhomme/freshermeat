@@ -25,9 +25,8 @@ $(document).ready(function() {
             '<p class="mb-1"><%= project_description %></p>' +
         '</a>');
 
-    var filters = [{"name": "enabled", "op": "eq", "val": true},
-                    {"name": "manager_id", "op": "eq", "val": {{ user.id }}}];
-    $.ajax({ // Get the list of enabled projects
+    var filters = [{"name": "manager_id", "op": "eq", "val": {{ user.id }}}];
+    $.ajax({
         url: "{{ url_for('projectapi0.projectapi',) }}",
         data: {"q": JSON.stringify({"filters": filters})},
         dataType: "json",

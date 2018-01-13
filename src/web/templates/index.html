@@ -58,10 +58,8 @@ $(document).ready(function() {
             '</div>' +
         '</a>');
 
-    var filters = [{"name": "enabled", "op": "eq", "val": true}];
-    $.ajax({ // Get the list of enabled projects
+    $.ajax({ // Get the list of projects
         url: "{{ url_for('projectapi0.projectapi',) }}",
-        data: {"q": JSON.stringify({"filters": filters})},
         dataType: "json",
         contentType: "application/json",
         success: function(projects) {

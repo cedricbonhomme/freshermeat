@@ -47,7 +47,7 @@ $(document).ready(function() {
                 var div_organization_columns = $("<div>", {"class": "card-columns"});
 
                 var filters = [{"name": "organization_id", "op": "eq", "val": organization.id},
-                                {"name": "enabled", "op": "eq", "val": true}];
+                                {"name": "service_enabled", "op": "eq", "val": true}];
                 $.ajax({
                     url: "{{ url_for('projectapi0.projectapi',) }}",
                     data: {"q": JSON.stringify({"filters": filters})},
