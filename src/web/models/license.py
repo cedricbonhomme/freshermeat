@@ -8,6 +8,6 @@ class License(db.Model):
     https://opensource.org/licenses/alphabetical
     """
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(), default='', nullable=False)
-    license_id = db.Column(db.String(), default='', nullable=False)
+    name = db.Column(db.String(), default='', nullable=False, unique=True)
+    license_id = db.Column(db.String(), default='', nullable=False, unique=True)
     created_at = db.Column(db.DateTime(), default=datetime.utcnow())
