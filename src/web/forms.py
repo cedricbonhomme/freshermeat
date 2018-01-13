@@ -119,5 +119,10 @@ class CodeForm(FlaskForm):
     repository_url = TextField("Repository URL",
             [validators.Required("Please enter your login.")])
     scm_type = SelectField("Repository type", [validators.Required()],
-                                  coerce=str, choices = [('Git', 'Git')])
+                                  coerce=str, choices = [
+                                                ('Git', 'Git'),
+                                                ('Mercurial', 'Mercurial'),
+                                                ('Bazaar', 'Bazaar'),
+                                                ('Fossil', 'Fossil'),
+                                                ('Subversion', 'Subversion')])
     submit = SubmitField("Save")
