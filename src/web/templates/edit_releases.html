@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% block body %}
+<div id="messageModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div id="modal-content" class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Error</h5>
+        </div>
+        <div class="modal-body"></div>
+    </div>
+  </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h3>Releases</h3>
+            <table id="table-codes" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Version</th>
+                        <th>Date</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for release in project.releases %}
+                    <tr code-id="{{ release.id }}">
+                        <td>{{ loop.index }}</td>
+                        <td>{{ release.version }}</td>
+                        <td>{{ release.published_at }}</td>
+                        <th><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;<i class="fa fa-trash delete-code" aria-hidden="true"></i></th>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div><!-- /.container -->
+{% endblock %}

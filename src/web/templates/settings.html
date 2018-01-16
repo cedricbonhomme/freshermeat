@@ -8,11 +8,30 @@
     </div>
     <div class="row">
         <div class="col">
-            <a href="{{ url_for('project_bp.form', project_id=project.id) }}">Edit project description</a>
+            <div class="card">
+                <div class="card-body">
+                    <a href="{{ url_for('project_bp.form', project_id=project.id) }}">Edit project description</a>
+                </div>
+            </div>
         </div>
         <div class="col">
-            <a href="{{ url_for('project_bp.code_locations', project_name=project.name) }}">Edit code locations</a>
+            <div class="card">
+                <div class="card-body">
+                    <a href="{{ url_for('project_bp.code_locations', project_name=project.name) }}">Edit code locations</a>
+                </div>
+            </div>
         </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <a href="{{ url_for('project_bp.edit_releases', project_name=project.name) }}">Edit project releases</a>
+                </div>
+            </div>
+        </div>
+        <div class="col"></div>
     </div>
 </div><!-- /.container -->
 {% endblock %}

@@ -56,6 +56,12 @@ def code_locations_process(project_name=None):
     return render_template('code.html', project=project, form=form)
 
 
+@project_bp.route('/<string:project_name>/releases', methods=['GET'])
+def edit_releases(project_name=None):
+    project = Project.query.filter(Project.name == project_name).first()
+    return render_template('edit_releases.html', project=project)
+
+
 @project_bp.route('/<string:project_name>/releases.atom', methods=['GET'])
 def recent_releases(project_name=None):
     """Generates a feed for the releases."""
