@@ -33,9 +33,7 @@ def settings(project_name=None):
 @project_bp.route('/<string:project_name>/code', methods=['GET'])
 def code_locations(project_name=None):
     project = Project.query.filter(Project.name == project_name).first()
-
     form = CodeForm()
-
     return render_template('code.html', project=project, form=form)
 
 
@@ -43,12 +41,9 @@ def code_locations(project_name=None):
 @login_required
 def code_locations_process(project_name=None):
     project = Project.query.filter(Project.name == project_name).first()
-
     form = CodeForm()
-
     if not form.validate():
         return render_template('code.html', project=project, form=form)
-
     new_code = Code(repository_url=form.repository_url.data,
                     scm_type=form.scm_type.data,
                     project_id=project.id)
