@@ -25,6 +25,7 @@ $(document).ready(function() {
                 '<small>updated <%= project_last_update %></small>' +
             '</div>' +
             '<p class="mb-1"><%= project_description %></p>' +
+            '<small><i class="fa fa-tags" aria-hidden="true"></i>&nbsp;<%= project_tags %></small>' +
         '</a>');
 
     var filters = [];
@@ -55,7 +56,8 @@ $(document).ready(function() {
                         'project_url': '/project/'+project.name,
                         'project_name': project.name,
                         'project_description': project.short_description,
-                        'project_last_update': moment(project.last_updated).fromNow()
+                        'project_last_update': moment(project.last_updated).fromNow(),
+                        'project_tags': project.tags
                      });
                      $('#list-projects').append(cardHTML);
                 });
