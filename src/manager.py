@@ -68,6 +68,14 @@ def import_projects(json_file):
 
 
 @manager.command
+def import_projects_from_github(user):
+    "Import GitHub starred projects of a user."
+    print("Importing GitHub starred projects of {} ...".format(user))
+    with application.app_context():
+        scripts.import_projects_from_github(user)
+
+
+@manager.command
 def import_osi_approved_licenses():
     "Import OSI approved licenses."
     print("Importing OSI approved licenses...")
