@@ -112,9 +112,12 @@ def fetch_cve_asyncio(cve_vendor=None):
 @manager.command
 def fetch_releases():
     github_release = web.models.Project.query.filter(web.models.Project.automatic_release_tracking.like('github:%'))
-
     for project in github_release:
-        fetch_release_github.fetch_release(project)
+        try:
+            fetch_release_github.fetch_release(project)
+        except Exception as e:
+            print(e)
+            return
 
 
 
