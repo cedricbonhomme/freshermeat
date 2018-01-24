@@ -1,4 +1,5 @@
 
+import logging
 from flask import Blueprint, render_template, redirect, url_for, current_app, \
                 flash, request
 from flask_login import login_required, current_user
@@ -14,6 +15,8 @@ from notifications.notifications import new_request_notification
 from bootstrap import db
 from web.forms import UserForm
 from web import models
+
+logger = logging.getLogger(__name__)
 
 admin_bp = Blueprint('admin_bp', __name__, url_prefix='/admin')
 
@@ -108,7 +111,7 @@ def send_request_notification(request_id=None):
         flash('Email sent.', 'info')
     except Exception as e:
         flash('Impossible to send email.', 'danger')
-        print(e)
+        logger.exception('send_request_notification: ' + str(e))
     return redirect(url_for('admin_bp.view_request', request_id=req.id))
 
 
