@@ -42,7 +42,7 @@ $(document).ready(function() {
         filters.push({"name":"licenses","op":"any","val":{"name":"license_id","op":"eq","val": license_param}});
     }
     $.ajax({ // Get the list of projects
-        url: "{{ url_for('projectapi0.projectapi',) }}",
+        url: "{{ url_for('projectapi0.projectapi',) }}" + "?results_per_page=50",
         data: {"q": JSON.stringify({"filters": filters})},
         dataType: "json",
         contentType: "application/json",
