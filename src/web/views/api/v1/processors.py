@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import logging
 from flask import request
 from flask_login import current_user
 from flask_restless import ProcessingException
@@ -11,6 +12,7 @@ from notifications.notifications import new_request_notification
 from web.views.common import login_user_bundle
 from web.models import User, Project, Request
 
+logger = logging.getLogger(__name__)
 
 def auth_func(*args, **kw):
     if request.authorization:
@@ -58,8 +60,10 @@ def post_preprocessor(data=None, **kw):
                 continue
             checks.append(check_function(parameter))
     if not all(checks):
+        logger.info('Unsuccessful request for {}'.format(project.name))
         raise ProcessingException(
             "The values you submitted do not pass all checks!", code=422)
+    logger.info('New request for {}'.format(project.name))
 
 
 def post_postprocessor(result=None, **kw):
@@ -81,5 +85,6 @@ def post_postprocessor(result=None, **kw):
             new_request_notification(new_request)
             new_request.notification_sent = True
             db.session.commit()
+            logger.info('Request notifiation sent (request {})'.format(new_request.id))
         except Exception as e:
-            print(e)
+            logger.exception('request POST post-processor: ' + str(e))
