@@ -142,7 +142,7 @@ $(document).ready(function() {
 
 
     var releaseTemplate = _.template(
-        '<a href="<%= release_url %>" class="list-group-item list-group-item-action flex-column align-items-start">' +
+        '<a href="<%= release_url %>" class="list-group-item list-group-item-action flex-column align-items-start" title="<%= changes %>">' +
           '<div class="d-flex w-100 justify-content-between">' +
             '<h5 class="mb-1"><%= version %></h5>' +
             '<small>published <%= published_at %></small>' +
