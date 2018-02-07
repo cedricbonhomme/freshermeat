@@ -5,7 +5,7 @@ from flask import (render_template, url_for, redirect, current_app, flash,
 from werkzeug.contrib.atom import AtomFeed
 from sqlalchemy import desc
 
-from web.models import Release
+from web.models import Release, Project
 from bootstrap import application
 
 logger = logging.getLogger(__name__)
@@ -48,7 +48,10 @@ def uploaded_pictures(filename='Ladybug.jpg', methods=['GET']):
 
 @current_app.route('/', methods=['GET'])
 def index():
-    return render_template('index.html')
+    nb_projects = Project.query.filter().count()
+    nb_releases = Release.query.filter().count()
+    return render_template('index.html', nb_projects=nb_projects,
+                            nb_releases=nb_releases)
 
 
 @current_app.route('/releases.atom', methods=['GET'])
