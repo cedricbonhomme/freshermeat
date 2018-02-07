@@ -3,7 +3,7 @@ from datetime import datetime
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.dialects.postgresql import JSON
 from sqlalchemy.orm import validates
-from sqlalchemy import event
+from sqlalchemy import event, desc
 
 from bootstrap import db
 
@@ -54,7 +54,8 @@ class Project(db.Model):
     cves = db.relationship('CVE', backref='project', lazy='dynamic',
                                cascade='all,delete-orphan')
     releases = db.relationship('Release', backref='project', lazy='dynamic',
-                               cascade='all,delete-orphan')
+                               cascade='all,delete-orphan',
+                               order_by=desc('Release.published_at'))
 
     @validates('name')
     def validates_name(self, key, value):
