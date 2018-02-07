@@ -3,6 +3,7 @@ import logging
 from flask import (render_template, url_for, redirect, current_app, flash,
                   send_from_directory, request)
 from werkzeug.contrib.atom import AtomFeed
+from sqlalchemy import desc
 
 from web.models import Release
 from bootstrap import application
@@ -55,7 +56,7 @@ def recent_releases():
     """Generates a feed for the releases."""
     feed = AtomFeed('Recent releases',
                      feed_url=request.url, url=request.url_root)
-    releases = Release.query.filter().limit(100)
+    releases = Release.query.filter().order_by(desc(Release.published_at)).limit(100)
     for release in releases:
         feed.add(release.version, release.changes,
                  id=release.id,
