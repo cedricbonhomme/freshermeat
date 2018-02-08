@@ -117,7 +117,7 @@ def fetch_releases():
             fetch_release_github.fetch_release(project)
         except Exception as e:
             print(e)
-            return
+            continue
 
 
 
