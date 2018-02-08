@@ -6,12 +6,19 @@ import requests
 from datetime import datetime
 from sqlalchemy import and_
 
-from bootstrap import db
+from bootstrap import db, application
 from web.models import Release, get_or_create
 
 def fetch_release(project):
-    r = requests.get(project.automatic_release_tracking.split(':', 1)[1])
-    assert r.status_code == 200, 'Error Code: {}\nError message: {}'.format(r.status_code, r.text)
+    url = '{api_url}?client_id={client_id}&client_secret={client_secret}'. \
+        format(api_url=project.automatic_release_tracking.split(':', 1)[1],
+            client_id=application.config.get('GITHUB_CLIENT_ID', ''),
+            client_secret=application.config.get('GITHUB_CLIENT_SECRET', ''))
+    try:
+        r = requests.get(url)
+    except Exception as e:
+        print(e)
+    #assert r.status_code == 200, 'Error Code: {}\nError message: {}'.format(r.status_code, r.text)
     releases = json.loads(r.text)
     for release in releases:
         if Release.query.filter(
