@@ -5,16 +5,20 @@ import json
 import requests
 
 from web.models import Project
-from bootstrap import db
+from bootstrap import db, application
 
 
 def import_projects_from_github(user, link=''):
     if link != '':
-        r = requests.get(link)
+        url = link
     else:
-        r = requests.get('https://api.github.com/users/{user}/starred'
-                         .format(user=user))
+        url = 'https://api.github.com/users/{user}/starred'.format(user=user)
+        url = '{api_url}?client_id={client_id}&client_secret={client_secret}'. \
+                format(api_url=url,
+                client_id=application.config.get('GITHUB_CLIENT_ID', ''),
+                client_secret=application.config.get('GITHUB_CLIENT_SECRET', ''))
 
+    r = requests.get(url)
     starred = json.loads(r.text)
 
     for repo in starred:
@@ -36,7 +40,8 @@ def import_projects_from_github(user, link=''):
         try:
             # names of projects are unique on freshermeat
             db.session.commit()
-        except:
+        except Exception as e:
+            db.session.rollback()
             pass
 
     if r.links:

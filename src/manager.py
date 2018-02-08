@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import logging
+import asyncio
 from datetime import datetime
 from werkzeug import generate_password_hash
 from bootstrap import application, db
@@ -11,7 +12,7 @@ from sqlalchemy import and_
 
 import web.models
 import scripts
-from workers import fetch_cve, fetch_release_github
+from workers import fetch_cve, fetch_release
 
 
 logger = logging.getLogger('manager')
@@ -86,7 +87,6 @@ def import_osi_approved_licenses():
 @manager.command
 def fetch_cve_asyncio(cve_vendor=None):
     "Crawl the CVE with asyncio."
-    import asyncio
 
     with application.app_context():
 
@@ -111,13 +111,21 @@ def fetch_cve_asyncio(cve_vendor=None):
 
 @manager.command
 def fetch_releases():
-    github_release = web.models.Project.query.filter(web.models.Project.automatic_release_tracking.like('github:%'))
-    for project in github_release:
-        try:
-            fetch_release_github.fetch_release(project)
-        except Exception as e:
-            print(e)
-            continue
+    "Retrieve the new releases of the projects."
+    github_releases = web.models.Project.query.filter(
+                web.models.Project.automatic_release_tracking.like('github:%'))
+
+    loop = asyncio.get_event_loop()
+    tasks_github = \
+        [asyncio.ensure_future(fetch_release.retrieve_github(project)) \
+            for project in github_releases]
+    done, _ = loop.run_until_complete(asyncio.wait(tasks_github))
+    loop.close()
+
+    fetch_release.insert_releases([task.result() for task in done])
+
+
+
 
 
 
