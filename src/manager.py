@@ -111,21 +111,25 @@ def fetch_cve_asyncio(cve_vendor=None):
 
 @manager.command
 def fetch_releases():
-    "Retrieve the new releases of the projects."
+    """Automatic release tracking
+    Retrieves the new releases of the projects."""
     github_releases = web.models.Project.query.filter(
-                web.models.Project.automatic_release_tracking.like('github:%'))
+            web.models.Project.automatic_release_tracking.like('github:%'))
+    changelog_releases = web.models.Project.query.filter(
+            web.models.Project.automatic_release_tracking.like('changelog:%'))
 
     loop = asyncio.get_event_loop()
-    tasks_github = \
-        [asyncio.ensure_future(fetch_release.retrieve_github(project)) \
-            for project in github_releases]
-    done, _ = loop.run_until_complete(asyncio.wait(tasks_github))
+    queue = asyncio.Queue(maxsize=5, loop=loop)
+
+    producer_coro_github = fetch_release.retrieve_github(queue, github_releases)
+    producer_coro_changelog = fetch_release.retrieve_changelog(queue,
+                                                            changelog_releases)
+    consumer_coro = fetch_release.insert_releases(queue)
+
+    loop.run_until_complete(asyncio.gather(producer_coro_github,
+                                           producer_coro_changelog,
+                                           consumer_coro))
     loop.close()
-
-    fetch_release.insert_releases([task.result() for task in done])
-
-
-
 
 
 
