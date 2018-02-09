@@ -41,7 +41,8 @@ def import_projects_from_github(user, link=''):
             spdx_id = repo.get('license').get('spdx_id')
             if spdx_id:
                 license = License.query.filter(License.license_id==spdx_id).first()
-                new_project.licenses.append(license)
+                if license:
+                    new_project.licenses.append(license)
         except:
             pass
 
