@@ -4,7 +4,7 @@
 import json
 import requests
 
-from web.models import Project
+from web.models import Project, License
 from bootstrap import db, application
 
 
@@ -35,6 +35,16 @@ def import_projects_from_github(user, link=''):
                     cve_vendor='',
                     cve_product='',
                     automatic_release_tracking='github:' + repo.get('releases_url', '').replace('{/id}', ''))
+
+
+        try:
+            spdx_id = repo.get('license').get('spdx_id')
+            if spdx_id:
+                license = License.query.filter(License.license_id==spdx_id).first()
+                new_project.licenses.append(license)
+        except:
+            pass
+
 
         db.session.add(new_project)
         try:
