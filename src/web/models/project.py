@@ -1,7 +1,6 @@
 
 from datetime import datetime
 from sqlalchemy.ext.associationproxy import association_proxy
-from sqlalchemy.dialects.postgresql import JSON
 from sqlalchemy.orm import validates
 from sqlalchemy import event, desc
 
@@ -31,10 +30,6 @@ class Project(db.Model):
 
     automatic_release_tracking = db.Column(db.String())
 
-    service_enabled = db.Column(db.Boolean(), default=False)
-    notification_email = db.Column(db.String(), default='')
-    required_informations = db.Column(JSON, default=None)
-
     # foreign keys
     organization_id = db.Column(db.Integer(), db.ForeignKey('organization.id'))
     manager_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
@@ -56,6 +51,8 @@ class Project(db.Model):
     releases = db.relationship('Release', backref='project', lazy='dynamic',
                                cascade='all,delete-orphan',
                                order_by=desc('Release.published_at'))
+    services = db.relationship('Service', backref='project', lazy='dynamic',
+                               cascade='all,delete-orphan')
 
     @validates('name')
     def validates_name(self, key, value):

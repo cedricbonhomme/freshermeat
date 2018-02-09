@@ -11,10 +11,11 @@ from .release import Release
 from .cve import CVE
 from .icon import Icon
 from .request import Request
+from .service import Service
 
 __all__ = ['Project', 'License', 'Release', 'User',
            'Organization', 'Tag', 'Request', 'CVE',
-           'Code']
+           'Code', 'Service']
 
 from sqlalchemy.engine import reflection
 from sqlalchemy import create_engine

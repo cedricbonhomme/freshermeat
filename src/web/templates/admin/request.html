@@ -5,7 +5,7 @@
         <div class="col-6">
             <h1>Request status</h1>
             <p>Creation date: <b>{{ request.created_at | datetimeformat }}</b></p>
-            <p>Project concerned: <b>{{ request.project.name }}</b> (<a href="{{ url_for('admin_bp.dashboard', org=request.project.organization.name) }}">{{ request.project.organization.name }}</a>)</p>
+            <p>Service concerned: <b>{{ request.service.name }}</b></p>
             <p>Checked: <b>{{ 'Yes' if request.checked else 'No'}}</b></p>
             <p>Notification sent: <b>{{ 'Yes' if request.notification_sent else 'No'}}</b></p>
         </div>
@@ -42,7 +42,7 @@
             <h1>Required informations</h1>
             <table class="table">
                 <tbody>
-                    {% for info in request.project.required_informations %}
+                    {% for info in request.service.required_informations %}
                     <tr>
                         <th scope="row">{{ info['name'] }}</th>
                         {% if request.required_informations[info['name']] %}

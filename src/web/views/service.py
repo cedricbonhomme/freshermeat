@@ -1,6 +1,6 @@
 from flask import Blueprint, request, render_template, flash, url_for, redirect
 
-from web.models import Project
+from web.models import Service
 
 service_bp = Blueprint('service_bp', __name__,
                        url_prefix='/service')
@@ -15,9 +15,9 @@ def list_services():
 
 @service_bp.route('/', methods=['GET'])
 def service():
-    project_name = request.args.get('name')
-    project = Project.query.filter(Project.name == project_name).first()
-    if not project:
-        flash('Unknown project.', 'warning')
+    service_id = request.args.get('name')
+    service = Service.query.filter(Service.id == service_id).first()
+    if not service:
+        flash('Unknown service.', 'warning')
         return redirect(url_for(services_bp.list_services))
-    return render_template('service.html', project=project)
+    return render_template('service.html', service=service)

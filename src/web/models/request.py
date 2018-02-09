@@ -24,10 +24,10 @@ class Request(db.Model, UserMixin):
     required_informations = db.Column(JSON)
 
     # foreign keys
-    project_id = db.Column(db.Integer(), db.ForeignKey('project.id'))
+    service_id = db.Column(db.Integer(), db.ForeignKey('service.id'))
 
     # relationships
-    project = db.relationship('Project', backref="requests")
+    service = db.relationship('Service', backref="requests")
 
     @validates('email')
     def validates_email(self, key, value):

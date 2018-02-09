@@ -36,9 +36,10 @@
                 <div class="card-body">
                     <h5>Reference</h5>
                     <p><a id="project-website">Homepage</a></p>
-                    {% if project.required_informations %}
-                        <p><a href="{{ url_for('service_bp.service', name=project.name) }}">Related service</a></p>
-                    {% endif %}
+                    {% if project.services %}<h5>Releated service(s)</h5>{% endif %}
+                    {% for service in project.services %}
+                        <p><a href="{{ url_for('service_bp.service', name=service.id) }}">{{ service.name }}</a></p>
+                    {% endfor %}
                     {% if project.maintainer_id %}
                         <p><a href="#">Maintainer</a></p>
                     {% endif %}

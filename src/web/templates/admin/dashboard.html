@@ -23,7 +23,7 @@
                   {% for request in requests %}
                     <tr {% if not request.checked %}class="table-warning"{% endif %}>
                         <td><a href="{{ url_for('admin_bp.view_request', request_id=request.id) }}">{{ request.id }}</a></td>
-                        <td>{{ request.project.name }}</td>
+                        <td>{{ request.service.name }}</td>
                         <td>{{ request.email }}</td>
                         <td>{{ request.created_at | datetimeformat }}</td>
                         <td>{% if not request.notification_sent %}<i class="fa fa-envelope" aria-hidden="true" title="Notification not sent"></i>{% endif %}</td>

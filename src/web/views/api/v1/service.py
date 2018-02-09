@@ -15,13 +15,7 @@ def pre_get_many(search_params=None, **kw):
     search_params['order_by'].extend(order_by)
 
 
-blueprint_project = manager.create_api_blueprint(
-    models.Project,
+blueprint_service = manager.create_api_blueprint(
+    models.Service,
     url_prefix=url_prefix,
-    methods=['GET', 'POST', 'PUT', 'DELETE'],
-    exclude_columns=['requests', 'services'],
-    preprocessors=dict(
-        GET_MANY=[pre_get_many],
-        POST=[processors.auth_func],
-        PUT=[processors.auth_func],
-        DELETE=[processors.auth_func]))
+    methods=['GET'])

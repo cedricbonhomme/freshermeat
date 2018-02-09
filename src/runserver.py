@@ -25,6 +25,7 @@ with application.app_context():
     application.register_blueprint(views.api.v1.blueprint_user)
     application.register_blueprint(views.api.v1.blueprint_release)
     application.register_blueprint(views.api.v1.blueprint_cve)
+    application.register_blueprint(views.api.v1.blueprint_service)
     application.register_blueprint(views.api.v1.blueprint_request)
 
 
