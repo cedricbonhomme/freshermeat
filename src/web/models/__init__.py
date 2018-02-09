@@ -26,6 +26,26 @@ from sqlalchemy.schema import (MetaData,
                                DropConstraint)
 
 
+def mappers(*args):
+    from sqlalchemy.orm import class_mapper
+    return [class_mapper(x) for x in args]
+
+
+def uml_graph(db):
+    """Generate a UML diagram from the models."""
+    import sqlalchemy_schemadisplay as sasd
+
+    graph = sasd.create_uml_graph(
+                        mappers(User, Tag, Project, Code,
+                                License, Organization, Release,
+                                CVE, Icon,
+                                Request, Service),
+                        show_operations=False,
+                        show_multiplicity_one=True
+    )
+    graph.write_png('uml_graph.png') # write out the file
+
+
 def get_or_create(session, model, **kwargs):
     instance = session.query(model).filter_by(**kwargs).first()
     if instance:

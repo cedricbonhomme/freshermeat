@@ -23,6 +23,13 @@ manager.add_command('db', MigrateCommand)
 
 
 @manager.command
+def uml_graph():
+    "UML graph from the models."
+    with application.app_context():
+        web.models.uml_graph(db)
+
+
+@manager.command
 def db_empty():
     "Will drop every datas stocked in db."
     with application.app_context():
