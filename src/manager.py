@@ -92,9 +92,8 @@ def import_osi_approved_licenses():
 
 
 @manager.command
-def fetch_cve_asyncio(cve_vendor=None):
-    "Crawl the CVE with asyncio."
-
+def fetch_cves(cve_vendor=None):
+    "Crawl the CVE."
     with application.app_context():
 
         query = web.models.Project.query.filter(
