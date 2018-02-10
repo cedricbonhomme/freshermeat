@@ -36,7 +36,7 @@
                 <div class="card-body">
                     <h5>Reference</h5>
                     <p><a id="project-website">Homepage</a></p>
-                    {% if project.services %}<h5>Releated service(s)</h5>{% endif %}
+                    {% if project.services.count() != 0 %}<h5>Releated service(s)</h5>{% endif %}
                     {% for service in project.services %}
                         <p><a href="{{ url_for('service_bp.service', name=service.id) }}">{{ service.name }}</a></p>
                     {% endfor %}
@@ -48,7 +48,7 @@
             <br />
             <div class="card">
                 <div class="card-body">
-                    <h5>Recent CVE</h5>
+                    <h5>Recent CVEs</h5>
                     <div id="list-cves" class="list-group"></div>
                 </div>
             </div>
@@ -125,19 +125,22 @@ $(document).ready(function() {
         dataType: "json",
         contentType: "application/json",
         success: function(cves) {
-          cves.objects
-          .sort(function (a, b) {
-              return a.published_at < b.published_at ;
-          })
-          .map(function(cve){
-            var cardHTML = cveTemplate({
-                'cve_url': 'http://cve.circl.lu/cve/' + cve.cve_id,
-                'cve_id': cve.cve_id,
-                'published_at': moment(cve.published_at).fromNow(),
-                'cve_summary': cve.summary
-             });
+            if (cves.num_results == 0) {
+                $('#list-cves').append('No known vulnerabilities.')
+            }
+            cves.objects
+            .sort(function (a, b) {
+                return a.published_at < b.published_at ;
+            })
+            .map(function(cve){
+                var cardHTML = cveTemplate({
+                    'cve_url': 'http://cve.circl.lu/cve/' + cve.cve_id,
+                    'cve_id': cve.cve_id,
+                    'published_at': moment(cve.published_at).fromNow(),
+                    'cve_summary': cve.summary
+                });
              $('#list-cves').append(cardHTML);
-          })
+            })
         }
     });
 
@@ -157,19 +160,22 @@ $(document).ready(function() {
         dataType: "json",
         contentType: "application/json",
         success: function(releases) {
-          releases.objects
-          .sort(function (a, b) {
-              return a.published_at < b.published_at ;
-          })
-          .map(function(release){
-            var cardHTML = releaseTemplate({
-                'release_url': release.release_url,
-                'version': release.version,
-                'published_at': moment(release.published_at).fromNow(),
-                'changes': release.changes
-             });
-             $('#project-releases').append(cardHTML);
-          })
+            if (releases.num_results == 0) {
+                $('#project-releases').append('No known releases.')
+            }
+            releases.objects
+            .sort(function (a, b) {
+                return a.published_at < b.published_at ;
+            })
+            .map(function(release){
+                var cardHTML = releaseTemplate({
+                    'release_url': release.release_url,
+                    'version': release.version,
+                    'published_at': moment(release.published_at).fromNow(),
+                    'changes': release.changes
+                });
+                $('#project-releases').append(cardHTML);
+            })
         }
     });
 });
