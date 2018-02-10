@@ -4,13 +4,6 @@ from web.models import Service
 
 service_bp = Blueprint('service_bp', __name__,
                        url_prefix='/service')
-services_bp = Blueprint('services_bp', __name__,
-                        url_prefix='/services')
-
-
-@services_bp.route('/', methods=['GET'])
-def list_services():
-    return render_template('services.html')
 
 
 @service_bp.route('/', methods=['GET'])
