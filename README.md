@@ -88,7 +88,7 @@ You can add new projects with the client script
 ### Retrieving CVEs
 
 ```bash
-freshermeat/freshermeat$ python src/manager.py fetch_cve_asyncio
+freshermeat/freshermeat$ python src/manager.py fetch_cves
 ```
 
 You can launch the CVE fetcher periodically with cron.
@@ -113,4 +113,3 @@ This software is licensed under
 [GNU Affero General Public License version 3](https://www.gnu.org/licenses/agpl-3.0.html)
 
 Copyright (C) 2017-2018 [Cédric Bonhomme](https://www.cedricbonhomme.org)
-
