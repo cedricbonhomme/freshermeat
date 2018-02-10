@@ -1,6 +1,7 @@
 import os
 import uuid
-from flask import Blueprint, render_template, redirect, url_for, flash, request
+from flask import Blueprint, render_template, redirect, url_for, flash, \
+                  request, abort
 from flask_login import login_required
 from werkzeug.contrib.atom import AtomFeed
 
@@ -21,18 +22,24 @@ def list_projects():
 @project_bp.route('/<string:project_name>', methods=['GET'])
 def get(project_name=None):
     project = Project.query.filter(Project.name == project_name).first()
+    if project is None:
+        abort(404)
     return render_template('project.html', project=project)
 
 
 @project_bp.route('/<string:project_name>/settings', methods=['GET'])
 def settings(project_name=None):
     project = Project.query.filter(Project.name == project_name).first()
+    if project is None:
+        abort(404)
     return render_template('settings.html', project=project)
 
 
 @project_bp.route('/<string:project_name>/code', methods=['GET'])
 def code_locations(project_name=None):
     project = Project.query.filter(Project.name == project_name).first()
+    if project is None:
+        abort(404)
     form = CodeForm()
     return render_template('code.html', project=project, form=form)
 
@@ -41,6 +48,8 @@ def code_locations(project_name=None):
 @login_required
 def code_locations_process(project_name=None):
     project = Project.query.filter(Project.name == project_name).first()
+    if project is None:
+        abort(404)
     form = CodeForm()
     if not form.validate():
         return render_template('code.html', project=project, form=form)
@@ -59,6 +68,8 @@ def code_locations_process(project_name=None):
 @project_bp.route('/<string:project_name>/releases', methods=['GET'])
 def edit_releases(project_name=None):
     project = Project.query.filter(Project.name == project_name).first()
+    if project is None:
+        abort(404)
     return render_template('edit_releases.html', project=project)
 
 
@@ -66,6 +77,8 @@ def edit_releases(project_name=None):
 def recent_releases(project_name=None):
     """Generates a feed for the releases."""
     project = Project.query.filter(Project.name == project_name).first()
+    if project is None:
+        abort(404)
     feed = AtomFeed('Recent releases for {}'.format(project.name),
                      feed_url=request.url, url=request.url_root)
     for release in project.releases:

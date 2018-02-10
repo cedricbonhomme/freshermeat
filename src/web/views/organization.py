@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, abort
 
 from web.models import Organization
 
@@ -16,4 +16,6 @@ def list_organizations():
 @organization_bp.route('/<string:organization_name>', methods=['GET'])
 def get(organization_name=None):
     organization = Organization.query.filter(Organization.name == organization_name).first()
+    if organization is None:
+        abort(404)
     return render_template('organization.html', organization=organization)
