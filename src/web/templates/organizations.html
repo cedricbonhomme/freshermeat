@@ -10,18 +10,6 @@
 </div><!-- /.container -->
 <script>
 $(document).ready(function() {
-
-    // card template for the projects
-    var cardTemplate = _.template(
-        '<div class="card">' +
-          '<img class="card-img-top" src="<%= logo %>" alt="Card image cap">' +
-          '<div class="card-body">' +
-            '<h4 class="card-title"><%= project_name %></h4>' +
-            '<p class="card-text"><%= project_description %></p>' +
-            '<a href="<%= project_details %>" class="btn btn-primary">Learn more</a>' +
-          '</div>' +
-        '</div>');
-
     organization_param = getUrlParameter('organization'); // If the organization is specified in the URL
     var filters = [];
     if (typeof organization_param !== 'undefined') {
@@ -40,8 +28,9 @@ $(document).ready(function() {
             .map(function (organization) {
                 var div_organization = $("<div>");
                 div_organization.append('<ol class="breadcrumb">' +
-                                        '<li class="breadcrumb-item active" id="project-name">' +
-                                        (typeof organization_param == 'undefined' ? '<a href="?organization='+ organization.name  +'">' + organization.name + '</a>' : organization.name) + '</li></ol>');
+                                        '<li class="breadcrumb-item active">' +
+                                        '<a href="/organization/' + organization.name
+                                        + '">' + organization.name + '</a></li></ol>');
                 $('#list-organizations').append(div_organization);
 
                 var div_organization_columns = $("<div>", {"class": "card-columns"});
@@ -58,7 +47,7 @@ $(document).ready(function() {
                             return a.name > b.name ;
                         })
                         .map(function (project) {
-                            var cardHTML = cardTemplate({
+                            var cardHTML = cardProjectTemplate({
                                 'logo': project.logo,
                                 'project_name': project.name,
                                 'project_description': project.short_description,

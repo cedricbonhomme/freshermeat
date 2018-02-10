@@ -11,8 +11,8 @@ class Organization(db.Model):
     """
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True)
-    description = db.Column(db.String())
-    website = db.Column(db.String())
+    description = db.Column(db.String(), default='')
+    website = db.Column(db.String(), default='')
     last_updated = db.Column(db.DateTime(), default=datetime.utcnow())
 
     cve_vendor = db.Column(db.String(), default='')

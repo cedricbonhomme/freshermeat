@@ -7,19 +7,61 @@
         </div>
         <div class="col">
             <img id="organization-logo" src="" width="300px" />
-            <h4 id="organization-name">{{ organization.name }}</h4>
+            <h3 id="organization-name">{{ organization.name }}</h3>
         </div>
     </div>
     <div class="row">
         <div class="col-4">
             <div class="card">
                 <div class="card-body">
-                    <p>Website:&nbsp;<a id="organization-website"></a></p>
+                    <h4>Website</h4>
+                    <div><p class="text-justify">{{ organization.website }}</p></div>
+                    <h4>Description</h4>
+                    <div><p class="text-justify">{{ organization.description }}</p></div>
                 </div>
             </div>
         </div>
     </div>
+    <br />
+    <div class="row">
+        <div class="col-12">
+            <div>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active">Projects</li>
+                </ol>
+            </div>
+            <div id="list-projects"></div>
+        </div>
+    </div>
 </div><!-- /.container -->
 <script>
+$(document).ready(function() {
+    var div_project_columns = $("<div>", {"class": "card-columns"});
+
+    var filters = [{"name": "organization_id", "op": "eq",
+                    "val": "{{ organization.id }}"}];
+    $.ajax({
+        url: "{{ url_for('projectapi0.projectapi',) }}",
+        data: {"q": JSON.stringify({"filters": filters})},
+        dataType: "json",
+        contentType: "application/json",
+        success: function(projects) {
+            projects.objects
+            .sort(function (a, b) {
+                return a.name > b.name ;
+            })
+            .map(function (project) {
+                var cardHTML = cardProjectTemplate({
+                    'logo': project.logo,
+                    'project_name': project.name,
+                    'project_description': project.short_description,
+                    'project_details': '/project/'+project.name
+                 });
+                 div_project_columns.append(cardHTML);
+            });
+        }
+    });
+    $('#list-projects').append(div_project_columns);
+});
 </script>
 {% endblock %}
