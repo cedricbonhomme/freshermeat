@@ -1,0 +1,35 @@
+{% extends "layout.html" %}}
+{% block content %}
+<div class="container">
+    <div id="licenses-pie-chart"></div>
+</div>
+<script>
+$(document).ready(function() {
+    $.ajax({
+        url: "{{ url_for('stats_bp.licenses',) }}",
+        dataType: "json",
+        contentType: "application/json",
+        success: function(licenses) {
+            let data = {
+                labels: Object.keys(licenses),
+                datasets: [
+                    {
+                        title: "Licenses",
+                        values: Object.values(licenses)
+                    },
+                ]
+            };
+            let chart = new Chart({
+                parent: "#licenses-pie-chart",
+                title: "<h2>Licenses distribution</h2>",
+                data: data,
+                type: 'pie', // or 'line', 'scatter', 'pie', 'percentage'
+                height: 250,
+                format_tooltip_x: d => (d + '').toUpperCase(),
+                format_tooltip_y: d => d + ' pts'
+            });
+        }
+    });
+});
+</script>
+{% endblock %}
