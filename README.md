@@ -10,7 +10,7 @@
 ## Presentation
 
 Freshermeat is an open source software release tracker.  
-Main are functionalities are:
+Main functionalities are the following:
 
 - software release tracking;
 - vulnerability tracking (CVE);
