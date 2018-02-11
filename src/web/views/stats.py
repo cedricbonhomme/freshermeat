@@ -4,8 +4,7 @@ from sqlalchemy import func
 from bootstrap import db
 from web.models import Project, License
 
-stats_bp = Blueprint('stats_bp', __name__,
-                       url_prefix='/stats')
+stats_bp = Blueprint('stats_bp', __name__, url_prefix='/stats')
 
 
 @stats_bp.route('/', methods=['GET'])
