@@ -1,7 +1,16 @@
 {% extends "layout.html" %}}
 {% block content %}
-<div class="container">
-    <div id="licenses-pie-chart"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-8">
+            <h2>Licenses distribution</h2>
+            <div id="licenses-pie-chart"></div>
+        </div>
+        <div class="col-4">
+            <h2>Explore tags</h2>
+            <div class="" id="tags-cloud"></div>
+        </div>
+    </div>
 </div>
 <script>
 $(document).ready(function() {
@@ -21,13 +30,31 @@ $(document).ready(function() {
             };
             let chart = new Chart({
                 parent: "#licenses-pie-chart",
-                title: "<h2>Licenses distribution</h2>",
+                title: "",
                 data: data,
                 type: 'pie', // or 'line', 'scatter', 'pie', 'percentage'
                 height: 250,
                 format_tooltip_x: d => (d + '').toUpperCase(),
                 format_tooltip_y: d => d + ' pts'
             });
+        }
+    });
+
+    $.ajax({
+        url: "{{ url_for('stats_bp.tags',) }}",
+        dataType: "json",
+        contentType: "application/json",
+        success: function(tags) {
+            var max = Object.values(tags).reduce(function(a,b) {
+                return Math.max(a, b);
+            });
+            for (tag in tags) {
+                $("#tags-cloud").append('<a href="/projects/?tag=' +
+                                    tag + '"><font size=' +
+                                    Math.min(1 + (tags[tag] * 7) / max, 7) +
+                                    "' id='" + tag + "'>" +
+                                    tag + "</font></a>&nbsp;");
+            }
         }
     });
 });
