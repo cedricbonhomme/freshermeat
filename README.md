@@ -1,6 +1,5 @@
 # Freshermeat
 
-
 ![Latest Release](https://img.shields.io/github/release/cedricbonhomme/Freshermeat.svg?style=flat-square)
 ![License](https://img.shields.io/github/license/cedricbonhomme/Freshermeat.svg?style=flat-square)
 ![Contributors](https://img.shields.io/github/contributors/cedricbonhomme/Freshermeat.svg?style=flat-square)
