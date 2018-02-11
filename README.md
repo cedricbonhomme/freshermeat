@@ -19,7 +19,7 @@ Main functionalities are the following:
 - enable the promotion of software project based services.
 
 
-## Deploy the service
+## Deployment
 
 ### Requirements
 
