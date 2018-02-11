@@ -58,7 +58,9 @@
                         <a class="dropdown-item" href="{{ url_for('admin_bp.dashboard') }}"><i class="fa fa-tachometer" aria-hidden="true"></i>&nbsp;Dashboard</a>
                         <a class="dropdown-item" href="{{ url_for('admin_bp.list_users') }}"><i class="fa fa-user" aria-hidden="true"></i>&nbsp;Users</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{ url_for('project.edit_view') }}"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;Projects</a>
+                        <a class="dropdown-item" href="{{ url_for('admin_bp.requests') }}"><i class="fa fa-inbox" aria-hidden="true"></i>&nbsp;Requests</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/admin"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;Data</a>
                     </div>
                 </li>
                 {% endif %}

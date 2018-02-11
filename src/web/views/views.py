@@ -33,6 +33,11 @@ def internal_server_error(error):
     return render_template('errors/500.html'), 500
 
 
+@current_app.errorhandler(503)
+def internal_server_error(error):
+    return render_template('errors/503.html'), 503
+
+
 @current_app.errorhandler(AssertionError)
 def handle_sqlalchemy_assertion_error(error):
     return error.args[0], 400

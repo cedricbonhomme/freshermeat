@@ -2,12 +2,12 @@
     {
         "name": "MONARC",
         "short_description": "Method for an Optimised aNAlysis of Risks",
-        "description": "Method for an Optimised aNAlysis of Risks.<br />You can use the form below if you want an access to the <a href=\"https://my.monarc.lu\">MONARC SaaS offer</a>. For general questions you can send an email to <a href=\"mailto:info@cases.lu?subject=MONARC\">info@cases.lu</a>.",
+        "description": "Method for an Optimised aNAlysis of Risks.",
         "website": "http://monarc.lu",
         "services" : [
             {
                 "name": "MONARC SaaS",
-                "description": "",
+                "description": "In addition to the <a href=\"http://monarc.lu/product\">self hosted product</a>, we can host it for you, for free.<div align=\"center\"><video width=\"800\" height=\"600\" autoplay controls loop><source src=\"https://my.monarc.lu/static/img/ScreenCast.mp4\" type=\"video/mp4\"></video></div>For general questions you can send an email to <a href=\"mailto:info@cases.lu?subject=MONARC\">info@cases.lu</a>.",
                 "notification_email": "info@cases.lu",
                 "required_informations": [
                     {
@@ -81,7 +81,7 @@
         "services" : [
             {
                 "name": "Access to MISP instance of CIRCL",
-                "description": "",
+                "description": "In order to have an account created on our MISP instance, please use the form below to provide us your <b>professional/corporate</b> email address. We support and encourage individual accounts for team members, generic accounts are only desired for synchronization or automation users.<br />It is also possible to specify an organization name and add a logo (48x48 pixel .png files) to MISP (please attach), but that is optional. By default the domain name, brand name or legal name is used without a logo. Mentioning the nationality of the organization as well as the sector is desired.<br />For the access, you don't require to have a MISP installed as you can rely on the secure web interface of the MISP instance at CIRCL.<br />Please find below an overview of helpful documents regarding MISP:<ul><li><a href=\"https://www.circl.lu/assets/files/infosharing.pdf\">https://www.circl.lu/assets/files/infosharing.pdf</a></li><li><a href=\"https://www.circl.lu/services/misp-malware-information-sharing-platform\">https://www.circl.lu/services/misp-malware-information-sharing-platform<a/></li><li><a href=\"https://www.circl.lu/services/misp-training-materials\">https://www.circl.lu/services/misp-training-materials</a></li><li><a href=\"https://www.circl.lu/doc/misp\">https://www.circl.lu/doc/misp</a></li></ul>Events and information contained within MISP are often shared under the conditions of the Traffic Light Protocol (TLP). Every participant is obliged to comply with the classification. Please make yourself comfortable with the protocol if necessary:<br /><a href=\"https://www.circl.lu/pub/traffic-light-protocol\">https://www.circl.lu/pub/traffic-light-protocol</a>",
                 "notification_email": "info@circl.lu",
                 "required_informations": [
                     {
@@ -90,6 +90,20 @@
                         "type": "text",
                         "mimetype": "text/plain",
                         "required": true
+                    },
+                    {
+                        "name": "Organization nationality",
+                        "order": 4,
+                        "type": "text",
+                        "mimetype": "text/plain",
+                        "required": false
+                    },
+                    {
+                        "name": "Organization sector (Research, Finance, etc.)",
+                        "order": 5,
+                        "type": "text",
+                        "mimetype": "text/plain",
+                        "required": false
                     },
                     {
                         "name": "PGP key",
@@ -127,7 +141,7 @@
     },
     {
         "name": "AIL framework",
-        "short_description": "Analysis Information Leak framework ",
+        "short_description": "Analysis Information Leak framework.",
         "description": "AIL is a modular framework to analyse potential information leaks from unstructured data sources like pastes from Pastebin or similar services or unstructured data streams. AIL framework is flexible and can be extended to support other functionalities to mine or process sensitive information.",
         "website": "https://github.com/CIRCL/AIL-framework",
         "organization": {
@@ -151,7 +165,7 @@
         "services" : [
             {
                 "name": "Access to Passive DNS data",
-                "description": "",
+                "description": "Historical DNS records database.",
                 "notification_email": "info@circl.lu",
                 "required_informations": [
                     {
@@ -183,11 +197,11 @@
         "services" : [
             {
                 "name": "Access to Passive SSL data",
-                "description": "",
+                "description": "Historical database of SSL certificate per IP address",
                 "notification_email": "info@circl.lu",
                 "required_informations": [
                     {
-                        "name": "Name",
+                        "name": "Organization name",
                         "order": 1,
                         "type": "text",
                         "mimetype": "text/plain",

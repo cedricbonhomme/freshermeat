@@ -1,7 +1,7 @@
 
 import logging
 from flask import Blueprint, render_template, redirect, url_for, current_app, \
-                flash, request
+                flash, request, abort
 from flask_login import login_required, current_user
 from flask_paginate import Pagination, get_page_args
 from sqlalchemy import desc
@@ -21,10 +21,17 @@ logger = logging.getLogger(__name__)
 admin_bp = Blueprint('admin_bp', __name__, url_prefix='/admin')
 
 
-@admin_bp.route('/dashboard', defaults={'per_page': '10'}, methods=['GET'])
+@admin_bp.route('/dashboard', methods=['GET'])
 @login_required
 @admin_permission.require(http_exception=403)
-def dashboard(per_page):
+def dashboard():
+    return abort(503)
+
+
+@admin_bp.route('/requests', defaults={'per_page': '10'}, methods=['GET'])
+@login_required
+@admin_permission.require(http_exception=403)
+def requests(per_page):
     organization_name = request.args.get('org', False)
 
     requests = models.Request.query
@@ -197,15 +204,7 @@ def toggle_user(user_id=None):
 
 # Flask-Admin views
 
-class ProjectView(ModelView):
-    def is_accessible(self):
-        return current_user.is_authenticated and current_user.is_admin
-
-class OrganizationView(ModelView):
-    def is_accessible(self):
-        return current_user.is_authenticated and current_user.is_admin
-
-class LicenseView(ModelView):
+class SecureView(ModelView):
     def is_accessible(self):
         return current_user.is_authenticated and current_user.is_admin
 
@@ -223,7 +222,8 @@ admin_flask = Admin(current_app,
                         name='Home',
                         url='/admin'
                     ))
-admin_flask.add_view(ProjectView(models.Project, db.session))
-admin_flask.add_view(OrganizationView(models.Organization, db.session))
-admin_flask.add_view(LicenseView(models.License, db.session))
+admin_flask.add_view(SecureView(models.Project, db.session))
+admin_flask.add_view(SecureView(models.Organization, db.session))
+admin_flask.add_view(SecureView(models.License, db.session))
+admin_flask.add_view(SecureView(models.Service, db.session))
 admin_flask.add_link(menu_link_back_dashboard)

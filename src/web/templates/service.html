@@ -21,7 +21,7 @@
     </div>
     <div class="row">
         <div class="col">
-            <div><p id="service-name" class="lead text-justify"></p></div>
+            <div><h2 id="service-name"></h1></div>
         </div>
     </div>
     <div class="row">
@@ -87,8 +87,7 @@ $(document).ready(function() {
     });
 
     // Get information about the service in the URL parameter
-    var service_id = getUrlParameter('name');
-    var filters = [{"name": "id", "op": "eq", "val": service_id}];
+    var filters = [{"name": "id", "op": "eq", "val": {{ service.id }}}];
     $.ajax({
         url: "{{ url_for('serviceapi0.serviceapi',) }}",
         data: {"q": JSON.stringify({"filters": filters})},

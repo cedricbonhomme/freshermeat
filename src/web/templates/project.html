@@ -38,7 +38,7 @@
                     <p><a id="project-website">Homepage</a></p>
                     {% if project.services.count() != 0 %}<h5>Releated service(s)</h5>{% endif %}
                     {% for service in project.services %}
-                        <p><a href="{{ url_for('service_bp.service', name=service.id) }}">{{ service.name }}</a></p>
+                        <p><a href="{{ url_for('service_bp.service', service_name=service.name) }}">{{ service.name }}</a></p>
                     {% endfor %}
                     {% if project.maintainer_id %}
                         <p><a href="#">Maintainer</a></p>
