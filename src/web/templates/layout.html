@@ -51,6 +51,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('organizations_bp.list_organizations') }}" title="Organizations">Organizations</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('stats_bp.stats') }}" title="Statistics">Statistics</a>
+                </li>
                 {% if current_user.is_authenticated %}
                 {% if current_user.is_admin %}
                 <li class="nav-item dropdown">
