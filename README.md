@@ -15,8 +15,10 @@ Main functionalities are the following:
 - software release tracking;
 - vulnerability tracking (CVE);
 - subscribe to releases of projects via an ATOM feed;
+- JSON-based API in order to manages projects, releases, CVEs, etc.;
 - management of organizations;
-- enable the promotion of software project based services.
+- enable the promotion of software project based services with dynamic
+  generation of forms.
 
 
 ## Deployment
@@ -27,6 +29,7 @@ Main functionalities are the following:
 $ sudo apt-get install postgresql npm python-pip
 $ sudo -H pip install pew pew[pythonz]
 ```
+
 ### Optional
 
 ```bash
@@ -70,20 +73,19 @@ your own file and export it in the variable ``APPLICATION_SETTINGS``.
 
 ## Workers
 
+You can launch the workers periodically with __cron__.
+
 ### Retrieving CVEs
 
 ```bash
 freshermeat/freshermeat$ python src/manager.py fetch_cves
 ```
 
-You can launch the CVE fetcher periodically with cron.
-
-You can query the CVE API:
+It is possible to query the CVE API:
 
 ```bash
 $ curl http://127.0.0.1:5000/api/v1/CVE
 ```
-
 
 ### Release tracking
 
