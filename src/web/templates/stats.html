@@ -14,14 +14,10 @@
 </div>
 <script>
 $(document).ready(function() {
-    var colors = [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ];
+    function pastelColorMaker() {
+        var hue = Math.floor(Math.random() * 360);
+        return 'hsl(' + hue + ', 100%, 87.5%)';
+    }
     $.ajax({
         url: "{{ url_for('stats_bp.licenses',) }}",
         dataType: "json",
@@ -35,7 +31,7 @@ $(document).ready(function() {
                     datasets: [{
                         data: Object.values(licenses),
                         borderWidth: 1,
-                        backgroundColor:colors
+                        backgroundColor: _.times(8, pastelColorMaker)
                     }]
                 },
             });
