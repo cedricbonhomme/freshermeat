@@ -31,7 +31,7 @@ $(document).ready(function() {
                     datasets: [{
                         data: Object.values(licenses),
                         borderWidth: 1,
-                        backgroundColor: _.times(8, pastelColorMaker)
+                        backgroundColor: _.times(Object.keys(licenses).length, pastelColorMaker)
                     }]
                 },
             });
