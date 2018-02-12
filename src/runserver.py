@@ -27,6 +27,7 @@ with application.app_context():
     application.register_blueprint(views.api.v1.blueprint_cve)
     application.register_blueprint(views.api.v1.blueprint_service)
     application.register_blueprint(views.api.v1.blueprint_request)
+    application.register_blueprint(views.api.v1.blueprint_license)
 
 
 if __name__ == '__main__':

@@ -34,6 +34,23 @@ $(document).ready(function() {
                         backgroundColor: _.times(Object.keys(licenses).length, pastelColorMaker)
                     }]
                 },
+                options: {
+                    onClick: function(evt) {
+                        var license_label = myChart.getElementsAtEvent(evt)[0]._model.label;
+                        filters = [{"name":"name","op":"eq","val":license_label}];
+                        $.ajax({
+                            url: "{{ url_for('licenseapi0.licenseapi',) }}",
+                            data: {"q": JSON.stringify({"filters": filters})},
+                            dataType: "json",
+                            contentType: "application/json",
+                            success: function(licenses) {
+                                if (licenses.num_results == 1) {
+                                    window.location = '/projects?license='+licenses.objects[0].license_id;
+                                }
+                            }
+                        });
+                    }
+                }
             });
         }
     });
