@@ -9,6 +9,7 @@
   "dependencies": {
     "bootstrap": "^4.0.0-beta",
     "bootstrap-select": "^1.12.4",
+    "chart.js": "^2.7.1",
     "datatables.net-bs4": "^1.10.16",
     "font-awesome": "^4.7.0",
     "frappe-charts": "0.0.8",

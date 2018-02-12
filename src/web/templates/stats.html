@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-8">
             <h2>Licenses distribution</h2>
-            <div id="licenses-pie-chart"></div>
+            <canvas id="licenses-pie-chart"></canvas>
         </div>
         <div class="col-4">
             <h2>Explore tags</h2>
@@ -14,28 +14,30 @@
 </div>
 <script>
 $(document).ready(function() {
+    var colors = [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ];
     $.ajax({
         url: "{{ url_for('stats_bp.licenses',) }}",
         dataType: "json",
         contentType: "application/json",
         success: function(licenses) {
-            let data = {
-                labels: Object.keys(licenses),
-                datasets: [
-                    {
-                        title: "Licenses",
-                        values: Object.values(licenses)
-                    },
-                ]
-            };
-            let chart = new Chart({
-                parent: "#licenses-pie-chart",
-                title: "",
-                data: data,
-                type: 'pie', // or 'line', 'scatter', 'pie', 'percentage'
-                height: 250,
-                format_tooltip_x: d => (d + '').toUpperCase(),
-                format_tooltip_y: d => d + ' pts'
+            var ctx = document.getElementById("licenses-pie-chart").getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: Object.keys(licenses),
+                    datasets: [{
+                        data: Object.values(licenses),
+                        borderWidth: 1,
+                        backgroundColor:colors
+                    }]
+                },
             });
         }
     });
