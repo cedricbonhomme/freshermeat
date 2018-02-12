@@ -13,13 +13,14 @@ def stats():
 
 
 @stats_bp.route('/licenses.json', methods=['GET'])
-def licenses(service_name=None):
+def licenses():
     result = db.session.query(License.name, func.count(License.id)). \
                               join(License.projects).group_by(License.id).all()
     return jsonify(dict(result))
 
+
 @stats_bp.route('/tags.json', methods=['GET'])
-def tags(service_name=None):
+def tags():
     result = db.session.query(Tag.text, func.count(Tag.text)). \
                               group_by(Tag.text).all()
     return jsonify(dict(result))
