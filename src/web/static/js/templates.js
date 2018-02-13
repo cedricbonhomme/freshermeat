@@ -25,7 +25,7 @@ var organizationTemplate = _.template(
             '<h5 class="mb-1"><%= organization_name %></h5>' +
             '<small>updated <%= organization_last_update %></small>' +
         '</div>' +
-        '<p class="mb-1"><%= organization_description %></p>' +
+        '<p class="mb-1"><%= organization_short_description %></p>' +
     '</a>');
 
 // template for the users

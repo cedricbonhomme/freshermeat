@@ -23,6 +23,8 @@
         "organization": {
             "name": "CASES",
             "description": "CASES (Cyberworld Awareness and Security Enhancement Services) is a part of Securitymadein.lu and is specialized in the field of risk assessment, information security trainings and documents to support your quest to a more secure business.",
+            "short_description": "CASES (Cyberworld Awareness and Security Enhancement Services) is a part of Securitymadein.lu and is specialized in the field of risk assessment, information security trainings and documents to support your quest to a more secure business.",
+            "organization_type": "Private",
             "website": "https://www.cases.lu"
         },
         "automatic_release_tracking": "github:https://api.github.com/repos/monarc-project/MonarcAppFO/releases",
@@ -127,6 +129,8 @@
         "organization": {
             "name": "CIRCL",
             "description": "The Computer Incident Response Center Luxembourg (CIRCL) is a government-driven initiative designed to gather, review, report and respond to computer security threats and incidents.",
+            "short_description": "CASES (Cyberworld Awareness and Security Enhancement Services) is a part of Securitymadein.lu and is specialized in the field of risk assessment, information security trainings and documents to support your quest to a more secure business.",
+            "organization_type": "Private",
             "website": "https://www.circl.lu"
         },
         "cve_vendor": "misp",

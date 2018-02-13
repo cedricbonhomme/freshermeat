@@ -18,8 +18,8 @@ class Project(db.Model):
     """
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True)
-    short_description = db.Column(db.String(400), unique=True)
-    description = db.Column(db.String(), unique=True)
+    description = db.Column(db.String())
+    short_description = db.Column(db.String(400))
     website = db.Column(db.String())
     last_updated = db.Column(db.DateTime(), default=datetime.utcnow())
 

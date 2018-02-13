@@ -68,7 +68,7 @@ $(document).ready(function() {
                 var cardHTML = organizationTemplate({
                     'organization_url': '/organization/'+organization.name,
                     'organization_name': organization.name,
-                    'organization_description': organization.description,
+                    'organization_short_description': organization.short_description,
                     'organization_last_update': moment(organization.last_updated).fromNow()
                  });
                  $('#list-organizations').append(cardHTML);

@@ -52,19 +52,19 @@ def db_init():
 
 
 @manager.command
-def create_user(login, email, password):
+def create_user(login, password):
     "Initializes a user"
     print("Creation of the user {} ...".format(login))
     with application.app_context():
-        scripts.create_user(login, email, password, False)
+        scripts.create_user(login, password, False)
 
 
 @manager.command
-def create_admin(login, email, password):
+def create_admin(login, password):
     "Initializes an admin user"
     print("Creation of the admin user {} ...".format(login))
     with application.app_context():
-        scripts.create_user(login, email, password, True)
+        scripts.create_user(login, password, True)
 
 
 @manager.command

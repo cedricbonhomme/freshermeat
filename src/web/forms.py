@@ -6,7 +6,6 @@ from flask_wtf import FlaskForm
 from wtforms import (TextField, TextAreaField, PasswordField, BooleanField,
                      SelectField, SubmitField, validators, HiddenField,
                      SelectMultipleField)
-from wtforms.fields.html5 import EmailField
 from flask_wtf.file import FileField
 
 from lib import misc_utils
@@ -102,8 +101,6 @@ class UserForm(FlaskForm):
     login = TextField("Login",
             [validators.Length(min=3, max=30),
             validators.Required("Please enter your login.")])
-    email = EmailField("Email",
-               [validators.Length(max=254)])
     password = PasswordField("Password")
     public_profile = BooleanField("Public profile", default=True)
     is_active = BooleanField("Active", default=True)

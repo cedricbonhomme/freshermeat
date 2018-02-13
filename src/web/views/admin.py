@@ -146,7 +146,7 @@ def form_user(user_id=None):
     form = UserForm(obj=user)
     action = "Edit user"
     head_titles = [action]
-    head_titles.append(user.email)
+    head_titles.append(user.login)
     return render_template('admin/edit_user.html', action=action,
                            head_titles=head_titles,
                            form=form, user=user)
@@ -173,7 +173,6 @@ def process_user_form(user_id=None):
 
     # Create a new user
     new_user = models.User(login=form.login.data,
-                           email=form.email.data,
                            public_profile=form.public_profile.data,
                            is_active=form.is_active.data,
                            is_admin=form.is_admin.data,
@@ -181,8 +180,8 @@ def process_user_form(user_id=None):
                            pwdhash=generate_password_hash(form.password.data))
     db.session.add(new_user)
     db.session.commit()
-    flash('User {user_email} successfully created.'.
-          format(user_email=new_user.email), 'success')
+    flash('User {user_login} successfully created.'.
+          format(user_login=new_user.login), 'success')
 
     return redirect(url_for('admin_bp.form_user', user_id=new_user.id))
 

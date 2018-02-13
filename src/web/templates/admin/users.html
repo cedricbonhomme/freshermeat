@@ -19,7 +19,7 @@
 {% for user in users %}
     <tr {% if not user.is_active  %}class="warning"{% endif %}>
         <td><a href="{{ url_for("admin_bp.form_user", user_id=user.id) }}">{{ loop.index }}</a></td>
-        <td><a href="mailto:{{ user.email }}">{{ user.login  }}</a></td>
+        <td>{{ user.login  }}</td>
         <td class="date">{{ user.created_at }}</td>
         <td class="date">{{ user.last_seen }}</td>
         <td>

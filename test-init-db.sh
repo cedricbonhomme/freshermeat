@@ -9,5 +9,5 @@ python src/manager.py import_osi_approved_licenses
 #python src/manager.py fetch_cves
 #python src/manager.py fetch_releases
 
-python src/manager.py create_admin alan alan.turing@example.org ROTOR_III
-python src/manager.py create_user john john.doe@example.org password
+python src/manager.py create_admin alan ROTOR_III
+python src/manager.py create_user john password

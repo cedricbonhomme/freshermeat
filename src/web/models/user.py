@@ -13,7 +13,6 @@ class User(db.Model, UserMixin):
     """
     id = db.Column(db.Integer, primary_key=True)
     login = db.Column(db.String(), unique=True, nullable=False)
-    email = db.Column(db.String(254), default='')
     pwdhash = db.Column(db.String(), nullable=False)
     created_at = db.Column(db.DateTime(), default=datetime.utcnow())
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow())
