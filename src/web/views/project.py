@@ -112,6 +112,8 @@ def form(project_id=None):
                                             Organization.query.all()])
     form.licenses.data = [license.id for license in
                                             project.licenses]
+    form.languages.data = [language.id for language in
+                                            project.languages]
     form.tags.data = ", ".join(project.tags)
     action = "Edit project"
     head_titles = [action]
