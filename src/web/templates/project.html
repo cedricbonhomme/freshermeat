@@ -34,15 +34,34 @@
         <div class="col-4">
             <div class="card">
                 <div class="card-body">
-                    <h5>Reference</h5>
-                    <p><a id="project-website">Homepage</a></p>
-                    {% if project.services.count() != 0 %}<h5>Releated service(s)</h5>{% endif %}
-                    {% for service in project.services %}
-                        <p><a href="{{ url_for('service_bp.service', service_name=service.name) }}">{{ service.name }}</a></p>
-                    {% endfor %}
+                    <h4>Reference</h4>
+                    {% if project.organization %}
+                    <div class="row">
+                        <div class="col-4">Organization</div>
+                        <div class="col"><a href="{{ url_for('organization_bp.get', organization_name=project.organization.name) }}">{{ project.organization.name }}</a></div>
+                    </div>
+                    {% endif %}
+                    <div class="row">
+                        <div class="col-4">Homepage</div>
+                        <div class="col"><a href="{{ project.website }}">{{ project.website }}</a></div>
+                    </div>
                     {% if project.maintainer_id %}
                         <p><a href="#">Maintainer</a></p>
                     {% endif %}
+                    {% if project.services.count() != 0 %}
+                        <div class="row">
+                            <div class="col">
+                                <h4>Releated service(s)</h4>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% for service in project.services %}
+                        <div class="row">
+                            <div class="col">
+                                <p><a href="{{ url_for('service_bp.service', service_name=service.name) }}">{{ service.name }}</a></p>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
             <br />
@@ -79,7 +98,6 @@ $(document).ready(function() {
             }
             $("#project-name").html(project.objects[0].name);
             $("#project-logo").attr("src", project.objects[0].logo);
-            $("#project-website").attr("href", project.objects[0].website);
             $("#project-description").html(project.objects[0].description);
             $("#project-id-input").val(project.objects[0].id);
 
