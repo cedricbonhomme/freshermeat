@@ -224,5 +224,6 @@ admin_flask = Admin(current_app,
 admin_flask.add_view(SecureView(models.Project, db.session))
 admin_flask.add_view(SecureView(models.Organization, db.session))
 admin_flask.add_view(SecureView(models.License, db.session))
+admin_flask.add_view(SecureView(models.Language, db.session))
 admin_flask.add_view(SecureView(models.Service, db.session))
 admin_flask.add_link(menu_link_back_dashboard)
