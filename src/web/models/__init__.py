@@ -6,6 +6,7 @@ from .tag import Tag
 from .project import Project
 from .code import Code
 from .license import License
+from .language import Language
 from .organization import Organization
 from .release import Release
 from .cve import CVE
@@ -15,7 +16,7 @@ from .service import Service
 
 __all__ = ['Project', 'License', 'Release', 'User',
            'Organization', 'Tag', 'Request', 'CVE',
-           'Code', 'Service']
+           'Code', 'Service', 'Language']
 
 from sqlalchemy.engine import reflection
 from sqlalchemy import create_engine

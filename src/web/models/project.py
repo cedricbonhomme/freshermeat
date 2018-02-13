@@ -7,9 +7,16 @@ from sqlalchemy import event, desc
 from bootstrap import db
 
 
-association_table_license = db.Table('association_projects_licenses', db.metadata,
+association_table_license = db.Table('association_projects_licenses',
+    db.metadata,
     db.Column('project_id', db.Integer, db.ForeignKey('project.id')),
     db.Column('license_id', db.Integer, db.ForeignKey('license.id'))
+)
+
+association_table_language = db.Table('association_projects_langages',
+    db.metadata,
+    db.Column('project_id', db.Integer, db.ForeignKey('project.id')),
+    db.Column('language_id', db.Integer, db.ForeignKey('language.id'))
 )
 
 
@@ -45,6 +52,9 @@ class Project(db.Model):
     tags = association_proxy('tag_objs', 'text')
     licenses = db.relationship("License",
                             secondary=lambda: association_table_license,
+                            backref="projects")
+    languages = db.relationship("Language",
+                            secondary=lambda: association_table_language,
                             backref="projects")
     cves = db.relationship('CVE', backref='project', lazy='dynamic',
                                cascade='all,delete-orphan')
