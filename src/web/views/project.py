@@ -6,7 +6,8 @@ from flask_login import login_required
 from werkzeug.contrib.atom import AtomFeed
 
 from bootstrap import db, application
-from web.models import get_or_create, Project, Code, Organization, Tag, Icon, License
+from web.models import get_or_create, Project, Code, Organization, Tag, Icon, \
+                       License, Language
 from web.forms import AddProjectForm, CodeForm
 from web.utils import misc
 
@@ -157,6 +158,14 @@ def process_form(project_id=None):
         project.licenses = new_licenses
         del form.licenses
 
+        # Languages
+        new_languages = []
+        for language_id in form.languages.data:
+            language = Language.query.filter(Language.id == language_id).first()
+            new_languages.append(language)
+        project.languages = new_languages
+        del form.languages
+
         # Logo
         f = form.logo.data
         if f:
@@ -219,6 +228,14 @@ def process_form(project_id=None):
         new_licenses.append(license)
     new_project.licenses = new_licenses
     del form.licenses
+
+    # Languages
+    new_languages = []
+    for language_id in form.languages.data:
+        language = Language.query.filter(Language.id == language_id).first()
+        new_languages.append(language)
+    project.languages = new_languages
+    del form.languages
 
     # Logo
     f = form.logo.data

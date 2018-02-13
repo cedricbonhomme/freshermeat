@@ -25,6 +25,8 @@
                     <div><p id="project-description" class="text-justify"></p></div>
                     <h5>Licenses</h5>
                     <div id="project-licenses" class="btn-toolbar"></div>
+                    <h5>Languages</h5>
+                    <div id="project-languages" class="btn-toolbar"></div>
                     <h5>Tags</h5>
                     <div id="project-tags" class="btn-toolbar"></div>
                 </div>
@@ -123,6 +125,18 @@ $(document).ready(function() {
                 a.setAttribute('href', '/projects/?license='+license.license_id);
                 $("#project-licenses").append(a);
                 $("#project-licenses").append('&nbsp;');
+            })
+
+            project.objects[0].languages.map(function(language){
+                var a = document.createElement('a');
+                var linkText = document.createTextNode(language.name);
+                a.appendChild(linkText);
+                a.setAttribute('title', language.name);
+                a.setAttribute('class', 'btn btn-outline-dark btn-sm');
+                a.setAttribute('style', 'margin:1px');
+                a.setAttribute('href', '/projects/?language='+language.name);
+                $("#project-languages").append(a);
+                $("#project-languages").append('&nbsp;');
             })
         }
     });

@@ -41,6 +41,10 @@ $(document).ready(function() {
     if (typeof license_param !== 'undefined') {
         filters.push({"name":"licenses","op":"any","val":{"name":"license_id","op":"eq","val": license_param}});
     }
+    language_param = getUrlParameter('language');
+    if (typeof language_param !== 'undefined') {
+        filters.push({"name":"languages","op":"any","val":{"name":"name","op":"eq","val": language_param}});
+    }
     $.ajax({ // Get the list of projects
         url: "{{ url_for('projectapi0.projectapi',) }}" + "?results_per_page=50",
         data: {"q": JSON.stringify({"filters": filters})},

@@ -9,7 +9,7 @@ from wtforms import (TextField, TextAreaField, PasswordField, BooleanField,
 from flask_wtf.file import FileField
 
 from lib import misc_utils
-from web.models import Project, User, Organization, License
+from web.models import Project, User, Organization, License, Language
 
 
 class RedirectForm(FlaskForm):
@@ -77,6 +77,11 @@ class AddProjectForm(FlaskForm):
                     coerce=int,
                     choices=[(license.id, license.name) for license in
                                                     License.query.all()])
+    languages = SelectMultipleField("Languages",
+                    [validators.Optional()],
+                    coerce=int,
+                    choices=[(language.id, language.name) for language in
+                                                    Language.query.all()])
     tags = TextField("Tags")
     organization_id = SelectField("Organization", [validators.Optional()],
                                   coerce=int)
