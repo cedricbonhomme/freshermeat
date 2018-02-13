@@ -11,5 +11,4 @@ def import_languages(json_file):
     with open(json_file) as json_file:
         languages = json.loads(json_file.read())
         for language in languages:
-            print(language)
             get_or_create(db.session, Language, **language)
