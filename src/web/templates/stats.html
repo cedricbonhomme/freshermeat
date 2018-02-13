@@ -11,6 +11,12 @@
             <div id="tags-cloud"></div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-8">
+            <h2>Languages distribution</h2>
+            <canvas id="languages-pie-chart"></canvas>
+        </div>
+    </div>
 </div>
 <script>
 $(document).ready(function() {
@@ -18,6 +24,7 @@ $(document).ready(function() {
         var hue = Math.floor(Math.random() * 360);
         return 'hsl(' + hue + ', 100%, 87.5%)';
     }
+
     $.ajax({
         url: "{{ url_for('stats_bp.licenses',) }}",
         dataType: "json",
@@ -46,6 +53,43 @@ $(document).ready(function() {
                             success: function(licenses) {
                                 if (licenses.num_results == 1) {
                                     window.location = '/projects?license='+licenses.objects[0].license_id;
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    });
+
+    $.ajax({
+        url: "{{ url_for('stats_bp.languages',) }}",
+        dataType: "json",
+        contentType: "application/json",
+        success: function(languages) {
+            var ctx = document.getElementById("languages-pie-chart").getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: Object.keys(languages),
+                    datasets: [{
+                        data: Object.values(languages),
+                        borderWidth: 1,
+                        backgroundColor: _.times(Object.keys(languages).length, pastelColorMaker)
+                    }]
+                },
+                options: {
+                    onClick: function(evt) {
+                        var language_label = myChart.getElementsAtEvent(evt)[0]._model.label;
+                        filters = [{"name":"name","op":"eq","val":language_label}];
+                        $.ajax({
+                            url: "{{ url_for('languageapi0.languageapi',) }}",
+                            data: {"q": JSON.stringify({"filters": filters})},
+                            dataType: "json",
+                            contentType: "application/json",
+                            success: function(languages) {
+                                if (languages.num_results == 1) {
+                                    window.location = '/projects?language='+languages.objects[0].name;
                                 }
                             }
                         });
