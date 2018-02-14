@@ -14,7 +14,7 @@
     </div>
     <div id="list-projects" class="list-group"></div>
     <br />
-    <nav id="navigation" aria-label="...">
+    <nav id="navigation" style="display: none;">
         <ul class="pagination">
             <li class="page-item">
                 <a class="page-link" href="#" id="paginationF">First</a>
@@ -91,6 +91,8 @@ function load_projects_list(url, filters) {
                 });
 
                 if (projects.total_pages > 2) {
+                    $('#navigation').attr("style", "display: inline-block;");
+
                     if (projects.page == 1) {
                         $('#paginationF').parent().addClass("disabled");
 
@@ -143,6 +145,8 @@ function load_projects_list(url, filters) {
                     }
                 }
                 else if (projects.total_pages == 2) {
+                    $('#navigation').attr("style", "display: inline-block;");
+
                     $('#paginationF').parent().addClass("disabled");
 
                     $('#pagination1').text(1);
@@ -155,9 +159,6 @@ function load_projects_list(url, filters) {
                     $('#pagination3').parent().remove();
 
                     $('#paginationL').parent().addClass("disabled");
-                }
-                else {
-                    $('#navigation').remove();
                 }
             }
     });
