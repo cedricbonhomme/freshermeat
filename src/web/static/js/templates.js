@@ -1,6 +1,5 @@
 var cardProjectTemplate = _.template(
     '<div class="card">' +
-      '<img class="card-img-top" src="<%= logo %>" alt="Card image cap">' +
       '<div class="card-body">' +
         '<h4 class="card-title"><%= project_name %></h4>' +
         '<p class="card-text"><%= project_description %></p>' +
