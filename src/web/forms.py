@@ -73,15 +73,10 @@ class AddProjectForm(FlaskForm):
                     [validators.Required("Please enter a short description")])
     website = TextField("Website", [validators.Optional()])
     licenses = SelectMultipleField("Licenses",
-                    [validators.Required("Please choose a license")],
-                    coerce=int,
-                    choices=[(license.id, license.name) for license in
-                                                    License.query.all()])
+                            [validators.Required("Please choose a license")],
+                            coerce=int)
     languages = SelectMultipleField("Languages",
-                    [validators.Optional()],
-                    coerce=int,
-                    choices=[(language.id, language.name) for language in
-                                                    Language.query.all()])
+                                    [validators.Optional()], coerce=int)
     tags = TextField("Tags")
     organization_id = SelectField("Organization", [validators.Optional()],
                                   coerce=int)
@@ -97,6 +92,14 @@ class AddProjectForm(FlaskForm):
     cve_product = TextField("CVE product", [validators.Optional()])
 
     submit = SubmitField("Save")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.licenses.choices = [(license.id, license.name) \
+                                        for license in License.query.all()]
+        self.languages.choices = [(language.id, language.name) \
+                                        for language in Language.query.all()]
+
 
 
 class UserForm(FlaskForm):
