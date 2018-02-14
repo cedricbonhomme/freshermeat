@@ -44,7 +44,7 @@ $(document).ready(function() {
                 return a.last_updated < b.last_updated ;
             })
             .map(function (project) {
-                var cardHTML = projectTemplate({
+                var cardHTML = projectHomeTemplate({
                     'project_url': '/project/'+project.name,
                     'project_name': project.name,
                     'project_description': project.short_description,

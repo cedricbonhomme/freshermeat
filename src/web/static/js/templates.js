@@ -9,7 +9,7 @@ var cardProjectTemplate = _.template(
     '</div>');
 
 // template for the projects
-var projectTemplate = _.template(
+var projectHomeTemplate = _.template(
     '<a href="<%= project_url %>" class="list-group-item list-group-item-action flex-column align-items-start">' +
         '<div class="d-flex w-100 justify-content-between">' +
             '<h5 class="mb-1"><%= project_name %></h5>' +
@@ -17,6 +17,16 @@ var projectTemplate = _.template(
         '</div>' +
         '<p class="mb-1"><%= project_description %></p>' +
     '</a>');
+
+var projectTemplate = _.template(
+    '<div  class="list-group-item list-group-item-action flex-column align-items-start">' +
+        '<a href="<%= project_url %>" style="text-decoration: none" class="text-muted d-flex w-100 justify-content-between">' +
+            '<h5 class="mb-1"><%= project_name %></h5>' +
+            '<small>updated <%= project_last_update %></small>' +
+        '</a>' +
+        '<p class="mb-1"><%= project_description %></p>' +
+        '<small class="text-muted"><%= project_tags %></small>' +
+    '</div>');
 
 // template for the organizations
 var organizationTemplate = _.template(

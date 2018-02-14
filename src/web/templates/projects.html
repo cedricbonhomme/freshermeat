@@ -13,21 +13,35 @@
         </div>
     </div>
     <div id="list-projects" class="list-group"></div>
+    <br />
+    <nav id="navigation" aria-label="...">
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link" href="#" id="paginationF">First</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" id="pagination1"></a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" id="pagination2"></a>
+            </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" id="pagination3"></a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" id="paginationL">Last</a>
+            </li>
+        </ul>
+    </nav>
 </div><!-- /.container -->
 <script>
 $(document).ready(function() {
-
-    // card template for the projects
-    var projectTemplate = _.template(
-        '<div  class="list-group-item list-group-item-action flex-column align-items-start">' +
-            '<a href="<%= project_url %>" style="text-decoration: none" class="text-muted d-flex w-100 justify-content-between">' +
-                '<h5 class="mb-1"><%= project_name %></h5>' +
-                '<small>updated <%= project_last_update %></small>' +
-            '</a>' +
-            '<p class="mb-1"><%= project_description %></p>' +
-            '<small class="text-muted"><%= project_tags %></small>' +
-        '</div>');
-
+    var url = "{{ url_for('projectapi0.projectapi',) }}" + "?results_per_page=50";
+    page_number = getUrlParameter('page');
+    if (typeof page_number !== 'undefined') {
+        url = url.concat("&page="+page_number);
+    }
     var filters = [];
     tag_param = getUrlParameter('tag');
     if (typeof tag_param !== 'undefined') {
@@ -45,8 +59,13 @@ $(document).ready(function() {
     if (typeof language_param !== 'undefined') {
         filters.push({"name":"languages","op":"any","val":{"name":"name","op":"eq","val": language_param}});
     }
+
+    load_projects_list(url, filters);
+});
+function load_projects_list(url, filters) {
+    $('#list-projects').empty();
     $.ajax({ // Get the list of projects
-        url: "{{ url_for('projectapi0.projectapi',) }}" + "?results_per_page=50",
+        url: url,
         data: {"q": JSON.stringify({"filters": filters})},
         dataType: "json",
         contentType: "application/json",
@@ -70,8 +89,78 @@ $(document).ready(function() {
                      });
                      $('#list-projects').append(cardHTML);
                 });
+
+                if (projects.total_pages > 2) {
+                    if (projects.page == 1) {
+                        $('#paginationF').parent().addClass("disabled");
+
+                        $('#pagination1').text(1);
+                        $('#pagination1').attr("href", "#");
+                        $('#pagination1').parent().addClass("disabled");
+
+                        $('#pagination2').text(2);
+                        $('#pagination2').attr("href", updateQueryStringParameter(window.location.href , "page", 2));
+
+                        $('#pagination3').text(3);
+                        $('#pagination3').attr("href", updateQueryStringParameter(window.location.href , "page", 3));
+
+                        $('#paginationL').attr("href", updateQueryStringParameter(window.location.href , "page", projects.total_pages));
+                    }
+                    else if (projects.page == projects.total_pages) {
+                        $('#paginationF').attr("href", updateQueryStringParameter(window.location.href , "page", 1));
+                        $('#paginationF').parent().removeClass("active");
+
+                        $('#pagination1').text(projects.page - 2);
+                        $('#pagination1').attr("href", updateQueryStringParameter(window.location.href , "page", projects.page - 2));
+
+                        $('#pagination2').text(projects.page - 1);
+                        $('#pagination2').attr("href", updateQueryStringParameter(window.location.href , "page", projects.page - 1));
+
+                        $('#pagination3').text(projects.page);
+                        $('#pagination3').attr("href", updateQueryStringParameter(window.location.href , "page", projects.page + 1));
+                        $('#pagination3').parent().addClass("disabled");
+
+                        $('#paginationL').parent().addClass("disabled");
+                    }
+                    else {
+                        $('#paginationF').attr("href", updateQueryStringParameter(window.location.href , "page", 1));
+                        $('#paginationF').parent().removeClass("active");
+
+                        $('#pagination1').text(projects.page - 1);
+                        $('#pagination1').attr("href", updateQueryStringParameter(window.location.href , "page", projects.page - 1));
+                        $('#pagination1').parent().removeClass("active");
+
+                        $('#pagination2').text(projects.page);
+                        $('#pagination2').attr("href", "#");
+                        $('#pagination2').parent().addClass("disabled");
+                        $('#pagination2').parent().addClass("active");
+
+                        $('#pagination3').text(projects.page + 1);
+                        $('#pagination3').attr("href", updateQueryStringParameter(window.location.href , "page", projects.page + 1));
+
+                        $('#paginationL').attr("href", updateQueryStringParameter(window.location.href , "page", projects.total_pages));
+                        $('#paginationL').parent().removeClass("active");
+                    }
+                }
+                else if (projects.total_pages == 2) {
+                    $('#paginationF').parent().addClass("disabled");
+
+                    $('#pagination1').text(1);
+                    $('#pagination1').attr("href", updateQueryStringParameter(window.location.href , "page", 1));
+
+                    $('#pagination2').text(2);
+                    $('#pagination2').attr("href", updateQueryStringParameter(window.location.href , "page", 2));
+
+                    $('#pagination3').text(3);
+                    $('#pagination3').parent().remove();
+
+                    $('#paginationL').parent().addClass("disabled");
+                }
+                else {
+                    $('#navigation').remove();
+                }
             }
-        });
-});
+    });
+}
 </script>
 {% endblock %}
