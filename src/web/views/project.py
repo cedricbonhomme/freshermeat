@@ -236,7 +236,7 @@ def process_form(project_id=None):
     for language_id in form.languages.data:
         language = Language.query.filter(Language.id == language_id).first()
         new_languages.append(language)
-    project.languages = new_languages
+    new_project.languages = new_languages
     del form.languages
 
     # Logo
