@@ -28,6 +28,9 @@
             <div>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item active">Projects</li>
+                    <li class="breadcrumb-item active">
+                        <a href="{{ url_for('organization_bp.recent_releases', organization_name=organization.name) }}"><i class="fa fa-rss" aria-hidden="true" title="Recent releases for {{ organization.name }}"></i></a>
+                    </li>
                 </ol>
             </div>
             <div id="list-projects"></div>

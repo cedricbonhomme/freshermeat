@@ -76,7 +76,7 @@
         </div>
 
         <div class="col-4">
-	    <h5>Recent releases <a href="{{ url_for('project_bp.recent_releases', project_name=project.name) }}"><i class="fa fa-rss" aria-hidden="true"></i></a></h5>
+	    <h5>Recent releases <a href="{{ url_for('project_bp.recent_releases', project_name=project.name) }}"><i class="fa fa-rss" aria-hidden="true" title="Recent releases for {{ project.name }}"></i></a></h5>
             <div id="project-releases" class="list-group"></div>
         </div>
     </div>
