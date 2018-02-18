@@ -1,19 +1,33 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
+    <br />
     <div class="row">
         <div class="col">
             <h3>Organizations</h3>
+        </div>
+        <div class="col">
+            <form method="GET" id="searchForm">
+                <div class="form-row align-items-center float-right">
+                    <div class="col-auto">
+                        <label class="sr-only" for="inlineFormInput">Search</label>
+                        <input type="text" class="form-control mb-2" id="inlineFormInput" name="name" placeholder="Search">
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-secondary mb-2">Submit</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
     <div id="list-organizations"></div>
 </div><!-- /.container -->
 <script>
 $(document).ready(function() {
-    organization_param = getUrlParameter('organization'); // If the organization is specified in the URL
+    organization_param = getUrlParameter('name'); // If the organization is specified in the URL
     var filters = [];
     if (typeof organization_param !== 'undefined') {
-        filters = [{"name": "name", "op": "eq", "val": organization_param}];
+        filters = [{"name": "name", "op": "ilike", "val": "%"+organization_param+"%"}];
     }
     $.ajax({ // Get the list of organizations
         url: "{{ url_for('organizationapi0.organizationapi',) }}",
