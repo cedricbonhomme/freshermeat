@@ -1,6 +1,11 @@
 Freshermeat Changelog
 =====================
 
+## Recent changes
+
+- Added full-text search on description of projects;
+- Added search on organization names from the organizations page.
+
 ## 0.1.0 (2018-01-15)
 
 - major improvements of the database model;
