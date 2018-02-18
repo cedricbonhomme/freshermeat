@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
+    <br />
     <div class="row">
         <div class="col">
             <h3>Projects
@@ -10,6 +11,19 @@
               </a>
               {% endif %}
             </h3>
+        </div>
+        <div class="col">
+            <form method="GET" id="searchForm">
+                <div class="form-row align-items-center float-right">
+                    <div class="col-auto">
+                        <label class="sr-only" for="inlineFormInput">Search</label>
+                        <input type="text" class="form-control mb-2" id="inlineFormInput" name="description" placeholder="Search">
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-secondary mb-2">Submit</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
     <div id="list-projects" class="list-group"></div>
@@ -59,7 +73,10 @@ $(document).ready(function() {
     if (typeof language_param !== 'undefined') {
         filters.push({"name":"languages","op":"any","val":{"name":"name","op":"eq","val": language_param}});
     }
-
+    description_param = getUrlParameter('description');
+    if (typeof description_param !== 'undefined') {
+        filters.push({"name":"description","op":"ilike","val":"%"+description_param+"%"});
+    }
     load_projects_list(url, filters);
 });
 function load_projects_list(url, filters) {
