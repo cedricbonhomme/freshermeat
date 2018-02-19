@@ -39,7 +39,7 @@ def uml_graph(db):
     graph = sasd.create_uml_graph(
                         mappers(User, Tag, Project, Code,
                                 License, Organization, Release,
-                                CVE, Icon,
+                                CVE, Icon, Language,
                                 Request, Service),
                         show_operations=False,
                         show_multiplicity_one=True
