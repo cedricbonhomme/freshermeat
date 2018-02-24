@@ -1,0 +1,31 @@
+[[source]]
+
+name = "pypi"
+verify_ssl = true
+url = "https://pypi.python.org/simple"
+
+
+[dev-packages]
+
+
+
+[packages]
+
+"psycopg2" = "*"
+SQLAlchemy = "*"
+Flask = "*"
+Flask-SQLAlchemy = "*"
+Flask-Login = "*"
+Flask-Principal = "*"
+Flask-WTF = "*"
+Flask-Restless = "*"
+Flask-Migrate = "*"
+Flask-Script = "*"
+Flask-Admin = "*"
+Flask-paginate = "*"
+Flask-Mail = "*"
+WTForms = "*"
+validate_email = "*"
+PGPy = "*"
+clamd = "*"
+pycvesearch = {git = "https://github.com/cve-search/PyCVESearch.git"}
