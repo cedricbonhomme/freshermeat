@@ -25,7 +25,13 @@
             <div id="list-projects" class="list-group"></div>
         </div>
         <div class="col">
-            <h3>Organizations</h3>
+            <h3>Organizations
+                {% if current_user.is_authenticated and current_user.is_admin %}
+                <a href="{{ url_for('organization_bp.form') }}">
+                  <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                </a>
+                {% endif %}
+            </h3>
             <div id="list-organizations"></div>
             <h3>People</h3>
             <div id="list-people"></div>

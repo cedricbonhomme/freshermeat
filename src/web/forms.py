@@ -101,6 +101,19 @@ class AddProjectForm(FlaskForm):
                                         for language in Language.query.all()]
 
 
+class AddOrganizationForm(FlaskForm):
+    name = TextField("Name",
+                    [validators.Required("Please enter a name")])
+    description = TextAreaField("Description",
+                    [validators.Required("Please enter a description")])
+    short_description = TextField("Short description",
+                    [validators.Required("Please enter a short description")])
+    website = TextField("Website", [validators.Optional()])
+    organization_type = TextField("Organization type", [validators.Optional()])
+    cve_vendor =  TextField("CVE vendor", [validators.Optional()])
+    logo = FileField("Logo")
+    submit = SubmitField("Save")
+
 
 class UserForm(FlaskForm):
     """

@@ -1,8 +1,12 @@
-from flask import Blueprint, render_template, request, abort
+import os
+import uuid
+from flask import Blueprint, render_template, request, abort, redirect, url_for, flash
 from werkzeug.contrib.atom import AtomFeed
+from flask_login import login_required
 
-from bootstrap import db
-from web.models import Organization
+from bootstrap import db, application
+from web.models import Organization, Icon
+from web.forms import AddOrganizationForm
 
 organization_bp = Blueprint('organization_bp', __name__,
                             url_prefix='/organization')
@@ -39,3 +43,108 @@ def recent_releases(organization_name=None):
                      url=release.release_url,
                      updated=release.published_at)
     return feed.get_response()
+
+
+@organization_bp.route('/create', methods=['GET'])
+@organization_bp.route('/edit/<int:organization_id>', methods=['GET'])
+@login_required
+def form(organization_id=None):
+    action = "Add an organization"
+    head_titles = [action]
+
+    form = AddOrganizationForm()
+
+    if organization_id is None:
+        return render_template('edit_organization.html', action=action,
+                               head_titles=head_titles, form=form)
+
+    organization = Organization.query.filter(Organization.id == organization_id).first()
+    form = AddOrganizationForm(obj=organization)
+    action = "Edit organization"
+    head_titles = [action]
+    head_titles.append(organization.name)
+    return render_template('edit_organization.html', action=action,
+                           head_titles=head_titles,
+                           form=form, organization=organization)
+
+
+@organization_bp.route('/create', methods=['POST'])
+@organization_bp.route('/edit/<int:organization_id>', methods=['POST'])
+@login_required
+def process_form(organization_id=None):
+    form = AddOrganizationForm()
+
+    if not form.validate():
+        return render_template('edit_organization.html', form=form)
+    print(organization_id)
+    if organization_id is not None:
+        organization = Organization.query.filter(Organization.id == organization_id).first()
+
+        # Logo
+        f = form.logo.data
+        if f:
+            try:
+                # Delete the previous icon
+                icon_url = os.path.join(application.config['UPLOAD_FOLDER'],
+                                        organization.icon_url)
+                os.unlink(icon_url)
+                old_icon = Icon.query.filter(Icon.url == organization.icon_url) \
+                                     .first()
+                db.session.delete(old_icon)
+                organization.icon_url = None
+                db.session.commit()
+            except Exception as e:
+                print(e)
+
+            # save the picture
+            filename = str(uuid.uuid4()) + '.png'
+            icon_url = os.path.join(application.config['UPLOAD_FOLDER'],
+                                    filename)
+            f.save(icon_url)
+            # create the corresponding new icon object
+            new_icon = Icon(url=filename)
+            db.session.add(new_icon)
+            db.session.commit()
+            organization.icon_url = new_icon.url
+
+
+        form.populate_obj(organization)
+        try:
+            db.session.commit()
+            flash('Organization {organization_name} successfully updated.'.
+                  format(organization_name=form.name.data), 'success')
+        except Exception as e:
+            form.name.errors.append('Name already exists.')
+        return redirect(url_for('organization_bp.form', organization_id=organization.id))
+
+
+    # Create a new organization
+    new_organization = Organization(name=form.name.data,
+                          short_description=form.short_description.data,
+                          description=form.description.data,
+                          website=form.website.data,
+                          organization_type=form.organization_type.data,
+                          cve_vendor=form.cve_vendor.data)
+    db.session.add(new_organization)
+    try:
+        db.session.commit()
+    except Exception as e:
+        # TODO: display the error
+        return redirect(url_for('organization_bp.form', organization_id=new_organization.id))
+    # Logo
+    f = form.logo.data
+    if f:
+        # save the picture
+        filename = str(uuid.uuid4()) + '.png'
+        icon_url = os.path.join(application.config['UPLOAD_FOLDER'],
+                                filename)
+        f.save(icon_url)
+        # create the corresponding new icon object
+        new_icon = Icon(url=filename)
+        db.session.add(new_icon)
+        new_organization.icon_url = new_icon.url
+    db.session.commit()
+    flash('Organization {organization_name} successfully created.'.
+          format(organization_name=new_organization.name), 'success')
+
+    return redirect(url_for('organization_bp.form', organization_id=new_organization.id))

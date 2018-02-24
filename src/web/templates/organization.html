@@ -1,22 +1,24 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container-fluid">
+    <br />
     <div class="row">
-        <div class="col-1">
-            <img id="organization-logo" src="" width="50px" />
+        <div class="col-2">
+            {% if organization.icon_url  %}
+            <img id="project-logo" src="{{ url_for('uploaded_pictures', filename=organization.icon_url) }}" class="logo" />
+            {% endif %}
         </div>
-        <div class="col">
-            <img id="organization-logo" src="" width="300px" />
+        <div class="col-2">
             <h3 id="organization-name">{{ organization.name }}</h3>
+            <small><a href="{{ url_for('organization_bp.form', organization_id=organization.id) }}">Settings</a></small>
         </div>
-    </div>
-    <div class="row">
+
         <div class="col-4">
             <div class="card">
                 <div class="card-body">
-                    <h4>Website</h4>
+                    <h5>Website</h5>
                     <a href="{{ organization.website }}">{{ organization.website }}</a>
-                    <h4>Description</h4>
+                    <h5>Description</h5>
                     <div><p class="text-justify">{{ organization.description }}</p></div>
                 </div>
             </div>
