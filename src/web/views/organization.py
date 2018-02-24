@@ -5,6 +5,7 @@ from werkzeug.contrib.atom import AtomFeed
 from flask_login import login_required
 
 from bootstrap import db, application
+from web.views.common import admin_permission
 from web.models import Organization, Icon
 from web.forms import AddOrganizationForm
 
@@ -48,6 +49,7 @@ def recent_releases(organization_name=None):
 @organization_bp.route('/create', methods=['GET'])
 @organization_bp.route('/edit/<int:organization_id>', methods=['GET'])
 @login_required
+@admin_permission.require(http_exception=403)
 def form(organization_id=None):
     action = "Add an organization"
     head_titles = [action]
@@ -71,6 +73,7 @@ def form(organization_id=None):
 @organization_bp.route('/create', methods=['POST'])
 @organization_bp.route('/edit/<int:organization_id>', methods=['POST'])
 @login_required
+@admin_permission.require(http_exception=403)
 def process_form(organization_id=None):
     form = AddOrganizationForm()
 
@@ -79,7 +82,6 @@ def process_form(organization_id=None):
     print(organization_id)
     if organization_id is not None:
         organization = Organization.query.filter(Organization.id == organization_id).first()
-
         # Logo
         f = form.logo.data
         if f:
