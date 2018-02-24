@@ -27,7 +27,7 @@ Main functionalities are the following:
 
 ```bash
 $ sudo apt-get install postgresql npm python-pip
-$ sudo -H pip install pew pew[pythonz]
+$ sudo -H pip install pipenv
 ```
 
 ### Optional
@@ -47,8 +47,8 @@ $ sudo systemctl start clamav-daemon.service
 ```bash
 $ git clone https://github.com/cedricbonhomme/Freshermeat.git
 $ cd Freshermeat/
-freshermeat$ pew install 3.6.4 --type CPython
-freshermeat$ pew new --python=$(pew locate_python 3.6.4)  -a . -r requirements.txt freshermeat
+freshermeat$ pyenv install 3.6.4
+freshermeat$ pipenv install
 
 freshermeat/freshermeat$ npm install
 
