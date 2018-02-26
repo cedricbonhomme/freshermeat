@@ -1,6 +1,10 @@
 Freshermeat Changelog
 =====================
 
+## Next release
+
+- New dashboard for administrators
+
 ## 0.2.0 (2018-02-24)
 
 - Added full-text search on description of projects;
@@ -27,4 +31,3 @@ Freshermeat Changelog
 - basic functions are working: GitHub releases tracking, CVE tracking,
   subscribe to releases of projects via an ATOM feed, management of
   projects, search by tags, organizations and licenses.
-
