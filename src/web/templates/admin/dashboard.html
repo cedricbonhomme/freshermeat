@@ -1,50 +1,55 @@
-{% extends "layout.html" %}
+{% extends "layout.html" %}}
 {% block content %}
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-        <div class="col">
-            {{ pagination.links }}
+        <div class="col-2">
+            <h2>Dashboard</h2>
         </div>
     </div>
+
     <div class="row">
-        <div class="col">
-            <h1>Recent requests</h1>
-            <table class="table">
-                <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Service</th>
-                      <th>Email</th>
-                      <th>Date</th>
-                      <th>Status</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  {% for request in requests %}
-                    <tr {% if not request.checked %}class="table-warning"{% endif %}>
-                        <td><a href="{{ url_for('admin_bp.view_request', request_id=request.id) }}">{{ request.id }}</a></td>
-                        <td>{{ request.service.name }}</td>
-                        <td>{{ request.email }}</td>
-                        <td>{{ request.created_at | datetimeformat }}</td>
-                        <td>{% if not request.notification_sent %}<i class="fa fa-envelope" aria-hidden="true" title="Notification not sent"></i>{% endif %}</td>
-                    </tr>
-                  {% endfor %}
-              </tbody>
-          </table>
+        <div class="col-2">
+            <p>Number of projects:
+        </div>
+        <div class="col-2">
+            {{ nb_projects }}</p>
         </div>
     </div>
+
     <div class="row">
-        <div class="col">
-            {{ pagination.links }}
+        <div class="col-2">
+            <p>Number of releases:
+        </div>
+        <div class="col-2">
+            {{ nb_releases }}</p>
         </div>
     </div>
-</div><!-- /.container -->
-<script>
-$(document).ready(function() {
-    $('.table').dataTable( {
-        paginate: false,
-        "order": [[ 3, "desc" ]] // sort on date
-    });
-});
-</script>
+
+    <div class="row">
+        <div class="col-2">
+            <p>Number of organizations:
+        </div>
+        <div class="col-2">
+            {{ nb_organizations }}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-2">
+            <p>Number of users:
+        </div>
+        <div class="col-2">
+            <a href="{{ url_for('admin_bp.list_users') }}">{{ nb_users }}</a> ({{ nb_admin }} with admin permissions)</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-2">
+            <p>Number of requests:
+        </div>
+        <div class="col-2">
+            <a href="{{ url_for('admin_bp.requests') }}">{{ nb_requests }}</a></p>
+        </div>
+    </div>
+</div>
 {% endblock %}

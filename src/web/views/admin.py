@@ -25,7 +25,17 @@ admin_bp = Blueprint('admin_bp', __name__, url_prefix='/admin')
 @login_required
 @admin_permission.require(http_exception=403)
 def dashboard():
-    return abort(503)
+    nb_projects = models.Project.query.filter().count()
+    nb_releases = models.Release.query.filter().count()
+    nb_organizations = models.Organization.query.filter().count()
+    nb_users = models.User.query.filter().count()
+    nb_admin = models.User.query.filter(models.User.is_admin==True).count()
+    nb_requests = models.Request.query.filter().count()
+    return render_template('admin/dashboard.html',
+                           nb_projects=nb_projects, nb_releases=nb_releases,
+                           nb_users=nb_users, nb_admin=nb_admin,
+                           nb_requests=nb_requests,
+                           nb_organizations=nb_organizations)
 
 
 @admin_bp.route('/requests', defaults={'per_page': '10'}, methods=['GET'])
@@ -47,7 +57,7 @@ def requests(per_page):
                             search=False, record_name='requests',
                             per_page=per_page)
 
-    return render_template('admin/dashboard.html', requests=requests.order_by(
+    return render_template('admin/requests.html', requests=requests.order_by(
                            desc(models.Request.created_at)
                            ).offset(offset).limit(per_page),
                            pagination=pagination)
