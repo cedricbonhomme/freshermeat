@@ -28,18 +28,19 @@ async def get_cve(*args, **kwargs):
 async def insert_database(project):
     with (await sem):
         logger.info('Retrieving CVE for {}'.format(project.name))
-        cves = await get_cve(project.cve_vendor, project.cve_product,
-                            project.name)
-        logger.info('Inserting CVE for {}'.format(project.name))
-        for cve in cves:
+        vendors = project.cve_vendor.split(',')
+        for cve_vendor in project.cve_vendor:
+            cves = await get_cve(cve_vendor, project.cve_product, project.name)
+            logger.info('Inserting CVE for {}'.format(project.name))
+            for cve in cves:
 
-            published_at = datetime.strptime(cve['Published'],
-                                             "%Y-%m-%dT%H:%M:%S.%f")
+                published_at = datetime.strptime(cve['Published'],
+                                                 "%Y-%m-%dT%H:%M:%S.%f")
 
-            get_or_create(db.session, CVE, **{'cve_id': cve['id'],
-                                              'summary': cve['summary'],
-                                              'published_at': published_at,
-                                              'project_id': project.id})
+                get_or_create(db.session, CVE, **{'cve_id': cve['id'],
+                                                  'summary': cve['summary'],
+                                                  'published_at': published_at,
+                                                  'project_id': project.id})
     return cves
 
 
