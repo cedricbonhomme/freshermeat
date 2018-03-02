@@ -30,10 +30,14 @@
 </div><!-- /.container -->
 <script>
 $(document).ready(function() {
-    organization_param = getUrlParameter('name'); // If the organization is specified in the URL
     var filters = [];
-    if (typeof organization_param !== 'undefined') {
-        filters = [{"name": "name", "op": "ilike", "val": "%"+organization_param+"%"}];
+    organization_name = getUrlParameter('name');
+    if (typeof organization_name !== 'undefined') {
+        filters.push({"name": "name", "op": "ilike", "val": "%"+organization_name+"%"});
+    }
+    organization_type = getUrlParameter('type');
+    if (typeof organization_type !== 'undefined') {
+        filters.push({"name": "organization_type", "op": "ilike", "val": "%"+organization_type+"%"});
     }
     $.ajax({ // Get the list of organizations
         url: "{{ url_for('organizationapi0.organizationapi',) }}",
