@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, jsonify
 
 from sqlalchemy import func
 from bootstrap import db
-from web.models import Project, License, Tag, Language
+from web.models import Project, License, Tag, Language, Organization
 
 stats_bp = Blueprint('stats_bp', __name__, url_prefix='/stats')
 
@@ -31,4 +31,12 @@ def languages():
 def tags():
     result = db.session.query(Tag.text, func.count(Tag.text)). \
                               group_by(Tag.text).all()
+    return jsonify(dict(result))
+
+
+@stats_bp.route('/organizations.json', methods=['GET'])
+def organizations():
+    result = db.session.query(Organization.organization_type,
+                              func.count(Organization.organization_type)). \
+                                group_by(Organization.organization_type).all()
     return jsonify(dict(result))

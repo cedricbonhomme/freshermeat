@@ -12,9 +12,13 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-8">
+        <div class="col-6">
             <h2>Languages distribution</h2>
             <canvas id="languages-pie-chart"></canvas>
+        </div>
+        <div class="col-6">
+            <h2>Organizations</h2>
+            <canvas id="organizations-pie-chart"></canvas>
         </div>
     </div>
 </div>
@@ -114,6 +118,32 @@ $(document).ready(function() {
                                     "' id='" + tag + "'>" +
                                     tag + "</font></a>&nbsp;");
             }
+        }
+    });
+
+    $.ajax({
+        url: "{{ url_for('stats_bp.organizations',) }}",
+        dataType: "json",
+        contentType: "application/json",
+        success: function(organizations) {
+            var ctx = document.getElementById("organizations-pie-chart").getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: Object.keys(organizations),
+                    datasets: [{
+                        data: Object.values(organizations),
+                        borderWidth: 1,
+                        backgroundColor: _.times(Object.keys(organizations).length, pastelColorMaker)
+                    }]
+                },
+                options: {
+                    onClick: function(evt) {
+                        var organization_type = myChart.getElementsAtEvent(evt)[0]._model.label;
+                        window.location = '/organizations?type='+organization_type;
+                    }
+                }
+            });
         }
     });
 });
