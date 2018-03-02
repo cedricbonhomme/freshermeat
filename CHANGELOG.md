@@ -1,9 +1,13 @@
 Freshermeat Changelog
 =====================
 
-## Next release
+## 0.3.0 (2018-03-03)
 
-- New dashboard for administrators
+- New dashboard for administrators;
+- Added a chart in order to display the distribution of organizations types;
+- Only administrators are allowed to associate a project to an organization;
+- It is now possible to filter organizations by type (Governmental, Private,
+  Non-Profit, Education, etc.).
 
 ## 0.2.0 (2018-02-24)
 
