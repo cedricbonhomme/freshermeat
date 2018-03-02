@@ -2,7 +2,7 @@ import os
 import uuid
 from flask import Blueprint, render_template, redirect, url_for, flash, \
                   request, abort
-from flask_login import login_required
+from flask_login import login_required, current_user
 from werkzeug.contrib.atom import AtomFeed
 
 from bootstrap import db, application
@@ -137,6 +137,9 @@ def process_form(project_id=None):
 
     if form.organization_id.data == 0:
         form.organization_id.data = None
+
+    if not current_user.is_admin:
+        del form.organization_id
 
     if project_id is not None:
         project = Project.query.filter(Project.id == project_id).first()

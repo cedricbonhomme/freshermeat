@@ -67,6 +67,7 @@
                 </div>
                 {% for error in form.logo.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
             </div>
+            {% if current_user.is_admin %}
             <div class="form-group col-md-2">
                 <label for="{{ form.organization_id.id }}" class="control-label">{{ form.organization_id.label }}</label>
                 <div>
@@ -74,6 +75,7 @@
                 </div>
                 {% for error in form.organization_id.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
             </div>
+            {% endif %}
         </div>
 
         <div class="form-row">
