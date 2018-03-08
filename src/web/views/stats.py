@@ -14,6 +14,7 @@ def stats():
 
 @stats_bp.route('/licenses.json', methods=['GET'])
 def licenses():
+    """Returns a JSON with the repartition of licenses per projects."""
     result = db.session.query(License.name, func.count(License.id)). \
                               join(License.projects).group_by(License.id).all()
     return jsonify(dict(result))
@@ -21,14 +22,16 @@ def licenses():
 
 @stats_bp.route('/languages.json', methods=['GET'])
 def languages():
+    """Returns a JSON with the repartition of languages per projects."""
     result = db.session.query(Language.name, func.count(Language.id)). \
-                                join(Language.projects). \
-                                group_by(Language.id).all()
+                              join(Language.projects). \
+                              group_by(Language.id).all()
     return jsonify(dict(result))
 
 
 @stats_bp.route('/tags.json', methods=['GET'])
 def tags():
+    """Returns a JSON with the repartition of tags per projects."""
     result = db.session.query(Tag.text, func.count(Tag.text)). \
                               group_by(Tag.text).all()
     return jsonify(dict(result))
@@ -36,7 +39,8 @@ def tags():
 
 @stats_bp.route('/organizations.json', methods=['GET'])
 def organizations():
+    """Returns a JSON with the different types of organizations (Non-profit, Governmental, etc.)."""
     result = db.session.query(Organization.organization_type,
                               func.count(Organization.organization_type)). \
-                                group_by(Organization.organization_type).all()
+                              group_by(Organization.organization_type).all()
     return jsonify(dict(result))
