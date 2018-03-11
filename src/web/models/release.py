@@ -1,6 +1,8 @@
 
 from datetime import datetime
+from sqlalchemy import event
 from bootstrap import db
+from web.models import Project
 
 
 class Release(db.Model):
@@ -18,3 +20,13 @@ class Release(db.Model):
     # foreign keys
     project_id = db.Column(db.Integer(), db.ForeignKey('project.id'),
                            default=None)
+
+
+@event.listens_for(Release, "after_insert")
+def my_after_update_listener(mapper, connection, target):
+    project_table = Project.__table__
+    connection.execute(
+            project_table.update().
+             where(project_table.c.id==target.project_id).
+             values(last_updated=datetime.utcnow())
+    )
