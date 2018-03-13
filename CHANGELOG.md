@@ -1,6 +1,12 @@
 Freshermeat Changelog
 =====================
 
+## 0.3.1 (2018-03-13)
+
+- Improved the layout for medium and small screens;
+- A new release now automatically update the attribute ``last_updated`` of a
+  project.
+
 ## 0.3.0 (2018-03-03)
 
 - New dashboard for administrators;
