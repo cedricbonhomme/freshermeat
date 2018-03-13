@@ -3,17 +3,17 @@
 <div class="container-fluid">
     <br />
     <div class="row">
-        <div class="col-2">
+        <div class="col-md-2">
             {% if organization.icon_url  %}
             <img id="project-logo" src="{{ url_for('uploaded_pictures', filename=organization.icon_url) }}" class="logo" />
             {% endif %}
         </div>
-        <div class="col-2">
+        <div class="col-md">
             <h3 id="organization-name">{{ organization.name }}</h3>
             <small><a href="{{ url_for('organization_bp.form', organization_id=organization.id) }}">Settings</a></small>
         </div>
 
-        <div class="col-4">
+        <div class="col-md">
             <div class="card">
                 <div class="card-body">
                     <h5>Website</h5>
@@ -26,7 +26,7 @@
     </div>
     <br />
     <div class="row">
-        <div class="col-12">
+        <div class="col-md-12">
             <div>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item active">Projects</li>

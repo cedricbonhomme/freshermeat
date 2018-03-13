@@ -6,19 +6,19 @@
 {% block content %}
 <div class="container-fluid">
     <div class="row">
-        <div class="col-2">
+        <div class="col-md-2">
             {% if project.icon_url  %}
             <img id="project-logo" src="{{ url_for('uploaded_pictures', filename=project.icon_url) }}" class="logo" />
             {% endif %}
         </div>
-        <div class="col-2">
+        <div class="col-md-2">
             <h3 id="project-name"></h3>
             <small><a href="{{ url_for('project_bp.settings', project_name=project.name) }}">Settings</a></small>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-4">
+        <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
                     <h5>Description</h5>
@@ -33,7 +33,7 @@
             </div>
         </div>
 
-        <div class="col-4">
+        <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
                     <h4>Reference</h4>
@@ -75,7 +75,7 @@
             </div>
         </div>
 
-        <div class="col-4">
+        <div class="col-md-4">
 	    <h5>Recent releases <a href="{{ url_for('project_bp.recent_releases', project_name=project.name) }}"><i class="fa fa-rss" aria-hidden="true" title="Recent releases for {{ project.name }}"></i></a></h5>
             <div id="project-releases" class="list-group"></div>
         </div>

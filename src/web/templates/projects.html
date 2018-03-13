@@ -3,7 +3,7 @@
 <div class="container">
     <br />
     <div class="row">
-        <div class="col">
+        <div class="col-md">
             <h3>Projects
               {% if current_user.is_authenticated %}
               <a href="{{ url_for('project_bp.form') }}">
@@ -12,7 +12,7 @@
               {% endif %}
             </h3>
         </div>
-        <div class="col">
+        <div class="col-md">
             <form method="GET" id="searchForm">
                 <div class="form-row align-items-center float-right">
                     <div class="col-auto">
