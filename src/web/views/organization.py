@@ -79,7 +79,7 @@ def process_form(organization_id=None):
 
     if not form.validate():
         return render_template('edit_organization.html', form=form)
-    print(organization_id)
+
     if organization_id is not None:
         organization = Organization.query.filter(Organization.id == organization_id).first()
         # Logo
