@@ -9,16 +9,14 @@
 
 ## Presentation
 
-Freshermeat is an open source software release tracker.  
+Freshermeat is an open source software directory and release tracker.
 Main functionalities are the following:
 
 - software release tracking;
 - vulnerability tracking (CVE);
-- subscribe to releases of projects via an ATOM feed;
+- subscribe to releases of a project or an organization via an ATOM feed;
 - JSON-based API in order to manages projects, releases, CVEs, etc.;
-- management of organizations;
-- enable the promotion of software project based services with dynamic
-  generation of forms.
+- management of organizations.
 
 
 ## Deployment
