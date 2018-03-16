@@ -1,6 +1,7 @@
 
 from datetime import datetime
 from sqlalchemy.orm import validates
+from sqlalchemy import event
 
 from web.models import Project
 from bootstrap import db
@@ -31,3 +32,11 @@ class Organization(db.Model):
         assert len(value) <= 100, \
             AssertionError("maximum length for name: 100")
         return value.replace(' ', '').strip()
+
+
+@event.listens_for(Organization, 'before_update')
+def update_modified_on_update_listener(mapper, connection, target):
+    """Event listener that runs before a record is updated, and sets the
+    last_updated field accordingly.
+    """
+    target.last_updated = datetime.utcnow()
