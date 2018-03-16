@@ -47,7 +47,7 @@ $(document).ready(function() {
         success: function(organizations) {
             organizations.objects
             .sort(function (a, b) {
-                return a.last_updated > b.last_updated ;
+                return a.last_updated < b.last_updated ;
             })
             .map(function (organization) {
                 var div_organization = $("<div>");
