@@ -40,6 +40,7 @@ then [pipsi](https://github.com/mitsuhiko/pipsi), and finally
 $ git clone https://github.com/cedricbonhomme/Freshermeat.git
 $ cd Freshermeat/
 $ pipenv install
+✨🍰✨
 
 (Freshermeat-8143_B8A)$ npm install
 
