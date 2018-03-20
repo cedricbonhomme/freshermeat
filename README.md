@@ -24,9 +24,42 @@ Main functionalities are the following:
 ### Requirements
 
 ```bash
-$ sudo apt-get install postgresql npm python-pip
-$ sudo -H pip install pipenv
+$ sudo apt-get install postgresql npm
 ```
+
+Also it seems that today a proof of good taste is to install first
+[pyenv](https://github.com/pyenv/pyenv),
+then [pipsi](https://github.com/mitsuhiko/pipsi), and finally
+[pew](https://github.com/berdario/pew) and
+[pipenv](https://github.com/pypa/pipenv) with pipsi.
+
+
+### Configure and install the application
+
+```bash
+$ git clone https://github.com/cedricbonhomme/Freshermeat.git
+$ cd Freshermeat/
+$ pipenv install
+
+(Freshermeat-8143_B8A)$ npm install
+
+(Freshermeat-8143_B8A)$ export APPLICATION_SETTINGS=development.cfg
+
+(Freshermeat-8143_B8A)$ python src/manager.py db_empty
+(Freshermeat-8143_B8A)$ python src/manager.py db_init
+(Freshermeat-8143_B8A)$ python src/manager.py create_admin <login> <password>
+(Freshermeat-8143_B8A)$ python src/manager.py import_projects var/projects.json
+(Freshermeat-8143_B8A)$ python src/manager.py import_osi_approved_licenses
+
+(Freshermeat-8143_B8A)$ python src/runserver.py
+ * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 204-397-194
+```
+
+You can configure the application in ``src/instance/development.cfg`` or create
+your own file and export it in the variable ``APPLICATION_SETTINGS``.
 
 ### Optional
 
@@ -40,34 +73,6 @@ $ sudo systemctl start clamav-daemon.service
 * clamav related packages are required because this application is able to scan
   files posted by the users through the forms or the API.
 
-### Configure and install the application
-
-```bash
-$ git clone https://github.com/cedricbonhomme/Freshermeat.git
-$ cd Freshermeat/
-freshermeat$ pyenv install 3.6.4
-freshermeat$ pipenv install
-
-freshermeat/freshermeat$ npm install
-
-freshermeat/freshermeat$ export APPLICATION_SETTINGS=development.cfg
-
-freshermeat/freshermeat$ python src/manager.py db_empty
-freshermeat/freshermeat$ python src/manager.py db_init
-freshermeat/freshermeat$ python src/manager.py create_admin login firstname.lastname@example.org your-password
-freshermeat/freshermeat$ python src/manager.py import_projects var/projects.json
-freshermeat/freshermeat$ python src/manager.py import_osi_approved_licenses
-
-freshermeat/freshermeat$ python src/runserver.py
- * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
- * Restarting with stat
- * Debugger is active!
- * Debugger PIN: 204-397-194
-```
-
-You can configure the application in ``src/instance/development.cfg`` or create
-your own file and export it in the variable ``APPLICATION_SETTINGS``.
-
 
 ## Workers
 
@@ -76,7 +81,7 @@ You can launch the workers periodically with __cron__.
 ### Retrieving CVEs
 
 ```bash
-freshermeat/freshermeat$ python src/manager.py fetch_cves
+(Freshermeat-8143_B8A)$ python src/manager.py fetch_cves
 ```
 
 It is possible to query the CVE API:
@@ -88,7 +93,7 @@ $ curl http://127.0.0.1:5000/api/v1/CVE
 ### Release tracking
 
 ```bash
-freshermeat/freshermeat$ python src/manager.py fetch_releases
+(Freshermeat-8143_B8A)$ python src/manager.py fetch_releases
 ```
 
 
