@@ -41,6 +41,7 @@ $ git clone https://github.com/cedricbonhomme/Freshermeat.git
 $ cd Freshermeat/
 $ pipenv install
 ✨🍰✨
+$ pipenv shell
 
 (Freshermeat-8143_B8A)$ npm install
 
