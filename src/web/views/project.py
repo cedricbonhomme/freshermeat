@@ -17,11 +17,13 @@ projects_bp = Blueprint('projects_bp', __name__, url_prefix='/projects')
 
 @projects_bp.route('/', methods=['GET'])
 def list_projects():
+    """Return the page which will display the list of projects."""
     return render_template('projects.html')
 
 
 @project_bp.route('/<string:project_name>', methods=['GET'])
 def get(project_name=None):
+    """Return the project given in parameter."""
     project = Project.query.filter(Project.name == project_name).first()
     if project is None:
         abort(404)
@@ -31,6 +33,7 @@ def get(project_name=None):
 @project_bp.route('/<string:project_name>/delete', methods=['GET'])
 @login_required
 def delete(project_name=None):
+    """Delete a project."""
     project = Project.query.filter(Project.name == project_name).first()
     if project is None:
         abort(404)
@@ -42,6 +45,7 @@ def delete(project_name=None):
 
 @project_bp.route('/<string:project_name>/settings', methods=['GET'])
 def settings(project_name=None):
+    """Return the settings page."""
     project = Project.query.filter(Project.name == project_name).first()
     if project is None:
         abort(404)
