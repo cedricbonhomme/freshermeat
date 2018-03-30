@@ -28,6 +28,18 @@ def get(project_name=None):
     return render_template('project.html', project=project)
 
 
+@project_bp.route('/<string:project_name>/delete', methods=['GET'])
+@login_required
+def delete(project_name=None):
+    project = Project.query.filter(Project.name == project_name).first()
+    if project is None:
+        abort(404)
+    db.session.delete(project)
+    db.session.commit()
+    flash('Project deleted.', 'success')
+    return redirect(url_for('projects_bp.list_projects'))
+
+
 @project_bp.route('/<string:project_name>/settings', methods=['GET'])
 def settings(project_name=None):
     project = Project.query.filter(Project.name == project_name).first()

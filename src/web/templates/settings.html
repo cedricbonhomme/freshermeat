@@ -33,5 +33,15 @@
         </div>
         <div class="col"></div>
     </div>
+    <br />
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <a href="{{ url_for('project_bp.delete', project_name=project.name) }}" onclick="return confirm('You are going to delete this project.');">Delete this project</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div><!-- /.container -->
 {% endblock %}
