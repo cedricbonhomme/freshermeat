@@ -9,14 +9,14 @@
   "dependencies": {
     "bootstrap": "^4.0.0",
     "bootstrap-select": "^1.12.4",
-    "chart.js": "^2.7.1",
+    "chart.js": "^2.7.2",
     "datatables.net-bs4": "^1.10.16",
     "font-awesome": "^4.7.0",
     "jquery": ">=3.3.1",
     "lodash": "^4.17.5",
-    "moment": "^2.20.1",
-    "popper.js": "^1.13.0",
-    "tinymce": "^4.7.6"
+    "moment": "^2.22.0",
+    "popper.js": "^1.14.2",
+    "tinymce": "^4.7.10"
   },
   "engines": {
     "yarn": ">= 1.0.0"
