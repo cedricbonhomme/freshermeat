@@ -40,7 +40,7 @@ $(document).ready(function() {
         filters.push({"name": "organization_type", "op": "ilike", "val": "%"+organization_type+"%"});
     }
     $.ajax({ // Get the list of organizations
-        url: "{{ url_for('organizationapi0.organizationapi',) }}",
+        url: "{{ url_for('organizationapi0.organizationapi',) }}" + "?results_per_page=50",
         data: {"q": JSON.stringify({"filters": filters})},
         dataType: "json",
         contentType: "application/json",
