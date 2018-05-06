@@ -71,3 +71,8 @@ def recent_releases():
                  url=release.release_url,
                  updated=release.published_at)
     return feed.get_response()
+
+
+@current_app.route('/about', methods=['GET'])
+def about():
+    return render_template('about.html')
