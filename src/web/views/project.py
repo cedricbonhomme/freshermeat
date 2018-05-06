@@ -275,3 +275,31 @@ def process_form(project_id=None):
           format(project_name=new_project.name), 'success')
 
     return redirect(url_for('project_bp.form', project_id=new_project.id))
+
+
+
+@project_bp.route('/bookmarklet', methods=['GET', 'POST'])
+@login_required
+def bookmarklet():
+    url = (request.args if request.method == 'GET' else request.form)\
+            .get('url', None)
+    if not url:
+        flash(gettext("Couldn't add project: url missing."), "error")
+        raise BadRequest("url is missing")
+
+    name = (request.args if request.method == 'GET' else request.form)\
+            .get('name', '')
+
+    action = "Add a project"
+    head_titles = [action]
+
+    form = AddProjectForm()
+    form.organization_id.choices = [(0, '')]
+    form.organization_id.choices.extend([(org.id, org.name) for org in
+                                                    Organization.query.all()])
+
+    form.website.data = url
+    form.name.data = name
+
+    return render_template('edit_project.html', action=action,
+                           head_titles=head_titles, form=form)
