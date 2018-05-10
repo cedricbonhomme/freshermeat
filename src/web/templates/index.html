@@ -1,12 +1,4 @@
 {% extends "layout.html" %}
-{% block head %}
-{{ super() }}
-    <meta property="og:title" content="Freshermeat" />
-    <meta property="og:description" content="Open source software directory and release tracking." />
-    <meta property="og:type" content="software.directory" />
-    <meta property="og:url" content="{{ url | instance_domain_name }}" />
-    <meta property="og:image" content="{{ url | instance_domain_name }}{{ url_for('static', filename='img/20141019T151624.png') }}" />
-{% endblock %}
 {% block content %}
 <div class="container-fluid">
     <div class="banner row">

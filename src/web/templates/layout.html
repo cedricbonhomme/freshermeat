@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" prefix="og: http://ogp.me/ns#">
+<html lang="en">
 <head>
     {% block head %}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+    <meta name="description" content="Freshermeat - {{ config.FRESHERMEAT_INSTANCE_NAME }}">
+    <meta name="author" content="" />
     <link href="{{ url_for('recent_releases') }}" rel="alternate" title="Recent releases" type="application/atom+xml">
-
     {% block head_css %}
     <link rel="stylesheet" href="{{ url_for('static', filename='npm_components/bootstrap/dist/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='npm_components/bootstrap-select/dist/css/bootstrap-select.css') }}">
@@ -14,7 +14,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='npm_components/font-awesome/css/font-awesome.min.css') }}">
     {% endblock %}
-
     <script src="{{ url_for('static', filename='npm_components/jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ url_for('static', filename='npm_components/popper.js/dist/umd/popper.min.js') }}"></script>
     <script src="{{ url_for('static', filename='npm_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
@@ -27,8 +26,7 @@
     <script src="{{ url_for('static', filename='npm_components/chart.js/dist/Chart.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/utils.js') }}"></script>
     <script src="{{ url_for('static', filename='js/templates.js') }}"></script>
-
-    <title>Freshermeat</title>
+    <title>Freshermeat - {{ config.FRESHERMEAT_INSTANCE_NAME }}</title>
     {% endblock %}
 </head>
 {% block page_body %}
@@ -101,12 +99,13 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <span class="text-muted">
-                    <a href="https://github.com/cedricbonhomme/Freshermeat">Freshermeat</a>
-                    &nbsp;
-                    GNU Affero General Public License
-                    &nbsp;
-                    <a href="{{ url_for('about') }}" >About</a></span>
+                <a href="https://github.com/cedricbonhomme/Freshermeat">Freshermeat</a>
+                &nbsp;🐘&nbsp;
+                {{ config.FRESHERMEAT_INSTANCE_NAME }}
+                &nbsp;🐘&nbsp;
+                GNU Affero General Public License
+                &nbsp;🐘&nbsp;
+                <a href="{{ url_for('about') }}" >About</a>
             </div>
         </div>
     </div>
