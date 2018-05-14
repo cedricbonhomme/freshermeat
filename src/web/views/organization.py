@@ -17,7 +17,8 @@ organizations_bp = Blueprint('organizations_bp', __name__,
 
 @organizations_bp.route('/', methods=['GET'])
 def list_organizations():
-    return render_template('organizations.html')
+    head_titles = ['Organizations -']
+    return render_template('organizations.html', head_titles=head_titles)
 
 
 @organization_bp.route('/<string:organization_name>', methods=['GET'])
@@ -25,7 +26,9 @@ def get(organization_name=None):
     organization = Organization.query.filter(Organization.name == organization_name).first()
     if organization is None:
         abort(404)
-    return render_template('organization.html', organization=organization)
+    head_titles = ['The ' + organization.name + ' Organization  on']
+    return render_template('organization.html', organization=organization,
+                            head_titles=head_titles)
 
 
 @organization_bp.route('/<string:organization_name>/releases.atom', methods=['GET'])

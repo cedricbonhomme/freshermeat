@@ -58,7 +58,9 @@ def login():
     if form.validate_on_submit():
         login_user_bundle(form.user)
         return form.redirect('index')
-    return render_template('login.html', form=form)
+    head_titles_tail = ['Login']
+    return render_template('login.html', form=form,
+                            head_titles_tail=head_titles_tail)
 
 
 @current_app.route('/logout')

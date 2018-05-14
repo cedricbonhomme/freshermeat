@@ -26,14 +26,14 @@
     <script src="{{ url_for('static', filename='npm_components/chart.js/dist/Chart.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/utils.js') }}"></script>
     <script src="{{ url_for('static', filename='js/templates.js') }}"></script>
-    <title>Freshermeat - {{ config.FRESHERMEAT_INSTANCE_NAME }}</title>
+    <title>{% if head_titles %}{{ ' - '.join(head_titles) }} {% endif %}Freshermeat{% if head_titles_tail %} {{ ' - '.join(head_titles_tail) }}{% endif %}</title>
     {% endblock %}
 </head>
 {% block page_body %}
 <body>
 {% block main_menu %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="/">Freshermeat</a>
+        <a class="navbar-brand" href="/">Freshermeat - {{ config.FRESHERMEAT_INSTANCE_NAME }}</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>

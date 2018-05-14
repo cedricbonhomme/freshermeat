@@ -18,7 +18,8 @@ projects_bp = Blueprint('projects_bp', __name__, url_prefix='/projects')
 @projects_bp.route('/', methods=['GET'])
 def list_projects():
     """Return the page which will display the list of projects."""
-    return render_template('projects.html')
+    head_titles = ['Projects -']
+    return render_template('projects.html', head_titles=head_titles)
 
 
 @project_bp.route('/<string:project_name>', methods=['GET'])
@@ -27,7 +28,9 @@ def get(project_name=None):
     project = Project.query.filter(Project.name == project_name).first()
     if project is None:
         abort(404)
-    return render_template('project.html', project=project)
+    head_titles = ['The ' + project.name + ' Open Source Project on']
+    return render_template('project.html', project=project,
+                            head_titles=head_titles)
 
 
 @project_bp.route('/<string:project_name>/delete', methods=['GET'])
@@ -49,7 +52,10 @@ def settings(project_name=None):
     project = Project.query.filter(Project.name == project_name).first()
     if project is None:
         abort(404)
-    return render_template('settings.html', project=project)
+    head_titles = ['The ' + project.name + ' Open Source Project on']
+    head_titles_tail = [': Settings Page']
+    return render_template('settings.html', project=project,
+                    head_titles=head_titles, head_titles_tail=head_titles_tail)
 
 
 @project_bp.route('/<string:project_name>/code', methods=['GET'])
