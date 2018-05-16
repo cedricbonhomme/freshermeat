@@ -33,7 +33,7 @@
 <body>
 {% block main_menu %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="/">Freshermeat - {{ config.FRESHERMEAT_INSTANCE_NAME }}</a>
+        <a class="navbar-brand" href="/">{% if config.FRESHERMEAT_INSTANCE_NAME  %}{{ config.FRESHERMEAT_INSTANCE_NAME }}{% else %}Freshermeat{% endif %}</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -101,11 +101,10 @@
             <div class="col-md-12">
                 <a href="https://github.com/cedricbonhomme/Freshermeat">Freshermeat</a>
                 &nbsp;🐘&nbsp;
-                {{ config.FRESHERMEAT_INSTANCE_NAME }}
-                &nbsp;🐘&nbsp;
-                GNU Affero General Public License
-                &nbsp;🐘&nbsp;
                 <a href="{{ url_for('about') }}" >About</a>
+                &nbsp;🐘&nbsp;
+                {% if config.FRESHERMEAT_INSTANCE_NAME  %}{{ config.FRESHERMEAT_INSTANCE_NAME }}&nbsp;🐘&nbsp;{% endif %}
+                GNU Affero General Public License
             </div>
         </div>
     </div>
