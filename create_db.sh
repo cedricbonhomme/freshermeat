@@ -5,7 +5,7 @@ USER_NAME=$2
 USER_PASSWORD=$3
 
 if [ "$#" -ne 3 ]; then
-    echo "Missing parameters: DB_NAME, USER_NAME, USER_PASSWORD."
+    echo "Missing parameters: DB_NAME, USER_NAME, USER_PASSWORD"
     exit 1
 fi
 
