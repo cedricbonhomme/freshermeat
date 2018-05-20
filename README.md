@@ -27,14 +27,14 @@ Main functionalities are the following:
 $ sudo apt-get install postgresql npm
 ```
 
-Also it seems that today a proof of good taste is to install first
-[pyenv](https://github.com/pyenv/pyenv),
-then [pipsi](https://github.com/mitsuhiko/pipsi), and finally
-[pew](https://github.com/berdario/pew) and
+### Configure and install the application
+
+Before to begin you will need to install pipenv.  
+It is recommended to first install [pyenv](https://github.com/pyenv/pyenv),
+then [pipsi](https://github.com/mitsuhiko/pipsi).  
+And finally [pew](https://github.com/berdario/pew) and
 [pipenv](https://github.com/pypa/pipenv) with pipsi.
 
-
-### Configure and install the application
 
 ```bash
 $ git clone https://github.com/cedricbonhomme/Freshermeat.git
@@ -47,7 +47,7 @@ $ pipenv shell
 
 (Freshermeat-8143_B8A)$ export APPLICATION_SETTINGS=development.cfg
 
-(Freshermeat-8143_B8A)$ python src/manager.py db_empty
+(Freshermeat-8143_B8A)$ python src/manager.py db_create
 (Freshermeat-8143_B8A)$ python src/manager.py db_init
 (Freshermeat-8143_B8A)$ python src/manager.py create_admin <login> <password>
 (Freshermeat-8143_B8A)$ python src/manager.py import_projects var/projects.json
