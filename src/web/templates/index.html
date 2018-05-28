@@ -4,7 +4,7 @@
     <div class="banner row">
         <div class="col">
             <br /><br />
-            <h1>Open source software release tracker</h1>
+            <h1>{% if config.FRESHERMEAT_INSTANCE_NAME %}{{ config.FRESHERMEAT_INSTANCE_NAME }}{% else %}Freshermeat{% endif %}</h1>
             <div class="float-right">
                 <h6>{{ nb_projects }} projects</h6>
                 <h6>{{ nb_releases }} releases</h6>

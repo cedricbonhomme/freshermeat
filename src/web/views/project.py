@@ -18,7 +18,7 @@ projects_bp = Blueprint('projects_bp', __name__, url_prefix='/projects')
 @projects_bp.route('/', methods=['GET'])
 def list_projects():
     """Return the page which will display the list of projects."""
-    head_titles = ['Projects -']
+    head_titles = ['Projects']
     return render_template('projects.html', head_titles=head_titles)
 
 
@@ -28,7 +28,7 @@ def get(project_name=None):
     project = Project.query.filter(Project.name == project_name).first()
     if project is None:
         abort(404)
-    head_titles = ['The ' + project.name + ' Open Source Project on']
+    head_titles = ['The ' + project.name + ' Open Source Project']
     return render_template('project.html', project=project,
                             head_titles=head_titles)
 
@@ -52,10 +52,10 @@ def settings(project_name=None):
     project = Project.query.filter(Project.name == project_name).first()
     if project is None:
         abort(404)
-    head_titles = ['The ' + project.name + ' Open Source Project on']
-    head_titles_tail = [': Settings Page']
+    head_titles = ['The ' + project.name + ' Open Source Project',
+                    'Settings Page']
     return render_template('settings.html', project=project,
-                    head_titles=head_titles, head_titles_tail=head_titles_tail)
+                    head_titles=head_titles)
 
 
 @project_bp.route('/<string:project_name>/code', methods=['GET'])
@@ -138,8 +138,7 @@ def form(project_id=None):
                                             project.languages]
     form.tags.data = ", ".join(project.tags)
     action = "Edit project"
-    head_titles = [action]
-    head_titles.append(project.name)
+    head_titles = ['The ' + project.name + ' Open Source Project', action]
     return render_template('edit_project.html', action=action,
                            head_titles=head_titles,
                            form=form, project=project)

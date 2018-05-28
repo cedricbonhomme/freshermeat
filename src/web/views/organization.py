@@ -17,7 +17,7 @@ organizations_bp = Blueprint('organizations_bp', __name__,
 
 @organizations_bp.route('/', methods=['GET'])
 def list_organizations():
-    head_titles = ['Organizations -']
+    head_titles = ['Organizations']
     return render_template('organizations.html', head_titles=head_titles)
 
 
@@ -26,7 +26,7 @@ def get(organization_name=None):
     organization = Organization.query.filter(Organization.name == organization_name).first()
     if organization is None:
         abort(404)
-    head_titles = ['The ' + organization.name + ' Organization  on']
+    head_titles = ['The ' + organization.name + ' Organization']
     return render_template('organization.html', organization=organization,
                             head_titles=head_titles)
 
@@ -66,8 +66,7 @@ def form(organization_id=None):
     organization = Organization.query.filter(Organization.id == organization_id).first()
     form = AddOrganizationForm(obj=organization)
     action = "Edit organization"
-    head_titles = [action]
-    head_titles.append(organization.name)
+    head_titles = ['The ' + organization.name + ' organization', action]
     return render_template('edit_organization.html', action=action,
                            head_titles=head_titles,
                            form=form, organization=organization)

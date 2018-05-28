@@ -9,7 +9,7 @@ stats_bp = Blueprint('stats_bp', __name__, url_prefix='/stats')
 
 @stats_bp.route('/', methods=['GET'])
 def stats():
-    head_titles = ['Statistics - ']
+    head_titles = ['Statistics']
     return render_template('stats.html', head_titles=head_titles)
 
 

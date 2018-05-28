@@ -26,7 +26,10 @@
     <script src="{{ url_for('static', filename='npm_components/chart.js/dist/Chart.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/utils.js') }}"></script>
     <script src="{{ url_for('static', filename='js/templates.js') }}"></script>
-    <title>{% if head_titles %}{{ ' - '.join(head_titles) }} {% endif %}Freshermeat{% if head_titles_tail %} {{ ' - '.join(head_titles_tail) }}{% endif %}</title>
+    <title>{% if head_titles %}{{ ' - '.join(head_titles + ['']) }}{% endif %}
+            {% if config.FRESHERMEAT_INSTANCE_NAME %}{{ config.FRESHERMEAT_INSTANCE_NAME }}{% else %}Freshermeat{% endif %}
+            {% if head_titles_tail %}{{ ' - '.join([''] + head_titles_tail) }}{% endif %}
+    </title>
     {% endblock %}
 </head>
 {% block page_body %}
@@ -99,12 +102,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <a href="https://github.com/cedricbonhomme/Freshermeat">Freshermeat</a>
-                &nbsp;🐘&nbsp;
                 <a href="{{ url_for('about') }}" >About</a>
-                &nbsp;🐘&nbsp;
-                {% if config.FRESHERMEAT_INSTANCE_NAME  %}{{ config.FRESHERMEAT_INSTANCE_NAME }}&nbsp;🐘&nbsp;{% endif %}
-                GNU Affero General Public License
             </div>
         </div>
     </div>
