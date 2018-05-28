@@ -282,6 +282,12 @@ def process_form(project_id=None):
     return redirect(url_for('project_bp.form', project_id=new_project.id))
 
 
+@project_bp.route('/import/github/<string:owner>/<string:repo>', methods=['GET'])
+@login_required
+def import_github(owner, repo):
+    result = misc.import_github(owner, repo)
+    print(result)
+
 
 @project_bp.route('/bookmarklet', methods=['GET', 'POST'])
 @login_required
