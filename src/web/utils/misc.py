@@ -14,4 +14,6 @@ def import_github(owner=None, repo=None):
             'import_project_from_github',
             owner, repo]
     print(cmd)
-    return subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    (stdout, stderr) = p.communicate()
+    return stdout

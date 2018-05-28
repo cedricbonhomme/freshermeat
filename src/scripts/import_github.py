@@ -44,3 +44,5 @@ def import_project_from_github(owner, repo):
     except Exception as e:
         db.session.rollback()
         pass
+
+    return new_project.name

@@ -94,9 +94,9 @@ def import_projects_from_github(user):
 @manager.command
 def import_project_from_github(owner, repo):
     "Import a project from GitHub."
-    print("Importing GitHub project {} ...".format(owner + '/' + repo))
     with application.app_context():
-        scripts.import_project_from_github(owner, repo)
+        stdout = scripts.import_project_from_github(owner, repo)
+        print(stdout)
 
 
 @manager.command
