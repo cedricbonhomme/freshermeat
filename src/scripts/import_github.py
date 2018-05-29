@@ -19,6 +19,19 @@ def import_project_from_github(owner, repo):
     r = requests.get(url)
     project = json.loads(r.text)
 
+    if Project.query.filter(Project.name == project['name']).first():
+        return 'IMPORT_ERROR:A project with this name already exists.'
+
+    license = None
+    try:
+        spdx_id = project.get('license').get('spdx_id')
+        if spdx_id:
+            license = License.query.filter(License.license_id==spdx_id).first()
+    except:
+        pass
+    #if not license:
+        #return 'IMPORT_ERROR:No license found.'
+
     new_project = Project(
                     name=project['name'],
                     short_description=project['description'],
@@ -28,21 +41,14 @@ def import_project_from_github(owner, repo):
                     cve_product='',
                     automatic_release_tracking='github:' + project.get('releases_url', '').replace('{/id}', ''))
 
-    try:
-        spdx_id = project.get('license').get('spdx_id')
-        if spdx_id:
-            license = License.query.filter(License.license_id==spdx_id).first()
-            if license:
-                new_project.licenses.append(license)
-    except:
-        pass
+    if license:
+        new_project.licenses.append(license)
 
-    # print(new_project)
     db.session.add(new_project)
     try:
         db.session.commit()
     except Exception as e:
         db.session.rollback()
-        pass
+        return 'IMPORT_ERROR:' + str(e)
 
     return new_project.name

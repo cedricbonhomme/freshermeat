@@ -13,7 +13,6 @@ def import_github(owner=None, repo=None):
     cmd = [sys.executable, application.config['HERE'] + '/src/manager.py',
             'import_project_from_github',
             owner, repo]
-    print(cmd)
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
     (stdout, stderr) = p.communicate()
     return stdout

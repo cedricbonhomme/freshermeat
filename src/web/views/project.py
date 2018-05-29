@@ -282,12 +282,28 @@ def process_form(project_id=None):
     return redirect(url_for('project_bp.form', project_id=new_project.id))
 
 
-@project_bp.route('/import/github/<string:owner>/<string:repo>', methods=['GET'])
+@project_bp.route('/import/<string:import_from>', methods=['GET'])
 @login_required
-def import_github(owner, repo):
-    result = misc.import_github(owner, repo)
-    result = result.split()[0]
-    return redirect(url_for('project_bp.get', project_name=result))
+def import_github(import_from=None):
+    if import_from == 'github':
+        repository = request.args.get('project', None)
+        if repository:
+            owner, repo = repository.split('/')
+            result = misc.import_github(owner, repo)
+            result = result.split()[0]
+    else:
+        abort(404)
+
+    result = result.decode()
+    if 'IMPORT_ERROR' in result:
+        error_string = result.split(':')[1]
+        flash('{error}.'.format(error=error_string), 'danger')
+
+        if error_string == 'A project with this name already exists.':
+            return redirect(url_for('project_bp.get', project_name=repo))
+        return redirect(url_for('projects_bp.list_projects'))
+
+    return redirect(url_for('project_bp.get', project_name=repo))
 
 
 @project_bp.route('/bookmarklet', methods=['GET', 'POST'])
