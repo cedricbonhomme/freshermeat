@@ -284,13 +284,21 @@ def process_form(project_id=None):
 
 @project_bp.route('/import/<string:import_from>', methods=['GET'])
 @login_required
-def import_github(import_from=None):
+def import_project(import_from=None):
     if import_from == 'github':
         repository = request.args.get('project', None)
         if repository:
-            owner, repo = repository.split('/')
-            result = misc.import_github(owner, repo)
-            result = result.split()[0]
+            result = None
+            try:
+                owner, repo = repository.split('/')[-2:]
+                result = misc.import_github(owner, repo)
+                result = result.split()[0]
+            except:
+                pass
+            finally:
+                if not result:
+                    flash('Impossible to import the project.', 'danger')
+                    return redirect(url_for('projects_bp.list_projects'))
     else:
         abort(404)
 

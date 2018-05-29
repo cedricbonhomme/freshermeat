@@ -35,6 +35,13 @@ img {
 }
 
 
+.input-inline {
+    min-width: 0;
+    width: 200px;
+    display: block;
+}
+
+
 /*
 Make bootstrap-select work with bootstrap 4 see:
 https://github.com/silviomoreto/bootstrap-select/issues/1135
