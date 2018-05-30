@@ -5,7 +5,8 @@ from bootstrap import application
 
 ERRORS = {
     'ERROR:DUPLICATE_NAME': 'A project with this name already exists.',
-    'ERROR:NO_LICENSE': 'No license found.'
+    'ERROR:NO_LICENSE': 'No license found.',
+    'ERROR:OBSCURE': 'An obscure error occurred.'
 }
 
 def import_github(owner=None, repo=None):

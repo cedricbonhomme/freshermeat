@@ -16,8 +16,11 @@ def import_project_from_github(owner, repo):
             client_id=application.config.get('GITHUB_CLIENT_ID', ''),
             client_secret=application.config.get('GITHUB_CLIENT_SECRET', ''))
 
-    r = requests.get(url)
-    project = json.loads(r.text)
+    try:
+        r = requests.get(url)
+        project = json.loads(r.text)
+    except:
+        return 'ERROR:OBSCURE'
 
     if Project.query.filter(Project.name == project['name']).first():
         return 'ERROR:DUPLICATE_NAME'
@@ -49,6 +52,6 @@ def import_project_from_github(owner, repo):
         db.session.commit()
     except Exception as e:
         db.session.rollback()
-        return 'IMPORT_ERROR:' + str(e)
+        return 'ERROR:OBSCURE'
 
     return new_project.name
