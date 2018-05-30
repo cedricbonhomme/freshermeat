@@ -9,7 +9,7 @@ from bootstrap import db, application
 from web.models import get_or_create, Project, Code, Organization, Tag, Icon, \
                        License, Language
 from web.forms import AddProjectForm, CodeForm
-from web.utils import misc
+from web.utils.spawn import ERRORS, import_github
 
 project_bp = Blueprint('project_bp', __name__, url_prefix='/project')
 projects_bp = Blueprint('projects_bp', __name__, url_prefix='/projects')
@@ -285,29 +285,31 @@ def process_form(project_id=None):
 @project_bp.route('/import/<string:import_from>', methods=['GET'])
 @login_required
 def import_project(import_from=None):
+    result = None
+
     if import_from == 'github':
         repository = request.args.get('project', None)
         if repository:
-            result = None
             try:
                 owner, repo = repository.split('/')[-2:]
-                result = misc.import_github(owner, repo)
+                result = import_github(owner, repo)
                 result = result.split()[0]
             except:
                 pass
-            finally:
-                if not result:
-                    flash('Impossible to import the project.', 'danger')
-                    return redirect(url_for('projects_bp.list_projects'))
     else:
         abort(404)
 
-    result = result.decode()
-    if 'IMPORT_ERROR' in result:
-        error_string = result.split(':')[1]
-        flash('{error}.'.format(error=error_string), 'danger')
+    if not result:
+        flash('Impossible to import the project.', 'danger')
+        return redirect(url_for('projects_bp.list_projects'))
 
-        if error_string == 'A project with this name already exists.':
+
+    result = result.decode()
+    if 'ERROR' in result:
+        error_description = ERRORS[result]
+        flash('{error}'.format(error=error_description), 'danger')
+
+        if 'DUPLICATE_NAME' in result:
             return redirect(url_for('project_bp.get', project_name=repo))
         return redirect(url_for('projects_bp.list_projects'))
 

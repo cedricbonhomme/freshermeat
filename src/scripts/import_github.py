@@ -20,7 +20,7 @@ def import_project_from_github(owner, repo):
     project = json.loads(r.text)
 
     if Project.query.filter(Project.name == project['name']).first():
-        return 'IMPORT_ERROR:A project with this name already exists.'
+        return 'ERROR:DUPLICATE_NAME'
 
     license = None
     try:
@@ -30,7 +30,7 @@ def import_project_from_github(owner, repo):
     except:
         pass
     #if not license:
-        #return 'IMPORT_ERROR:No license found.'
+        #return 'ERROR:NO_LICENSE'
 
     new_project = Project(
                     name=project['name'],
