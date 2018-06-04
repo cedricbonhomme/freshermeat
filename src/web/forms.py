@@ -130,6 +130,18 @@ class UserForm(FlaskForm):
     submit = SubmitField("Save")
 
 
+class ProfileForm(FlaskForm):
+    """
+    Edit a profile.
+    """
+    login = TextField('Login',
+            [validators.Length(min=3, max=30),
+            validators.Required('Please enter your login.')])
+    password = PasswordField('Password')
+    public_profile = BooleanField('Public profile', default=True)
+    submit = SubmitField('Save')
+
+
 class CodeForm(FlaskForm):
     """
     Management of code locations.

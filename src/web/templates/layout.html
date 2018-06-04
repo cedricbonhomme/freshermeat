@@ -77,8 +77,8 @@
                 {% if current_user.is_authenticated %}
                 {% if current_user.is_admin %}
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Administration</a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cogs" aria-hidden="true"></i></a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item" href="{{ url_for('admin_bp.dashboard') }}"><i class="fa fa-tachometer" aria-hidden="true"></i>&nbsp;Dashboard</a>
                         <a class="dropdown-item" href="{{ url_for('admin_bp.list_users') }}"><i class="fa fa-user" aria-hidden="true"></i>&nbsp;Users</a>
                         <div class="dropdown-divider"></div>
@@ -88,8 +88,15 @@
                     </div>
                 </li>
                 {% endif %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('logout') }}" title="Sign out"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i></a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownUser">
+                        <span class="dropdown-item" title="Schemas"><span class="text-muted">Signed in as</span><br />{{ current_user.login }}</span>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ url_for('user_bp.form') }}" title="Profile">Profile</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ url_for('logout') }}" title="Sign out">Sign out</a>
+                    </div>
                 </li>
                 {% else %}
                 <li class="nav-item">
