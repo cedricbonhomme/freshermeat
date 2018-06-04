@@ -79,12 +79,12 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cogs" aria-hidden="true"></i></a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="{{ url_for('admin_bp.dashboard') }}"><i class="fa fa-tachometer" aria-hidden="true"></i>&nbsp;Dashboard</a>
-                        <a class="dropdown-item" href="{{ url_for('admin_bp.list_users') }}"><i class="fa fa-user" aria-hidden="true"></i>&nbsp;Users</a>
+                        <a class="dropdown-item" href="{{ url_for('admin_bp.dashboard') }}">Dashboard</a>
+                        <a class="dropdown-item" href="{{ url_for('admin_bp.list_users') }}">Users</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{ url_for('admin_bp.requests') }}"><i class="fa fa-inbox" aria-hidden="true"></i>&nbsp;Requests</a>
+                        <a class="dropdown-item" href="{{ url_for('admin_bp.requests') }}">Requests</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/admin"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;Data</a>
+                        <a class="dropdown-item" href="/admin">Data</a>
                     </div>
                 </li>
                 {% endif %}
