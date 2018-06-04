@@ -100,6 +100,13 @@ def import_project_from_github(owner, repo):
 
 
 @manager.command
+def import_project_from_gitlab(owner, repo):
+    "Import a project from GitLab."
+    with application.app_context():
+        stdout = scripts.import_project_from_gitlab(owner, repo)
+        print(stdout)
+
+@manager.command
 def import_osi_approved_licenses():
     "Import OSI approved licenses."
     print("Importing OSI approved licenses...")

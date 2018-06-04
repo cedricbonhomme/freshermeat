@@ -16,3 +16,11 @@ def import_github(owner=None, repo=None):
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
     (stdout, stderr) = p.communicate()
     return stdout
+
+def import_gitlab(owner=None, repo=None):
+    cmd = [sys.executable, application.config['HERE'] + '/src/manager.py',
+            'import_project_from_gitlab',
+            owner, repo]
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    (stdout, stderr) = p.communicate()
+    return stdout

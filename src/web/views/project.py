@@ -9,7 +9,7 @@ from bootstrap import db, application
 from web.models import get_or_create, Project, Code, Organization, Tag, Icon, \
                        License, Language
 from web.forms import AddProjectForm, CodeForm
-from web.utils.spawn import ERRORS, import_github
+from web.utils.spawn import ERRORS, import_github, import_gitlab
 
 project_bp = Blueprint('project_bp', __name__, url_prefix='/project')
 projects_bp = Blueprint('projects_bp', __name__, url_prefix='/projects')
@@ -287,12 +287,12 @@ def process_form(project_id=None):
 def import_project(import_from=None):
     result = None
 
-    if import_from == 'github':
+    if import_from in ['github', 'gitlab']:
         repository = request.args.get('project', None)
         if repository:
             try:
                 owner, repo = repository.split('/')[-2:]
-                result = import_github(owner, repo)
+                result = globals()['import_'+import_from](owner, repo)
                 result = result.split()[0]
             except:
                 pass
