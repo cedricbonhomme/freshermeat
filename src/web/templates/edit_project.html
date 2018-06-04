@@ -67,32 +67,32 @@
                 </div>
                 {% for error in form.logo.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
             </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="{{ form.licenses.id }}" class="control-label">{{ form.licenses.label }}</label>
+                <div>
+                    {{ form.licenses(class_="selectpicker", **{'data-live-search':'true'}) }}
+                </div>
+                {% for error in form.licenses.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+            </div>
+            <div class="form-group col-md-4">
+                <label for="{{ form.languages.id }}" class="control-label">{{ form.languages.label }}</label>
+                <div>
+                    {{ form.languages(class_="selectpicker", **{'data-live-search':'true'}) }}
+                </div>
+                {% for error in form.languages.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+            </div>
             {% if current_user.is_admin %}
-            <div class="form-group col-md-2">
+            <div class="form-group col-md-4">
                 <label for="{{ form.organization_id.id }}" class="control-label">{{ form.organization_id.label }}</label>
                 <div>
-                    {{ form.organization_id(class_="form-control, selectpicker", **{'data-live-search':'true'}) }}
+                    {{ form.organization_id(class_="selectpicker", **{'data-live-search':'true'}) }}
                 </div>
                 {% for error in form.organization_id.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
             </div>
             {% endif %}
-        </div>
-
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="{{ form.licenses.id }}" class="control-label">{{ form.licenses.label }}</label>
-                <div>
-                    {{ form.licenses(class_="form-control, selectpicker", **{'data-live-search':'true'}) }}
-                </div>
-                {% for error in form.licenses.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-            </div>
-            <div class="form-group col-md-6">
-                <label for="{{ form.languages.id }}" class="control-label">{{ form.languages.label }}</label>
-                <div>
-                    {{ form.languages(class_="form-control, selectpicker", **{'data-live-search':'true'}) }}
-                </div>
-                {% for error in form.languages.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-            </div>
         </div>
 
         <hr />
