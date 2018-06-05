@@ -1,6 +1,17 @@
 Freshermeat Changelog
 =====================
 
+## 0.4.0 (2018-06-05)
+
+- It is now possible to import project from GitLab or GitHub just by giving
+  an URL (#7);
+- It is also possible to add new projects thanks to a bookmarklet;
+- Pages have now meaningful titles (#5);
+- A new profile page for non-admin users has been added;
+- The name of the instance is configurable;
+- Improved the layout of the page to create/edit projects;
+- Improved the layout of the navbar and dropdown menus.
+
 ## 0.3.1 (2018-03-13)
 
 - Improved the layout for medium and small screens;
