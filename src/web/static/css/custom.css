@@ -5,6 +5,7 @@ html {
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
+    padding-top: 56px;
 }
 img {
     padding: 5px;
