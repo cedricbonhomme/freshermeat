@@ -5,7 +5,7 @@ from sqlalchemy.orm import validates
 from werkzeug import check_password_hash
 
 from bootstrap import db
-
+from web.models import Project
 
 class User(db.Model, UserMixin):
     """
@@ -25,7 +25,11 @@ class User(db.Model, UserMixin):
     is_api = db.Column(db.Boolean(), default=False)
 
     # relationship
-    positions = db.relationship('Project', backref='manager', lazy='dynamic')
+    positions = db.relationship('Project', backref='manager', lazy='dynamic',
+                                foreign_keys=[Project.manager_id])
+    contributions = db.relationship('Project', backref='submitter',
+                                lazy='dynamic',
+                                foreign_keys=[Project.submitter_id])
 
     def get_id(self):
         """

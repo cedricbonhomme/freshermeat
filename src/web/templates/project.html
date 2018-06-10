@@ -76,6 +76,12 @@
                     {% if project.maintainer_id %}
                         <p><a href="#">Maintainer</a></p>
                     {% endif %}
+                    {% if project.submitter_id %}
+                    <div class="row">
+                        <div class="col-4">Submitter</div>
+                        <div class="col"><a href="{{ project.website }}">{{ project.submitter.login }}</a></div>
+                    </div>
+                    {% endif %}
                     {% if project.services.count() != 0 %}
                         <div class="row">
                             <div class="col">

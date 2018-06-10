@@ -1,9 +1,9 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from .project import Project
 from .user import User
 from .tag import Tag
-from .project import Project
 from .code import Code
 from .license import License
 from .language import Language

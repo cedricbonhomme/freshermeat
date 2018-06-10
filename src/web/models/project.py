@@ -39,6 +39,7 @@ class Project(db.Model):
 
     # foreign keys
     organization_id = db.Column(db.Integer(), db.ForeignKey('organization.id'))
+    submitter_id = db.Column(db.Integer(), db.ForeignKey('user.id'), default=None)
     manager_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
     icon_url = db.Column(db.String(), db.ForeignKey('icon.url'), default=None)
 
