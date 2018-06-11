@@ -292,7 +292,8 @@ def import_project(import_from=None):
         if repository:
             try:
                 owner, repo = repository.split('/')[-2:]
-                result = globals()['import_'+import_from](owner, repo)
+                result = globals()['import_'+import_from](owner, repo,
+                                                            current_user.id)
                 result = result.split()[0]
             except:
                 pass

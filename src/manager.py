@@ -92,18 +92,18 @@ def import_projects_from_github(user):
 
 
 @manager.command
-def import_project_from_github(owner, repo):
+def import_project_from_github(owner, repo, submitter_id):
     "Import a project from GitHub."
     with application.app_context():
-        stdout = scripts.import_project_from_github(owner, repo)
+        stdout = scripts.import_project_from_github(owner, repo, submitter_id)
         print(stdout)
 
 
 @manager.command
-def import_project_from_gitlab(owner, repo):
+def import_project_from_gitlab(owner, repo, submitter_id):
     "Import a project from GitLab."
     with application.app_context():
-        stdout = scripts.import_project_from_gitlab(owner, repo)
+        stdout = scripts.import_project_from_gitlab(owner, repo, submitter_id)
         print(stdout)
 
 @manager.command

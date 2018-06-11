@@ -9,18 +9,18 @@ ERRORS = {
     'ERROR:OBSCURE': 'An obscure error occurred.'
 }
 
-def import_github(owner=None, repo=None):
+def import_github(owner=None, repo=None, submitter_id=None):
     cmd = [sys.executable, application.config['HERE'] + '/src/manager.py',
             'import_project_from_github',
-            owner, repo]
+            owner, repo, str(submitter_id)]
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
     (stdout, stderr) = p.communicate()
     return stdout
 
-def import_gitlab(owner=None, repo=None):
+def import_gitlab(owner=None, repo=None, submitter_id=None):
     cmd = [sys.executable, application.config['HERE'] + '/src/manager.py',
             'import_project_from_gitlab',
-            owner, repo]
+            owner, repo, str(submitter_id)]
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
     (stdout, stderr) = p.communicate()
     return stdout
