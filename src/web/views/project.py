@@ -235,7 +235,8 @@ def process_form(project_id=None):
                           short_description=form.short_description.data,
                           description=form.description.data,
                           website=form.website.data,
-                          organization_id=form.organization_id.data)
+                          organization_id=form.organization_id.data,
+                          submitter_id=current_user.id)
     db.session.add(new_project)
     try:
         db.session.commit()

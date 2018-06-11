@@ -67,8 +67,7 @@ class SigninForm(RedirectForm):
 class AddProjectForm(FlaskForm):
     name = TextField("Name",
                     [validators.Required("Please enter a name")])
-    description = TextAreaField("Description",
-                    [validators.Required("Please enter a description")])
+    description = TextAreaField("Description", [validators.Optional()])
     short_description = TextField("Short description",
                     [validators.Required("Please enter a short description")])
     website = TextField("Website", [validators.Optional()])

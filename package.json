@@ -10,6 +10,8 @@
     "bootstrap": "^4.1.0",
     "bootstrap-select": "^1.13.0-beta",
     "chart.js": "^2.7.2",
+    "datatables": "^1.10.13",
+    "datatables.net": "^1.10.16",
     "datatables.net-bs4": "^1.10.16",
     "font-awesome": "^4.7.0",
     "jquery": ">=3.3.1",
