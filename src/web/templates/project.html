@@ -76,13 +76,13 @@
                     {% if project.manager_id %}
                     <div class="row">
                         <div class="col-4">Manager</div>
-                        <div class="col"><a href="{{ project.website }}">{{ project.manager.login }}</a></div>
+                        <div class="col"><a href="#">{{ project.manager.login }}</a></div>
                     </div>
                     {% endif %}
                     {% if project.submitter_id %}
                     <div class="row">
                         <div class="col-4">Submitter</div>
-                        <div class="col"><a href="{{ project.website }}">{{ project.submitter.login }}</a></div>
+                        <div class="col"><a href="#">{{ project.submitter.login }}</a></div>
                     </div>
                     {% endif %}
                     {% if project.services.count() != 0 %}
