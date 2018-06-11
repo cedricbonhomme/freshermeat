@@ -31,6 +31,9 @@ class User(db.Model, UserMixin):
                                 lazy='dynamic',
                                 foreign_keys=[Project.submitter_id])
 
+    def __repr__(self):
+        return self.login
+
     def get_id(self):
         """
         Return the id of the user.
