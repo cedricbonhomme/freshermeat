@@ -73,8 +73,11 @@
                         <div class="col-4">Homepage</div>
                         <div class="col"><a href="{{ project.website }}">{{ project.website }}</a></div>
                     </div>
-                    {% if project.maintainer_id %}
-                        <p><a href="#">Maintainer</a></p>
+                    {% if project.manager_id %}
+                    <div class="row">
+                        <div class="col-4">Manager</div>
+                        <div class="col"><a href="{{ project.website }}">{{ project.manager.login }}</a></div>
+                    </div>
                     {% endif %}
                     {% if project.submitter_id %}
                     <div class="row">
