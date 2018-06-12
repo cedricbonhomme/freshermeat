@@ -62,33 +62,34 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
-                    <h4>Reference</h4>
+                    <h5>Reference</h5>
                     {% if project.organization %}
                     <div class="row">
-                        <div class="col-4">Organization</div>
+                        <div class="col">Organization</div>
                         <div class="col"><a href="{{ url_for('organization_bp.get', organization_name=project.organization.name) }}">{{ project.organization.name }}</a></div>
                     </div>
                     {% endif %}
                     <div class="row">
-                        <div class="col-4">Homepage</div>
-                        <div class="col"><a href="{{ project.website }}">{{ project.website }}</a></div>
+                        <div class="col">Homepage</div>
+                        <div class="col text-truncate"><a href="{{ project.website }}">{{ project.website }}</a></div>
                     </div>
                     {% if project.manager_id %}
                     <div class="row">
-                        <div class="col-4">Manager</div>
+                        <div class="col">Manager</div>
                         <div class="col"><a href="#">{{ project.manager.login }}</a></div>
                     </div>
                     {% endif %}
                     {% if project.submitter_id %}
                     <div class="row">
-                        <div class="col-4">Submitter</div>
+                        <div class="col">Submitter</div>
                         <div class="col"><a href="#">{{ project.submitter.login }}</a></div>
                     </div>
                     {% endif %}
                     {% if project.services.count() != 0 %}
                         <div class="row">
                             <div class="col">
-                                <h4>Releated service(s)</h4>
+                                <hr />
+                                <h5>Releated service(s)</h5>
                             </div>
                         </div>
                     {% endif %}
