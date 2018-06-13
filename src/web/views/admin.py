@@ -42,14 +42,15 @@ def dashboard():
 @login_required
 @admin_permission.require(http_exception=403)
 def requests(per_page):
-    organization_name = request.args.get('org', False)
+    project_name = request.args.get('project', False)
 
     requests = models.Request.query
-    if organization_name:
-        orga = models.Organization.query.filter(models.Organization.name == organization_name).first()
-        if orga:
-            requests = requests.filter(models.Request.project.has(
-                                       organization_id=orga.id))
+    if project_name:
+        project = models.Project.query.filter(models.Project.name == project_name).first()
+        if project:
+            requests = [service.request for service in project.services]
+            # requests = requests.filter(models.Service.project.has(
+            #                            models.Project.name==project.name))
 
     page, per_page, offset = get_page_args()
     pagination = Pagination(page=page, total=requests.count(),

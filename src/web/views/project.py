@@ -166,7 +166,8 @@ def process_form(project_id=None):
         project = Project.query.filter(Project.id == project_id).first()
 
         # Tags
-        new_tags = [tag for tag in form.tags.data.strip().split(',') if tag]
+        new_tags = [tag for tag in form.tags.data.strip().split(',') \
+                    if tag and tag.strip()]
         for tag in project.tag_objs:
             if tag.text not in new_tags:
                 db.session.delete(tag)
@@ -245,7 +246,8 @@ def process_form(project_id=None):
         return redirect(url_for('project_bp.form', project_id=new_project.id))
     # Tags
     for tag in form.tags.data.split(','):
-        get_or_create(db.session, Tag, **{'text': tag.strip(),
+        if tag.strip():
+            get_or_create(db.session, Tag, **{'text': tag.strip(),
                                           'project_id': new_project.id})
 
     # Licenses

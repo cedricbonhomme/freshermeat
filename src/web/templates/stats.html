@@ -112,12 +112,14 @@ $(document).ready(function() {
                 return Math.max(a, b);
             });
             for (tag in tags) {
-                $("#tags-cloud").append('<a href="/projects/?tag=' +
-                                    tag + '" title="' + tags[tag] +
-                                    ' project(s)"><font size=' +
-                                    Math.min(1 + (tags[tag] * 7) / max, 7) +
-                                    "' id='" + tag + "'>" +
-                                    tag + "</font></a>&nbsp;");
+                if (tag != '') {
+                    $("#tags-cloud").append('<a href="/projects/?tag=' +
+                                        tag + '" title="' + tags[tag] +
+                                        ' project(s)"><font size=' +
+                                        Math.min(1 + (tags[tag] * 7) / max, 7) +
+                                        "' id='" + tag + "'>" +
+                                        tag + "</font></a>&nbsp;");
+                }
             }
         }
     });
