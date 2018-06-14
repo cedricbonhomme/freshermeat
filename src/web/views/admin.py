@@ -31,11 +31,13 @@ def dashboard():
     nb_users = models.User.query.filter().count()
     nb_admin = models.User.query.filter(models.User.is_admin==True).count()
     nb_requests = models.Request.query.filter().count()
+    nb_unique_tags = models.Tag.query.distinct(models.Tag.text).count()
     return render_template('admin/dashboard.html',
                            nb_projects=nb_projects, nb_releases=nb_releases,
                            nb_users=nb_users, nb_admin=nb_admin,
                            nb_requests=nb_requests,
-                           nb_organizations=nb_organizations)
+                           nb_organizations=nb_organizations,
+                           nb_unique_tags=nb_unique_tags)
 
 
 @admin_bp.route('/requests', defaults={'per_page': '10'}, methods=['GET'])

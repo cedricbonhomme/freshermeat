@@ -2,53 +2,62 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <div class="col-2">
+        <div class="col-md-12">
             <h2>Dashboard</h2>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-2">
-            <p>Number of projects:
+        <div class="col-md-3">
+            <p>Number of projects:</p>
         </div>
-        <div class="col-2">
-            {{ nb_projects }}</p>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-2">
-            <p>Number of releases:
-        </div>
-        <div class="col-2">
-            {{ nb_releases }}</p>
+        <div class="col-md-6">
+            <p>{{ nb_projects }}</p>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-2">
-            <p>Number of organizations:
+        <div class="col-md-3">
+            <p>Number of releases:</p>
         </div>
-        <div class="col-2">
-            {{ nb_organizations }}</p>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-2">
-            <p>Number of users:
-        </div>
-        <div class="col-2">
-            <a href="{{ url_for('admin_bp.list_users') }}">{{ nb_users }}</a> ({{ nb_admin }} with admin permissions)</p>
+        <div class="col-md-6">
+            <p>{{ nb_releases }}</p>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-2">
-            <p>Number of requests:
+        <div class="col-md-3">
+            <p>Number of organizations:</p>
         </div>
-        <div class="col-2">
-            <a href="{{ url_for('admin_bp.requests') }}">{{ nb_requests }}</a></p>
+        <div class="col-md-6">
+            <p>{{ nb_organizations }}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <p>Number of users:</p>
+        </div>
+        <div class="col-md-6">
+            <p><a href="{{ url_for('admin_bp.list_users') }}">{{ nb_users }}</a> ({{ nb_admin }} with admin permissions)</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <p>Number of unique tags:</p>
+        </div>
+        <div class="col-md-6">
+            <p>{{ nb_unique_tags }}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <p>Number of requests:</p>
+        </div>
+        <div class="col-md-6">
+            <p><a href="{{ url_for('admin_bp.requests') }}">{{ nb_requests }}</a></p>
         </div>
     </div>
 </div>
