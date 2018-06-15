@@ -33,8 +33,9 @@ def languages():
 @stats_bp.route('/tags.json', methods=['GET'])
 def tags():
     """Returns a JSON with the repartition of tags per projects."""
-    result = db.session.query(Tag.text, func.count(Tag.text)). \
-                              group_by(Tag.text).all()
+    result = db.session.query(func.lower(Tag.text),
+                              func.count(func.lower(Tag.text))). \
+                        group_by(func.lower(Tag.text)).all()
     return jsonify(dict(result))
 
 
