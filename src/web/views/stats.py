@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, jsonify
-
+from datetime import datetime
+from datetime import timedelta
 from sqlalchemy import func
+
 from bootstrap import db
 from web.models import Project, License, Tag, Language, Organization
 
@@ -46,3 +48,28 @@ def organizations():
                               func.count(Organization.organization_type)). \
                               group_by(Organization.organization_type).all()
     return jsonify(dict(result))
+
+
+@stats_bp.route('/activity.json', methods=['GET'])
+def activity():
+    now = datetime.today()
+    result = {}
+    result['0w-12w'] = db.session.query(Project). \
+                filter(Project.last_updated >= now -
+                                                timedelta(weeks=12)).count()
+    result['12w-36w'] = db.session.query(Project). \
+                filter(Project.last_updated.between(
+                                            now - timedelta(weeks=36),
+                                            now - timedelta(weeks=12))).count()
+    result['36w-1y'] = db.session.query(Project). \
+                filter(Project.last_updated.between(
+                                            now - timedelta(weeks=52),
+                                            now - timedelta(weeks=36))).count()
+    result['1y-2y'] = db.session.query(Project). \
+                filter(Project.last_updated.between(
+                                            now - timedelta(weeks=104),
+                                            now - timedelta(weeks=52))).count()
+    result['>2y'] = db.session.query(Project). \
+                filter(Project.last_updated <= now -
+                                                timedelta(weeks=104)).count()
+    return jsonify(result)
