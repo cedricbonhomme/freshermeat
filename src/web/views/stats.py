@@ -54,22 +54,22 @@ def organizations():
 def activity():
     now = datetime.today()
     result = {}
-    result['0w-12w'] = db.session.query(Project). \
+    result['<= 12 weeks'] = db.session.query(Project). \
                 filter(Project.last_updated >= now -
                                                 timedelta(weeks=12)).count()
-    result['12w-36w'] = db.session.query(Project). \
+    result['12 weeks - 36 weeks'] = db.session.query(Project). \
                 filter(Project.last_updated.between(
                                             now - timedelta(weeks=36),
                                             now - timedelta(weeks=12))).count()
-    result['36w-1y'] = db.session.query(Project). \
+    result['36 weeks - 1 year'] = db.session.query(Project). \
                 filter(Project.last_updated.between(
                                             now - timedelta(weeks=52),
                                             now - timedelta(weeks=36))).count()
-    result['1y-2y'] = db.session.query(Project). \
+    result['1 year - 2 years'] = db.session.query(Project). \
                 filter(Project.last_updated.between(
                                             now - timedelta(weeks=104),
                                             now - timedelta(weeks=52))).count()
-    result['>2y'] = db.session.query(Project). \
+    result['>= 2 years'] = db.session.query(Project). \
                 filter(Project.last_updated <= now -
                                                 timedelta(weeks=104)).count()
     return jsonify(result)
