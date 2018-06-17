@@ -203,13 +203,13 @@ $(document).ready(function() {
                         borderWidth: 1,
                         backgroundColor: _.times(Object.keys(submitters).length, pastelColorMaker)
                     }]
-                }//,
-                // options: {
-                //     onClick: function(evt) {
-                //         var timelaps = myChart.getElementsAtEvent(evt)[0]._model.label;
-                //         window.location = '/project?last_updated='+timelaps;
-                //     }
-                // }
+                },
+                options: {
+                    onClick: function(evt) {
+                        var submitter = myChart.getElementsAtEvent(evt)[0]._model.label;
+                        window.location = '/user/'+submitter;
+                    }
+                }
             });
         }
     });

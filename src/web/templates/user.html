@@ -9,7 +9,14 @@
     <div class="row">
         <div class="col">
             <h5>Managed projects</h5>
-            <div id="list-projects" class="list-group"></div>
+            <div id="list-managed-projects" class="list-group"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <br />
+            <h5>Submitted projects</h5>
+            <div id="list-submitted-projects" class="list-group"></div>
         </div>
     </div>
 </div><!-- /.container -->
@@ -25,28 +32,51 @@ $(document).ready(function() {
             '<p class="mb-1"><%= project_description %></p>' +
         '</a>');
 
-    var filters = [{"name": "manager_id", "op": "eq", "val": {{ user.id }}}];
+    var filters_managed = [{"name": "manager_id", "op": "eq", "val": {{ user.id }}}];
     $.ajax({
         url: "{{ url_for('projectapi0.projectapi',) }}",
-        data: {"q": JSON.stringify({"filters": filters})},
+        data: {"q": JSON.stringify({"filters": filters_managed})},
         dataType: "json",
         contentType: "application/json",
         success: function(projects) {
-                projects.objects
-                .sort(function (a, b) {
-                    return a.last_updated < b.last_updated ;
-                })
-                .map(function (project) {
-                    var cardHTML = projectTemplate({
-                        'project_url': '/project/'+project.name,
-                        'project_name': project.name,
-                        'project_description': project.short_description,
-                        'project_last_update': moment(project.last_updated).fromNow()
-                     });
-                     $('#list-projects').append(cardHTML);
-                });
-            }
-        });
+            projects.objects
+            .sort(function (a, b) {
+                return a.last_updated < b.last_updated ;
+            })
+            .map(function (project) {
+                var cardHTML = projectTemplate({
+                    'project_url': '/project/'+project.name,
+                    'project_name': project.name,
+                    'project_description': project.short_description,
+                    'project_last_update': moment(project.last_updated).fromNow()
+                 });
+                 $('#list-managed-projects').append(cardHTML);
+            });
+        }
+    });
+
+    var filters_submitted = [{"name": "submitter_id", "op": "eq", "val": {{ user.id }}}];
+    $.ajax({
+        url: "{{ url_for('projectapi0.projectapi',) }}",
+        data: {"q": JSON.stringify({"filters": filters_submitted})},
+        dataType: "json",
+        contentType: "application/json",
+        success: function(projects) {
+            projects.objects
+            .sort(function (a, b) {
+                return a.last_updated < b.last_updated ;
+            })
+            .map(function (project) {
+                var cardHTML = projectTemplate({
+                    'project_url': '/project/'+project.name,
+                    'project_name': project.name,
+                    'project_description': project.short_description,
+                    'project_last_update': moment(project.last_updated).fromNow()
+                 });
+                 $('#list-submitted-projects').append(cardHTML);
+            });
+        }
+    });
 });
 </script>
 {% endblock %}
