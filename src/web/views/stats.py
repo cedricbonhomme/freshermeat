@@ -4,7 +4,7 @@ from datetime import timedelta
 from sqlalchemy import func
 
 from bootstrap import db
-from web.models import Project, License, Tag, Language, Organization
+from web.models import Project, License, Tag, Language, Organization, User
 
 stats_bp = Blueprint('stats_bp', __name__, url_prefix='/stats')
 
@@ -73,3 +73,11 @@ def activity():
                 filter(Project.last_updated <= now -
                                                 timedelta(weeks=104)).count()
     return jsonify(result)
+
+
+@stats_bp.route('/submitters.json', methods=['GET'])
+def submitters():
+    """Returns a JSON with the repartition of submitters."""
+    result = db.session.query(User.login, func.count(User.id)). \
+                              join(User.contributions).group_by(User.id).all()
+    return jsonify(dict(result))
