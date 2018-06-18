@@ -8,7 +8,7 @@
     </div>
     <div class="row">
         <div class="col">
-            <p>Member since {{ user.created_at | datetimeformat }}</p>
+            <p>{{ user.login  }} is a member since {{ user.created_at | datetimeformat }}.</p>
         </div>
     </div>
     <div class="row">
