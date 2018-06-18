@@ -77,6 +77,10 @@ $(document).ready(function() {
     if (typeof description_param !== 'undefined') {
         filters.push({"name":"description","op":"ilike","val":"%"+description_param+"%"});
     }
+    submitter_param = getUrlParameter('submitter');
+    if (typeof submitter_param !== 'undefined') {
+         filters.push({"name": "submitter", "op": "has", "val": {"name":"login","op":"eq","val": submitter_param}});
+    }
     load_projects_list(url, filters);
 });
 function load_projects_list(url, filters) {

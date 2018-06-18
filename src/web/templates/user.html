@@ -8,6 +8,16 @@
     </div>
     <div class="row">
         <div class="col">
+            <p>Member since {{ user.created_at | datetimeformat }}</p>
+        </div>
+    </div>
+    <div class="row">
+	<div class="col-md-5">
+	    <h2>Contributions</h2>
+	</div>
+    </div>
+    <div class="row">
+        <div class="col">
             <h5>Managed projects</h5>
             <div id="list-managed-projects" class="list-group"></div>
         </div>
@@ -15,8 +25,9 @@
     <div class="row">
         <div class="col">
             <br />
-            <h5>Submitted projects</h5>
+            <h5>Recently submitted projects</h5>
             <div id="list-submitted-projects" class="list-group"></div>
+	    <p><a href="{{ url_for('projects_bp.list_projects', submitter=user.login)  }}">All submitted projects.</a></p>
         </div>
     </div>
 </div><!-- /.container -->
