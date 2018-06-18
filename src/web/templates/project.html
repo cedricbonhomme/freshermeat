@@ -76,13 +76,13 @@
                     {% if project.manager_id %}
                     <div class="row">
                         <div class="col">Manager</div>
-                        <div class="col"><a href="#">{{ project.manager.login }}</a></div>
+                        <div class="col"><a href="{{ url_for('user_bp.get', login=project.manager.login) }}">{{ project.manager.login }}</a></div>
                     </div>
                     {% endif %}
                     {% if project.submitter_id %}
                     <div class="row">
                         <div class="col">Submitter</div>
-                        <div class="col"><a href="#">{{ project.submitter.login }}</a></div>
+                        <div class="col"><a href="{{ url_for('user_bp.get', login=project.submitter.login) }}">{{ project.submitter.login }}</a></div>
                     </div>
                     {% endif %}
                     {% if project.services.count() != 0 %}
