@@ -1,4 +1,4 @@
-    {% extends "layout.html" %}
+{% extends "layout.html" %}
 {% block head %}
 {{ super() }}
     <link href="{{ url_for('project_bp.recent_releases', project_name=project.name) }}" rel="alternate" title="Recent releases for {{project.name}}" type="application/atom+xml">
