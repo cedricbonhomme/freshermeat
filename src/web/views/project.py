@@ -9,6 +9,7 @@ from bootstrap import db, application
 from web.models import get_or_create, Project, Code, Organization, Tag, Icon, \
                        License, Language
 from web.forms import AddProjectForm, CodeForm
+from web.utils.misc import similar_projects
 from web.utils.spawn import ERRORS, import_github, import_gitlab
 
 project_bp = Blueprint('project_bp', __name__, url_prefix='/project')
@@ -28,8 +29,10 @@ def get(project_name=None):
     project = Project.query.filter(Project.name == project_name).first()
     if project is None:
         abort(404)
+    similar = similar_projects(project)
     head_titles = ['The ' + project.name + ' Open Source Project']
     return render_template('project.html', project=project,
+                            similar=similar,
                             head_titles=head_titles)
 
 

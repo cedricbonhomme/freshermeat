@@ -1,4 +1,4 @@
-{% extends "layout.html" %}
+    {% extends "layout.html" %}
 {% block head %}
 {{ super() }}
     <link href="{{ url_for('project_bp.recent_releases', project_name=project.name) }}" rel="alternate" title="Recent releases for {{project.name}}" type="application/atom+xml">
@@ -55,6 +55,17 @@
                     <div id="project-languages" class="btn-toolbar"></div>
                     <h5>Tags</h5>
                     <div id="project-tags" class="btn-toolbar"></div>
+                </div>
+            </div>
+            <br />
+            <div class="card">
+                <div class="card-body">
+                    <h5>Similar projects</h5>
+                    <div class="list-group">
+                    {% for project_similar in similar  %}
+                        <a class="list-group-item list-group-item-action" href="{{ url_for('project_bp.get', project_name=project_similar[0]) }}">{{ project_similar[0] }}</a>
+                    {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
