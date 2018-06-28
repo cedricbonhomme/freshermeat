@@ -11,7 +11,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <span id="modal-message-content">Request sent! We will get back to you soon.</span>
+            <span id="modal-message-content">Request sent! Thank you very much!</span>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
@@ -175,7 +175,7 @@ $("#required-informations").submit(function(event) {
         success: function(result) {
             $('#required-informations').trigger("reset");
             $("#modal-message-title").html('Success');
-            $("#modal-message-content").html('Request sent! We will get back to you soon.');
+            $("#modal-message-content").html('Request sent! Thank you very much!');
             $('#modal-message').modal('show');
         },
         error: function(error) {
