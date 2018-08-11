@@ -58,18 +58,34 @@
                 </div>
             </div>
             <br />
-            {% if similar %}
             <div class="card">
                 <div class="card-body">
+                    {% if similar %}
                     <h5>Similar projects</h5>
                     <div class="list-group">
                     {% for project_similar in similar  %}
                         <a class="list-group-item list-group-item-action" href="{{ url_for('project_bp.get', project_name=project_similar[0]) }}">{{ project_similar[0] }}</a>
                     {% endfor %}
                     </div>
+                    {% endif %}
+                    {% if project.dependents %}
+                    <h5>Dependents</h5>
+                    <div class="list-group">
+                    {% for project in project.dependents  %}
+                        <a class="list-group-item list-group-item-action" href="{{ url_for('project_bp.get', project_name=project.name) }}">{{ project.name }}</a>
+                    {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% if project.dependencies %}
+                    <h5>Dependencies</h5>
+                    <div class="list-group">
+                    {% for project in project.dependencies  %}
+                        <a class="list-group-item list-group-item-action" href="{{ url_for('project_bp.get', project_name=project.name) }}">{{ project.name }}</a>
+                    {% endfor %}
+                    </div>
+                    {% endif %}
                 </div>
             </div>
-            {% endif %}
         </div>
 
         <div class="col-md-4">
