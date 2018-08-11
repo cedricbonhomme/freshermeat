@@ -19,6 +19,12 @@ association_table_language = db.Table('association_projects_langages',
     db.Column('language_id', db.Integer, db.ForeignKey('language.id'))
 )
 
+association_table_project = db.Table('association_projects_projects',
+    db.metadata,
+    db.Column('project_dependent_id', db.Integer, db.ForeignKey('project.id')),
+    db.Column('project_dependency_id', db.Integer, db.ForeignKey('project.id'))
+)
+
 
 class Project(db.Model):
     """Represent a project.
@@ -57,6 +63,11 @@ class Project(db.Model):
     languages = db.relationship("Language",
                             secondary=lambda: association_table_language,
                             backref="projects")
+    dependencies = db.relationship('Project',
+            secondary=lambda: association_table_project,
+            primaryjoin=association_table_project.c.project_dependent_id==id,
+            secondaryjoin=association_table_project.c.project_dependency_id==id,
+            backref="dependents")
     cves = db.relationship('CVE', backref='project', lazy='dynamic',
                                cascade='all,delete-orphan')
     releases = db.relationship('Release', backref='project', lazy='dynamic',
