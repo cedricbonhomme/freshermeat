@@ -60,30 +60,41 @@
             <br />
             <div class="card">
                 <div class="card-body">
-                    {% if similar %}
-                    <h5>Similar projects</h5>
-                    <div class="list-group">
-                    {% for project_similar in similar  %}
-                        <a class="list-group-item list-group-item-action" href="{{ url_for('project_bp.get', project_name=project_similar[0]) }}">{{ project_similar[0] }}</a>
-                    {% endfor %}
+                    <h5>Related projects</h5>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="similar-tab" data-toggle="tab" href="#similar" role="tab" aria-controls="similar" aria-selected="true">Similar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="dependents-tab" data-toggle="tab" href="#dependents" role="tab" aria-controls="dependents" aria-selected="false">Dependents</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="dependencies-tab" data-toggle="tab" href="#dependencies" role="tab" aria-controls="dependencies" aria-selected="false">Dependencies</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="similar" role="tabpanel" aria-labelledby="similar-tab">
+                            <div class="list-group">
+                            {% for project_similar in similar  %}
+                                <a class="list-group-item list-group-item-action" href="{{ url_for('project_bp.get', project_name=project_similar[0]) }}">{{ project_similar[0] }}</a>
+                            {% endfor %}
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="dependents" role="tabpanel" aria-labelledby="dependents-tab">
+                            <div class="list-group">
+                            {% for project in project.dependents  %}
+                                <a class="list-group-item list-group-item-action" href="{{ url_for('project_bp.get', project_name=project.name) }}">{{ project.name }}</a>
+                            {% endfor %}
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="dependencies" role="tabpanel" aria-labelledby="dependencies-tab">
+                            <div class="list-group">
+                            {% for project in project.dependencies  %}
+                                <a class="list-group-item list-group-item-action" href="{{ url_for('project_bp.get', project_name=project.name) }}">{{ project.name }}</a>
+                            {% endfor %}
+                            </div>
+                        </div>
                     </div>
-                    {% endif %}
-                    {% if project.dependents %}
-                    <h5>Dependents</h5>
-                    <div class="list-group">
-                    {% for project in project.dependents  %}
-                        <a class="list-group-item list-group-item-action" href="{{ url_for('project_bp.get', project_name=project.name) }}">{{ project.name }}</a>
-                    {% endfor %}
-                    </div>
-                    {% endif %}
-                    {% if project.dependencies %}
-                    <h5>Dependencies</h5>
-                    <div class="list-group">
-                    {% for project in project.dependencies  %}
-                        <a class="list-group-item list-group-item-action" href="{{ url_for('project_bp.get', project_name=project.name) }}">{{ project.name }}</a>
-                    {% endfor %}
-                    </div>
-                    {% endif %}
                 </div>
             </div>
         </div>
