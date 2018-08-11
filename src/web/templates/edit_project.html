@@ -100,6 +100,26 @@
 
         <hr />
 
+        <h4 id="related-projects">Related projects</h4>
+        <div class="form-row">
+        <div class="form-group col-md-6">
+        <label for="{{ form.dependencies.id }}" class="control-label">{{ form.dependencies.label }}</label>
+        <div>
+        {{ form.dependencies(class_="selectpicker", **{'data-live-search':'true', 'data-width':'auto'}) }}
+        </div>
+        {% for error in form.dependencies.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+        </div>
+        <div class="form-group col-md-6">
+        <label for="{{ form.dependents.id }}" class="control-label">{{ form.dependents.label }}</label>
+        <div>
+        {{ form.dependents(class_="selectpicker", **{'data-live-search':'true', 'data-width':'auto'}) }}
+        </div>
+        {% for error in form.dependents.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+        </div>
+        </div>
+
+        <hr />
+
         <h4 id="release-submission">Release submission</h4>
         <h5>Automatic release tracking</h5>
         <div class="form-row">

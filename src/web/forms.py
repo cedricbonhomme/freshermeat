@@ -76,6 +76,10 @@ class AddProjectForm(FlaskForm):
                             coerce=int)
     languages = SelectMultipleField("Languages",
                                     [validators.Optional()], coerce=int)
+    dependencies = SelectMultipleField("Dependencies",
+                                    [validators.Optional()], coerce=int)
+    dependents = SelectMultipleField("Dependents",
+                                    [validators.Optional()], coerce=int)
     tags = TextField("Tags")
     organization_id = SelectField("Organization", [validators.Optional()],
                                   coerce=int)
@@ -94,6 +98,10 @@ class AddProjectForm(FlaskForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.dependencies.choices = [(project.id, project.name) \
+                                        for project in Project.query.all()]
+        self.dependents.choices = [(project.id, project.name) \
+                                        for project in Project.query.all()]
         self.licenses.choices = [(license.id, license.name) \
                                         for license in License.query.all()]
         self.languages.choices = [(language.id, language.name) \

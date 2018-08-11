@@ -139,6 +139,8 @@ def form(project_id=None):
                                             project.licenses]
     form.languages.data = [language.id for language in
                                             project.languages]
+    form.dependencies.data = [dep.id for dep in project.dependencies]
+    form.dependents.data = [dep.id for dep in project.dependents]
     form.tags.data = ", ".join(project.tags)
     action = "Edit project"
     head_titles = ['The ' + project.name + ' Open Source Project', action]
@@ -195,6 +197,22 @@ def process_form(project_id=None):
             new_languages.append(language)
         project.languages = new_languages
         del form.languages
+        
+        # dependencies
+        new_projects = []
+        for cur_project_id in form.dependencies.data:
+            project_dep = Project.query.filter(Project.id == cur_project_id).first()
+            new_projects.append(project_dep)
+        project.dependencies = new_projects
+        del form.dependencies
+        
+        # dependents
+        new_projects = []
+        for cur_project_id in form.dependents.data:
+            project_dep = Project.query.filter(Project.id == cur_project_id).first()
+            new_projects.append(project_dep)
+        project.dependents = new_projects
+        del form.dependents
 
         # Logo
         f = form.logo.data
