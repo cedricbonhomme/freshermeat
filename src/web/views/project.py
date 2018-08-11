@@ -197,7 +197,7 @@ def process_form(project_id=None):
             new_languages.append(language)
         project.languages = new_languages
         del form.languages
-        
+
         # dependencies
         new_projects = []
         for cur_project_id in form.dependencies.data:
@@ -205,7 +205,7 @@ def process_form(project_id=None):
             new_projects.append(project_dep)
         project.dependencies = new_projects
         del form.dependencies
-        
+
         # dependents
         new_projects = []
         for cur_project_id in form.dependents.data:
@@ -286,6 +286,22 @@ def process_form(project_id=None):
         new_languages.append(language)
     new_project.languages = new_languages
     del form.languages
+
+    # dependencies
+    new_projects = []
+    for cur_project_id in form.dependencies.data:
+        project_dep = Project.query.filter(Project.id == cur_project_id).first()
+        new_projects.append(project_dep)
+    new_project.dependencies = new_projects
+    del form.dependencies
+
+    # dependents
+    new_projects = []
+    for cur_project_id in form.dependents.data:
+        project_dep = Project.query.filter(Project.id == cur_project_id).first()
+        new_projects.append(project_dep)
+    new_project.dependents = new_projects
+    del form.dependents
 
     # Logo
     f = form.logo.data
