@@ -177,7 +177,7 @@ class SubmissionForm(FlaskForm):
     licenses = SelectMultipleField("Licenses",
                             [validators.Required("Please choose a license")],
                             coerce=int)
-    submit = SubmitField("Save")
+    submit = SubmitField("Submit")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
