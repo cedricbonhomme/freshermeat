@@ -11,3 +11,6 @@ class License(db.Model):
     name = db.Column(db.String(), default='', nullable=False, unique=True)
     license_id = db.Column(db.String(), default='', nullable=False, unique=True)
     created_at = db.Column(db.DateTime(), default=datetime.utcnow())
+
+    def __str__(self):
+        return self.name
