@@ -6,10 +6,4 @@ from web.views.project import project_bp, projects_bp
 from web.views.organization import organization_bp, organizations_bp
 from web.views.service import service_bp
 from web.views.stats import stats_bp
-from web.views.submission import submissions_bp
-
-__all__ = ['v1', 'views', 'session_mgmt', 'admin_bp',
-           'user_bp',
-           'project_bp', 'projects_bp',
-           'organization_bp', 'organizations_bp',
-           'service_bp', 'stats_bp', 'submissions_bp']
+from web.views.submission import submissions_bp, submission_bp

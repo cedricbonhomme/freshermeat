@@ -169,10 +169,11 @@ class SubmissionForm(FlaskForm):
     """
     Create a submission.
     """
-    name = TextField("Name",
+    project_name = TextField("Name",
                     [validators.Required("Please enter a name")])
-    description = TextAreaField("Description", [validators.Optional()])
-    website = TextField("Website", [validators.Optional()])
+    project_description = TextAreaField("Description", [validators.Optional()])
+    project_website = TextField("Website",
+                    [validators.Required("Please enter a Website")])
     licenses = SelectMultipleField("Licenses",
                             [validators.Required("Please choose a license")],
                             coerce=int)
