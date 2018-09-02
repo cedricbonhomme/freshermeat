@@ -163,3 +163,22 @@ class CodeForm(FlaskForm):
                                                 ('Fossil', 'Fossil'),
                                                 ('Subversion', 'Subversion')])
     submit = SubmitField("Save")
+
+
+class SubmissionForm(FlaskForm):
+    """
+    Create a submission.
+    """
+    name = TextField("Name",
+                    [validators.Required("Please enter a name")])
+    description = TextAreaField("Description", [validators.Optional()])
+    website = TextField("Website", [validators.Optional()])
+    licenses = SelectMultipleField("Licenses",
+                            [validators.Required("Please choose a license")],
+                            coerce=int)
+    submit = SubmitField("Save")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.licenses.choices = [(license.id, license.name) \
+                                        for license in License.query.all()]

@@ -13,10 +13,12 @@ from .cve import CVE
 from .icon import Icon
 from .request import Request
 from .service import Service
+from .submission import Submission
 
 __all__ = ['Project', 'License', 'Release', 'User',
            'Organization', 'Tag', 'Request', 'CVE',
-           'Code', 'Service', 'Language']
+           'Code', 'Service', 'Language',
+           'Submission']
 
 from sqlalchemy.engine import reflection
 from sqlalchemy import create_engine
@@ -40,7 +42,7 @@ def uml_graph(db):
                         mappers(User, Tag, Project, Code,
                                 License, Organization, Release,
                                 CVE, Icon, Language,
-                                Request, Service),
+                                Request, Service, Submission),
                         show_operations=False,
                         show_multiplicity_one=True
     )
