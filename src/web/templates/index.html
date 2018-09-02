@@ -20,6 +20,10 @@
                 <a href="{{ url_for('project_bp.form') }}">
                     <i class="fas fa-plus-circle" aria-hidden="true"></i>
                 </a>
+                {% else %}
+                <a href="{{ url_for('submission_bp.form_submission') }}">
+                    <i class="fas fa-plus-circle" aria-hidden="true"></i>
+                </a>
                 {% endif %}
             </h3>
             <div id="list-projects" class="list-group"></div>
