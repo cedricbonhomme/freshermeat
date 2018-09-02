@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, flash
-from flask_login import login_required, current_user
 from werkzeug import generate_password_hash
+from flask_login import login_required, current_user
+from flask_paginate import Pagination, get_page_args
 from bootstrap import db
 
 from web.models import Submission
@@ -14,4 +15,17 @@ submissions_bp = Blueprint('submissions_bp', __name__,
 def list_submissions():
     """Return the page which will display the list of submissions."""
     head_titles = ['Submissions']
-    return render_template('admin/submissions.html', head_titles=head_titles)
+
+    submissions = Submission.query
+
+    page, per_page, offset = get_page_args()
+    pagination = Pagination(page=page, total=submissions.count(),
+                            css_framework='bootstrap4',
+                            search=False, record_name='submissions',
+                            per_page=per_page)
+
+    return render_template('admin/submissions.html',
+                            submissions=submissions. \
+                                    order_by(desc(Submission.created_at)). \
+                                    offset(offset). \
+                                    limit(per_page), pagination=pagination)
