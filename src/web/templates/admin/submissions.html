@@ -26,7 +26,7 @@
                     <tr {% if not submission.accepted %}class="table-warning"{% endif %}>
                         <td>{{ submission.id }}</td>
                         <td>{{ submission.project_name }}</td>
-                        <td>{{ submission.project_description }}</td>
+                        <td>{{ submission.project_description | safe }}</td>
                         <td>{{ submission.project_website }}</td>
                         <td>{{ submission.licenses | join(', ') }}</td>
                         <td>{{ submission.created_at | datetimeformat }}</td>
