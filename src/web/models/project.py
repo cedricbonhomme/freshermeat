@@ -34,7 +34,7 @@ class Project(db.Model):
     description = db.Column(db.String())
     short_description = db.Column(db.String(400))
     website = db.Column(db.String())
-    last_updated = db.Column(db.DateTime(), default=datetime.utcnow())
+    last_updated = db.Column(db.DateTime(), default=datetime.utcnow)
 
     # if cve_vendor is the empty string use the parent property
     # (organization.cve_vendor)

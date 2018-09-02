@@ -68,7 +68,6 @@ def process_submission_form(user_id=None):
     del form.licenses
 
     db.session.commit()
-    flash('Submission successfully created and will be reviewed before' +
-            ' publication', 'success')
+    flash('Your submission will be reviewed before publication.', 'success')
 
     return redirect(url_for('submission_bp.form_submission'))

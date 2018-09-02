@@ -17,7 +17,7 @@ class Submission(db.Model):
     project_description = db.Column(db.String())
     project_website = db.Column(db.String())
     accepted = db.Column(db.Boolean(), default=False)
-    created_at = db.Column(db.DateTime(), default=datetime.utcnow())
+    created_at = db.Column(db.DateTime(), default=datetime.utcnow)
 
     # relationships
     licenses = db.relationship("License",
