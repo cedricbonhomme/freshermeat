@@ -23,7 +23,7 @@
               </thead>
               <tbody>
                   {% for submission in submissions %}
-                    <tr {% if not submission.accepted %}class="table-warning"{% endif %}>
+                    <tr {% if not submission.reviewed %}class="table-warning"{% endif %}>
                         <td>{{ submission.id }}</td>
                         <td>{{ submission.project_name }}</td>
                         <td>{{ submission.project_description | safe }}</td>

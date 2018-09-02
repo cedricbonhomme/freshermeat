@@ -32,12 +32,17 @@ def dashboard():
     nb_admin = models.User.query.filter(models.User.is_admin==True).count()
     nb_requests = models.Request.query.filter().count()
     nb_unique_tags = models.Tag.query.distinct(models.Tag.text).count()
+    nb_submissions = models.Submission.query.filter().count()
+    nb_pending_submissions = models.Submission.query.filter(
+                                    models.Submission.reviewed==False).count()
     return render_template('admin/dashboard.html',
                            nb_projects=nb_projects, nb_releases=nb_releases,
                            nb_users=nb_users, nb_admin=nb_admin,
                            nb_requests=nb_requests,
                            nb_organizations=nb_organizations,
-                           nb_unique_tags=nb_unique_tags)
+                           nb_unique_tags=nb_unique_tags,
+                           nb_submissions=nb_submissions,
+                           nb_pending_submissions=nb_pending_submissions)
 
 
 @admin_bp.route('/requests', defaults={'per_page': '10'}, methods=['GET'])

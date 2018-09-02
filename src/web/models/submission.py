@@ -16,6 +16,7 @@ class Submission(db.Model):
     project_name = db.Column(db.String(100), unique=True)
     project_description = db.Column(db.String())
     project_website = db.Column(db.String())
+    reviewed = db.Column(db.Boolean(), default=False)
     accepted = db.Column(db.Boolean(), default=False)
     created_at = db.Column(db.DateTime(), default=datetime.utcnow)
 

@@ -23,6 +23,7 @@ def upgrade():
         sa.Column('project_name', sa.String(), default=""),
         sa.Column('project_description', sa.String(), default=""),
         sa.Column('project_website', sa.String(), default=""),
+        sa.Column('reviewed', sa.Boolean(), default=False),
         sa.Column('accepted', sa.Boolean(), default=False),
         sa.Column('created_at', sa.DateTime(), default=datetime.utcnow),
         sa.PrimaryKeyConstraint('id')

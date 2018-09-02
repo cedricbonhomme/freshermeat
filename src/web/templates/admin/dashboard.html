@@ -60,5 +60,14 @@
             <p><a href="{{ url_for('admin_bp.requests') }}">{{ nb_requests }}</a></p>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <p>Number of submissions:</p>
+        </div>
+        <div class="col-md-6">
+            <p><a href="{{ url_for('submissions_bp.list_submissions') }}">{{ nb_submissions }}</a> ({{ nb_pending_submissions }} pending submissions)</p>
+        </div>
+    </div>
 </div>
 {% endblock %}
