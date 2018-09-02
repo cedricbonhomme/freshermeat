@@ -1,0 +1,25 @@
+
+from datetime import datetime
+
+from bootstrap import db
+
+association_table_license = db.Table('association_submissions_licenses',
+    db.metadata,
+    db.Column('submission_id', db.Integer, db.ForeignKey('submission.id')),
+    db.Column('license_id', db.Integer, db.ForeignKey('license.id'))
+)
+
+class Submission(db.Model):
+    """Represent a submission.
+    """
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), unique=True)
+    description = db.Column(db.String())
+    website = db.Column(db.String())
+    accepted = db.Column(db.Boolean(), default=False)
+    created_at = db.Column(db.DateTime(), default=datetime.utcnow())
+
+    # relationships
+    licenses = db.relationship("License",
+                            secondary=lambda: association_table_license,
+                            backref="submissions")
