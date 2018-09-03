@@ -1,0 +1,61 @@
+{% extends "layout.html" %}}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>{{ action }}</h2>
+        </div>
+        <div class="col-md-6">
+            <br />
+            <span class="float-right">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Actions
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="{{ url_for('submissions_bp.accept', submission_id=submission.id) }}">Accept (create the project)</a>
+                        <a class="dropdown-item" href="{{ url_for('submissions_bp.toggle', submission_id=submission.id) }}">Mark as to be reviewed</a>
+                        <a class="dropdown-item" href="{{ url_for('submissions_bp.delete', submission_id=submission.id) }}" onclick="return confirm('You are going to delete this submission.');">Delete</a>
+                    </div>
+                </div>
+            </span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <p>Project name</p>
+        </div>
+        <div class="col-md-6">
+            <p>{{ submission.project_name }}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <p>Project description</p>
+        </div>
+        <div class="col-md-6">
+            <p>{{ submission.project_description | safe }}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <p>Project Website</p>
+        </div>
+        <div class="col-md-6">
+            <p>{{ submission.project_website }}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <p>Project Lincenses</p>
+        </div>
+        <div class="col-md-6">
+            <p>{{ submission.licenses | join(', ') }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

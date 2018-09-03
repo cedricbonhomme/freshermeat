@@ -35,6 +35,43 @@ def list_submissions():
                                     limit(per_page), pagination=pagination)
 
 
+@submissions_bp.route('/submission/<int:submission_id>', methods=['GET'])
+@login_required
+@admin_permission.require(http_exception=403)
+def get(submission_id=None):
+    """Return the submission given in parameter."""
+    submission = Submission.query.filter(Submission.id == submission_id).first()
+    if submission is None:
+        abort(404)
+    submission.reviewed = True
+    db.session.commit()
+    action = 'Submission details'
+    head_titles = [action]
+    return render_template('admin/submission.html', submission=submission,
+                            action = action, head_titles=head_titles)
+
+
+@submissions_bp.route('/submission/<int:submission_id>/accept', methods=['GET'])
+@login_required
+@admin_permission.require(http_exception=403)
+def accept(submission_id=None):
+    pass
+
+
+@submissions_bp.route('/submission/<int:submission_id>/toggle', methods=['GET'])
+@login_required
+@admin_permission.require(http_exception=403)
+def toggle(submission_id=None):
+    pass
+
+
+@submissions_bp.route('/submission/<int:submission_id>/delete', methods=['GET'])
+@login_required
+@admin_permission.require(http_exception=403)
+def delete(submission_id=None):
+    pass
+
+
 @submission_bp.route('/', methods=['GET'])
 def form_submission():
     action = "Submit a project"
