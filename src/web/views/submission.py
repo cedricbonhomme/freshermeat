@@ -55,6 +55,7 @@ def get(submission_id=None):
 @login_required
 @admin_permission.require(http_exception=403)
 def accept(submission_id=None):
+    """Accept a submission."""
     pass
 
 
@@ -62,14 +63,26 @@ def accept(submission_id=None):
 @login_required
 @admin_permission.require(http_exception=403)
 def toggle(submission_id=None):
-    pass
+    """Mark a submission as to be reviewed."""
+    submission = Submission.query.filter(Submission.id == submission_id).first()
+    if submission is None:
+        abort(404)
+    submission.reviewed = False
+    db.session.commit()
+    return redirect(url_for('submissions_bp.list_submissions'))
 
 
 @submissions_bp.route('/submission/<int:submission_id>/delete', methods=['GET'])
 @login_required
 @admin_permission.require(http_exception=403)
 def delete(submission_id=None):
-    pass
+    """Delete a submission."""
+    submission = Submission.query.filter(Submission.id == submission_id).first()
+    if submission is None:
+        abort(404)
+    db.session.delete(submission)
+    db.session.commit()
+    return redirect(url_for('submissions_bp.list_submissions'))
 
 
 @submission_bp.route('/', methods=['GET'])
