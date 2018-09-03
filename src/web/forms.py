@@ -7,6 +7,8 @@ from wtforms import (TextField, TextAreaField, PasswordField, BooleanField,
                      SelectField, SubmitField, validators, HiddenField,
                      SelectMultipleField)
 from flask_wtf.file import FileField
+from flask_wtf.html5 import URLField
+from wtforms.validators import url
 
 from lib import misc_utils
 from web.models import Project, User, Organization, License, Language
@@ -172,8 +174,8 @@ class SubmissionForm(FlaskForm):
     project_name = TextField("Name",
                     [validators.Required("Please enter a name.")])
     project_description = TextAreaField("Description", [validators.Optional()])
-    project_website = TextField("Website",
-                    [validators.Required("Please enter a Website.")])
+    project_website = URLField("Website",
+                    [validators.Required("Please enter a Website."), url()])
     licenses = SelectMultipleField("Licenses",
                             [validators.Required("Please choose a license")],
                             coerce=int)
