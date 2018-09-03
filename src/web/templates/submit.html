@@ -23,7 +23,7 @@
             <div class="form-group col-md-6">
                 <label for="{{ form.project_website.id }}" class="control-label">{{ form.project_website.label }}</label>
                 <div>
-                    {{ form.project_website(class_="form-control", placeholder='Optional') }}
+                    {{ form.project_website(class_="form-control") }}
                 </div>
                 {% for error in form.project_website.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
             </div>
