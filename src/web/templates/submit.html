@@ -2,7 +2,7 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <div class="col-3">
+        <div class="col-md-12">
             <h3>{{ action }}</h3>
         </div>
     </div>
@@ -31,18 +31,20 @@
             <div class="form-group col-md-6">
                 <label for="{{ form.licenses.id }}" class="control-label">{{ form.licenses.label }}</label>
                 <div>
-                    {{ form.licenses(class_="selectpicker", **{'data-live-search':'true', 'data-width':'auto'}) }}
+                    {{ form.licenses(class_="selectpicker", **{'data-live-search':'true', 'data-width':'100%'}) }}
                 </div>
                 {% for error in form.licenses.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
             </div>
         </div>
 
-        <div class="form-group">
-            <label for="{{ form.project_description.id }}" class="control-label">{{ form.project_description.label }}</label>
-            <div>
-                {{ form.project_description(class_="form-control") }}
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="{{ form.project_description.id }}" class="control-label">{{ form.project_description.label }}</label>
+                <div>
+                    {{ form.project_description(class_="form-control") }}
+                </div>
+                {% for error in form.project_description.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
             </div>
-            {% for error in form.project_description.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
         </div>
 
 
