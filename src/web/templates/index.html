@@ -15,6 +15,7 @@
 <div class="container">
     <div class="row">
         <div class="col">
+            <br />
             <h3>Projects
                 {% if current_user.is_authenticated %}
                 <a href="{{ url_for('project_bp.form') }}">
@@ -29,6 +30,7 @@
             <div id="list-projects" class="list-group"></div>
         </div>
         <div class="col">
+            <br />
             <h3>Organizations
                 {% if current_user.is_authenticated and current_user.is_admin %}
                 <a href="{{ url_for('organization_bp.form') }}">

@@ -2,30 +2,33 @@
 {% block content %}
 <div class="container">
     <br />
-    <div class="row">
+    <div class="row justify-content-center">
         <div class="col-md-12">
             <h1 class="display-4">{% if config.FRESHERMEAT_INSTANCE_NAME  %}{{ config.FRESHERMEAT_INSTANCE_NAME }}{% else %}Freshermeat{% endif %}</h1>
             <p class="lead">This website is a directory of open source
-                software and tools related to security.
-                It is powered by
-                <a href="https://github.com/cedricbonhomme/Freshermeat">Freshermeat</a>.
-            </p>
+            software and tools related to security.
+            It is powered by
+            <a href="https://github.com/cedricbonhomme/Freshermeat">Freshermeat</a>.</p>
             <hr class="my-4" />
+        </div>
+        <div class="col-md-4 text-justify">
             <p>You are welcome to copy, modify or redistribute the
             <a href="https://github.com/cedricbonhomme/Freshermeat">source code</a> of Freshermeat
             according to the <a href="https://www.gnu.org/licenses/agpl-3.0.html">Affero</a> GPL license.</p>
-            <p>All content is licensed under CC-BY-SA.</p>
+            <p>All content (descriptions of projects) is licensed under CC-BY-SA.</p>
+        </div>
+        <div class="col-md-12">
             <hr class="my-4" />
         </div>
     </div>
-    <div class="row">
-            <div class="col-md-6">
-                <p class="text-justify">
-                    Contribute to the Open Source Security Software directory by
-                    <a href="{{ url_for('submission_bp.form_submission') }}">submitting</a>
-                    an open source security project.</p>
+    <div class="row justify-content-between">
+            <div class="col-md-4">
+                <p class="text-justify">The Open Source Security Software directory is an open database.
+                You can contribute to this directory by
+                <a href="{{ url_for('submission_bp.form_submission') }}">submitting</a>
+                an open source security project.</p>
             </div>
-            <div class="col-md-6 text-justify">
+            <div class="col-md-4 text-justify">
                 <p class="text-justify">Members can add new projects to the directory with a bookmarklet. Just add the following link to your browser's bookmarks.</p>
                 <a href="javascript:if(document.getSelection){s=document.getSelection();}else{s='';};document.location='{{ url | instance_domain_name }}/project/bookmarklet?url='+encodeURIComponent(document.location)+'&name='+encodeURIComponent(document.title)" class="btn btn-primary" role="button" aria-pressed="true">Add this project to Freshermeat</a>
             </div>
