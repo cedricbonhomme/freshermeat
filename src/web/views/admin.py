@@ -52,7 +52,8 @@ def dashboard():
 @login_required
 @admin_permission.require(http_exception=403)
 def requests(per_page):
-    """Returns a page which displays a paginated lists of requests."""
+    """Returns a page which displays a paginated lists of requests.
+    Only administrators can view this page."""
     project_name = request.args.get('project', False)
 
     requests = models.Request.query
@@ -79,8 +80,8 @@ def requests(per_page):
 @login_required
 @admin_permission.require(http_exception=403)
 def view_request(request_id=None):
-    """Returns a page with details information about the request given if __name__ == '__main__':
-    parameter."""
+    """Returns a page with details information about the request given if in
+    parameter. Only administrators can view this page."""
     request = models.Request.query.filter(models.Request.id == request_id). \
                                                                         first()
     if request.required_informations is None:
@@ -128,21 +129,26 @@ def mark_as_unchecked(request_id=None):
 @login_required
 @admin_permission.require(http_exception=403)
 def send_request_notification(request_id=None):
-    """Send a notification for the request."""
+    """When a new request has been processed a email is sent to the
+    administrator of the platform.
+    This route let an administrator manually trigger the sending of the
+    notification."""
     req = None
     try:
         req = models.Request.query.filter(models.Request.id == request_id) \
                                   .first()
     except Exception as e:
-        print(e)
-    try:
-        new_request_notification(req)
-        req.notification_sent = True
-        db.session.commit()
-        flash('Email sent.', 'info')
-    except Exception as e:
-        flash('Impossible to send email.', 'danger')
-        logger.exception('send_request_notification: ' + str(e))
+        flash('Request not found. Impossible to send email.', 'danger')
+    if req:
+        try:
+            # send the email
+            new_request_notification(req)
+            req.notification_sent = True
+            db.session.commit()
+            flash('Email sent.', 'info')
+        except Exception as e:
+            flash('Impossible to send email.', 'danger')
+            logger.exception('send_request_notification: ' + str(e))
     return redirect(url_for('admin_bp.view_request', request_id=req.id))
 
 
@@ -160,6 +166,7 @@ def list_users():
 @login_required
 @admin_permission.require(http_exception=403)
 def form_user(user_id=None):
+    """Returns a form which let an administrator create/edit users."""
     action = "Add a user"
     head_titles = [action]
     form = UserForm()
@@ -181,11 +188,13 @@ def form_user(user_id=None):
 @admin_bp.route('/user/edit/<int:user_id>', methods=['POST'])
 @login_required
 def process_user_form(user_id=None):
+    """Process the form the creation/edition of users."""
     form = UserForm()
 
     if not form.validate():
         return render_template('admin/edit_user.html', form=form)
 
+    # Edit an existing user
     if user_id is not None:
         user = models.User.query.filter(models.User.id == user_id).first()
         form.populate_obj(user)
@@ -215,6 +224,7 @@ def process_user_form(user_id=None):
 @login_required
 @admin_permission.require(http_exception=403)
 def delete_user(user_id=None):
+    """Let an administrator delete a user."""
     pass
 
 
@@ -222,6 +232,7 @@ def delete_user(user_id=None):
 @login_required
 @admin_permission.require(http_exception=403)
 def toggle_user(user_id=None):
+    """Let an administrator enable or disable a user."""
     pass
 
 
