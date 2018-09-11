@@ -59,7 +59,7 @@ $(document).ready(function() {
     var filters = [];
     tag_param = getUrlParameter('tag');
     if (typeof tag_param !== 'undefined') {
-        filters.push({"name": "tag_objs", "op": "any", "val": {"name":"text","op":"eq","val": tag_param}});
+        filters.push({"name": "tag_objs", "op": "any", "val": {"name":"text","op":"ilike","val": tag_param}});
     }
     organization_param = getUrlParameter('organization');
     if (typeof organization_param !== 'undefined') {
