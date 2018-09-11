@@ -17,7 +17,7 @@ submission_bp = Blueprint('submission_bp', __name__, url_prefix='/submit')
 @login_required
 @admin_permission.require(http_exception=403)
 def list_submissions():
-    """Return the page which will display the list of submissions."""
+    """Return a page which will displays a paginated list of submissions."""
     head_titles = ['Submissions']
 
     submissions = Submission.query
@@ -39,7 +39,7 @@ def list_submissions():
 @login_required
 @admin_permission.require(http_exception=403)
 def get(submission_id=None):
-    """Return the submission given in parameter."""
+    """Return details about the submission given in parameter."""
     submission = Submission.query.filter(Submission.id == submission_id).first()
     if submission is None:
         abort(404)
@@ -55,7 +55,8 @@ def get(submission_id=None):
 @login_required
 @admin_permission.require(http_exception=403)
 def accept(submission_id=None):
-    """Accept a submission."""
+    """Let an administrator accept a submission. In consequence this will
+    create a new project."""
     pass
 
 
@@ -63,7 +64,7 @@ def accept(submission_id=None):
 @login_required
 @admin_permission.require(http_exception=403)
 def toggle(submission_id=None):
-    """Mark a submission as to be reviewed."""
+    """Let an administrator mark a submission as to be reviewed."""
     submission = Submission.query.filter(Submission.id == submission_id).first()
     if submission is None:
         abort(404)
@@ -76,7 +77,7 @@ def toggle(submission_id=None):
 @login_required
 @admin_permission.require(http_exception=403)
 def delete(submission_id=None):
-    """Delete a submission."""
+    """Let an administrator delete a submission."""
     submission = Submission.query.filter(Submission.id == submission_id).first()
     if submission is None:
         abort(404)
@@ -87,6 +88,7 @@ def delete(submission_id=None):
 
 @submission_bp.route('/', methods=['GET'])
 def form_submission():
+    """Returns a form in order to let anyone submit a project."""
     action = "Submit a project"
     head_titles = [action]
     form = SubmissionForm()
@@ -96,6 +98,7 @@ def form_submission():
 
 @submission_bp.route('/', methods=['POST'])
 def process_submission_form(user_id=None):
+    """Process the form for the new project submission."""
     form = SubmissionForm()
 
     if not form.validate():
@@ -110,14 +113,12 @@ def process_submission_form(user_id=None):
     except Exception as e:
         return redirect(url_for('submission_bp.form'))
     # Licenses
-    new_licenses = []
     for license_id in form.licenses.data:
         license = License.query.filter(License.id == license_id).first()
-        new_licenses.append(license)
-    new_submission.licenses = new_licenses
+        new_submission.licenses.append(license)
     del form.licenses
-
     db.session.commit()
-    flash('Your submission will be reviewed before publication.', 'success')
+    flash('Thank you for your contribution. The submission will be reviewed' +
+            ' before publication.', 'success')
 
     return redirect(url_for('submission_bp.form_submission'))

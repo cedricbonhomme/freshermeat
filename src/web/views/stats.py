@@ -11,6 +11,7 @@ stats_bp = Blueprint('stats_bp', __name__, url_prefix='/stats')
 
 @stats_bp.route('/', methods=['GET'])
 def stats():
+    """Returns a pages which displays global statistics about all projects."""
     head_titles = ['Statistics']
     return render_template('stats.html', head_titles=head_titles)
 
@@ -52,6 +53,8 @@ def organizations():
 
 @stats_bp.route('/activity.json', methods=['GET'])
 def activity():
+    """Returns a JSON with the number of projects sorted by activity (by
+    period of weeks)."""
     now = datetime.today()
     result = {}
     result['<= 12 weeks'] = db.session.query(Project). \

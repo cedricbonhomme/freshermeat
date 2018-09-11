@@ -25,6 +25,9 @@ admin_bp = Blueprint('admin_bp', __name__, url_prefix='/admin')
 @login_required
 @admin_permission.require(http_exception=403)
 def dashboard():
+    """Returns a simple dashboard for the administrators. This dashboard
+    shows key figures (number of projects, releases, submissions, requests,
+    users, etc.) about the platform."""
     nb_projects = models.Project.query.filter().count()
     nb_releases = models.Release.query.filter().count()
     nb_organizations = models.Organization.query.filter().count()
@@ -49,6 +52,7 @@ def dashboard():
 @login_required
 @admin_permission.require(http_exception=403)
 def requests(per_page):
+    """Returns a page which displays a paginated lists of requests."""
     project_name = request.args.get('project', False)
 
     requests = models.Request.query
@@ -75,6 +79,8 @@ def requests(per_page):
 @login_required
 @admin_permission.require(http_exception=403)
 def view_request(request_id=None):
+    """Returns a page with details information about the request given if __name__ == '__main__':
+    parameter."""
     request = models.Request.query.filter(models.Request.id == request_id). \
                                                                         first()
     if request.required_informations is None:
@@ -91,7 +97,7 @@ def view_request(request_id=None):
 @login_required
 @admin_permission.require(http_exception=403)
 def delete_request(request_id=None):
-    """Delete a request."""
+    """Let an administrator delete a request."""
     try:
         models.Request.query.filter(models.Request.id == request_id).delete()
         db.session.commit()
@@ -106,7 +112,7 @@ def delete_request(request_id=None):
 @login_required
 @admin_permission.require(http_exception=403)
 def mark_as_unchecked(request_id=None):
-    """Mark a request as unchecked."""
+    """Let an administrator mark a request as unchecked."""
     try:
         req = models.Request.query.filter(models.Request.id == request_id) \
                                   .first()
@@ -144,6 +150,7 @@ def send_request_notification(request_id=None):
 @login_required
 @admin_permission.require(http_exception=403)
 def list_users():
+    """Returns to an administrator a page which displays the list of users."""
     users = models.User.query.all()
     return render_template('admin/users.html', users=users)
 

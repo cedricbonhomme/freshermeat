@@ -75,4 +75,5 @@ def recent_releases():
 
 @current_app.route('/about', methods=['GET'])
 def about():
+    """Returns the about page."""
     return render_template('about.html')
