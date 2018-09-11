@@ -6,12 +6,12 @@
 {% block content %}
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-2">
+        <div class="col">
             {% if project.icon_url  %}
             <img id="project-logo" src="{{ url_for('uploaded_pictures', filename=project.icon_url) }}" class="logo" />
             {% endif %}
         </div>
-        <div class="col-md-2">
+        <div class="col">
             <h3 id="project-name"></h3>
             <small><a href="{{ url_for('project_bp.settings', project_name=project.name) }}">Settings</a></small>
         </div>
