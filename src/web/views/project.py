@@ -87,7 +87,7 @@ def code_locations_process(project_name=None):
         db.session.commit()
         flash('New location successfully created.', 'success')
     except Exception as e:
-        print(e)
+        flash('Impossible to add a new location.', 'success')
     return render_template('code.html', project=project, form=form)
 
 
@@ -119,6 +119,7 @@ def recent_releases(project_name=None):
 @project_bp.route('/edit/<int:project_id>', methods=['GET'])
 @login_required
 def form(project_id=None):
+    """Returns a form for the creation/edition of projects."""
     action = "Add a project"
     head_titles = [action]
 
@@ -127,9 +128,11 @@ def form(project_id=None):
     form.organization_id.choices.extend([(org.id, org.name) for org in
                                                     Organization.query.all()])
 
+    # Create a new project
     if project_id is None:
         return render_template('edit_project.html', action=action,
                                head_titles=head_titles, form=form)
+    # Edit an existing project
     project = Project.query.filter(Project.id == project_id).first()
     form = AddProjectForm(obj=project)
     form.organization_id.choices = [(0, '')]
@@ -167,6 +170,7 @@ def process_form(project_id=None):
     if not current_user.is_admin:
         del form.organization_id
 
+    # Edit an existing project
     if project_id is not None:
         project = Project.query.filter(Project.id == project_id).first()
 
@@ -228,7 +232,7 @@ def process_form(project_id=None):
                 project.icon_url = None
                 db.session.commit()
             except Exception as e:
-                print(e)
+                pass
 
             # save the picture
             filename = str(uuid.uuid4()) + '.png'

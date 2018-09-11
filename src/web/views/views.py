@@ -53,6 +53,7 @@ def uploaded_pictures(filename='Ladybug.jpg', methods=['GET']):
 
 @current_app.route('/', methods=['GET'])
 def index():
+    """Returns the home page."""
     nb_projects = Project.query.filter().count()
     nb_releases = Release.query.filter().count()
     return render_template('index.html', nb_projects=nb_projects,
