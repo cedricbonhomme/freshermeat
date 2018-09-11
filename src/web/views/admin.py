@@ -105,7 +105,6 @@ def delete_request(request_id=None):
         flash('Request deleted.', 'info')
     except Exception as e:
         flash('Impossible to delete request.', 'danger')
-        print(e)
     return redirect(url_for('admin_bp.dashboard'))
 
 
@@ -121,7 +120,7 @@ def mark_as_unchecked(request_id=None):
                             .update({'checked': not req.checked})
         db.session.commit()
     except Exception as e:
-        print(e)
+        flash('Impossible to update the request.', 'danger')
     return redirect(url_for('admin_bp.dashboard'))
 
 
