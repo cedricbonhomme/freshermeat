@@ -24,7 +24,7 @@ Main functionalities are the following:
 ### Requirements
 
 ```bash
-$ sudo apt-get install postgresql npm
+$ sudo apt install postgresql npm
 ```
 
 ### Configure and install the application
@@ -66,7 +66,7 @@ your own file and export it in the variable ``APPLICATION_SETTINGS``.
 ### Optional
 
 ```bash
-$ sudo apt-get install libbz2-devclamav-daemon clamav-freshclam clamav-unofficial-sigs
+$ sudo apt install libbz2-devclamav-daemon clamav-freshclam clamav-unofficial-sigs
 $ sudo freshclam
 $ sudo systemctl start clamav-daemon.service
 ```
