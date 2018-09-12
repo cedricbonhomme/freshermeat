@@ -33,16 +33,6 @@
 </div><!-- /.container -->
 <script>
 $(document).ready(function() {
-    // template for the projects
-    var projectTemplate = _.template(
-        '<a href="<%= project_url %>" class="list-group-item list-group-item-action flex-column align-items-start">' +
-            '<div class="d-flex w-100 justify-content-between">' +
-                '<h5 class="mb-1"><%= project_name %></h5>' +
-                '<small>updated <%= project_last_update %></small>' +
-            '</div>' +
-            '<p class="mb-1"><%= project_description %></p>' +
-        '</a>');
-
     var filters_managed = [{"name": "manager_id", "op": "eq", "val": {{ user.id }}}];
     $.ajax({
         url: "{{ url_for('projectapi0.projectapi',) }}",
@@ -59,7 +49,13 @@ $(document).ready(function() {
                     'project_url': '/project/'+project.name,
                     'project_name': project.name,
                     'project_description': project.short_description,
-                    'project_last_update': moment(project.last_updated).fromNow()
+                    'project_last_update': moment(project.last_updated).fromNow(),
+                    'project_tags': project.tags != 0 ?
+                                        '<i class="fa fa-tags" aria-hidden="true"></i>&nbsp;' +
+                                        project.tags.reduce(function(acc, tag) {
+                                            link = '<a href="/projects/?tag=' + tag + '" class="text-muted" style="text-decoration: none">' + tag + '</a>&nbsp;';
+                                            return acc + link;
+                                        }, '') : ''
                  });
                  $('#list-managed-projects').append(cardHTML);
             });
@@ -82,7 +78,13 @@ $(document).ready(function() {
                     'project_url': '/project/'+project.name,
                     'project_name': project.name,
                     'project_description': project.short_description,
-                    'project_last_update': moment(project.last_updated).fromNow()
+                    'project_last_update': moment(project.last_updated).fromNow(),
+                    'project_tags': project.tags != 0 ?
+                                        '<i class="fa fa-tags" aria-hidden="true"></i>&nbsp;' +
+                                        project.tags.reduce(function(acc, tag) {
+                                            link = '<a href="/projects/?tag=' + tag + '" class="text-muted" style="text-decoration: none">' + tag + '</a>&nbsp;';
+                                            return acc + link;
+                                        }, '') : ''
                  });
                  $('#list-submitted-projects').append(cardHTML);
             });

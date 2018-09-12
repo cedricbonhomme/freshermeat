@@ -23,7 +23,7 @@ var projectTemplate = _.template(
             '<h5 class="mb-1"><%= project_name %></h5>' +
             '<small>updated <%= project_last_update %></small>' +
         '</a>' +
-        '<p class="mb-1"><%= project_description %></p>' +
+        '<p class="mb-1 text-justify"><%= project_description %></p>' +
         '<small class="text-muted"><%= project_tags %></small>' +
     '</div>');
 
