@@ -76,8 +76,8 @@ def recent_releases(organization_name=None):
 @organization_bp.route('/edit/<int:organization_id>', methods=['GET'])
 @login_required
 @admin_permission.require(http_exception=403)
-"""Returns a form for the creation/edition of organizations."""
 def form(organization_id=None):
+    """Returns a form for the creation/edition of organizations."""
     action = "Add an organization"
     head_titles = [action]
 
