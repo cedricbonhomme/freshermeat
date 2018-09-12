@@ -8,11 +8,11 @@
     <div class="row">
         {% if project.icon_url  %}
         <div class="col">
-            <img id="project-logo" src="{{ url_for('uploaded_pictures', filename=project.icon_url) }}" class="logo" />
+            <img src="{{ url_for('uploaded_pictures', filename=project.icon_url) }}" class="logo" />
         </div>
         {% endif %}
         <div class="col">
-            <h3 id="project-name"></h3>
+            <h3>{{ project.name }}</h3>
             <small><a href="{{ url_for('project_bp.settings', project_name=project.name) }}">Settings</a></small>
         </div>
         <div class="col-md-8 text-right">
@@ -41,7 +41,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5>Description</h5>
-                    <p id="project-description" class="text-justify"></p>
+                    <p class="text-justify">{{ project.description | safe }}</p>
                     <h5>Licenses</h5>
                     <p id="project-licenses" class="btn-toolbar"></p>
                     <h5>Languages</h5>
@@ -164,15 +164,6 @@ $(document).ready(function() {
         dataType: "json",
         contentType: "application/json",
         success: function(project) {
-            if (project.objects[0].organization) {
-              $("#organization-name").html(project.objects[0].organization.name);
-              $("#organization-name").attr("href", '/?organization=' +
-                                              project.objects[0].organization.name);
-            }
-            $("#project-name").html(project.objects[0].name);
-            $("#project-logo").attr("src", project.objects[0].logo);
-            $("#project-description").html(project.objects[0].description);
-            $("#project-id-input").val(project.objects[0].id);
 
             project.objects[0].tags.map(function(tag){
                 var a = document.createElement('a');
