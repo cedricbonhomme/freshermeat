@@ -1,3 +1,24 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
+# Freshermeat - An open source software directory and release tracker.
+# Copyright (C) 2017-2018  Cédric Bonhomme - https://www.cedricbonhomme.org
+#
+# For more information : https://github.com/cedricbonhomme/Freshermeat
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 import os
 import uuid
 from flask import Blueprint, render_template, redirect, url_for, flash, \
@@ -156,6 +177,7 @@ def form(project_id=None):
 @project_bp.route('/edit/<int:project_id>', methods=['POST'])
 @login_required
 def process_form(project_id=None):
+    """Process the form for the creation/edition of projects."""
     form = AddProjectForm()
     form.organization_id.choices = [(0, '')]
     form.organization_id.choices.extend([(org.id, org.name) for org in

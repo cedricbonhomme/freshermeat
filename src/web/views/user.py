@@ -1,3 +1,24 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
+# Freshermeat - An open source software directory and release tracker.
+# Copyright (C) 2017-2018  Cédric Bonhomme - https://www.cedricbonhomme.org
+#
+# For more information : https://github.com/cedricbonhomme/Freshermeat
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import login_required, current_user
 from werkzeug import generate_password_hash
@@ -19,6 +40,7 @@ def get(login=None):
 @user_bp.route('/profile', methods=['GET'])
 @login_required
 def form():
+    """Returns a form for the creation/edition of users."""
     user = User.query.filter(User.id == current_user.id).first()
     form = ProfileForm(obj=user)
     form.populate_obj(current_user)
@@ -33,6 +55,7 @@ def form():
 @user_bp.route('/profile', methods=['POST'])
 @login_required
 def process_form():
+    """Process the form for the creation/edition of users."""
     form = ProfileForm()
 
     if not form.validate():

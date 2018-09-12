@@ -1,3 +1,24 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
+# Freshermeat - An open source software directory and release tracker.
+# Copyright (C) 2017-2018  Cédric Bonhomme - https://www.cedricbonhomme.org
+#
+# For more information : https://github.com/cedricbonhomme/Freshermeat
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 import os
 import uuid
 from flask import Blueprint, render_template, request, abort, redirect, url_for, flash
@@ -17,12 +38,14 @@ organizations_bp = Blueprint('organizations_bp', __name__,
 
 @organizations_bp.route('/', methods=['GET'])
 def list_organizations():
+    """Return the page which will display the list of organizations."""
     head_titles = ['Organizations']
     return render_template('organizations.html', head_titles=head_titles)
 
 
 @organization_bp.route('/<string:organization_name>', methods=['GET'])
 def get(organization_name=None):
+    """Return the organization given in parameter."""
     organization = Organization.query.filter(Organization.name == organization_name).first()
     if organization is None:
         abort(404)
@@ -33,7 +56,7 @@ def get(organization_name=None):
 
 @organization_bp.route('/<string:organization_name>/releases.atom', methods=['GET'])
 def recent_releases(organization_name=None):
-    """Generates a feed for the releases."""
+    """Generates a feed for the releases of an organization."""
     organization = Organization.query. \
                         filter(Organization.name==organization_name).first()
     if organization is None:
@@ -53,6 +76,7 @@ def recent_releases(organization_name=None):
 @organization_bp.route('/edit/<int:organization_id>', methods=['GET'])
 @login_required
 @admin_permission.require(http_exception=403)
+"""Returns a form for the creation/edition of organizations."""
 def form(organization_id=None):
     action = "Add an organization"
     head_titles = [action]
@@ -77,6 +101,7 @@ def form(organization_id=None):
 @login_required
 @admin_permission.require(http_exception=403)
 def process_form(organization_id=None):
+    """Process the form for the creation/edition of organizations."""
     form = AddOrganizationForm()
 
     if not form.validate():
@@ -133,7 +158,6 @@ def process_form(organization_id=None):
     try:
         db.session.commit()
     except Exception as e:
-        # TODO: display the error
         return redirect(url_for('organization_bp.form', organization_id=new_organization.id))
     # Logo
     f = form.logo.data
