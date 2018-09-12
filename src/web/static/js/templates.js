@@ -2,7 +2,7 @@ var cardProjectTemplate = _.template(
     '<div class="card">' +
       '<div class="card-body">' +
         '<h4 class="card-title"><%= project_name %></h4>' +
-        '<p class="card-text"><%= project_description %></p>' +
+        '<p class="card-text text-justify"><%= project_description %></p>' +
         '<a href="<%= project_details %>" class="btn btn-primary">Learn more</a>' +
       '</div>' +
     '</div>');
@@ -14,7 +14,7 @@ var projectHomeTemplate = _.template(
             '<h5 class="mb-1"><%= project_name %></h5>' +
             '<small>updated <%= project_last_update %></small>' +
         '</div>' +
-        '<p class="mb-1"><%= project_description %></p>' +
+        '<p class="mb-1 text-justify"><%= project_description %></p>' +
     '</a>');
 
 var projectTemplate = _.template(
@@ -34,7 +34,7 @@ var organizationTemplate = _.template(
             '<h5 class="mb-1"><%= organization_name %></h5>' +
             '<small>updated <%= organization_last_update %></small>' +
         '</div>' +
-        '<p class="mb-1"><%= organization_short_description %></p>' +
+        '<p class="mb-1 text-justify"><%= organization_short_description %></p>' +
     '</a>');
 
 // template for the users
