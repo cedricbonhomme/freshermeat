@@ -19,7 +19,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from flask import Blueprint, render_template, redirect, url_for, flash
+from flask import Blueprint, render_template, redirect, url_for, flash, abort
 from flask_login import login_required, current_user
 from werkzeug import generate_password_hash
 from bootstrap import db
@@ -34,6 +34,8 @@ user_bp = Blueprint('user_bp', __name__, url_prefix='/user')
 @user_bp.route('/<string:login>', methods=['GET'])
 def get(login=None):
     user = User.query.filter(User.login == login).first()
+    if user is None:
+        abort(404)
     return render_template('user.html', user=user)
 
 
