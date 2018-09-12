@@ -64,7 +64,7 @@ $(document).ready(function() {
                     datasets: [{
                         data: Object.values(licenses),
                         borderWidth: 1,
-                        backgroundColor: _.times(Object.keys(licenses).length, pastelColorMaker)
+                        backgroundColor: colors.concat(_.times(Object.keys(licenses).length, pastelColorMaker))
                     }]
                 },
                 options: {
@@ -101,7 +101,7 @@ $(document).ready(function() {
                     datasets: [{
                         data: Object.values(languages),
                         borderWidth: 1,
-                        backgroundColor: colors
+                        backgroundColor: colors.concat(_.times(Object.keys(languages).length, pastelColorMaker))
                     }]
                 },
                 options: {
@@ -159,7 +159,7 @@ $(document).ready(function() {
                     datasets: [{
                         data: Object.values(organizations),
                         borderWidth: 1,
-                        backgroundColor: colors
+                        backgroundColor: colors.concat(_.times(Object.keys(organizations).length, pastelColorMaker))
                     }]
                 },
                 options: {
@@ -185,7 +185,7 @@ $(document).ready(function() {
                     datasets: [{
                         data: Object.values(time_laps),
                         borderWidth: 1,
-                        backgroundColor: colors
+                        backgroundColor: colors.concat(_.times(Object.keys(time_laps).length, pastelColorMaker))
                     }]
                 }//,
                 // options: {
@@ -211,7 +211,7 @@ $(document).ready(function() {
                     datasets: [{
                         data: Object.values(submitters),
                         borderWidth: 1,
-                        backgroundColor: colors
+                        backgroundColor: colors.concat(_.times(Object.keys(submitters).length, pastelColorMaker))
                     }]
                 },
                 options: {
