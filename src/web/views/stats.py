@@ -60,10 +60,14 @@ def activity():
     result['<= 12 weeks'] = db.session.query(Project). \
                 filter(Project.last_updated >= now -
                                                 timedelta(weeks=12)).count()
-    result['12 weeks - 36 weeks'] = db.session.query(Project). \
+    result['12 weeks - 24 weeks'] = db.session.query(Project). \
+                filter(Project.last_updated.between(
+                                            now - timedelta(weeks=24),
+                                            now - timedelta(weeks=12))).count()
+    result['24 weeks - 36 weeks'] = db.session.query(Project). \
                 filter(Project.last_updated.between(
                                             now - timedelta(weeks=36),
-                                            now - timedelta(weeks=12))).count()
+                                            now - timedelta(weeks=24))).count()
     result['36 weeks - 1 year'] = db.session.query(Project). \
                 filter(Project.last_updated.between(
                                             now - timedelta(weeks=52),
