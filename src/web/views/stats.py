@@ -78,26 +78,26 @@ def activity():
     period of weeks)."""
     now = datetime.today()
     result = {}
-    result['<= 12 weeks'] = db.session.query(Project). \
+    result['les than 1 month'] = db.session.query(Project). \
                 filter(Project.last_updated >= now -
-                                                timedelta(weeks=12)).count()
-    result['12 weeks - 24 weeks'] = db.session.query(Project). \
+                                                timedelta(weeks=4)).count()
+    result['between 1 and 3 months'] = db.session.query(Project). \
                 filter(Project.last_updated.between(
-                                            now - timedelta(weeks=24),
-                                            now - timedelta(weeks=12))).count()
-    result['24 weeks - 36 weeks'] = db.session.query(Project). \
+                                            now - timedelta(weeks=13),
+                                            now - timedelta(weeks=4))).count()
+    result['between 3 and 6 months'] = db.session.query(Project). \
                 filter(Project.last_updated.between(
-                                            now - timedelta(weeks=36),
-                                            now - timedelta(weeks=24))).count()
-    result['36 weeks - 1 year'] = db.session.query(Project). \
+                                            now - timedelta(weeks=26),
+                                            now - timedelta(weeks=13))).count()
+    result['between 6 months and 1 year'] = db.session.query(Project). \
                 filter(Project.last_updated.between(
                                             now - timedelta(weeks=52),
-                                            now - timedelta(weeks=36))).count()
-    result['1 year - 2 years'] = db.session.query(Project). \
+                                            now - timedelta(weeks=26))).count()
+    result['between 1 and 2 years'] = db.session.query(Project). \
                 filter(Project.last_updated.between(
                                             now - timedelta(weeks=104),
                                             now - timedelta(weeks=52))).count()
-    result['>= 2 years'] = db.session.query(Project). \
+    result['more than 2 years'] = db.session.query(Project). \
                 filter(Project.last_updated <= now -
                                                 timedelta(weeks=104)).count()
     return jsonify(result)
