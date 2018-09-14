@@ -78,7 +78,7 @@ def activity():
     period of weeks)."""
     now = datetime.today()
     result = {}
-    result['les than 1 month'] = db.session.query(Project). \
+    result['less than 1 month'] = db.session.query(Project). \
                 filter(Project.last_updated >= now -
                                                 timedelta(weeks=4)).count()
     result['between 1 and 3 months'] = db.session.query(Project). \
