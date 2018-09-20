@@ -20,6 +20,10 @@ Main functionalities are the following:
 - management of organizations.
 
 
+Freshermeat instance for tracking security-oriented projects:  
+[https://open-source-security-software.net](https://open-source-security-software.net)
+
+
 ## Deployment
 
 ### Requirements
