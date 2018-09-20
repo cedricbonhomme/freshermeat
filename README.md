@@ -9,7 +9,8 @@
 
 ## Presentation
 
-Freshermeat is an open source software directory and release tracker.
+[Freshermeat](https://gitlab.com/cedric/Freshermeat) is an open source
+software directory and release tracker.
 Main functionalities are the following:
 
 - software release tracking;
@@ -37,7 +38,7 @@ And finally [pew](https://github.com/berdario/pew) and
 
 
 ```bash
-$ git clone https://github.com/cedricbonhomme/Freshermeat.git
+$ git clone https://gitlab.com/cedric/Freshermeat
 $ cd Freshermeat/
 $ pipenv install
 ✨🍰✨
