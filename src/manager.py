@@ -162,6 +162,8 @@ def fetch_releases():
     Retrieves the new releases of the projects."""
     github_releases = web.models.Project.query.filter(
             web.models.Project.automatic_release_tracking.like('github:%'))
+    gitlab_releases = web.models.Project.query.filter(
+            web.models.Project.automatic_release_tracking.like('gitlab:%'))
     changelog_releases = web.models.Project.query.filter(
             web.models.Project.automatic_release_tracking.like('changelog:%'))
 
@@ -169,11 +171,13 @@ def fetch_releases():
     queue = asyncio.Queue(maxsize=5, loop=loop)
 
     producer_coro_github = fetch_release.retrieve_github(queue, github_releases)
+    producer_coro_gitlab = fetch_release.retrieve_gitlab(queue, gitlab_releases)
     producer_coro_changelog = fetch_release.retrieve_changelog(queue,
                                                             changelog_releases)
     consumer_coro = fetch_release.insert_releases(queue)
 
     loop.run_until_complete(asyncio.gather(producer_coro_github,
+                                           producer_coro_gitlab,
                                            producer_coro_changelog,
                                            consumer_coro))
     loop.close()

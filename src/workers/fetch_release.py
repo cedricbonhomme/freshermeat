@@ -31,6 +31,29 @@ from web.models import Release, get_or_create
 async def retrieve_changelog(queue, projects):
     pass
 
+
+async def retrieve_gitlab(queue, projects):
+    for project in projects:
+        print('Retrieving releases for {}'.format(project.name))
+        api_url=project.automatic_release_tracking.split(':', 1)[1]
+        try:
+            r = requests.get(api_url)
+        except Exception as e:
+            print(e)
+        tags = json.loads(r.text)
+        releases = []
+        for tag in tags:
+            releases.append({
+                'tag_name': tag['release']['tag_name'],
+                'body': tag['release']['description'],
+                'published_at': tag['commit']['authored_date'],
+                'html_url': '',
+                'tarball_url': ''
+            })
+        await queue.put((project.id, json.loads(r.text)))
+    await queue.put(None)
+
+
 async def retrieve_github(queue, projects):
     for project in projects:
         print('Retrieving releases for {}'.format(project.name))
