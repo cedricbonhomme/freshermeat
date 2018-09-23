@@ -1,28 +1,40 @@
 Freshermeat Changelog
 =====================
 
+## next release
+
+- added the possibility for any user to submit a project to the directory;
+- added the possibility to define dependents and dependencies for projects;
+- added the possibility to import projects from any GitLab instances (even the
+  tags);
+- added the possibility to delete a release;
+- improved the statistics page (mainly the graph of projects activity);
+- improved the template for the project description page;
+- improved the dashboard for administrators;
+- various improvements and fixes.
+
 ## 0.5.0 (2018-06-27)
 
 - implemented similar projects
-  [#10](https://github.com/cedricbonhomme/Freshermeat/issues/10);
+  [#10](https://gitlab.com/cedric/Freshermeat/issues/10);
 - the statistics page has been improved with two new charts: a pie chart for
   the activity of the projects and a pie for the number of projects submitted
   per contributor. The tag cloud has also been improved;
 - added social share buttons for projects
-  [#8](https://github.com/cedricbonhomme/Freshermeat/issues/8);
+  [#8](https://gitlab.com/cedric/Freshermeat/issues/8);
 - the dashboard for administrators has been improved;
 - the layout of the services page has been improved;
 - fixed a bug: Hardcoded url in about box (to register your project)
-  [#9](https://github.com/cedricbonhomme/Freshermeat/issues/9);
+  [#9](https://gitlab.com/cedric/Freshermeat/issues/9);
 - various UI improvements.
 
 ## 0.4.0 (2018-06-05)
 
 - It is now possible to import project from GitLab or GitHub just by giving
-  an URL [#7](https://github.com/cedricbonhomme/Freshermeat/issues/7);
+  an URL [#7](https://gitlab.com/cedric/Freshermeat/issues/7);
 - It is also possible to add new projects thanks to a bookmarklet;
 - Pages have now meaningful titles
-  [#5](https://github.com/cedricbonhomme/Freshermeat/issues/5);
+  [#5](https://gitlab.com/cedric/Freshermeat/issues/5);
 - A new profile page for non-admin users has been added;
 - The name of the instance is configurable;
 - Improved the layout of the page to create/edit projects;

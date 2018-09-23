@@ -4,7 +4,7 @@
   "license": "AGPL-3.0",
   "repository": {
     "type": "git",
-    "url": "git://github.com/cedricbonhomme/freshermeat.git"
+    "url": "git://gitlab.com/cedric/freshermeat.git"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.2.0",
