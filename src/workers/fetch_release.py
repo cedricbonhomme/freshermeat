@@ -33,14 +33,17 @@ async def retrieve_changelog(queue, projects):
 
 
 async def retrieve_gitlab(queue, projects):
+    """Producer coro: retrieve releases from GitLab."""
     for project in projects:
-        print('Retrieving releases for {}'.format(project.name))
+        print('Retrieving releases for {} (GitLab coroutine)'.format(project.name))
         api_url=project.automatic_release_tracking.split(':', 1)[1]
         try:
             r = requests.get(api_url)
         except Exception as e:
             print(e)
         tags = json.loads(r.text)
+
+        # construct the list of releases for the consumer coroutine
         releases = []
         for tag in tags:
             releases.append({
@@ -50,13 +53,14 @@ async def retrieve_gitlab(queue, projects):
                 'html_url': '',
                 'tarball_url': ''
             })
-        await queue.put((project.id, json.loads(r.text)))
+        await queue.put((project.id, releases))
     await queue.put(None)
 
 
 async def retrieve_github(queue, projects):
+    """Producer coro: retrieve releases from GitHub."""
     for project in projects:
-        print('Retrieving releases for {}'.format(project.name))
+        print('Retrieving releases for {} (GitHub coroutine)'.format(project.name))
         url = '{api_url}?client_id={client_id}&client_secret={client_secret}'. \
                 format(api_url=project.automatic_release_tracking.split(':', 1)[1],
                 client_id=application.config.get('GITHUB_CLIENT_ID', ''),
@@ -68,7 +72,9 @@ async def retrieve_github(queue, projects):
         await queue.put((project.id, json.loads(r.text)))
     await queue.put(None)
 
+
 async def insert_releases(queue):
+    """Consumer coro: insert new releases in the database."""
     while True:
         item = await queue.get()
         if item is None:
@@ -76,19 +82,28 @@ async def insert_releases(queue):
 
         project_id, releases = item
         for release in releases:
+            published_at = None
             try:
                 tag_name = release['tag_name']
             except Exception as e:
                 print(e)
                 continue
+            # check if the release is not already in the database
             if Release.query.filter(
                         and_(Release.project_id==project_id,
                             Release.version==tag_name)).count() == 0:
+
                 try:
                     published_at = datetime.strptime(release['published_at'],
                                                      "%Y-%m-%dT%H:%M:%SZ")
+                    if not published_at:
+                        datetime.strptime(release['published_at'],
+                                            "%Y-%m-%dT%H:%M:%S.000Z")
                 except:
-                    published_at = datetime.utcnow()
+                    pass
+                finally:
+                    if not published_at:
+                        published_at = datetime.utcnow()
                 new_release = Release(version=release['tag_name'],
                                       changes=release['body'],
                                       release_url=release['html_url'],
