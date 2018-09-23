@@ -25,7 +25,7 @@ from wtforms import (TextField, TextAreaField, PasswordField, BooleanField,
                      SelectField, SubmitField, validators, HiddenField,
                      SelectMultipleField)
 from flask_wtf.file import FileField
-from flask_wtf.html5 import URLField
+from wtforms.fields.html5 import URLField
 from wtforms.validators import url
 
 from lib import misc_utils
