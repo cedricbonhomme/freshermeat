@@ -5,7 +5,7 @@ import json
 import requests
 from urllib.parse import urlparse
 
-from web.models import Project, License
+from web.models import Project, License, Tag
 from bootstrap import db, application
 
 
@@ -45,5 +45,10 @@ def import_project_from_gitlab(repository, submitter_id):
     except Exception as e:
         db.session.rollback()
         return 'ERROR:OBSCURE'
+
+    for tag in project['tag_list']:
+        new_tag = Tag(text=tag.strip(), project_id=new_project.id)
+        db.session.add(new_tag)
+    db.session.commit()
 
     return new_project.name
