@@ -10,6 +10,16 @@
     </div>
   </div>
 </div>
+<div id="messageModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div id="modal-content" class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Error</h5>
+        </div>
+        <div class="modal-body"></div>
+    </div>
+  </div>
+</div>
 <div class="container">
     <div class="row">
         <div class="col">
@@ -25,11 +35,11 @@
                 </thead>
                 <tbody>
                 {% for release in project.releases %}
-                    <tr code-id="{{ release.id }}">
+                    <tr release-id="{{ release.id }}">
                         <td>{{ loop.index }}</td>
                         <td>{{ release.version }}</td>
                         <td>{{ release.published_at }}</td>
-                        <th><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;<i class="fa fa-trash delete-code" aria-hidden="true"></i></th>
+                        <th class="delete-release"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;<i class="fa fa-trash delete-code" aria-hidden="true"></i></th>
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -38,4 +48,28 @@
         </div>
     </div>
 </div><!-- /.container -->
+<script>
+$(document).ready(function() {
+    $( ".delete-code" ).on( "click", function() {
+        answer = confirm('You are going to delete this release.');
+        if (!answer) {
+            return;
+        }
+        var row = $(this).closest('tr');
+        $.ajax({
+            type: "DELETE",
+            url: "{{ url_for('releaseapi0.releaseapi',) }}" + "/" + row.attr('release-id'),
+            dataType: "json",
+            contentType: "application/json",
+            success: function(result) {
+                row.remove();
+            },
+            error: function(e) {
+                $('.modal-body').html(e.statusText);
+                $('#messageModal').modal('show');
+            }
+        });
+    });
+})
+</script>
 {% endblock %}
