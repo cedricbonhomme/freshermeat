@@ -21,7 +21,7 @@
 
 import json
 import requests
-from datetime import datetime
+import maya
 from sqlalchemy import and_
 
 from bootstrap import db, application
@@ -35,7 +35,8 @@ async def retrieve_changelog(queue, projects):
 async def retrieve_gitlab(queue, projects):
     """Producer coro: retrieve releases from GitLab."""
     for project in projects:
-        print('Retrieving releases for {} (GitLab coroutine)'.format(project.name))
+        print('Retrieving releases for {} (GitLab coroutine)'. \
+                format(project.name))
         api_url=project.automatic_release_tracking.split(':', 1)[1]
         try:
             r = requests.get(api_url)
@@ -60,11 +61,12 @@ async def retrieve_gitlab(queue, projects):
 async def retrieve_github(queue, projects):
     """Producer coro: retrieve releases from GitHub."""
     for project in projects:
-        print('Retrieving releases for {} (GitHub coroutine)'.format(project.name))
+        print('Retrieving releases for {} (GitHub coroutine)'. \
+                format(project.name))
         url = '{api_url}?client_id={client_id}&client_secret={client_secret}'. \
-                format(api_url=project.automatic_release_tracking.split(':', 1)[1],
-                client_id=application.config.get('GITHUB_CLIENT_ID', ''),
-                client_secret=application.config.get('GITHUB_CLIENT_SECRET', ''))
+            format(api_url=project.automatic_release_tracking.split(':', 1)[1],
+            client_id=application.config.get('GITHUB_CLIENT_ID', ''),
+            client_secret=application.config.get('GITHUB_CLIENT_SECRET', ''))
         try:
             r = requests.get(url)
         except Exception as e:
@@ -82,7 +84,6 @@ async def insert_releases(queue):
 
         project_id, releases = item
         for release in releases:
-            published_at = None
             try:
                 tag_name = release['tag_name']
             except Exception as e:
@@ -94,16 +95,12 @@ async def insert_releases(queue):
                             Release.version==tag_name)).count() == 0:
 
                 try:
-                    published_at = datetime.strptime(release['published_at'],
-                                                     "%Y-%m-%dT%H:%M:%SZ")
-                    if not published_at:
-                        datetime.strptime(release['published_at'],
-                                            "%Y-%m-%dT%H:%M:%S.000Z")
+                    published_at = maya.parse(release['published_at']). \
+                                    datetime(to_timezone='UTC', naive=True)
                 except:
-                    pass
-                finally:
-                    if not published_at:
-                        published_at = datetime.utcnow()
+                    published_at = maya.now(). \
+                                    datetime(to_timezone='UTC', naive=True)
+
                 new_release = Release(version=release['tag_name'],
                                       changes=release['body'],
                                       release_url=release['html_url'],
