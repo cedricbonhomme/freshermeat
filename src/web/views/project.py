@@ -357,10 +357,10 @@ def import_project(import_from=None):
         repository = request.args.get('project', None)
         if repository:
             try:
-                owner, repo = repository.split('/')[-2:]
-                result = globals()['import_'+import_from](owner, repo,
+                result = globals()['import_'+import_from](repository,
                                                             current_user.id)
                 result = result.split()[0]
+                # if the import is successful result is the name of the repo
             except:
                 pass
     else:
@@ -370,17 +370,16 @@ def import_project(import_from=None):
         flash('Impossible to import the project.', 'danger')
         return redirect(url_for('projects_bp.list_projects'))
 
-
     result = result.decode()
     if 'ERROR' in result:
         error_description = ERRORS[result]
         flash('{error}'.format(error=error_description), 'danger')
 
         if 'DUPLICATE_NAME' in result:
-            return redirect(url_for('project_bp.get', project_name=repo))
+            return redirect(url_for('project_bp.get', project_name=result))
         return redirect(url_for('projects_bp.list_projects'))
 
-    return redirect(url_for('project_bp.get', project_name=repo))
+    return redirect(url_for('project_bp.get', project_name=result))
 
 
 @project_bp.route('/bookmarklet', methods=['GET', 'POST'])
