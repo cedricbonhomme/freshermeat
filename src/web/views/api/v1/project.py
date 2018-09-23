@@ -42,4 +42,5 @@ blueprint_project = manager.create_api_blueprint(
         GET_MANY=[pre_get_many],
         POST=[processors.auth_func],
         PUT=[processors.auth_func],
-        DELETE=[processors.auth_func]))
+        DELETE=[processors.auth_func],
+        DELETE_SINGLE=[processors.auth_func]))

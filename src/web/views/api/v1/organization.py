@@ -33,4 +33,5 @@ blueprint_organization = manager.create_api_blueprint(
     preprocessors=dict(
         POST=[processors.auth_func],
         PUT=[processors.auth_func],
-        DELETE=[processors.auth_func]))
+        DELETE=[processors.auth_func],
+        DELETE_SINGLE=[processors.auth_func]))

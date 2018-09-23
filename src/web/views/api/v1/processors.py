@@ -33,6 +33,7 @@ from web.models import User, Service, Request
 logger = logging.getLogger(__name__)
 
 def auth_func(*args, **kw):
+    print('auth_func')
     if request.authorization:
         user = User.query.filter(User.login == request.authorization.username).first()
         if not user:
