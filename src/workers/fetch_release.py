@@ -47,13 +47,14 @@ async def retrieve_gitlab(queue, projects):
         # construct the list of releases for the consumer coroutine
         releases = []
         for tag in tags:
-            releases.append({
-                'tag_name': tag['release']['tag_name'],
-                'body': tag['release']['description'],
-                'published_at': tag['commit']['authored_date'],
-                'html_url': '',
-                'tarball_url': ''
-            })
+            if 'release' in tag and tag['release']:
+                releases.append({
+                    'tag_name': tag['release']['tag_name'],
+                    'body': tag['release']['description'],
+                    'published_at': tag['commit']['authored_date'],
+                    'html_url': '',
+                    'tarball_url': ''
+                })
         await queue.put((project.id, releases))
     await queue.put(None)
 
