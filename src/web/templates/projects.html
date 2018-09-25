@@ -81,6 +81,14 @@ $(document).ready(function() {
     if (typeof submitter_param !== 'undefined') {
          filters.push({"name": "submitter", "op": "has", "val": {"name":"login","op":"eq","val": submitter_param}});
     }
+    updated_before = getUrlParameter('updated_before');
+    if (typeof updated_before !== 'undefined') {
+         filters.push({"name": "last_updated", "op": "lt", "val": updated_before});
+    }
+    updated_since = getUrlParameter('updated_since');
+    if (typeof updated_since !== 'undefined') {
+         filters.push({"name": "last_updated", "op": "gt", "val": updated_since});
+    }
     load_projects_list(url, filters);
 });
 function load_projects_list(url, filters) {

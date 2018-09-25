@@ -187,13 +187,42 @@ $(document).ready(function() {
                         borderWidth: 1,
                         backgroundColor: colors.concat(_.times(Object.keys(time_laps).length, pastelColorMaker))
                     }]
-                }//,
-                // options: {
-                //     onClick: function(evt) {
-                //         var timelaps = myChart.getElementsAtEvent(evt)[0]._model.label;
-                //         window.location = '/project?last_updated='+timelaps;
-                //     }
-                // }
+                },
+                options: {
+                    onClick: function(evt) {
+                        var before = new Date();
+                        var after = new Date();
+                        var timelaps = myChart.getElementsAtEvent(evt)[0]._model.label;
+                        if (timelaps == "less than 1 month") {
+                            after.setMonth(after.getMonth() - 1);
+                            window.location = '/projects?updated_since='+after.toLocaleDateString();
+                        }
+                        if (timelaps == "between 1 and 3 months") {
+                            before.setMonth(before.getMonth() - 1);
+                            after.setMonth(after.getMonth() - 3);
+                            window.location = '/projects?updated_since='+after.toLocaleDateString()+'&updated_before='+before.toLocaleDateString();
+                        }
+                        if (timelaps == "between 3 and 6 months") {
+                            before.setMonth(before.getMonth() - 3);
+                            after.setMonth(after.getMonth() - 6);
+                            window.location = '/projects?updated_since='+after.toLocaleDateString()+'&updated_before='+before.toLocaleDateString();
+                        }
+                        if (timelaps == "between 6 months and 1 year") {
+                            before.setMonth(before.getMonth() - 6);
+                            after.setMonth(after.getMonth() - 12);
+                            window.location = '/projects?updated_since='+after.toLocaleDateString()+'&updated_before='+before.toLocaleDateString();
+                        }
+                        if (timelaps == "between 1 and 2 years") {
+                            before.setMonth(before.getMonth() - 12);
+                            after.setMonth(after.getMonth() - 24);
+                            window.location = '/projects?updated_since='+after.toLocaleDateString()+'&updated_before='+before.toLocaleDateString();
+                        }
+                        if (timelaps == "more than 2 years") {
+                            before.setMonth(before.getMonth() - 24);
+                            window.location = '/projects?updated_before='+before.toLocaleDateString();
+                        }
+                    }
+                }
             });
         }
     });
