@@ -8,10 +8,10 @@ Freshermeat Changelog
 - added the possibility to import projects from any GitLab instances (even the
   tags);
 - added the possibility to delete a release;
-- improved the statistics page (mainly the graph of projects activity);
+- improved the statistics page. Mainly the graph of projects activity which is
+  now clickable;
 - improved the template for the project description page;
-- improved the dashboard for administrators;
-- various improvements and fixes.
+- improved the dashboard for administrators.
 
 ## 0.5.0 (2018-06-27)
 
