@@ -73,16 +73,16 @@
                             {% endfor %}
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="dependents" role="tabpanel" aria-labelledby="dependents-tab">
+			<div class="tab-pane fade" id="dependencies" role="tabpanel" aria-labelledby="dependencies-tab">
                             <div class="list-group">
-                            {% for project in project.dependents  %}
+                            {% for project in project.dependencies  %}
                                 <a class="list-group-item list-group-item-action" href="{{ url_for('project_bp.get', project_name=project.name) }}">{{ project.name }}</a>
                             {% endfor %}
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="dependencies" role="tabpanel" aria-labelledby="dependencies-tab">
+                        <div class="tab-pane fade" id="dependents" role="tabpanel" aria-labelledby="dependents-tab">
                             <div class="list-group">
-                            {% for project in project.dependencies  %}
+                            {% for project in project.dependents  %}
                                 <a class="list-group-item list-group-item-action" href="{{ url_for('project_bp.get', project_name=project.name) }}">{{ project.name }}</a>
                             {% endfor %}
                             </div>
