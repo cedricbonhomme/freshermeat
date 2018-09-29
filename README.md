@@ -1,12 +1,5 @@
 # Freshermeat
 
-![Latest Release](https://img.shields.io/github/release/cedricbonhomme/Freshermeat.svg?style=flat-square)
-![License](https://img.shields.io/github/license/cedricbonhomme/Freshermeat.svg?style=flat-square)
-![Contributors](https://img.shields.io/github/contributors/cedricbonhomme/Freshermeat.svg?style=flat-square)
-![Stars](https://img.shields.io/github/stars/cedricbonhomme/Freshermeat.svg?style=flat-square)
-[![Say thanks to cedric](https://img.shields.io/badge/SayThanks.io-%E2%98%BC-1EAEDB.svg?style=flat-square)](https://saythanks.io/to/cedricbonhomme)
-
-
 ## Presentation
 
 [Freshermeat](https://gitlab.com/cedric/Freshermeat) is an open source
@@ -110,3 +103,5 @@ This software is licensed under
 [GNU Affero General Public License version 3](https://www.gnu.org/licenses/agpl-3.0.html)
 
 Copyright (C) 2017-2018 [Cédric Bonhomme](https://www.cedricbonhomme.org)
+
+[![Say thanks to cedric](https://img.shields.io/badge/SayThanks.io-%E2%98%BC-1EAEDB.svg?style=flat-square)](https://saythanks.io/to/cedricbonhomme)
