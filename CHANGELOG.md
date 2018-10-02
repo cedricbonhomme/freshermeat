@@ -1,7 +1,7 @@
 Freshermeat Changelog
 =====================
 
-## next release
+## 0.6 (2018-10-02)
 
 - added the possibility for any user to submit a project to the directory;
 - added the possibility to define dependents and dependencies for projects;
@@ -11,6 +11,7 @@ Freshermeat Changelog
 - improved the statistics page. Mainly the graph of projects activity which is
   now clickable;
 - improved the template for the project description page;
+- improved the releases fetcher;
 - improved the dashboard for administrators.
 
 ## 0.5.0 (2018-06-27)
