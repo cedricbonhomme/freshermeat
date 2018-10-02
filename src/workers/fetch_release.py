@@ -39,7 +39,7 @@ async def retrieve_gitlab(queue, projects):
                 format(project.name))
         api_url=project.automatic_release_tracking.split(':', 1)[1]
         try:
-            r = requests.get(api_url)
+            r = requests.get(api_url, timeout=5)
         except Exception as e:
             print(e)
         tags = json.loads(r.text)
@@ -69,7 +69,7 @@ async def retrieve_github(queue, projects):
             client_id=application.config.get('GITHUB_CLIENT_ID', ''),
             client_secret=application.config.get('GITHUB_CLIENT_SECRET', ''))
         try:
-            r = requests.get(url)
+            r = requests.get(url, timeout=5)
         except Exception as e:
             print(e)
         await queue.put((project.id, json.loads(r.text)))
