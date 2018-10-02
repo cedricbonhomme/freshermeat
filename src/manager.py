@@ -174,7 +174,7 @@ def fetch_releases():
     producer_coro_gitlab = fetch_release.retrieve_gitlab(queue, gitlab_releases)
     #producer_coro_changelog = fetch_release.retrieve_changelog(queue,
                                                             #changelog_releases)
-    consumer_coro = fetch_release.insert_releases(queue)
+    consumer_coro = fetch_release.insert_releases(queue, 2)
 
     loop.run_until_complete(asyncio.gather(producer_coro_github,
                                            producer_coro_gitlab,

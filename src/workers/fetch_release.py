@@ -27,6 +27,7 @@ from sqlalchemy import and_
 from bootstrap import db, application
 from web.models import Release, get_or_create
 
+TIMEOUT = 2
 
 async def retrieve_changelog(queue, projects):
     pass
@@ -35,13 +36,15 @@ async def retrieve_changelog(queue, projects):
 async def retrieve_gitlab(queue, projects):
     """Producer coro: retrieve releases from GitLab."""
     for project in projects:
-        print('Retrieving releases for {} (GitLab coroutine)'. \
+        print('Retrieving releases for {} (via GitLab coroutine)'. \
                 format(project.name))
         api_url=project.automatic_release_tracking.split(':', 1)[1]
         try:
-            r = requests.get(api_url, timeout=5)
+            r = requests.get(api_url, timeout=TIMEOUT)
         except Exception as e:
             print(e)
+        if r.status_code != 200:
+            continue
         tags = json.loads(r.text)
 
         # construct the list of releases for the consumer coroutine
@@ -62,26 +65,35 @@ async def retrieve_gitlab(queue, projects):
 async def retrieve_github(queue, projects):
     """Producer coro: retrieve releases from GitHub."""
     for project in projects:
-        print('Retrieving releases for {} (GitHub coroutine)'. \
+        print('Retrieving releases for {} (via GitHub coroutine)'. \
                 format(project.name))
         url = '{api_url}?client_id={client_id}&client_secret={client_secret}'. \
             format(api_url=project.automatic_release_tracking.split(':', 1)[1],
             client_id=application.config.get('GITHUB_CLIENT_ID', ''),
             client_secret=application.config.get('GITHUB_CLIENT_SECRET', ''))
         try:
-            r = requests.get(url, timeout=5)
+            r = requests.get(url, timeout=TIMEOUT)
         except Exception as e:
             print(e)
-        await queue.put((project.id, json.loads(r.text)))
+        if r.status_code != 200:
+            continue
+        releases = json.loads(r.text)
+        await queue.put((project.id, releases))
     await queue.put(None)
 
 
-async def insert_releases(queue):
+async def insert_releases(queue, nḅ_producers=2):
     """Consumer coro: insert new releases in the database."""
+    nb_producers_done = 0
     while True:
         item = await queue.get()
         if item is None:
-            break
+            nb_producers_done += 1
+            if nb_producers_done == nḅ_producers:
+                print('All producers done.')
+                print('Process finished.')
+                break
+            continue
 
         project_id, releases = item
         for release in releases:
