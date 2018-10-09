@@ -27,7 +27,7 @@ from flask_paginate import Pagination, get_page_args
 from bootstrap import db
 
 from web.views.common import admin_permission
-from web.models import Submission, License
+from web.models import Submission, License, Project
 from web.forms import SubmissionForm
 
 
@@ -77,8 +77,27 @@ def get(submission_id=None):
 @admin_permission.require(http_exception=403)
 def accept(submission_id=None):
     """Let an administrator accept a submission. In consequence this will
-    create a new project."""
-    pass
+    create a new project and then redirects the administrator to the project
+    edition page in order to finalize the creation."""
+    submission = Submission.query.filter(Submission.id == submission_id).first()
+    if submission is None:
+        abort(404)
+    new_project = Project(
+                    name=submission.project_name,
+                    short_description=submission.project_description,
+                    description='',
+                    website=submission.project_website)
+    new_project.licenses = submission.licenses
+    db.session.add(new_project)
+    try:
+        db.session.commit()
+        flash('Project {project_name} successfully updated.'.
+              format(project_name=new_project.name), 'success')
+    except Exception as e:
+        flash('Impossible to create the project.', 'danger')
+        return redirect(url_for('submissions_bp.get',
+                                submission_id=submission_id))
+    return redirect(url_for('project_bp.form', project_id=new_project.id))
 
 
 @submissions_bp.route('/submission/<int:submission_id>/toggle', methods=['GET'])
