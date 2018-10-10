@@ -104,4 +104,3 @@ This software is licensed under
 
 Copyright (C) 2017-2018 [Cédric Bonhomme](https://www.cedricbonhomme.org)
 
-[![Say thanks to cedric](https://img.shields.io/badge/SayThanks.io-%E2%98%BC-1EAEDB.svg?style=flat-square)](https://saythanks.io/to/cedricbonhomme)
