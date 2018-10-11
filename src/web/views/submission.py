@@ -137,12 +137,18 @@ def form_submission():
 
 
 @submission_bp.route('/', methods=['POST'])
-def process_submission_form(user_id=None):
+def process_submission_form():
     """Process the form for the new project submission."""
     form = SubmissionForm()
 
     if not form.validate():
         return render_template('submit.html', form=form)
+
+    project = Project.query.filter(Project.name == form.project_name.data). \
+                            first()
+    if project is not None:
+        flash('A project with the same name already exists.', 'danger')
+        return redirect(url_for('submission_bp.process_submission_form'))
 
     new_submission = Submission(project_name=form.project_name.data,
                            project_description=form.project_description.data,
@@ -151,7 +157,9 @@ def process_submission_form(user_id=None):
     try:
         db.session.commit()
     except Exception as e:
-        return redirect(url_for('submission_bp.form'))
+        print(e._message)
+        flash('Impossible to create the project.', 'danger')
+        return redirect(url_for('submission_bp.process_submission_form'))
     # Licenses
     for license_id in form.licenses.data:
         license = License.query.filter(License.id == license_id).first()
