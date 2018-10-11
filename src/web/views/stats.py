@@ -38,19 +38,33 @@ def stats():
 
 
 @stats_bp.route('/licenses.json', methods=['GET'])
-def licenses():
+@stats_bp.route('/<string:organization_name>/licenses.json', methods=['GET'])
+def licenses(organization_name=None):
     """Returns a JSON with the repartition of licenses per projects."""
-    result = db.session.query(License.name, func.count(License.id)). \
-                              join(License.projects).group_by(License.id).all()
+    query = db.session.query(License.name, func.count(License.id)). \
+                join(License.projects).group_by(License.id)
+    if organization_name:
+        org = Organization.query. \
+                    filter(Organization.name==organization_name).first()
+        if org:
+            query = query.filter(Project.organization_id==org.id)
+    result = query.all()
     return jsonify(dict(result))
 
 
 @stats_bp.route('/languages.json', methods=['GET'])
-def languages():
+@stats_bp.route('/<string:organization_name>/languages.json', methods=['GET'])
+def languages(organization_name=None):
     """Returns a JSON with the repartition of languages per projects."""
-    result = db.session.query(Language.name, func.count(Language.id)). \
-                              join(Language.projects). \
-                              group_by(Language.id).all()
+    query = db.session.query(Language.name, func.count(Language.id)). \
+                join(Language.projects). \
+                 group_by(Language.id)
+    if organization_name:
+        org = Organization.query. \
+                    filter(Organization.name==organization_name).first()
+        if org:
+            query = query.filter(Project.organization_id==org.id)
+    result = query.all()
     return jsonify(dict(result))
 
 
