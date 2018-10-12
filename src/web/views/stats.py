@@ -126,7 +126,6 @@ def activity(organization_name=None):
                 result[query] = result[query].filter(Project.organization_id==org.id)
 
     for query in result:
-        print(query)
         result[query] = result[query].count()
 
     return jsonify(result)
