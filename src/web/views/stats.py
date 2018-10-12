@@ -87,33 +87,48 @@ def organizations():
 
 
 @stats_bp.route('/activity.json', methods=['GET'])
-def activity():
+@stats_bp.route('/<string:organization_name>/activity.json', methods=['GET'])
+def activity(organization_name=None):
     """Returns a JSON with the number of projects sorted by activity (by
-    period of weeks)."""
+    period of weeks).
+    This function builds a dictionary of queries per time frame.
+    """
     now = datetime.today()
     result = {}
     result['less than 1 month'] = db.session.query(Project). \
                 filter(Project.last_updated >= now -
-                                                timedelta(weeks=4)).count()
+                                                timedelta(weeks=4))
     result['between 1 and 3 months'] = db.session.query(Project). \
                 filter(Project.last_updated.between(
                                             now - timedelta(weeks=13),
-                                            now - timedelta(weeks=4))).count()
+                                            now - timedelta(weeks=4)))
     result['between 3 and 6 months'] = db.session.query(Project). \
                 filter(Project.last_updated.between(
                                             now - timedelta(weeks=26),
-                                            now - timedelta(weeks=13))).count()
+                                            now - timedelta(weeks=13)))
     result['between 6 months and 1 year'] = db.session.query(Project). \
                 filter(Project.last_updated.between(
                                             now - timedelta(weeks=52),
-                                            now - timedelta(weeks=26))).count()
+                                            now - timedelta(weeks=26)))
     result['between 1 and 2 years'] = db.session.query(Project). \
                 filter(Project.last_updated.between(
                                             now - timedelta(weeks=104),
-                                            now - timedelta(weeks=52))).count()
+                                            now - timedelta(weeks=52)))
     result['more than 2 years'] = db.session.query(Project). \
                 filter(Project.last_updated <= now -
-                                                timedelta(weeks=104)).count()
+                                                timedelta(weeks=104))
+
+    if organization_name:
+        org = Organization.query. \
+                    filter(Organization.name==organization_name).first()
+        if org:
+            for query in result:
+                result[query] = result[query].filter(Project.organization_id==org.id)
+
+    for query in result:
+        print(query)
+        result[query] = result[query].count()
+
     return jsonify(result)
 
 
