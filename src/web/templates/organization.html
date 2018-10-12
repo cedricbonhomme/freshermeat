@@ -12,14 +12,33 @@
             <h3 id="organization-name">{{ organization.name }}</h3>
             <small><a href="{{ url_for('organization_bp.form', organization_id=organization.id) }}">Settings</a></small>
         </div>
-
         <div class="col-md">
             <div class="card">
                 <div class="card-body">
-                    <h5>Website</h5>
-                    <a href="{{ organization.website }}">{{ organization.website }}</a>
-                    <h5>Description</h5>
-                    <div><p class="text-justify">{{ organization.description }}</p></div>
+                    <div class="row">
+                        <div class="col-md">
+                            <h5>Website</h5>
+                        </div>
+                        <div class="col-md">
+                            <p><a href="{{ organization.website }}">{{ organization.website }}</a></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md">
+                            <h5>Description</h5>
+                        </div>
+                        <div class="col-md">
+                            <p>{{ organization.description }}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md">
+                            <h5>Organization type</h5>
+                        </div>
+                        <div class="col-md">
+                            <p>{{ organization.organization_type }}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -38,12 +57,12 @@
             <div id="list-projects"></div>
         </div>
     </div>
-    <br />
+
     <div class="row">
         <div class="col-md-12">
             <div>
                 <ol class="breadcrumb">
-                    <li id="section-stats" class="breadcrumb-item active">Stats</li>
+                    <li id="section-stats" class="breadcrumb-item active">Statistics</li>
                 </ol>
             </div>
         </div>
