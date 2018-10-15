@@ -36,9 +36,9 @@
 <body>
 {% block main_menu %}
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="/">{% if config.FRESHERMEAT_INSTANCE_NAME  %}{{ config.FRESHERMEAT_INSTANCE_NAME }}{% else %}Freshermeat{% endif %}</a>
+        <a class="navbar-brand d-inline-block  text-truncate" href="/">{% if config.FRESHERMEAT_INSTANCE_NAME  %}{{ config.FRESHERMEAT_INSTANCE_NAME }}{% else %}Freshermeat{% endif %}</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+            <span class="fa fa-bars fa-2"></span>
         </button>
 
         {% block menu_links %}
