@@ -5,12 +5,13 @@ import json
 import requests
 from urllib.parse import urlparse
 
-from web.models import Project, License, Tag
+from web.models import Project, Tag
 from bootstrap import db, application
 
 
 def import_project_from_gitlab(repository, submitter_id):
-    """Import a project from GitLab instance."""
+    """Imports a project hosted from GitLab.
+    """
     url_parts = urlparse(repository)
     gitlab_instance = url_parts.netloc
     owner, repo = url_parts.path.strip('/').split('/')

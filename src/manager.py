@@ -86,14 +86,6 @@ def create_admin(login, password):
 
 
 @manager.command
-def import_projects(json_file):
-    "Import projects from a JSON file"
-    print("Importing projects from {} ...".format(json_file))
-    with application.app_context():
-        scripts.import_projects(json_file)
-
-
-@manager.command
 def import_languages(json_file):
     "Import languages from a JSON file"
     print("Importing languages from {} ...".format(json_file))
@@ -102,11 +94,11 @@ def import_languages(json_file):
 
 
 @manager.command
-def import_projects_from_github(user):
+def import_starred_projects_from_github(user):
     "Import GitHub starred projects of a user."
     print("Importing GitHub starred projects of {} ...".format(user))
     with application.app_context():
-        scripts.import_projects_from_github(user)
+        scripts.import_starred_projects_from_github(user)
 
 
 @manager.command
