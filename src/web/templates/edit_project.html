@@ -65,7 +65,7 @@
             <div class="form-group col-md-4">
                 <label for="{{ form.logo.id }}" class="control-label">{{ form.logo.label }}</label>
                 <div>
-                    {{ form.logo(class_="form-control", placeholder='Optional') }}
+                    {{ form.logo(placeholder='Optional') }}
                 </div>
                 {% for error in form.logo.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
             </div>
