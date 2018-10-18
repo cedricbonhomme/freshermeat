@@ -88,10 +88,11 @@ def recent_releases():
                      feed_url=request.url, url=request.url_root)
     releases = Release.query.filter().order_by(desc(Release.published_at)).limit(100)
     for release in releases:
-        feed.add(release.version, release.changes,
-                 id=release.id,
-                 url=release.release_url,
-                 updated=release.published_at)
+        feed.add('{} {}'.format(release.project.name, release.version),
+                    release.changes,
+                    id=release.id,
+                    url=release.release_url,
+                    updated=release.published_at)
     return feed.get_response()
 
 
