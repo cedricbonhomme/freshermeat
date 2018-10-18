@@ -77,8 +77,9 @@ def index():
     """Returns the home page."""
     nb_projects = Project.query.filter().count()
     nb_releases = Release.query.filter().count()
+    nb_cves = CVE.query.filter().count()
     return render_template('index.html', nb_projects=nb_projects,
-                            nb_releases=nb_releases)
+                            nb_releases=nb_releases, nb_cves=nb_cves)
 
 
 @current_app.route('/releases.atom', methods=['GET'])
