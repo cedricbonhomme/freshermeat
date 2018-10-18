@@ -2,6 +2,7 @@
 {% block head %}
 {{ super() }}
     <link href="{{ url_for('project_bp.recent_releases', project_name=project.name) }}" rel="alternate" title="Recent releases for {{project.name}}" type="application/atom+xml">
+    <link href="{{ url_for('project_bp.recent_cves', project_name=project.name) }}" rel="alternate" title="Recent CVEs for {{project.name}}" type="application/atom+xml">
 {% endblock %}
 {% block content %}
 <div class="container-fluid">
