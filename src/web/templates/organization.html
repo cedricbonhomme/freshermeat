@@ -99,7 +99,7 @@ $(document).ready(function() {
         success: function(projects) {
             projects.objects
             .sort(function (a, b) {
-                return a.name > b.name ;
+                return a.last_updated < b.last_updated;
             })
             .map(function (project) {
                 var cardHTML = cardProjectTemplate({
