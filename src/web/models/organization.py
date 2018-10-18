@@ -16,7 +16,7 @@ class Organization(db.Model):
     short_description = db.Column(db.String(400))
     organization_type = db.Column(db.String(100), default='')
     website = db.Column(db.String(), default='')
-    last_updated = db.Column(db.DateTime(), default=datetime.utcnow())
+    last_updated = db.Column(db.DateTime(), default=datetime.utcnow)
 
     cve_vendor = db.Column(db.String(), default='')
 
