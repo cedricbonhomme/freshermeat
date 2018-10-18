@@ -129,10 +129,27 @@ def recent_releases(project_name=None):
     feed = AtomFeed('Recent releases for {}'.format(project.name),
                      feed_url=request.url, url=request.url_root)
     for release in project.releases:
-        feed.add(release.version, release.changes,
-                 id=release.id,
-                 url=release.release_url,
-                 updated=release.published_at)
+        feed.add('{} {}'.format(release.project.name, release.version),
+                    release.changes,
+                    id=release.id,
+                    url=release.release_url,
+                    updated=release.published_at)
+    return feed.get_response()
+
+
+@project_bp.route('/<string:project_name>/cves.atom', methods=['GET'])
+def recent_cves(project_name=None):
+    """Generates a feed for the CVEs."""
+    project = Project.query.filter(Project.name == project_name).first()
+    if project is None:
+        abort(404)
+    feed = AtomFeed('Recent CVEs for {}'.format(project.name),
+                     feed_url=request.url, url=request.url_root)
+    for cve in project.cves:
+        feed.add(cve.cve_id, cve.summary,
+                 id=cve.id,
+                 url='http://cve.circl.lu/cve/' + cve.cve_id,
+                 updated=cve.published_at)
     return feed.get_response()
 
 

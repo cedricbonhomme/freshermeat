@@ -139,7 +139,7 @@
             <br />
             <div class="card">
                 <div class="card-body">
-                    <h5>Recent CVEs</h5>
+                    <h5>Recent CVEs <a href="{{ url_for('project_bp.recent_cves', project_name=project.name) }}"><i class="fas fa-rss-square" aria-hidden="true" title="Recent releases for {{ project.name }}"></i></a></h5>
                     <div id="list-cves" class="list-group"></div>
                 </div>
             </div>
