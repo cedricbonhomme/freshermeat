@@ -26,7 +26,7 @@ from flask import (render_template, url_for, redirect, current_app, flash,
 from werkzeug.contrib.atom import AtomFeed
 from sqlalchemy import desc
 
-from web.models import Release, Project
+from web.models import Release, Project, CVE
 from bootstrap import application
 
 logger = logging.getLogger(__name__)
@@ -92,6 +92,20 @@ def recent_releases():
                  id=release.id,
                  url=release.release_url,
                  updated=release.published_at)
+    return feed.get_response()
+
+
+@current_app.route('/cves.atom', methods=['GET'])
+def recent_cves():
+    """Generates a feed for the CVEs."""
+    feed = AtomFeed('Recent CVEs',
+                     feed_url=request.url, url=request.url_root)
+    cves = CVE.query.filter().order_by(desc(CVE.published_at)).limit(100)
+    for cve in cves:
+        feed.add(cve.cve_id, cve.summary,
+                 id=cve.id,
+                 url='http://cve.circl.lu/cve/' + cve.cve_id,
+                 updated=cve.published_at)
     return feed.get_response()
 
 
