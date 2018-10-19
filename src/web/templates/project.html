@@ -113,21 +113,21 @@
                     </ul>
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="similar" role="tabpanel" aria-labelledby="similar-tab">
-                            <div class="list-group">
+                            <div class="list-group list-group-flush">
                             {% for project_similar in similar  %}
                                 <a class="list-group-item list-group-item-action" href="{{ url_for('project_bp.get', project_name=project_similar[0]) }}">{{ project_similar[0] }}</a>
                             {% endfor %}
                             </div>
                         </div>
 			            <div class="tab-pane fade" id="dependencies" role="tabpanel" aria-labelledby="dependencies-tab">
-                            <div class="list-group">
+                            <div class="list-group list-group-flush">
                             {% for project in project.dependencies  %}
                                 <a class="list-group-item list-group-item-action" href="{{ url_for('project_bp.get', project_name=project.name) }}">{{ project.name }}</a>
                             {% endfor %}
                             </div>
                         </div>
                         <div class="tab-pane fade" id="dependents" role="tabpanel" aria-labelledby="dependents-tab">
-                            <div class="list-group">
+                            <div class="list-group list-group-flush">
                             {% for project in project.dependents  %}
                                 <a class="list-group-item list-group-item-action" href="{{ url_for('project_bp.get', project_name=project.name) }}">{{ project.name }}</a>
                             {% endfor %}
