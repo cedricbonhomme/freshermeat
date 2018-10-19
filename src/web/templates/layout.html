@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='npm_components/bootstrap-select/dist/css/bootstrap-select.css') }}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='npm_components/datatables.net-bs4/css/dataTables.bootstrap4.css') }}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='npm_components/@fortawesome/fontawesome-free/css/all.min.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='npm_components/fork-awesome/css/fork-awesome.min.css') }}" />
     {% endblock %}
     <script src="{{ url_for('static', filename='npm_components/jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ url_for('static', filename='npm_components/popper.js/dist/umd/popper.min.js') }}"></script>
@@ -61,7 +61,7 @@
                                 <div class="input-group mb-3">
                                     <input class="form-control" type="url" name="project" id="inlineFormInputGroupGitLab" placeholder="GitLab link" aria-label="GitLab link" required />
                                     <div class="input-group-append">
-                                        <button type="submit" class="btn btn-outline-secondary"><i class="fas fa-download" title="Import from GitLab"></i></button>
+                                        <button type="submit" class="btn btn-outline-secondary"><i class="fa fa-download" title="Import from GitLab"></i></button>
                                     </div>
                                 </div>
                             </form>
@@ -71,7 +71,7 @@
                                 <div class="input-group mb-3">
                                     <input class="form-control" type="url" name="project" id="inlineFormInputGroupGitHub" placeholder="GitHub link" aria-label="GitHub link" required />
                                     <div class="input-group-append">
-                                        <button type="submit" class="btn btn-outline-secondary"><i class="fas fa-download" title="Import from GitHub"></i></button>
+                                        <button type="submit" class="btn btn-outline-secondary"><i class="fa fa-download" title="Import from GitHub"></i></button>
                                     </div>
                                 </div>
                             </form>
@@ -88,7 +88,7 @@
                 {% if current_user.is_authenticated %}
                 {% if current_user.is_admin %}
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-cogs" aria-hidden="true"></i></a>
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cogs" aria-hidden="true"></i></a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item" href="{{ url_for('admin_bp.dashboard') }}">Dashboard</a>
                         <div class="dropdown-divider"></div>
@@ -101,7 +101,7 @@
                 </li>
                 {% endif %}
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user" aria-hidden="true"></i></a>
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i></a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownUser">
                         <span class="dropdown-item" title="Schemas"><span class="text-muted">Signed in as</span><br /><b>{{ current_user.login }}</b></span>
                         <div class="dropdown-divider"></div>
@@ -115,7 +115,7 @@
                     <a class="nav-link" href="{{ url_for('about') }}" title="About">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('login') }}" title="Sign in"><i class="fas fa-sign-in-alt"></i></a>
+                    <a class="nav-link" href="{{ url_for('login') }}" title="Sign in"><i class="fa fa-sign-in-alt"></i></a>
                 </li>
                 {% endif %}
             </ul>

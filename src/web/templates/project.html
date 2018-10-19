@@ -18,20 +18,20 @@
         </div>
         <div class="col-md-8 text-right">
             <a href="https://api.pinboard.in/v1/posts/add?url={{ project.website }}&description={{ project.name }}" target="_blank" title="Share on Pinboard">
-                <i class="fas fa-thumbtack"></i>
+                <i class="fa fa-thumb-tack" aria-hidden="true"></i>
             </a>
             <a href="http://www.newspipe.org/bookmark/bookmarklet?href={{ project.website }}&title={{ project.name }}" target="_blank" title="Share on Newspipe">
-            <i class="fas fa-newspaper"></i>
+                <i class="fa fa-newspaper" aria-hidden="true"></i>
             </a>
             <a href="https://reddit.com/submit?url={{ project.website }}&title={{ project.name }}" target="_blank" title="Share on Reddit">
-                <i class="fab fa-reddit-square"></i>
+                <i class="fa fa-reddit" aria-hidden="true"></i>
             </a>
             <a href="https://twitter.com/intent/tweet?url={{ project.website }}&text={{ project.name }}" target="_blank" title="Share on Twitter">
-                <i class="fab fa-twitter-square"></i>
+                <i class="fa fa-twitter" aria-hidden="true"></i>
             </a>
             <a href="https://plus.google.com/share?url={{ project.website }}" title="Share on Google +" onclick="javascript:window.open(this.href,
                 '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
-                <i class="fab fa-google-plus-square"></i>
+                <i class="fa fa-google-plus" aria-hidden="true"></i>
             </a>
         </div>
     </div>
@@ -153,11 +153,11 @@
                     </ul>
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="releases" role="tabpanel" aria-labelledby="releases-tab">
-                            <a href="{{ url_for('project_bp.recent_releases', project_name=project.name) }}"><i class="fas fa-rss-square" aria-hidden="true" title="Recent releases for {{ project.name }}"></i></a>
+                            <a href="{{ url_for('project_bp.recent_releases', project_name=project.name) }}"><i class="fa fa-rss-square" aria-hidden="true" title="Recent releases for {{ project.name }}"></i></a>
                             <div id="project-releases" class="list-group list-group-flush"></div>
                         </div>
 			            <div class="tab-pane fade" id="cves" role="tabpanel" aria-labelledby="cves-tab">
-                            <a href="{{ url_for('project_bp.recent_cves', project_name=project.name) }}"><i class="fas fa-rss-square" aria-hidden="true" title="Recent releases for {{ project.name }}"></i></a>
+                            <a href="{{ url_for('project_bp.recent_cves', project_name=project.name) }}"><i class="fa fa-rss-square" aria-hidden="true" title="Recent releases for {{ project.name }}"></i></a>
                             <div id="list-cves" class="list-group list-group-flush"></div>
                         </div>
                     </div>
