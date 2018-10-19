@@ -51,48 +51,7 @@
                     <p id="project-tags" class="btn-toolbar"></p>
                 </div>
             </div>
-            <br />
-            <div class="card">
-                <div class="card-body">
-                    <h5>Related projects</h5>
-                    <ul class="nav nav-tabs" id="myTab" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" id="similar-tab" data-toggle="tab" href="#similar" role="tab" aria-controls="similar" aria-selected="true">Similar</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="dependencies-tab" data-toggle="tab" href="#dependencies" role="tab" aria-controls="dependencies" aria-selected="false">Dependencies</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="dependents-tab" data-toggle="tab" href="#dependents" role="tab" aria-controls="dependents" aria-selected="false">Dependents</a>
-                        </li>
-                    </ul>
-                    <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade show active" id="similar" role="tabpanel" aria-labelledby="similar-tab">
-                            <div class="list-group">
-                            {% for project_similar in similar  %}
-                                <a class="list-group-item list-group-item-action" href="{{ url_for('project_bp.get', project_name=project_similar[0]) }}">{{ project_similar[0] }}</a>
-                            {% endfor %}
-                            </div>
-                        </div>
-			<div class="tab-pane fade" id="dependencies" role="tabpanel" aria-labelledby="dependencies-tab">
-                            <div class="list-group">
-                            {% for project in project.dependencies  %}
-                                <a class="list-group-item list-group-item-action" href="{{ url_for('project_bp.get', project_name=project.name) }}">{{ project.name }}</a>
-                            {% endfor %}
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="dependents" role="tabpanel" aria-labelledby="dependents-tab">
-                            <div class="list-group">
-                            {% for project in project.dependents  %}
-                                <a class="list-group-item list-group-item-action" href="{{ url_for('project_bp.get', project_name=project.name) }}">{{ project.name }}</a>
-                            {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
-
         <div class="col-md-4">
             <br />
             <div class="card">
@@ -140,17 +99,72 @@
             <br />
             <div class="card">
                 <div class="card-body">
-                    <h5>Recent CVEs <a href="{{ url_for('project_bp.recent_cves', project_name=project.name) }}"><i class="fas fa-rss-square" aria-hidden="true" title="Recent releases for {{ project.name }}"></i></a></h5>
-                    <div id="list-cves" class="list-group"></div>
+                    <h5>Related projects</h5>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="similar-tab" data-toggle="tab" href="#similar" role="tab" aria-controls="similar" aria-selected="true">Similar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="dependencies-tab" data-toggle="tab" href="#dependencies" role="tab" aria-controls="dependencies" aria-selected="false">Dependencies</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="dependents-tab" data-toggle="tab" href="#dependents" role="tab" aria-controls="dependents" aria-selected="false">Dependents</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="similar" role="tabpanel" aria-labelledby="similar-tab">
+                            <div class="list-group">
+                            {% for project_similar in similar  %}
+                                <a class="list-group-item list-group-item-action" href="{{ url_for('project_bp.get', project_name=project_similar[0]) }}">{{ project_similar[0] }}</a>
+                            {% endfor %}
+                            </div>
+                        </div>
+			            <div class="tab-pane fade" id="dependencies" role="tabpanel" aria-labelledby="dependencies-tab">
+                            <div class="list-group">
+                            {% for project in project.dependencies  %}
+                                <a class="list-group-item list-group-item-action" href="{{ url_for('project_bp.get', project_name=project.name) }}">{{ project.name }}</a>
+                            {% endfor %}
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="dependents" role="tabpanel" aria-labelledby="dependents-tab">
+                            <div class="list-group">
+                            {% for project in project.dependents  %}
+                                <a class="list-group-item list-group-item-action" href="{{ url_for('project_bp.get', project_name=project.name) }}">{{ project.name }}</a>
+                            {% endfor %}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="col-md-4">
             <br />
-            <h5>Recent releases <a href="{{ url_for('project_bp.recent_releases', project_name=project.name) }}"><i class="fas fa-rss-square" aria-hidden="true" title="Recent releases for {{ project.name }}"></i></a></h5>
-            <div id="project-releases" class="list-group"></div>
+            <div class="card">
+                <div class="card-body">
+                    <h5>News</h5>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="releases-tab" data-toggle="tab" href="#releases" role="tab" aria-controls="similar" aria-selected="true">Releases</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="cves-tab" data-toggle="tab" href="#cves" role="tab" aria-controls="dependencies" aria-selected="false">CVEs</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="releases" role="tabpanel" aria-labelledby="releases-tab">
+                            <a href="{{ url_for('project_bp.recent_releases', project_name=project.name) }}"><i class="fas fa-rss-square" aria-hidden="true" title="Recent releases for {{ project.name }}"></i></a>
+                            <div id="project-releases" class="list-group list-group-flush"></div>
+                        </div>
+			            <div class="tab-pane fade" id="cves" role="tabpanel" aria-labelledby="cves-tab">
+                            <a href="{{ url_for('project_bp.recent_cves', project_name=project.name) }}"><i class="fas fa-rss-square" aria-hidden="true" title="Recent releases for {{ project.name }}"></i></a>
+                            <div id="list-cves" class="list-group list-group-flush"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
     </div>
 </div><!-- /.container -->
 <script>
