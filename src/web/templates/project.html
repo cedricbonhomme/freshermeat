@@ -29,10 +29,6 @@
             <a href="https://twitter.com/intent/tweet?url={{ project.website }}&text={{ project.name }}" target="_blank" title="Share on Twitter">
                 <i class="fa fa-twitter" aria-hidden="true"></i>
             </a>
-            <a href="https://plus.google.com/share?url={{ project.website }}" title="Share on Google +" onclick="javascript:window.open(this.href,
-                '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
-                <i class="fa fa-google-plus" aria-hidden="true"></i>
-            </a>
         </div>
     </div>
 
@@ -119,7 +115,7 @@
                             {% endfor %}
                             </div>
                         </div>
-			            <div class="tab-pane fade" id="dependencies" role="tabpanel" aria-labelledby="dependencies-tab">
+			<div class="tab-pane fade" id="dependencies" role="tabpanel" aria-labelledby="dependencies-tab">
                             <div class="list-group list-group-flush">
                             {% for project in project.dependencies  %}
                                 <a class="list-group-item list-group-item-action" href="{{ url_for('project_bp.get', project_name=project.name) }}">{{ project.name }}</a>
@@ -156,7 +152,7 @@
                             <a href="{{ url_for('project_bp.recent_releases', project_name=project.name) }}"><i class="fa fa-rss-square" aria-hidden="true" title="Recent releases for {{ project.name }}"></i></a>
                             <div id="project-releases" class="list-group list-group-flush"></div>
                         </div>
-			            <div class="tab-pane fade" id="cves" role="tabpanel" aria-labelledby="cves-tab">
+			<div class="tab-pane fade" id="cves" role="tabpanel" aria-labelledby="cves-tab">
                             <a href="{{ url_for('project_bp.recent_cves', project_name=project.name) }}"><i class="fa fa-rss-square" aria-hidden="true" title="Recent releases for {{ project.name }}"></i></a>
                             <div id="list-cves" class="list-group list-group-flush"></div>
                         </div>
@@ -255,7 +251,7 @@ $(document).ready(function() {
 
 
     var releaseTemplate = _.template(
-        '<a href="<%= release_url %>" class="list-group-item list-group-item-action flex-column align-items-start" title="<%= changes %>">' +
+	'<a href="<%= release_url %>" class="list-group-item list-group-item-action flex-column align-items-start" title="<%= changes %>">' +
           '<div class="d-flex w-100 justify-content-between">' +
             '<h5 class="mb-1"><%= version %></h5>' +
             '<small>published <%= published_at %></small>' +
