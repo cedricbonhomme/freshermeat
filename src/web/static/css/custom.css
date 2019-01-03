@@ -6,6 +6,7 @@ body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
     padding-top: 56px;
+    background-color: rgb(246, 248, 250);
 }
 img {
     padding: 5px;
