@@ -19,28 +19,21 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from bootstrap import application, manager
+from bootstrap import manager
 
 from web import models
 from web.views.api.v1 import processors
 from web.views.api.v1.common import url_prefix
 
-
 def pre_get_many(search_params=None, **kw):
-    order_by = [{"field":"last_updated", "direction":"desc"}]
+    order_by = [{"field":"date", "direction":"desc"}]
     if 'order_by' not in search_params:
         search_params['order_by'] = []
     search_params['order_by'].extend(order_by)
 
-
-blueprint_project = manager.create_api_blueprint(
-    models.Project,
+blueprint_news = manager.create_api_blueprint(
+    models.News,
     url_prefix=url_prefix,
-    methods=['GET', 'POST', 'PUT', 'DELETE'],
-    exclude_columns=['requests', 'services', 'news'],
+    methods=['GET'],
     preprocessors=dict(
-        GET_MANY=[pre_get_many],
-        POST=[processors.auth_func],
-        PUT=[processors.auth_func],
-        DELETE=[processors.auth_func],
-        DELETE_SINGLE=[processors.auth_func]))
+        GET_MANY=[pre_get_many]))

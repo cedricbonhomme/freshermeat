@@ -75,6 +75,9 @@ class Project(db.Model):
                                order_by=desc('Release.published_at'))
     services = db.relationship('Service', backref='project', lazy='dynamic',
                                cascade='all,delete-orphan')
+    news = db.relationship('Feed', backref='project',
+                         cascade='all,delete-orphan',
+                            foreign_keys='[Feed.project_id]')
 
     @validates('name')
     def validates_name(self, key, value):
