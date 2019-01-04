@@ -160,6 +160,7 @@
                             <div id="list-cves" class="list-group list-group-flush"></div>
                         </div>
                         <div class="tab-pane fade" id="news" role="tabpanel" aria-labelledby="news-tab">
+                            <a href="{{ url_for('project_bp.recent_news', project_name=project.name) }}"><i class="fa fa-rss-square" aria-hidden="true" title="Recent news for {{ project.name }}"></i></a>
                             <div id="project-news" class="list-group list-group-flush"></div>
                         </div>
                     </div>
@@ -307,7 +308,7 @@ $(document).ready(function() {
         contentType: "application/json",
         success: function(news) {
             if (news.num_results == 0) {
-                $('#project-releases').append('No known releases.')
+                $('#project-news').append('No news.')
             }
             news.objects
             .sort(function (a, b) {

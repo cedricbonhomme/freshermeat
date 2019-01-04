@@ -188,6 +188,23 @@ def recent_cves(project_name=None):
     return feed.get_response()
 
 
+@project_bp.route('/<string:project_name>/news.atom', methods=['GET'])
+def recent_news(project_name=None):
+    """Generates a feed for the news."""
+    project = Project.query.filter(Project.name == project_name).first()
+    if project is None:
+        abort(404)
+    feed = AtomFeed('Recent news for {}'.format(project.name),
+                     feed_url=request.url, url=request.url_root)
+    for news in project.news:
+        feed.add('{}'.format(news.title),
+                    news.content,
+                    id=news.id,
+                    url=news.link,
+                    updated=news.published)
+    return feed.get_response()
+
+
 @project_bp.route('/create', methods=['GET'])
 @project_bp.route('/edit/<int:project_id>', methods=['GET'])
 @login_required
