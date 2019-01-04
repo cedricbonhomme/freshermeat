@@ -27,13 +27,13 @@ def upgrade():
                                     ondelete='CASCADE'),
             sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('article',
+    op.create_table('news',
             sa.Column('id', sa.Integer(), nullable=False),
             sa.Column('entry_id', sa.String(), default=""),
             sa.Column('link', sa.String(), default=""),
             sa.Column('title', sa.String(), default=""),
             sa.Column('content', sa.String(), default=""),
-            sa.Column('date', sa.DateTime(), default=datetime.utcnow),
+            sa.Column('published', sa.DateTime(), default=datetime.utcnow),
             sa.Column('retrieved_date', sa.DateTime(), default=datetime.utcnow),
             sa.Column('project_id', sa.Integer(), nullable=False),
             sa.Column('feed_id', sa.Integer(), nullable=False),

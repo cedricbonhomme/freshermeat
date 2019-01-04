@@ -4,7 +4,7 @@
 from bootstrap import db
 from datetime import datetime
 from sqlalchemy import desc, Index
-from web.models.article import Article
+from web.models.news import News
 
 
 class Feed(db.Model):
@@ -18,9 +18,9 @@ class Feed(db.Model):
     project_id = db.Column(db.Integer(), db.ForeignKey('project.id'))
 
     # relationship
-    articles = db.relationship(Article, backref='source', lazy='dynamic',
+    news = db.relationship(News, backref='source', lazy='dynamic',
                                cascade='all,delete-orphan',
-                               order_by=desc(Article.date))
+                               order_by=desc(News.published))
 
     # index
     idx_feed_pid = Index('project_id')

@@ -27,5 +27,6 @@ clamd = "*"
 pycvesearch = {git = "https://github.com/cve-search/PyCVESearch.git"}
 alembic = "*"
 maya = "*"
+feedparser = "*"
 
 [dev-packages]

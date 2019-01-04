@@ -26,7 +26,7 @@ from web.views.api.v1 import processors
 from web.views.api.v1.common import url_prefix
 
 def pre_get_many(search_params=None, **kw):
-    order_by = [{"field":"date", "direction":"desc"}]
+    order_by = [{"field":"published", "direction":"desc"}]
     if 'order_by' not in search_params:
         search_params['order_by'] = []
     search_params['order_by'].extend(order_by)

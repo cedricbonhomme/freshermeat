@@ -7,14 +7,14 @@ from datetime import datetime
 from sqlalchemy import Index
 
 
-class Article(db.Model):
+class News(db.Model):
     "Represent an article from a feed."
     id = db.Column(db.Integer(), primary_key=True)
     entry_id = db.Column(db.String(), nullable=False)
     link = db.Column(db.String())
     title = db.Column(db.String())
     content = db.Column(db.String())
-    date = db.Column(db.DateTime(), default=datetime.utcnow)
+    published = db.Column(db.DateTime(), default=datetime.utcnow)
     retrieved_date = db.Column(db.DateTime(), default=datetime.utcnow)
 
     project_id = db.Column(db.Integer(), db.ForeignKey('project.id'))
@@ -26,6 +26,6 @@ class Article(db.Model):
 
 
     def __repr__(self):
-        return "<Article(id=%d, entry_id=%s, title=%r, " \
+        return "<News(id=%d, entry_id=%s, title=%r, " \
                "date=%r, retrieved_date=%r)>" % (self.id, self.entry_id,
-                       self.title, self.date, self.retrieved_date)
+                       self.title, self.published, self.retrieved_date)

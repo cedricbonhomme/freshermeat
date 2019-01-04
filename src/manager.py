@@ -30,7 +30,7 @@ from sqlalchemy import and_
 
 import web.models
 import scripts
-from workers import fetch_cve, fetch_release
+from workers import fetch_cve, fetch_release, fetch_project_news
 
 
 logger = logging.getLogger('manager')
@@ -174,6 +174,14 @@ def fetch_releases():
                                            consumer_coro))
     loop.close()
 
+
+@manager.command
+def fetch_news():
+    """Automatic news tracking
+    Retrieves the new of the projects."""
+    feeds = web.models.Feed.query.all()
+
+    fetch_project_news.retrieve(feeds)
 
 
 if __name__ == '__main__':

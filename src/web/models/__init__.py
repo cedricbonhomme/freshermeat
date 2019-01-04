@@ -15,7 +15,7 @@ from .request import Request
 from .service import Service
 from .submission import Submission
 from .feed import Feed
-from .article import Article
+from .news import News
 
 __all__ = ['Project', 'License', 'Release', 'User',
            'Organization', 'Tag', 'Request', 'CVE',
