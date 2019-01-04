@@ -102,5 +102,4 @@ $ curl http://127.0.0.1:5000/api/v1/CVE
 This software is licensed under
 [GNU Affero General Public License version 3](https://www.gnu.org/licenses/agpl-3.0.html)
 
-Copyright (C) 2017-2018 [Cédric Bonhomme](https://www.cedricbonhomme.org)
-
+Copyright (C) 2017-2019 [Cédric Bonhomme](https://www.cedricbonhomme.org)
