@@ -299,7 +299,7 @@ $(document).ready(function() {
             '<h5 class="mb-1"><%= title %></h5>' +
             '<small>published <%= published %></small>' +
           '</div>' +
-          '<p class="mb-1 text-justify"><%= content %></p>' +
+          '<p class="mb-1 text-justify text-truncate"><%= content %></p>' +
         '</a>');
     var filters = [{"name": "project_id", "op": "eq", "val": "{{ project.id }}"}];
     $.ajax({
