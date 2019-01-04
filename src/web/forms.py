@@ -174,7 +174,7 @@ class CodeForm(FlaskForm):
     Management of code locations.
     """
     repository_url = TextField("Repository URL",
-            [validators.Required("Please enter your login.")])
+            [validators.Required("Please enter a repository URL.")])
     scm_type = SelectField("Repository type", [validators.Required()],
                                   coerce=str, choices = [
                                                 ('Git', 'Git'),
@@ -182,6 +182,15 @@ class CodeForm(FlaskForm):
                                                 ('Bazaar', 'Bazaar'),
                                                 ('Fossil', 'Fossil'),
                                                 ('Subversion', 'Subversion')])
+    submit = SubmitField("Save")
+
+
+class FeedForm(FlaskForm):
+    """
+    Management of feed locations.
+    """
+    link = TextField("Feed URL",
+            [validators.Required("Please enter a feed URL.")])
     submit = SubmitField("Save")
 
 

@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+{% block content %}
+<div id="messageModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div id="modal-content" class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Error</h5>
+        </div>
+        <div class="modal-body"></div>
+    </div>
+  </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h3>Feeds locations</h3>
+            <table id="table-codes" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Link</th>
+                        <th>Created date</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for feed in feeds %}
+                    <tr code-id="{{ feed.id }}">
+                        <td>{{ loop.index }}</td>
+                        <td>{{ feed.link }}</td>
+                        <td>{{ feed.created_date }}</td>
+                        <th><i class="fa fa-trash delete-code" aria-hidden="true"></i></th>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+
+            <h4>Add a new feed location</h4>
+            <form action="" method="post">
+                {{ form.hidden_tag() }}
+
+                <div class="form-group">
+                {{ form.link(class_="form-control", placeholder='Feed URL') }}
+                </div>
+                {% for message in form.link.errors %}
+                    <div class="alert alert-warning" role="alert">{{ message }}</div>
+                {% endfor %}
+
+                {{ form.submit(class_="btn btn-default") }}
+            </form>
+        </div>
+    </div>
+</div><!-- /.container -->
+<script>
+$(document).ready(function() {
+$( ".delete-code" ).on( "click", function() {
+    answer = confirm('You are going to delete this feed location.');
+    if (!answer) {
+        return;
+    }
+    var row = $(this).closest('tr');
+    $.ajax({
+        type: "DELETE",
+        url: "{{ url_for('feedapi0.feedapi',) }}" + "/" + row.attr('code-id'),
+        dataType: "json",
+        contentType: "application/json",
+        success: function(result) {
+            row.remove();
+        },
+        error: function(e) {
+            $('.modal-body').html(e.statusText);
+            $('#messageModal').modal('show');
+        }
+    });
+});
+});
+</script>
+{% endblock %}

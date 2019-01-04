@@ -28,8 +28,8 @@ from werkzeug.contrib.atom import AtomFeed
 
 from bootstrap import db, application
 from web.models import get_or_create, Project, Code, Organization, Tag, Icon, \
-                       License, Language
-from web.forms import AddProjectForm, CodeForm
+                       License, Language, Feed
+from web.forms import AddProjectForm, CodeForm, FeedForm
 from web.utils.misc import similar_projects
 from web.utils.spawn import ERRORS, import_github, import_gitlab
 
@@ -118,6 +118,41 @@ def edit_releases(project_name=None):
     if project is None:
         abort(404)
     return render_template('edit_releases.html', project=project)
+
+
+@project_bp.route('/<string:project_name>/feeds', methods=['GET'])
+def feed(project_name=None):
+    project = Project.query.filter(Project.name == project_name).first()
+    if project is None:
+        abort(404)
+    feeds = Feed.query.filter(Feed.project_id == project.id)
+    form = FeedForm()
+    return render_template('feed.html', project=project, feeds=feeds,
+                            form=form)
+
+
+@project_bp.route('/<string:project_name>/feeds', methods=['POST'])
+@login_required
+def feed_locations_process(project_name=None):
+    """Process the new f"""
+    project = Project.query.filter(Project.name == project_name).first()
+    if project is None:
+        abort(404)
+    feeds = Feed.query.filter(Feed.project_id == project.id)
+    form = FeedForm()
+    if not form.validate():
+        return render_template('feed.html', project=project, feeds=feeds,
+                                form=form)
+    new_feed = Feed(link=form.link.data,
+                    project_id=project.id)
+    db.session.add(new_feed)
+    try:
+        db.session.commit()
+        flash('New feed successfully created.', 'success')
+    except Exception as e:
+        flash('Impossible to add a new feed.', 'success')
+    return render_template('feed.html', project=project, feeds=feeds,
+                            form=form)
 
 
 @project_bp.route('/<string:project_name>/releases.atom', methods=['GET'])
