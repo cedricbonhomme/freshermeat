@@ -8,6 +8,7 @@
     <meta name="author" content="" />
     <link href="{{ url_for('recent_releases') }}" rel="alternate" title="Recent releases" type="application/atom+xml" />
     <link href="{{ url_for('recent_cves') }}" rel="alternate" title="Recent CVEs" type="application/atom+xml" />
+    <link href="{{ url_for('recent_news') }}" rel="alternate" title="Recent news" type="application/atom+xml" />
     {% block head_css %}
     <link rel="stylesheet" href="{{ url_for('static', filename='npm_components/bootstrap/dist/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='npm_components/bootstrap-select/dist/css/bootstrap-select.css') }}" />

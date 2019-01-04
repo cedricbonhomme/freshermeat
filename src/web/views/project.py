@@ -199,7 +199,7 @@ def recent_news(project_name=None):
     for news in project.news:
         feed.add('{}'.format(news.title),
                     news.content,
-                    id=news.id,
+                    id=news.entry_id,
                     url=news.link,
                     updated=news.published)
     return feed.get_response()
