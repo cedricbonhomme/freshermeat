@@ -5,7 +5,7 @@ import logging
 import feedparser
 from time import mktime
 from datetime import datetime
-
+from sqlalchemy import and_
 
 from bootstrap import db
 from web.models import News
@@ -17,7 +17,7 @@ def retrieve(feeds):
     """
     Launch the processus.
     """
-    # Launch the process for all the projects
+    # Launch the process for all the feeds
     logger.info('Retrieving news...')
     for feed in feeds:
         try:
@@ -27,7 +27,8 @@ def retrieve(feeds):
         for entry in data['entries']:
 
             exist = News.query. \
-                    filter(News.entry_id==entry.id). \
+                    filter(and_(News.entry_id==entry.id,
+                                News.project_id==feed.project_id)). \
                     count()
 
             if exist:
