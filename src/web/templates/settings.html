@@ -11,6 +11,7 @@
             <div class="card">
                 <div class="card-body">
                     <a href="{{ url_for('project_bp.form', project_id=project.id) }}">Edit project description</a>
+                    <p class="text-justify">Edit the title, description, licenses, tags, etc. of the project.</p>
                 </div>
             </div>
         </div>
@@ -18,6 +19,7 @@
             <div class="card">
                 <div class="card-body">
                     <a href="{{ url_for('project_bp.code_locations', project_name=project.name) }}">Edit code locations</a>
+                    <p class="text-justify">Management of code locations (Git, Mercurial, etc.).</p>
                 </div>
             </div>
         </div>
@@ -36,7 +38,7 @@
             <div class="card">
                 <div class="card-body">
                     <a href="{{ url_for('project_bp.feed', project_name=project.name) }}">Edit project feeds</a>
-                    <p class="text-justify">For the fetching of news related to the project.</p>
+                    <p class="text-justify">For the fetching of news (RSS and ATOM) related to the project.</p>
                 </div>
             </div>
         </div>
