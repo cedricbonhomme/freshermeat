@@ -299,11 +299,10 @@ $(document).ready(function() {
             '<h5 class="mb-1"><%= title %></h5>' +
             '<small>published <%= published %></small>' +
           '</div>' +
-          '<p class="mb-1 text-justify text-truncate"><%= content %></p>' +
         '</a>');
     var filters = [{"name": "project_id", "op": "eq", "val": "{{ project.id }}"}];
     $.ajax({
-        url: "{{ url_for('newsapi0.newsapi',) }}",
+        url: "{{ url_for('newsapi0.newsapi',) }}" + "?results_per_page=50",
         data: {"q": JSON.stringify({"filters": filters})},
         dataType: "json",
         contentType: "application/json",
@@ -319,8 +318,7 @@ $(document).ready(function() {
                 var cardHTML = newsTemplate({
                     'news_url': elem.link,
                     'title': elem.title,
-                    'published': moment(elem.published).fromNow(),
-                    'content': elem.content
+                    'published': moment(elem.published).fromNow()
                 });
                 $('#project-news').append(cardHTML);
             })
