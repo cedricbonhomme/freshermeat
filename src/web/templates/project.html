@@ -181,6 +181,8 @@ function loadCVEs() {
           '</div>' +
           '<p class="mb-1 text-justify"><%= cve_summary %></p>' +
         '</a>');
+    $('#list-cves').empty();
+    $('#list-cves').append('<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>');
     var filters = [{"name": "project_id", "op": "eq", "val": "{{ project.id }}"}];
     $.ajax({
         url: "{{ url_for('CVEapi0.CVEapi',) }}",
@@ -188,6 +190,7 @@ function loadCVEs() {
         dataType: "json",
         contentType: "application/json",
         success: function(cves) {
+            $('#list-cves').empty();
             if (cves.num_results == 0) {
                 $('#list-cves').append('No known vulnerabilities.')
             }
@@ -217,6 +220,8 @@ function loadReleases() {
           '</div>' +
           '<p class="mb-1 text-justify text-truncate"><%= changes %></p>' +
         '</a>');
+    $('#project-releases').empty();
+    $('#project-releases').append('<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>');
     var filters = [{"name": "project_id", "op": "eq", "val": "{{ project.id }}"}];
     $.ajax({
         url: "{{ url_for('releaseapi0.releaseapi',) }}",
@@ -224,6 +229,7 @@ function loadReleases() {
         dataType: "json",
         contentType: "application/json",
         success: function(releases) {
+            $('#project-releases').empty();
             if (releases.num_results == 0) {
                 $('#project-releases').append('No known releases.')
             }
@@ -252,6 +258,8 @@ function loadNews() {
             '<small>published <%= published %></small>' +
           '</div>' +
         '</a>');
+    $('#project-news').empty();
+    $('#project-news').append('<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>');
     var filters = [{"name": "project_id", "op": "eq", "val": "{{ project.id }}"}];
     $.ajax({
         url: "{{ url_for('newsapi0.newsapi',) }}",
@@ -259,6 +267,7 @@ function loadNews() {
         dataType: "json",
         contentType: "application/json",
         success: function(news) {
+            $('#project-news').empty();
             if (news.num_results == 0) {
                 $('#project-news').append('No news.')
             }
