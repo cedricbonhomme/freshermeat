@@ -142,13 +142,13 @@
                     <h5>News</h5>
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" id="releases-tab" data-toggle="tab" href="#releases" role="tab" aria-controls="similar" aria-selected="true">Releases</a>
+                            <a class="nav-link active" id="releases-tab" data-toggle="tab" href="#releases" role="tab" aria-controls="similar" aria-selected="true" onclick="loadReleases()">Releases</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="cves-tab" data-toggle="tab" href="#cves" role="tab" aria-controls="dependencies" aria-selected="false">CVEs</a>
+                            <a class="nav-link" id="cves-tab" data-toggle="tab" href="#cves" role="tab" aria-controls="dependencies" aria-selected="false" onclick="loadCVEs()">CVEs</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="news-tab" data-toggle="tab" href="#news" role="tab" aria-controls="news" aria-selected="false">News</a>
+                            <a class="nav-link" id="news-tab" data-toggle="tab" href="#news" role="tab" aria-controls="news" aria-selected="false" onclick="loadNews()">News</a>
                         </li>
                     </ul>
                     <div class="tab-content" id="myTabContent">
@@ -172,6 +172,111 @@
     </div>
 </div><!-- /.container -->
 <script>
+function loadCVEs() {
+    var cveTemplate = _.template(
+        '<a href="<%= cve_url %>" class="list-group-item list-group-item-action flex-column align-items-start">' +
+          '<div class="d-flex w-100 justify-content-between">' +
+            '<h5 class="mb-1"><%= cve_id %></h5>' +
+            '<small>published <%= published_at %></small>' +
+          '</div>' +
+          '<p class="mb-1 text-justify"><%= cve_summary %></p>' +
+        '</a>');
+    var filters = [{"name": "project_id", "op": "eq", "val": "{{ project.id }}"}];
+    $.ajax({
+        url: "{{ url_for('CVEapi0.CVEapi',) }}",
+        data: {"q": JSON.stringify({"filters": filters})},
+        dataType: "json",
+        contentType: "application/json",
+        success: function(cves) {
+            if (cves.num_results == 0) {
+                $('#list-cves').append('No known vulnerabilities.')
+            }
+            cves.objects
+            .sort(function (a, b) {
+                return a.published_at < b.published_at;
+            })
+            .map(function(cve){
+                var cardHTML = cveTemplate({
+                    'cve_url': 'http://cve.circl.lu/cve/' + cve.cve_id,
+                    'cve_id': cve.cve_id,
+                    'published_at': moment(cve.published_at).fromNow(),
+                    'cve_summary': cve.summary
+                });
+             $('#list-cves').append(cardHTML);
+            })
+        }
+    });
+}
+
+function loadReleases() {
+    var releaseTemplate = _.template(
+    '<a href="<%= release_url %>" class="list-group-item list-group-item-action flex-column align-items-start" title="<%= changes %>">' +
+          '<div class="d-flex w-100 justify-content-between">' +
+            '<h5 class="mb-1"><%= version %></h5>' +
+            '<small>published <%= published_at %></small>' +
+          '</div>' +
+          '<p class="mb-1 text-justify text-truncate"><%= changes %></p>' +
+        '</a>');
+    var filters = [{"name": "project_id", "op": "eq", "val": "{{ project.id }}"}];
+    $.ajax({
+        url: "{{ url_for('releaseapi0.releaseapi',) }}",
+        data: {"q": JSON.stringify({"filters": filters})},
+        dataType: "json",
+        contentType: "application/json",
+        success: function(releases) {
+            if (releases.num_results == 0) {
+                $('#project-releases').append('No known releases.')
+            }
+            releases.objects
+            .sort(function (a, b) {
+                return a.published_at < b.published_at;
+            })
+            .map(function(release){
+                var cardHTML = releaseTemplate({
+                    'release_url': release.release_url,
+                    'version': release.version,
+                    'published_at': moment(release.published_at).fromNow(),
+                    'changes': release.changes
+                });
+                $('#project-releases').append(cardHTML);
+            })
+        }
+    });
+}
+
+function loadNews() {
+    var newsTemplate = _.template(
+    '<a href="<%= news_url %>" class="list-group-item list-group-item-action flex-column align-items-start" title="<%= title %>">' +
+          '<div class="d-flex w-100 justify-content-between">' +
+            '<h5 class="mb-1"><%= title %></h5>' +
+            '<small>published <%= published %></small>' +
+          '</div>' +
+        '</a>');
+    var filters = [{"name": "project_id", "op": "eq", "val": "{{ project.id }}"}];
+    $.ajax({
+        url: "{{ url_for('newsapi0.newsapi',) }}",
+        data: {"q": JSON.stringify({"filters": filters})},
+        dataType: "json",
+        contentType: "application/json",
+        success: function(news) {
+            if (news.num_results == 0) {
+                $('#project-news').append('No news.')
+            }
+            news.objects
+            .sort(function (a, b) {
+                return a.published < b.published;
+            })
+            .map(function(elem){
+                var cardHTML = newsTemplate({
+                    'news_url': elem.link,
+                    'title': elem.title,
+                    'published': moment(elem.published).fromNow()
+                });
+                $('#project-news').append(cardHTML);
+            })
+        }
+    });
+}
 $(document).ready(function() {
     // Get information about the project in the URL parameter
     // var url = window.location.pathname;
@@ -222,108 +327,7 @@ $(document).ready(function() {
         }
     });
 
-
-    var cveTemplate = _.template(
-        '<a href="<%= cve_url %>" class="list-group-item list-group-item-action flex-column align-items-start">' +
-          '<div class="d-flex w-100 justify-content-between">' +
-            '<h5 class="mb-1"><%= cve_id %></h5>' +
-            '<small>published <%= published_at %></small>' +
-          '</div>' +
-          '<p class="mb-1 text-justify"><%= cve_summary %></p>' +
-        '</a>');
-    var filters = [{"name": "project_id", "op": "eq", "val": "{{ project.id }}"}];
-    $.ajax({
-        url: "{{ url_for('CVEapi0.CVEapi',) }}",
-        data: {"q": JSON.stringify({"filters": filters})},
-        dataType: "json",
-        contentType: "application/json",
-        success: function(cves) {
-            if (cves.num_results == 0) {
-                $('#list-cves').append('No known vulnerabilities.')
-            }
-            cves.objects
-            .sort(function (a, b) {
-                return a.published_at < b.published_at;
-            })
-            .map(function(cve){
-                var cardHTML = cveTemplate({
-                    'cve_url': 'http://cve.circl.lu/cve/' + cve.cve_id,
-                    'cve_id': cve.cve_id,
-                    'published_at': moment(cve.published_at).fromNow(),
-                    'cve_summary': cve.summary
-                });
-             $('#list-cves').append(cardHTML);
-            })
-        }
-    });
-
-
-    var releaseTemplate = _.template(
-    '<a href="<%= release_url %>" class="list-group-item list-group-item-action flex-column align-items-start" title="<%= changes %>">' +
-          '<div class="d-flex w-100 justify-content-between">' +
-            '<h5 class="mb-1"><%= version %></h5>' +
-            '<small>published <%= published_at %></small>' +
-          '</div>' +
-          '<p class="mb-1 text-justify text-truncate"><%= changes %></p>' +
-        '</a>');
-    var filters = [{"name": "project_id", "op": "eq", "val": "{{ project.id }}"}];
-    $.ajax({
-        url: "{{ url_for('releaseapi0.releaseapi',) }}",
-        data: {"q": JSON.stringify({"filters": filters})},
-        dataType: "json",
-        contentType: "application/json",
-        success: function(releases) {
-            if (releases.num_results == 0) {
-                $('#project-releases').append('No known releases.')
-            }
-            releases.objects
-            .sort(function (a, b) {
-                return a.published_at < b.published_at;
-            })
-            .map(function(release){
-                var cardHTML = releaseTemplate({
-                    'release_url': release.release_url,
-                    'version': release.version,
-                    'published_at': moment(release.published_at).fromNow(),
-                    'changes': release.changes
-                });
-                $('#project-releases').append(cardHTML);
-            })
-        }
-    });
-
-
-    var newsTemplate = _.template(
-    '<a href="<%= news_url %>" class="list-group-item list-group-item-action flex-column align-items-start" title="<%= title %>">' +
-          '<div class="d-flex w-100 justify-content-between">' +
-            '<h5 class="mb-1"><%= title %></h5>' +
-            '<small>published <%= published %></small>' +
-          '</div>' +
-        '</a>');
-    var filters = [{"name": "project_id", "op": "eq", "val": "{{ project.id }}"}];
-    $.ajax({
-        url: "{{ url_for('newsapi0.newsapi',) }}" + "?results_per_page=50",
-        data: {"q": JSON.stringify({"filters": filters})},
-        dataType: "json",
-        contentType: "application/json",
-        success: function(news) {
-            if (news.num_results == 0) {
-                $('#project-news').append('No news.')
-            }
-            news.objects
-            .sort(function (a, b) {
-                return a.published < b.published;
-            })
-            .map(function(elem){
-                var cardHTML = newsTemplate({
-                    'news_url': elem.link,
-                    'title': elem.title,
-                    'published': moment(elem.published).fromNow()
-                });
-                $('#project-news').append(cardHTML);
-            })
-        }
-    });
+    loadReleases();
 });
 </script>
 {% endblock %}
