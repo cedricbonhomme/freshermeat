@@ -41,17 +41,17 @@ $ pipenv install
 ✨🍰✨
 $ pipenv shell
 
-(Freshermeat-8143_B8A)$ npm install
+(Freshermeat) $ npm install
 
-(Freshermeat-8143_B8A)$ export APPLICATION_SETTINGS=development.cfg
+(Freshermeat) $ export APPLICATION_SETTINGS=development.cfg
 
-(Freshermeat-8143_B8A)$ python src/manager.py db_create
-(Freshermeat-8143_B8A)$ python src/manager.py db_init
-(Freshermeat-8143_B8A)$ python src/manager.py create_admin <login> <password>
-(Freshermeat-8143_B8A)$ python src/manager.py import_projects var/projects.json
-(Freshermeat-8143_B8A)$ python src/manager.py import_osi_approved_licenses
+(Freshermeat) $ python src/manager.py db_create
+(Freshermeat) $ python src/manager.py db_init
+(Freshermeat) $ python src/manager.py create_admin <login> <password>
+(Freshermeat) $ python src/manager.py import_projects var/projects.json
+(Freshermeat) $ python src/manager.py import_osi_approved_licenses
 
-(Freshermeat-8143_B8A)$ python src/runserver.py
+(Freshermeat) $ python src/runserver.py
  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
  * Restarting with stat
  * Debugger is active!
@@ -74,26 +74,28 @@ $ sudo systemctl start clamav-daemon.service
   files posted by the users through the forms or the API.
 
 
+
 ## Workers
 
-You can launch the workers periodically with __cron__.
+Workers are located in the forder _src/workers/_ and can be lanched
+periodically with __cron__.
 
 ### Retrieving CVEs
 
 ```bash
-(Freshermeat-8143_B8A)$ python src/manager.py fetch_cves
-```
-
-It is possible to query the CVE API:
-
-```bash
-$ curl http://127.0.0.1:5000/api/v1/CVE
+(Freshermeat) $ python src/manager.py fetch_cves
 ```
 
 ### Release tracking
 
 ```bash
-(Freshermeat-8143_B8A)$ python src/manager.py fetch_releases
+(Freshermeat) $ python src/manager.py fetch_releases
+```
+
+### Retrieving news about projects
+
+```bash
+(Freshermeat) $ python src/manager.py fetch_news
 ```
 
 
