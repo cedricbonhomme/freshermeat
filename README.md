@@ -77,7 +77,7 @@ $ sudo systemctl start clamav-daemon.service
 
 ## Workers
 
-Workers are located in the forder _src/workers/_ and can be lanched
+Workers are located in the forder _src/workers/_ and can be launched
 periodically with __cron__.
 
 ### Retrieving CVEs
