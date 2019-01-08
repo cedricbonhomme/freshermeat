@@ -28,7 +28,11 @@
                 </a>
                 {% endif %}
             </h3>
-            <div id="list-projects" class="list-group"></div>
+            <div id="list-projects" class="list-group">
+	      <div class="d-flex justify-content-center">
+                  <div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>
+	      </div>
+	    </div>
         </div>
         <div class="col">
             <br />
@@ -39,9 +43,17 @@
                 </a>
                 {% endif %}
             </h3>
-            <div id="list-organizations"></div>
+            <div id="list-organizations">
+	        <div class="d-flex justify-content-center">
+                     <div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>
+	        </div>
+	    </div>
             <h3>People</h3>
-            <div id="list-people"></div>
+            <div id="list-people">
+	        <div class="d-flex justify-content-center">
+                    <div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>
+	        </div>
+	    </div>
         </div>
     </div>
 </div><!-- /.container -->
@@ -52,6 +64,7 @@ $(document).ready(function() {
         dataType: "json",
         contentType: "application/json",
         success: function(projects) {
+            $('#list-projects').empty();
             projects.objects
             .sort(function (a, b) {
                 return a.last_updated < b.last_updated;
@@ -73,6 +86,7 @@ $(document).ready(function() {
         dataType: "json",
         contentType: "application/json",
         success: function(organizations) {
+            $('#list-organizations').empty();
             organizations.objects
             .sort(function (a, b) {
                 return a.last_updated < b.last_updated;
@@ -94,6 +108,7 @@ $(document).ready(function() {
         dataType: "json",
         contentType: "application/json",
         success: function(users) {
+            $('#list-people').empty();
             users.objects
             .map(function (user) {
                 var cardHTML = userTemplate({
