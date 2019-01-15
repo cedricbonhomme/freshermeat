@@ -6,12 +6,10 @@
 software directory and release tracker.
 Main functionalities are the following:
 
-- software release tracking;
-- vulnerability tracking (CVE);
+- tracking of software releases, vulnerabilities (CVE) and news;
 - subscribe to releases of a project or an organization via an ATOM feed;
 - JSON-based API in order to manages projects, releases, CVEs, etc.;
 - management of organizations.
-
 
 Freshermeat instance for tracking security-oriented projects:  
 [https://open-source-security-software.net](https://open-source-security-software.net)
