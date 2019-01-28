@@ -26,7 +26,15 @@
             </form>
         </div>
     </div>
-    <div id="list-projects" class="list-group"></div>
+    <div class="row">
+        <div class="col-md">
+            <div id="list-projects" class="list-group">
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
     <br />
     <nav id="navigation" style="display: none;">
         <ul class="pagination">
@@ -38,7 +46,6 @@
             </li>
             <li class="page-item">
                 <a class="page-link" href="#" id="pagination2"></a>
-            </a>
             </li>
             <li class="page-item">
                 <a class="page-link" href="#" id="pagination3"></a>
@@ -92,13 +99,13 @@ $(document).ready(function() {
     load_projects_list(url, filters);
 });
 function load_projects_list(url, filters) {
-    $('#list-projects').empty();
     $.ajax({ // Get the list of projects
         url: url,
         data: {"q": JSON.stringify({"filters": filters})},
         dataType: "json",
         contentType: "application/json",
         success: function(projects) {
+                $('#list-projects').empty();
                 projects.objects
                 .sort(function (a, b) {
                     return a.last_updated < b.last_updated ;
