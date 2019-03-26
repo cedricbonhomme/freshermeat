@@ -2,7 +2,7 @@
 from datetime import datetime
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import validates
-from sqlalchemy import event, desc
+from sqlalchemy import event
 
 from bootstrap import db
 
@@ -72,7 +72,7 @@ class Project(db.Model):
                                cascade='all,delete-orphan')
     releases = db.relationship('Release', backref='project', lazy='dynamic',
                                cascade='all,delete-orphan',
-                               order_by=desc('Release.published_at'))
+                               order_by='desc(Release.published_at)')
     services = db.relationship('Service', backref='project', lazy='dynamic',
                                cascade='all,delete-orphan')
     news = db.relationship('News', backref='project', lazy='dynamic',
