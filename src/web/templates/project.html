@@ -298,15 +298,15 @@ $(document).ready(function() {
         contentType: "application/json",
         success: function(project) {
 
-            project.objects[0].tags.map(function(tag){
+            project.objects[0].tag_objs.map(function(tag){
                 var a = document.createElement('a');
-                var linkText = document.createTextNode(tag);
+                var linkText = document.createTextNode(tag.text);
                 a.appendChild(linkText);
-                a.setAttribute('title', tag);
+                a.setAttribute('title', tag.text);
                 a.setAttribute('class', 'btn btn-outline-dark btn-sm');
                 a.setAttribute('style', 'margin:1px');
-                a.setAttribute('href', '/projects/?tag='+tag);
-                $("#project-tags").append(a);
+                a.setAttribute('href', '/projects/?tag='+tag.text);
+                $("#project-tags").append(a.text);
                 $("#project-tags").append('&nbsp;');
             })
 
