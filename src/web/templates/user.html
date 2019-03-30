@@ -50,10 +50,10 @@ $(document).ready(function() {
                     'project_name': project.name,
                     'project_description': project.short_description,
                     'project_last_update': moment(project.last_updated).fromNow(),
-                    'project_tags': project.tags != 0 ?
+                    'project_tags': project.tag_objs != 0 ?
                                         '<i class="fa fa-tags" aria-hidden="true"></i>&nbsp;' +
-                                        project.tags.reduce(function(acc, tag) {
-                                            link = '<a href="/projects/?tag=' + tag + '" class="text-muted" style="text-decoration: none">' + tag + '</a>&nbsp;';
+                                        project.tag_objs.reduce(function(acc, tag) {
+                                            link = '<a href="/projects/?tag=' + tag.text + '" class="text-muted" style="text-decoration: none">' + tag.text + '</a>&nbsp;';
                                             return acc + link;
                                         }, '') : ''
                  });
@@ -79,10 +79,10 @@ $(document).ready(function() {
                     'project_name': project.name,
                     'project_description': project.short_description,
                     'project_last_update': moment(project.last_updated).fromNow(),
-                    'project_tags': project.tags != 0 ?
+                    'project_tags': project.tag_objs != 0 ?
                                         '<i class="fa fa-tags" aria-hidden="true"></i>&nbsp;' +
-                                        project.tags.reduce(function(acc, tag) {
-                                            link = '<a href="/projects/?tag=' + tag + '" class="text-muted" style="text-decoration: none">' + tag + '</a>&nbsp;';
+                                        project.tag_objs.reduce(function(acc, tag) {
+                                            link = '<a href="/projects/?tag=' + tag.text + '" class="text-muted" style="text-decoration: none">' + tag.text + '</a>&nbsp;';
                                             return acc + link;
                                         }, '') : ''
                  });
