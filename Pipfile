@@ -7,7 +7,6 @@ url = "https://pypi.python.org/simple"
 python_version = "3.7"
 
 [packages]
-"psycopg2" = "*"
 SQLAlchemy = "*"
 Flask = "*"
 Flask-SQLAlchemy = "*"
@@ -28,5 +27,6 @@ pycvesearch = {git = "https://github.com/cve-search/PyCVESearch.git"}
 alembic = "*"
 maya = "*"
 feedparser = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
