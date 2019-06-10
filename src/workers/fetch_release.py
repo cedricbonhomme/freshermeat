@@ -67,6 +67,7 @@ async def retrieve_github(queue, projects):
     for project in projects:
         print('Retrieving releases for {} (via GitHub coroutine)'. \
                 format(project.name))
+        r, releases = None, []
         url = '{api_url}?client_id={client_id}&client_secret={client_secret}'. \
             format(api_url=project.automatic_release_tracking.split(':', 1)[1],
             client_id=application.config.get('GITHUB_CLIENT_ID', ''),
@@ -75,7 +76,8 @@ async def retrieve_github(queue, projects):
             r = requests.get(url, timeout=TIMEOUT)
         except Exception as e:
             print(e)
-        if r.status_code != 200:
+            continue
+        if not r and r.status_code != 200:
             continue
         releases = json.loads(r.text)
         await queue.put((project.id, releases))
