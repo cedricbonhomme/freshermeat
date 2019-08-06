@@ -7,18 +7,18 @@
     "url": "git://gitlab.com/cedric/freshermeat.git"
   },
   "dependencies": {
-    "bootstrap": "^4.2.1",
-    "bootstrap-select": "^1.13.5",
+    "bootstrap": "^4.3.1",
+    "bootstrap-select": "^1.13.10",
     "chart.js": "^2.8.0",
-    "datatables": "^1.10.13",
-    "datatables.net": "^1.10.16",
-    "datatables.net-bs4": "^1.10.16",
+    "datatables": "^1.10.18",
+    "datatables.net": "^1.10.19",
+    "datatables.net-bs4": "^1.10.19",
     "fork-awesome": "^1.1.7",
-    "jquery": "^3.4.0",
-    "lodash": "^4.17.11",
-    "moment": "^2.23.0",
-    "popper.js": "^1.14.6",
-    "tinymce": "^5.0.3"
+    "jquery": "^3.4.1",
+    "lodash": "^4.17.15",
+    "moment": "^2.24.0",
+    "popper.js": "^1.15.0",
+    "tinymce": "^5.0.13"
   },
   "engines": {
     "yarn": ">= 1.0.0"
