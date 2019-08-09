@@ -25,18 +25,16 @@ $ sudo apt install postgresql npm
 
 ### Configure and install the application
 
-Before to begin you will need to install pipenv.  
-It is recommended to first install [pyenv](https://github.com/pyenv/pyenv),
-then [pipsi](https://github.com/mitsuhiko/pipsi).  
-And finally [pew](https://github.com/berdario/pew) and
-[pipenv](https://github.com/pypa/pipenv) with pipsi.
+Before to begin you will need to install pipenv.
+A convenient way to do so is to first install [pyenv](https://github.com/pyenv/pyenv),
+then [pipx](https://github.com/pipxproject/pipx).  
+And finally [pipenv](https://github.com/pypa/pipenv) with pipx.
 
 
 ```bash
 $ git clone https://gitlab.com/cedric/Freshermeat
 $ cd Freshermeat/
 $ pipenv install
-✨🍰✨
 $ pipenv shell
 
 (Freshermeat) $ npm install
