@@ -76,21 +76,6 @@
                         <div class="col"><a href="{{ url_for('user_bp.get', login=project.submitter.login) }}">{{ project.submitter.login }}</a></div>
                     </div>
                     {% endif %}
-                    {% if project.services.count() != 0 %}
-                        <div class="row">
-                            <div class="col">
-                                <hr />
-                                <h5>Related service(s)</h5>
-                            </div>
-                        </div>
-                    {% endif %}
-                    {% for service in project.services %}
-                        <div class="row">
-                            <div class="col">
-                                <p><a href="{{ url_for('service_bp.service', service_name=service.name) }}">{{ service.name }}</a></p>
-                            </div>
-                        </div>
-                    {% endfor %}
                 </div>
             </div>
             <br />
