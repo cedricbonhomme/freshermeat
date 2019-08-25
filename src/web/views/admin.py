@@ -31,7 +31,6 @@ from flask_admin.menu import MenuLink
 from werkzeug import generate_password_hash
 
 from web.views.common import admin_permission
-from notifications.notifications import new_request_notification
 from bootstrap import db
 from web.forms import UserForm
 from web import models
@@ -46,14 +45,13 @@ admin_bp = Blueprint('admin_bp', __name__, url_prefix='/admin')
 @admin_permission.require(http_exception=403)
 def dashboard():
     """Returns a simple dashboard for the administrators. This dashboard
-    shows key figures (number of projects, releases, submissions, requests,
+    shows key figures (number of projects, releases, submissions,
     users, etc.) about the platform."""
     nb_projects = models.Project.query.filter().count()
     nb_releases = models.Release.query.filter().count()
     nb_organizations = models.Organization.query.filter().count()
     nb_users = models.User.query.filter().count()
     nb_admin = models.User.query.filter(models.User.is_admin==True).count()
-    nb_requests = models.Request.query.filter().count()
     nb_unique_tags = models.Tag.query.distinct(models.Tag.text).count()
     nb_submissions = models.Submission.query.filter().count()
     nb_pending_submissions = models.Submission.query.filter(
@@ -61,114 +59,10 @@ def dashboard():
     return render_template('admin/dashboard.html',
                            nb_projects=nb_projects, nb_releases=nb_releases,
                            nb_users=nb_users, nb_admin=nb_admin,
-                           nb_requests=nb_requests,
                            nb_organizations=nb_organizations,
                            nb_unique_tags=nb_unique_tags,
                            nb_submissions=nb_submissions,
                            nb_pending_submissions=nb_pending_submissions)
-
-
-@admin_bp.route('/requests', defaults={'per_page': '10'}, methods=['GET'])
-@login_required
-@admin_permission.require(http_exception=403)
-def requests(per_page):
-    """Returns a page which displays a paginated lists of requests.
-    Only administrators can view this page."""
-    project_name = request.args.get('project', False)
-
-    requests = models.Request.query
-    if project_name:
-        project = models.Project.query.filter(models.Project.name == project_name).first()
-        if project:
-            requests = [service.request for service in project.services]
-            # requests = requests.filter(models.Service.project.has(
-            #                            models.Project.name==project.name))
-
-    page, per_page, offset = get_page_args()
-    pagination = Pagination(page=page, total=requests.count(),
-                            css_framework='bootstrap4',
-                            search=False, record_name='requests',
-                            per_page=per_page)
-
-    return render_template('admin/requests.html', requests=requests.order_by(
-                           desc(models.Request.created_at)
-                           ).offset(offset).limit(per_page),
-                           pagination=pagination)
-
-
-@admin_bp.route('/request/<request_id>', methods=['GET'])
-@login_required
-@admin_permission.require(http_exception=403)
-def view_request(request_id=None):
-    """Returns a page with details information about the request given if in
-    parameter. Only administrators can view this page."""
-    request = models.Request.query.filter(models.Request.id == request_id). \
-                                                                        first()
-    if request.required_informations is None:
-        request.required_informations = {}
-
-    if not request.checked:
-        request.checked = True
-        db.session.commit()
-
-    return render_template('admin/request.html', request=request)
-
-
-@admin_bp.route('/request/<request_id>/delete', methods=['GET'])
-@login_required
-@admin_permission.require(http_exception=403)
-def delete_request(request_id=None):
-    """Let an administrator delete a request."""
-    try:
-        models.Request.query.filter(models.Request.id == request_id).delete()
-        db.session.commit()
-        flash('Request deleted.', 'info')
-    except Exception as e:
-        flash('Impossible to delete request.', 'danger')
-    return redirect(url_for('admin_bp.dashboard'))
-
-
-@admin_bp.route('/request/<request_id>/mark_as_unchecked', methods=['GET'])
-@login_required
-@admin_permission.require(http_exception=403)
-def mark_as_unchecked(request_id=None):
-    """Let an administrator mark a request as unchecked."""
-    try:
-        req = models.Request.query.filter(models.Request.id == request_id) \
-                                  .first()
-        models.Request.query.filter(models.Request.id == request_id) \
-                            .update({'checked': not req.checked})
-        db.session.commit()
-    except Exception as e:
-        flash('Impossible to update the request.', 'danger')
-    return redirect(url_for('admin_bp.dashboard'))
-
-
-@admin_bp.route('/request/<request_id>/send_request_notification', methods=['GET'])
-@login_required
-@admin_permission.require(http_exception=403)
-def send_request_notification(request_id=None):
-    """When a new request has been processed a email is sent to the
-    administrator of the platform.
-    This route let an administrator manually trigger the sending of the
-    notification."""
-    req = None
-    try:
-        req = models.Request.query.filter(models.Request.id == request_id) \
-                                  .first()
-    except Exception as e:
-        flash('Request not found. Impossible to send email.', 'danger')
-    if req:
-        try:
-            # send the email
-            new_request_notification(req)
-            req.notification_sent = True
-            db.session.commit()
-            flash('Email sent.', 'info')
-        except Exception as e:
-            flash('Impossible to send email.', 'danger')
-            logger.exception('send_request_notification: ' + str(e))
-    return redirect(url_for('admin_bp.view_request', request_id=req.id))
 
 
 @admin_bp.route('/users', methods=['GET'])
@@ -280,5 +174,4 @@ admin_flask.add_view(SecureView(models.Project, db.session))
 admin_flask.add_view(SecureView(models.Organization, db.session))
 admin_flask.add_view(SecureView(models.License, db.session))
 admin_flask.add_view(SecureView(models.Language, db.session))
-admin_flask.add_view(SecureView(models.Service, db.session))
 admin_flask.add_link(menu_link_back_dashboard)
