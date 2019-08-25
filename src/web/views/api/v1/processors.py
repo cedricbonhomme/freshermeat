@@ -24,7 +24,6 @@ from flask import request
 from flask_login import current_user
 from flask_restless import ProcessingException
 
-import lib.checks
 from bootstrap import db
 from web.views.common import login_user_bundle
 from web.models import User

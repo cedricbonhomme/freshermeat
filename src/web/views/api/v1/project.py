@@ -37,7 +37,7 @@ blueprint_project = manager.create_api_blueprint(
     models.Project,
     url_prefix=url_prefix,
     methods=['GET', 'POST', 'PUT', 'DELETE'],
-    exclude_columns=['requests', 'services'],
+    exclude_columns=['releases', 'cves', 'news', 'dependencies'],
     preprocessors=dict(
         GET_MANY=[pre_get_many],
         POST=[processors.auth_func],
