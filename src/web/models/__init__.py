@@ -11,15 +11,13 @@ from .organization import Organization
 from .release import Release
 from .cve import CVE
 from .icon import Icon
-from .request import Request
-from .service import Service
 from .submission import Submission
 from .feed import Feed
 from .news import News
 
 __all__ = ['Project', 'License', 'Release', 'User',
-           'Organization', 'Tag', 'Request', 'CVE',
-           'Code', 'Service', 'Language',
+           'Organization', 'Tag', 'CVE',
+           'Code', 'Language',
            'Submission', 'Feed', 'News']
 
 from sqlalchemy.engine import reflection
@@ -44,7 +42,7 @@ def uml_graph(db):
                         mappers(User, Tag, Project, Code,
                                 License, Organization, Release,
                                 CVE, Icon, Language,
-                                Request, Service, Submission, Feed, News),
+                                Submission, Feed, News),
                         show_operations=False,
                         show_multiplicity_one=True
     )

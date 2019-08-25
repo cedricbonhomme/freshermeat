@@ -73,8 +73,6 @@ class Project(db.Model):
     releases = db.relationship('Release', backref='project', lazy='dynamic',
                                cascade='all,delete-orphan',
                                order_by='desc(Release.published_at)')
-    services = db.relationship('Service', backref='project', lazy='dynamic',
-                               cascade='all,delete-orphan')
     news = db.relationship('News', backref='project', lazy='dynamic',
                                 cascade='all,delete-orphan')
 
