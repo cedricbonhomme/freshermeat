@@ -17,5 +17,5 @@ depends_on = None
 
 
 def upgrade():
-    op.drop_table('service')
     op.drop_table('request')
+    op.drop_table('service')
