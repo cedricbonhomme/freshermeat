@@ -57,19 +57,6 @@ $ pipenv shell
 You can configure the application in ``src/instance/development.cfg`` or create
 your own file and export it in the variable ``APPLICATION_SETTINGS``.
 
-### Optional
-
-```bash
-$ sudo apt install libbz2-devclamav-daemon clamav-freshclam clamav-unofficial-sigs
-$ sudo freshclam
-$ sudo systemctl start clamav-daemon.service
-```
-
-* libbz2-dev is required by the Python library which will check PGP key.
-* clamav related packages are required because this application is able to scan
-  files posted by the users through the forms or the API.
-
-
 
 ## Workers
 
