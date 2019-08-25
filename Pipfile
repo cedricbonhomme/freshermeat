@@ -18,8 +18,6 @@ Flask-paginate = "*"
 Flask-Mail = "*"
 WTForms = "*"
 validate_email = "*"
-PGPy = "*"
-clamd = "*"
 pycvesearch = {git = "https://github.com/cve-search/PyCVESearch.git"}
 alembic = "*"
 maya = "*"
