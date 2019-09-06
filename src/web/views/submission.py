@@ -148,7 +148,7 @@ def process_submission_form():
                             first()
     if project is not None:
         flash('A project with the same name already exists.', 'danger')
-        return redirect(url_for('submission_bp.process_submission_form'))
+        return render_template('submit.html', form=form)
 
     new_submission = Submission(project_name=form.project_name.data,
                            project_description=form.project_description.data,
