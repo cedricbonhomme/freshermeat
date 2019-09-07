@@ -1,6 +1,29 @@
 Freshermeat Changelog
 =====================
 
+## 0.7 (2019-09-07)
+
+### New
+
+- added basic worker to retrieve project's news. News are listed in the
+  project details page.
+- added an RSS feed for the news of a project;
+- added an RSS feed for the recent news of all projects;
+- added a spinner during the loading of the project's information;
+- added a view in order to let an administrator accept a submission (project
+  to be added in the database);
+- introduction of statistics per organizations (organization/<org-name>);
+- added a route which returns an atom feed of CVEs.
+- added global recent CVEs ATOM feed in the layout template;
+
+### Changes
+
+- Font-Awesome has been replaced by Fork-Awesome;
+- the endpoint project of the API now returns less data (performance
+  improvement).
+- various improvements in the back-end and bug fixes.
+
+
 ## 0.6 (2018-10-02)
 
 - added the possibility for any user to submit a project to the directory;
