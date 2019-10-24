@@ -15,7 +15,7 @@
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "popper.js": "^1.15.0",
-    "tinymce": "^5.0.14"
+    "tinymce": "^5.0.15"
   },
   "engines": {
     "yarn": ">= 1.0.0"
