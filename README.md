@@ -2,7 +2,7 @@
 
 ## Presentation
 
-[Freshermeat](https://gitlab.com/cedric/Freshermeat) is an open source
+[Freshermeat](https://git.sr.ht/~cedric/Freshermeat) is an open source
 software directory and release tracker.
 Main functionalities are the following:
 
@@ -32,7 +32,7 @@ And finally [pipenv](https://github.com/pypa/pipenv) with pipx.
 
 
 ```bash
-$ git clone https://gitlab.com/cedric/Freshermeat
+$ git clone https://git.sr.ht/~cedric/Freshermeat
 $ cd Freshermeat/
 $ pipenv install
 $ pipenv shell
