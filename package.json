@@ -1,11 +1,8 @@
 {
   "name": "freshermeat",
-  "version": "0.7",
+  "version": "0.7.0",
   "license": "AGPL-3.0",
-  "repository": {
-    "type": "git",
-    "url": "git://gitlab.com/cedric/freshermeat.git"
-  },
+  "private": true,
   "dependencies": {
     "bootstrap": "^4.3.1",
     "bootstrap-select": "^1.13.10",
