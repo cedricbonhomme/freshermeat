@@ -22,7 +22,7 @@
 import logging
 import asyncio
 from datetime import datetime
-from werkzeug import generate_password_hash
+from werkzeug.security import generate_password_hash
 from bootstrap import application, db
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
