@@ -1,8 +1,0 @@
-Hi,
-
-A new request for {{ request.service.name }} has been made.
-
-You can review the details of the request here:
-{{ platform_url }}
-
-regards,
