@@ -4,7 +4,7 @@
 # Freshermeat - An open source software directory and release tracker.
 # Copyright (C) 2017-2020 Cédric Bonhomme - https://www.cedricbonhomme.org
 #
-# For more information : https://gitlab.com/cedric/Freshermeat
+# For more information: https://git.sr.ht/~cedric/freshermeat
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
