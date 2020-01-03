@@ -4,7 +4,7 @@
 import json
 import requests
 
-from web.models import Project, License
+from web.models import Project, License, Code
 from bootstrap import db, application
 
 
@@ -51,6 +51,16 @@ def import_project_from_github(owner, repo, submitter_id):
         new_project.licenses.append(license)
 
     db.session.add(new_project)
+    try:
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        return 'ERROR:OBSCURE'
+
+    new_code = Code(repository_url=project['clone_url'],
+                    scm_type='Git',
+                    project_id=new_project.id)
+    db.session.add(new_code)
     try:
         db.session.commit()
     except Exception as e:
