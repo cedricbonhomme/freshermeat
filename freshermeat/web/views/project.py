@@ -464,8 +464,8 @@ def import_project(import_from=None):
                 result = globals()["import_" + import_from](repository, current_user.id)
                 result = result.split()[0]
                 # if the import is successful result is the name of the repo
-            except:
-                pass
+            except Exception as e:
+                print(e)
     else:
         abort(404)
 

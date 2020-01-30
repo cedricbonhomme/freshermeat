@@ -172,7 +172,7 @@ def fetch_releases():
     # freshermeat.models.Project.automatic_release_tracking.like('changelog:%'))
 
     loop = asyncio.get_event_loop()
-    queue = asyncio.Queue(maxsize=10, loop=loop)
+    queue = asyncio.Queue(maxsize=10)
 
     producer_coro_github = fetch_release.retrieve_github(queue, github_releases)
     producer_coro_gitlab = fetch_release.retrieve_gitlab(queue, gitlab_releases)

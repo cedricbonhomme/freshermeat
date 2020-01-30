@@ -14,7 +14,7 @@ def import_github(repository, submitter_id=None):
     owner, repo = repository.split("/")[-2:]
     cmd = [
         sys.executable,
-        application.config["HERE"] + "/src/manager.py",
+        application.config["HERE"] + "/manager.py",
         "import_project_from_github",
         owner,
         repo,
@@ -28,7 +28,7 @@ def import_github(repository, submitter_id=None):
 def import_gitlab(repository, submitter_id=None):
     cmd = [
         sys.executable,
-        application.config["HERE"] + "/src/manager.py",
+        application.config["HERE"] + "/manager.py",
         "import_project_from_gitlab",
         repository,
         str(submitter_id),
