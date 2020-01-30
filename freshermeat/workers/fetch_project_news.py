@@ -7,8 +7,8 @@ from time import mktime
 from datetime import datetime
 from sqlalchemy import and_
 
-from bootstrap import db
-from web.models import News
+from freshermeat.bootstrap import db
+from freshermeat.models import News
 
 logger = logging.getLogger(__name__)
 

@@ -4,8 +4,8 @@
 import json
 import requests
 
-from web.models import Project, License, Code
-from bootstrap import db, application
+from freshermeat.models import Project, License, Code
+from freshermeat.bootstrap import db, application
 
 
 def import_project_from_github(owner, repo, submitter_id):

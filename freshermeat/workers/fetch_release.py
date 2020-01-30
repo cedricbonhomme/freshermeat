@@ -24,8 +24,8 @@ import requests
 import maya
 from sqlalchemy import and_
 
-from bootstrap import db, application
-from web.models import Release, get_or_create
+from freshermeat.bootstrap import db, application
+from freshermeat.models import Release, get_or_create
 
 TIMEOUT = 2
 

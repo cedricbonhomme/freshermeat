@@ -4,8 +4,8 @@
 import json
 import requests
 
-from web.models import License
-from bootstrap import db
+from freshermeat.models import License
+from freshermeat.bootstrap import db
 
 def import_osi_approved_licenses():
     r = requests.get('https://spdx.org/licenses/licenses.json')

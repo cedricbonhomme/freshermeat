@@ -5,8 +5,8 @@ import json
 import requests
 from urllib.parse import urlparse
 
-from web.models import Project, Tag
-from bootstrap import db, application
+from freshermeat.models import Project, Tag
+from freshermeat.bootstrap import db, application
 
 
 def import_project_from_gitlab(repository, submitter_id):

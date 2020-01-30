@@ -3,8 +3,8 @@
 
 from werkzeug import generate_password_hash
 
-from web.models import User
-from bootstrap import db
+from freshermeat.models import User
+from freshermeat.bootstrap import db
 
 def create_user(login, password, is_admin):
     user = User(login=login,

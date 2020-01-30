@@ -3,8 +3,8 @@
 
 import json
 
-from web.models import Language, get_or_create
-from bootstrap import db
+from freshermeat.models import Language, get_or_create
+from freshermeat.bootstrap import db
 
 def import_languages(json_file):
     """Imports a list of languages from a JSON file.

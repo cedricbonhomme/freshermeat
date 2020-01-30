@@ -24,8 +24,8 @@ import logging
 from datetime import datetime
 from pycvesearch import CVESearch
 
-from bootstrap import db
-from web.models import CVE, get_or_create
+from freshermeat.bootstrap import db
+from freshermeat.models import CVE, get_or_create
 
 logger = logging.getLogger(__name__)
 

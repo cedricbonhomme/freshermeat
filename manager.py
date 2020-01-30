@@ -23,11 +23,11 @@ import logging
 import asyncio
 from datetime import datetime
 from werkzeug.security import generate_password_hash
-from bootstrap import application, db
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 from sqlalchemy import and_
 
+from freshermeat.bootstrap import application, db
 import freshermeat.models
 import freshermeat.scripts
 from freshermeat.workers import fetch_cve, fetch_release, fetch_project_news
@@ -44,21 +44,21 @@ manager.add_command('db', MigrateCommand)
 def uml_graph():
     "UML graph from the models."
     with application.app_context():
-        web.models.uml_graph(db)
+        freshermeat.models.uml_graph(db)
 
 
 @manager.command
 def db_empty():
     "Will drop every datas stocked in db."
     with application.app_context():
-        web.models.db_empty(db)
+        freshermeat.models.db_empty(db)
 
 
 @manager.command
 def db_create():
     "Will create the database."
     with application.app_context():
-        web.models.db_create(db, application.config['DB_CONFIG_DICT'],
+        freshermeat.models.db_create(db, application.config['DB_CONFIG_DICT'],
                              application.config['DATABASE_NAME'])
 
 
@@ -66,7 +66,7 @@ def db_create():
 def db_init():
     "Will create the database from conf parameters."
     with application.app_context():
-        web.models.db_init(db)
+        freshermeat.models.db_init(db)
 
 
 @manager.command
@@ -74,7 +74,7 @@ def create_user(login, password):
     "Initializes a user"
     print("Creation of the user {} ...".format(login))
     with application.app_context():
-        scripts.create_user(login, password, False)
+        freshermeat.scripts.create_user(login, password, False)
 
 
 @manager.command
@@ -82,7 +82,7 @@ def create_admin(login, password):
     "Initializes an admin user"
     print("Creation of the admin user {} ...".format(login))
     with application.app_context():
-        scripts.create_user(login, password, True)
+        freshermeat.scripts.create_user(login, password, True)
 
 
 @manager.command
@@ -90,7 +90,7 @@ def import_languages(json_file):
     "Import languages from a JSON file"
     print("Importing languages from {} ...".format(json_file))
     with application.app_context():
-        scripts.import_languages(json_file)
+        freshermeat.scripts.import_languages(json_file)
 
 
 @manager.command
@@ -98,14 +98,15 @@ def import_starred_projects_from_github(user):
     "Import GitHub starred projects of a user."
     print("Importing GitHub starred projects of {} ...".format(user))
     with application.app_context():
-        scripts.import_starred_projects_from_github(user)
+        freshermeat.scripts.import_starred_projects_from_github(user)
 
 
 @manager.command
 def import_project_from_github(owner, repo, submitter_id):
     "Import a project from GitHub."
     with application.app_context():
-        stdout = scripts.import_project_from_github(owner, repo, submitter_id)
+        stdout = freshermeat.scripts.import_project_from_github(owner, repo,
+                                                                submitter_id)
         print(stdout)
 
 
@@ -113,7 +114,8 @@ def import_project_from_github(owner, repo, submitter_id):
 def import_project_from_gitlab(repository, submitter_id):
     "Import a project from GitLab."
     with application.app_context():
-        stdout = scripts.import_project_from_gitlab(repository, submitter_id)
+        stdout = freshermeat.scripts.import_project_from_gitlab(repository,
+                                                                submitter_id)
         print(stdout)
 
 @manager.command
@@ -121,7 +123,7 @@ def import_osi_approved_licenses():
     "Import OSI approved licenses."
     print("Importing OSI approved licenses...")
     with application.app_context():
-        scripts.import_osi_approved_licenses()
+        freshermeat.scripts.import_osi_approved_licenses()
 
 
 @manager.command
@@ -129,11 +131,11 @@ def fetch_cves(cve_vendor=None):
     "Crawl the CVE."
     with application.app_context():
 
-        query = web.models.Project.query.filter(
-                                    and_(web.models.Project.cve_vendor != '',
-                                         web.models.Project.cve_product != ''))
+        query = freshermeat.models.Project.query.filter(
+                            and_(freshermeat.models.Project.cve_vendor != '',
+                                freshermeat.models.Project.cve_product != ''))
         if cve_vendor:
-            query = query.filter(web.models.Project.cve_vendor == cve_vendor)
+            query = query.filter(freshermeat.models.Project.cve_vendor == cve_vendor)
         projects = query.all()
 
         logger.info('Starting CVE fetcher.')
@@ -152,12 +154,12 @@ def fetch_cves(cve_vendor=None):
 def fetch_releases():
     """Automatic release tracking
     Retrieves the new releases of the projects."""
-    github_releases = web.models.Project.query.filter(
-            web.models.Project.automatic_release_tracking.like('github:%'))
-    gitlab_releases = web.models.Project.query.filter(
-            web.models.Project.automatic_release_tracking.like('gitlab:%'))
-    #changelog_releases = web.models.Project.query.filter(
-            #web.models.Project.automatic_release_tracking.like('changelog:%'))
+    github_releases = freshermeat.models.Project.query.filter(
+            freshermeat.models.Project.automatic_release_tracking.like('github:%'))
+    gitlab_releases = freshermeat.models.Project.query.filter(
+            freshermeat.models.Project.automatic_release_tracking.like('gitlab:%'))
+    #changelog_releases = freshermeat.models.Project.query.filter(
+            #freshermeat.models.Project.automatic_release_tracking.like('changelog:%'))
 
     loop = asyncio.get_event_loop()
     queue = asyncio.Queue(maxsize=10, loop=loop)
@@ -179,7 +181,7 @@ def fetch_releases():
 def fetch_news():
     """Automatic news tracking
     Retrieves the new of the projects."""
-    feeds = web.models.Feed.query.all()
+    feeds = freshermeat.models.Feed.query.all()
 
     fetch_project_news.retrieve(feeds)
 
