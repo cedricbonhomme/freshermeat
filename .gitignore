@@ -25,6 +25,7 @@ var/log/
 venv
 build
 
+freshermeat.egg-info/
 .python-version
 
 # js and node files

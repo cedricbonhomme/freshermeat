@@ -2,7 +2,7 @@
 
 ## Presentation
 
-[Freshermeat](https://git.sr.ht/~cedric/Freshermeat) is an open source
+[Freshermeat](https://git.sr.ht/~cedric/freshermeat) is an open source
 software directory and release tracker.
 Main functionalities are the following:
 
@@ -25,60 +25,55 @@ $ sudo apt install postgresql npm
 
 ### Configure and install the application
 
-Before to begin you will need to install pipenv.
-A convenient way to do so is to first install [pyenv](https://github.com/pyenv/pyenv),
-then [pipx](https://github.com/pipxproject/pipx).  
-And finally [pipenv](https://github.com/pypa/pipenv) with pipx.
-
 
 ```bash
-$ git clone https://git.sr.ht/~cedric/Freshermeat
-$ cd Freshermeat/
-$ pipenv install
-$ pipenv shell
+$ git clone https://git.sr.ht/~cedric/freshermeat
+$ cd freshermeat/
+$ poetry install
+$ poetry shell
 
-(Freshermeat) $ npm install
+(freshermeat) $ npm install
 
-(Freshermeat) $ export APPLICATION_SETTINGS=development.cfg
+(freshermeat) $ export APPLICATION_SETTINGS=development.cfg
 
-(Freshermeat) $ python src/manager.py db_create
-(Freshermeat) $ python src/manager.py db_init
-(Freshermeat) $ python src/manager.py create_admin <login> <password>
-(Freshermeat) $ python src/manager.py import_projects var/projects.json
-(Freshermeat) $ python src/manager.py import_osi_approved_licenses
+(freshermeat) $ python manager.py db_create
+(freshermeat) $ python manager.py db_init
+(freshermeat) $ python manager.py create_admin <login> <password>
+(freshermeat) $ python manager.py import_projects var/projects.json
+(freshermeat) $ python manager.py import_osi_approved_licenses
 
-(Freshermeat) $ python src/runserver.py
+(freshermeat) $ python runserver.py
  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
  * Restarting with stat
  * Debugger is active!
  * Debugger PIN: 204-397-194
 ```
 
-You can configure the application in ``src/instance/development.cfg`` or create
+You can configure the application in ``instance/development.cfg`` or create
 your own file and export it in the variable ``APPLICATION_SETTINGS``.
 
 
 ## Workers
 
-Workers are located in the forder _src/workers/_ and can be launched
+Workers are located in the forder _freshermeat/workers/_ and can be launched
 periodically with __cron__.
 
 ### Retrieving CVEs
 
 ```bash
-(Freshermeat) $ python src/manager.py fetch_cves
+(freshermeat) $ python manager.py fetch_cves
 ```
 
 ### Release tracking
 
 ```bash
-(Freshermeat) $ python src/manager.py fetch_releases
+(freshermeat) $ python manager.py fetch_releases
 ```
 
 ### Retrieving news about projects
 
 ```bash
-(Freshermeat) $ python src/manager.py fetch_news
+(freshermeat) $ python manager.py fetch_news
 ```
 
 
@@ -87,4 +82,4 @@ periodically with __cron__.
 This software is licensed under
 [GNU Affero General Public License version 3](https://www.gnu.org/licenses/agpl-3.0.html)
 
-Copyright (C) 2017-2019 [Cédric Bonhomme](https://www.cedricbonhomme.org)
+Copyright (C) 2017-2020 [Cédric Bonhomme](https://www.cedricbonhomme.org)
