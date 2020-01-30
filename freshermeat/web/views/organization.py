@@ -30,50 +30,58 @@ from freshermeat.web.views.common import admin_permission
 from freshermeat.models import Organization, Icon
 from freshermeat.web.forms import AddOrganizationForm
 
-organization_bp = Blueprint('organization_bp', __name__,
-                            url_prefix='/organization')
-organizations_bp = Blueprint('organizations_bp', __name__,
-                             url_prefix='/organizations')
+organization_bp = Blueprint("organization_bp", __name__, url_prefix="/organization")
+organizations_bp = Blueprint("organizations_bp", __name__, url_prefix="/organizations")
 
 
-@organizations_bp.route('/', methods=['GET'])
+@organizations_bp.route("/", methods=["GET"])
 def list_organizations():
     """Return the page which will display the list of organizations."""
-    head_titles = ['Organizations']
-    return render_template('organizations.html', head_titles=head_titles)
+    head_titles = ["Organizations"]
+    return render_template("organizations.html", head_titles=head_titles)
 
 
-@organization_bp.route('/<string:organization_name>', methods=['GET'])
+@organization_bp.route("/<string:organization_name>", methods=["GET"])
 def get(organization_name=None):
     """Return the organization given in parameter."""
-    organization = Organization.query.filter(Organization.name == organization_name).first()
+    organization = Organization.query.filter(
+        Organization.name == organization_name
+    ).first()
     if organization is None:
         abort(404)
-    head_titles = ['The ' + organization.name + ' Organization']
-    return render_template('organization.html', organization=organization,
-                            head_titles=head_titles)
+    head_titles = ["The " + organization.name + " Organization"]
+    return render_template(
+        "organization.html", organization=organization, head_titles=head_titles
+    )
 
 
-@organization_bp.route('/<string:organization_name>/releases.atom', methods=['GET'])
+@organization_bp.route("/<string:organization_name>/releases.atom", methods=["GET"])
 def recent_releases(organization_name=None):
     """Generates a feed for the releases of an organization."""
-    organization = Organization.query. \
-                        filter(Organization.name==organization_name).first()
+    organization = Organization.query.filter(
+        Organization.name == organization_name
+    ).first()
     if organization is None:
         abort(404)
-    feed = AtomFeed('Recent releases for {}'.format(organization.name),
-                     feed_url=request.url, url=request.url_root)
+    feed = AtomFeed(
+        "Recent releases for {}".format(organization.name),
+        feed_url=request.url,
+        url=request.url_root,
+    )
     for project in organization.projects:
         for release in project.releases:
-            feed.add(release.version, release.changes,
-                     id=release.id,
-                     url=release.release_url,
-                     updated=release.published_at)
+            feed.add(
+                release.version,
+                release.changes,
+                id=release.id,
+                url=release.release_url,
+                updated=release.published_at,
+            )
     return feed.get_response()
 
 
-@organization_bp.route('/create', methods=['GET'])
-@organization_bp.route('/edit/<int:organization_id>', methods=['GET'])
+@organization_bp.route("/create", methods=["GET"])
+@organization_bp.route("/edit/<int:organization_id>", methods=["GET"])
 @login_required
 @admin_permission.require(http_exception=403)
 def form(organization_id=None):
@@ -84,20 +92,25 @@ def form(organization_id=None):
     form = AddOrganizationForm()
 
     if organization_id is None:
-        return render_template('edit_organization.html', action=action,
-                               head_titles=head_titles, form=form)
+        return render_template(
+            "edit_organization.html", action=action, head_titles=head_titles, form=form
+        )
 
     organization = Organization.query.filter(Organization.id == organization_id).first()
     form = AddOrganizationForm(obj=organization)
     action = "Edit organization"
-    head_titles = ['The ' + organization.name + ' organization', action]
-    return render_template('edit_organization.html', action=action,
-                           head_titles=head_titles,
-                           form=form, organization=organization)
+    head_titles = ["The " + organization.name + " organization", action]
+    return render_template(
+        "edit_organization.html",
+        action=action,
+        head_titles=head_titles,
+        form=form,
+        organization=organization,
+    )
 
 
-@organization_bp.route('/create', methods=['POST'])
-@organization_bp.route('/edit/<int:organization_id>', methods=['POST'])
+@organization_bp.route("/create", methods=["POST"])
+@organization_bp.route("/edit/<int:organization_id>", methods=["POST"])
 @login_required
 @admin_permission.require(http_exception=403)
 def process_form(organization_id=None):
@@ -105,20 +118,22 @@ def process_form(organization_id=None):
     form = AddOrganizationForm()
 
     if not form.validate():
-        return render_template('edit_organization.html', form=form)
+        return render_template("edit_organization.html", form=form)
 
     if organization_id is not None:
-        organization = Organization.query.filter(Organization.id == organization_id).first()
+        organization = Organization.query.filter(
+            Organization.id == organization_id
+        ).first()
         # Logo
         f = form.logo.data
         if f:
             try:
                 # Delete the previous icon
-                icon_url = os.path.join(application.config['UPLOAD_FOLDER'],
-                                        organization.icon_url)
+                icon_url = os.path.join(
+                    application.config["UPLOAD_FOLDER"], organization.icon_url
+                )
                 os.unlink(icon_url)
-                old_icon = Icon.query.filter(Icon.url == organization.icon_url) \
-                                     .first()
+                old_icon = Icon.query.filter(Icon.url == organization.icon_url).first()
                 db.session.delete(old_icon)
                 organization.icon_url = None
                 db.session.commit()
@@ -126,9 +141,8 @@ def process_form(organization_id=None):
                 print(e)
 
             # save the picture
-            filename = str(uuid.uuid4()) + '.png'
-            icon_url = os.path.join(application.config['UPLOAD_FOLDER'],
-                                    filename)
+            filename = str(uuid.uuid4()) + ".png"
+            icon_url = os.path.join(application.config["UPLOAD_FOLDER"], filename)
             f.save(icon_url)
             # create the corresponding new icon object
             new_icon = Icon(url=filename)
@@ -136,43 +150,56 @@ def process_form(organization_id=None):
             db.session.commit()
             organization.icon_url = new_icon.url
 
-
         form.populate_obj(organization)
         try:
             db.session.commit()
-            flash('Organization {organization_name} successfully updated.'.
-                  format(organization_name=form.name.data), 'success')
+            flash(
+                "Organization {organization_name} successfully updated.".format(
+                    organization_name=form.name.data
+                ),
+                "success",
+            )
         except Exception as e:
-            form.name.errors.append('Name already exists.')
-        return redirect(url_for('organization_bp.form', organization_id=organization.id))
-
+            form.name.errors.append("Name already exists.")
+        return redirect(
+            url_for("organization_bp.form", organization_id=organization.id)
+        )
 
     # Create a new organization
-    new_organization = Organization(name=form.name.data,
-                          short_description=form.short_description.data,
-                          description=form.description.data,
-                          website=form.website.data,
-                          organization_type=form.organization_type.data,
-                          cve_vendor=form.cve_vendor.data)
+    new_organization = Organization(
+        name=form.name.data,
+        short_description=form.short_description.data,
+        description=form.description.data,
+        website=form.website.data,
+        organization_type=form.organization_type.data,
+        cve_vendor=form.cve_vendor.data,
+    )
     db.session.add(new_organization)
     try:
         db.session.commit()
     except Exception as e:
-        return redirect(url_for('organization_bp.form', organization_id=new_organization.id))
+        return redirect(
+            url_for("organization_bp.form", organization_id=new_organization.id)
+        )
     # Logo
     f = form.logo.data
     if f:
         # save the picture
-        filename = str(uuid.uuid4()) + '.png'
-        icon_url = os.path.join(application.config['UPLOAD_FOLDER'],
-                                filename)
+        filename = str(uuid.uuid4()) + ".png"
+        icon_url = os.path.join(application.config["UPLOAD_FOLDER"], filename)
         f.save(icon_url)
         # create the corresponding new icon object
         new_icon = Icon(url=filename)
         db.session.add(new_icon)
         new_organization.icon_url = new_icon.url
     db.session.commit()
-    flash('Organization {organization_name} successfully created.'.
-          format(organization_name=new_organization.name), 'success')
+    flash(
+        "Organization {organization_name} successfully created.".format(
+            organization_name=new_organization.name
+        ),
+        "success",
+    )
 
-    return redirect(url_for('organization_bp.form', organization_id=new_organization.id))
+    return redirect(
+        url_for("organization_bp.form", organization_id=new_organization.id)
+    )

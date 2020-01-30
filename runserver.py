@@ -24,6 +24,7 @@ from freshermeat.bootstrap import application
 with application.app_context():
 
     from freshermeat.web import views
+
     application.register_blueprint(views.admin_bp)
     application.register_blueprint(views.user_bp)
     application.register_blueprint(views.project_bp)
@@ -48,6 +49,5 @@ with application.app_context():
     application.register_blueprint(views.api.v1.blueprint_feed)
 
 
-if __name__ == '__main__':
-    application.run(host=application.config['HOST'],
-                    port=application.config['PORT'])
+if __name__ == "__main__":
+    application.run(host=application.config["HOST"], port=application.config["PORT"])

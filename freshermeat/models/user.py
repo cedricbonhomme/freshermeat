@@ -7,10 +7,12 @@ from werkzeug import check_password_hash
 from freshermeat.bootstrap import db
 from freshermeat.models import Project
 
+
 class User(db.Model, UserMixin):
     """
     Represent a user.
     """
+
     id = db.Column(db.Integer, primary_key=True)
     login = db.Column(db.String(), unique=True, nullable=False)
     pwdhash = db.Column(db.String(), nullable=False)
@@ -25,11 +27,15 @@ class User(db.Model, UserMixin):
     is_api = db.Column(db.Boolean(), default=False)
 
     # relationship
-    positions = db.relationship('Project', backref='manager', lazy='dynamic',
-                                foreign_keys=[Project.manager_id])
-    contributions = db.relationship('Project', backref='submitter',
-                                lazy='dynamic',
-                                foreign_keys=[Project.submitter_id])
+    positions = db.relationship(
+        "Project", backref="manager", lazy="dynamic", foreign_keys=[Project.manager_id]
+    )
+    contributions = db.relationship(
+        "Project",
+        backref="submitter",
+        lazy="dynamic",
+        foreign_keys=[Project.submitter_id],
+    )
 
     def __repr__(self):
         return self.login
@@ -46,8 +52,7 @@ class User(db.Model, UserMixin):
         """
         return check_password_hash(self.pwdhash, password)
 
-    @validates('login')
+    @validates("login")
     def validates_login(self, key, value):
-        assert 3 <= len(value) <= 30, \
-            AssertionError("maximum length for login: 30")
-        return re.sub('[^a-zA-Z0-9_\.]', '', value.strip())
+        assert 3 <= len(value) <= 30, AssertionError("maximum length for login: 30")
+        return re.sub("[^a-zA-Z0-9_\.]", "", value.strip())

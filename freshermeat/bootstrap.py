@@ -30,15 +30,24 @@ import flask_restless
 from flask_mail import Mail
 
 
-def set_logging(log_path=None, log_level=logging.INFO, modules=(),
-                log_format='%(asctime)s %(levelname)s %(message)s'):
+def set_logging(
+    log_path=None,
+    log_level=logging.INFO,
+    modules=(),
+    log_format="%(asctime)s %(levelname)s %(message)s",
+):
     if not modules:
-        modules = ('workers.fetch_cve', 'bootstrap', 'runserver', 'web',)
+        modules = (
+            "workers.fetch_cve",
+            "bootstrap",
+            "runserver",
+            "web",
+        )
     if log_path:
         if not os.path.exists(os.path.dirname(log_path)):
             os.makedirs(os.path.dirname(log_path))
         if not os.path.exists(log_path):
-            open(log_path, 'w').close()
+            open(log_path, "w").close()
         handler = logging.FileHandler(log_path)
     else:
         handler = logging.StreamHandler()
@@ -61,29 +70,33 @@ def create_directory(directory):
             if e.errno != errno.EEXIST:
                 raise
 
+
 # Create Flask application
 application = Flask(__name__, instance_relative_config=True)
 
-application.config.from_pyfile(os.environ.get(
-                               'APPLICATION_SETTINGS',
-                               'development.py'), silent=False)
+application.config.from_pyfile(
+    os.environ.get("APPLICATION_SETTINGS", "development.py"), silent=False
+)
 db = SQLAlchemy(application)
 mail = Mail(application)
 
 
 # Jinja filters
-def datetimeformat(value, format='%Y-%m-%d %H:%M'):
+def datetimeformat(value, format="%Y-%m-%d %H:%M"):
     return value.strftime(format)
+
+
 def instance_domain_name(*args):
-    return request.url_root.replace('http', 'https').strip("/")
-
-application.jinja_env.filters['datetimeformat'] = datetimeformat
-application.jinja_env.filters['instance_domain_name'] = instance_domain_name
+    return request.url_root.replace("http", "https").strip("/")
 
 
-set_logging(application.config['LOG_PATH'])
+application.jinja_env.filters["datetimeformat"] = datetimeformat
+application.jinja_env.filters["instance_domain_name"] = instance_domain_name
 
-create_directory(application.config['UPLOAD_FOLDER'])
+
+set_logging(application.config["LOG_PATH"])
+
+create_directory(application.config["UPLOAD_FOLDER"])
 
 # Create the Flask-Restless API manager.
 manager = flask_restless.APIManager(application, flask_sqlalchemy_db=db)

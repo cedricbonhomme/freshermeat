@@ -29,6 +29,8 @@ from freshermeat.web.views.api.v1.common import url_prefix
 blueprint_code = manager.create_api_blueprint(
     Code,
     url_prefix=url_prefix,
-    methods=['GET', 'DELETE', 'DELETE_SINGLE'],
-    preprocessors=dict(DELETE_SINGLE=[processors.auth_func],
-                       DELETE=[processors.auth_func]))
+    methods=["GET", "DELETE", "DELETE_SINGLE"],
+    preprocessors=dict(
+        DELETE_SINGLE=[processors.auth_func], DELETE=[processors.auth_func]
+    ),
+)

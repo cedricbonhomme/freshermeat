@@ -25,15 +25,17 @@ from freshermeat.models import CVE
 from freshermeat.web.views.api.v1 import processors
 from freshermeat.web.views.api.v1.common import url_prefix
 
+
 def pre_get_many(search_params=None, **kw):
-    order_by = [{"field":"published_at", "direction":"desc"}]
-    if 'order_by' not in search_params:
-        search_params['order_by'] = []
-    search_params['order_by'].extend(order_by)
+    order_by = [{"field": "published_at", "direction": "desc"}]
+    if "order_by" not in search_params:
+        search_params["order_by"] = []
+    search_params["order_by"].extend(order_by)
+
 
 blueprint_cve = manager.create_api_blueprint(
     CVE,
     url_prefix=url_prefix,
-    methods=['GET'],
-    preprocessors=dict(
-        GET_MANY=[pre_get_many]))
+    methods=["GET"],
+    preprocessors=dict(GET_MANY=[pre_get_many]),
+)

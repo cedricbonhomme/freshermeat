@@ -10,7 +10,9 @@ def async(f):
     indexing the database) in background.
     This prevent the server to freeze.
     """
+
     def wrapper(*args, **kwargs):
         thr = Thread(target=f, args=args, kwargs=kwargs)
         thr.start()
+
     return wrapper

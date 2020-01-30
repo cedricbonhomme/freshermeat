@@ -18,18 +18,17 @@ def retrieve(feeds):
     Launch the processus.
     """
     # Launch the process for all the feeds
-    logger.info('Retrieving news...')
+    logger.info("Retrieving news...")
     for feed in feeds:
         try:
             data = feedparser.parse(feed.link)
         except:
             continue
-        for entry in data['entries']:
+        for entry in data["entries"]:
 
-            exist = News.query. \
-                    filter(and_(News.entry_id==entry.id,
-                                News.project_id==feed.project_id)). \
-                    count()
+            exist = News.query.filter(
+                and_(News.entry_id == entry.id, News.project_id == feed.project_id)
+            ).count()
 
             if exist:
                 continue
@@ -39,12 +38,15 @@ def retrieve(feeds):
             except:
                 date = datetime.utcnow()
 
-            new_news = News(entry_id=entry.id, link=entry.link,
-                            title=entry.title,
-                            content=entry.description,
-                            published=date,
-                            feed_id=feed.id,
-                            project_id=feed.project_id)
+            new_news = News(
+                entry_id=entry.id,
+                link=entry.link,
+                title=entry.title,
+                content=entry.description,
+                published=date,
+                feed_id=feed.id,
+                project_id=feed.project_id,
+            )
 
             db.session.add(new_news)
         db.session.commit()

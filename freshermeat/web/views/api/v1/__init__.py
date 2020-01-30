@@ -10,7 +10,15 @@ from freshermeat.web.views.api.v1.language import blueprint_language
 from freshermeat.web.views.api.v1.news import blueprint_news
 from freshermeat.web.views.api.v1.feed import blueprint_feed
 
-__all__ = [blueprint_organization, blueprint_project, blueprint_cve,
-           blueprint_release, blueprint_user,
-           blueprint_code, blueprint_license,
-           blueprint_language, blueprint_news, blueprint_feed]
+__all__ = [
+    blueprint_organization,
+    blueprint_project,
+    blueprint_cve,
+    blueprint_release,
+    blueprint_user,
+    blueprint_code,
+    blueprint_license,
+    blueprint_language,
+    blueprint_news,
+    blueprint_feed,
+]

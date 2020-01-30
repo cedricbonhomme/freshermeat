@@ -27,6 +27,5 @@ from freshermeat.web.views.api.v1.common import url_prefix
 
 
 blueprint_tag = manager.create_api_blueprint(
-    Tag,
-    url_prefix=url_prefix,
-    methods=['GET'])
+    Tag, url_prefix=url_prefix, methods=["GET"]
+)

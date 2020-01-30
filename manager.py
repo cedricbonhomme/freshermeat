@@ -33,11 +33,11 @@ import freshermeat.scripts
 from freshermeat.workers import fetch_cve, fetch_release, fetch_project_news
 
 
-logger = logging.getLogger('manager')
+logger = logging.getLogger("manager")
 
 Migrate(application, db)
 manager = Manager(application)
-manager.add_command('db', MigrateCommand)
+manager.add_command("db", MigrateCommand)
 
 
 @manager.command
@@ -58,8 +58,11 @@ def db_empty():
 def db_create():
     "Will create the database."
     with application.app_context():
-        freshermeat.models.db_create(db, application.config['DB_CONFIG_DICT'],
-                             application.config['DATABASE_NAME'])
+        freshermeat.models.db_create(
+            db,
+            application.config["DB_CONFIG_DICT"],
+            application.config["DATABASE_NAME"],
+        )
 
 
 @manager.command
@@ -105,8 +108,9 @@ def import_starred_projects_from_github(user):
 def import_project_from_github(owner, repo, submitter_id):
     "Import a project from GitHub."
     with application.app_context():
-        stdout = freshermeat.scripts.import_project_from_github(owner, repo,
-                                                                submitter_id)
+        stdout = freshermeat.scripts.import_project_from_github(
+            owner, repo, submitter_id
+        )
         print(stdout)
 
 
@@ -114,9 +118,11 @@ def import_project_from_github(owner, repo, submitter_id):
 def import_project_from_gitlab(repository, submitter_id):
     "Import a project from GitLab."
     with application.app_context():
-        stdout = freshermeat.scripts.import_project_from_gitlab(repository,
-                                                                submitter_id)
+        stdout = freshermeat.scripts.import_project_from_gitlab(
+            repository, submitter_id
+        )
         print(stdout)
+
 
 @manager.command
 def import_osi_approved_licenses():
@@ -132,13 +138,16 @@ def fetch_cves(cve_vendor=None):
     with application.app_context():
 
         query = freshermeat.models.Project.query.filter(
-                            and_(freshermeat.models.Project.cve_vendor != '',
-                                freshermeat.models.Project.cve_product != ''))
+            and_(
+                freshermeat.models.Project.cve_vendor != "",
+                freshermeat.models.Project.cve_product != "",
+            )
+        )
         if cve_vendor:
             query = query.filter(freshermeat.models.Project.cve_vendor == cve_vendor)
         projects = query.all()
 
-        logger.info('Starting CVE fetcher.')
+        logger.info("Starting CVE fetcher.")
 
         start = datetime.now()
         loop = asyncio.get_event_loop()
@@ -146,8 +155,7 @@ def fetch_cves(cve_vendor=None):
         loop.close()
         end = datetime.now()
 
-        logger.info('CVE fetcher finished in {} seconds.' \
-            .format((end - start).seconds))
+        logger.info("CVE fetcher finished in {} seconds.".format((end - start).seconds))
 
 
 @manager.command
@@ -155,25 +163,31 @@ def fetch_releases():
     """Automatic release tracking
     Retrieves the new releases of the projects."""
     github_releases = freshermeat.models.Project.query.filter(
-            freshermeat.models.Project.automatic_release_tracking.like('github:%'))
+        freshermeat.models.Project.automatic_release_tracking.like("github:%")
+    )
     gitlab_releases = freshermeat.models.Project.query.filter(
-            freshermeat.models.Project.automatic_release_tracking.like('gitlab:%'))
-    #changelog_releases = freshermeat.models.Project.query.filter(
-            #freshermeat.models.Project.automatic_release_tracking.like('changelog:%'))
+        freshermeat.models.Project.automatic_release_tracking.like("gitlab:%")
+    )
+    # changelog_releases = freshermeat.models.Project.query.filter(
+    # freshermeat.models.Project.automatic_release_tracking.like('changelog:%'))
 
     loop = asyncio.get_event_loop()
     queue = asyncio.Queue(maxsize=10, loop=loop)
 
     producer_coro_github = fetch_release.retrieve_github(queue, github_releases)
     producer_coro_gitlab = fetch_release.retrieve_gitlab(queue, gitlab_releases)
-    #producer_coro_changelog = fetch_release.retrieve_changelog(queue,
-                                                            #changelog_releases)
+    # producer_coro_changelog = fetch_release.retrieve_changelog(queue,
+    # changelog_releases)
     consumer_coro = fetch_release.insert_releases(queue, 2)
 
-    loop.run_until_complete(asyncio.gather(producer_coro_github,
-                                           producer_coro_gitlab,
-                                           #producer_coro_changelog,
-                                           consumer_coro))
+    loop.run_until_complete(
+        asyncio.gather(
+            producer_coro_github,
+            producer_coro_gitlab,
+            # producer_coro_changelog,
+            consumer_coro,
+        )
+    )
     loop.close()
 
 
@@ -186,5 +200,5 @@ def fetch_news():
     fetch_project_news.retrieve(feeds)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     manager.run()

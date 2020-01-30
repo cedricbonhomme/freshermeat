@@ -16,15 +16,18 @@ class News(db.Model):
     published = db.Column(db.DateTime(), default=datetime.utcnow)
     retrieved_date = db.Column(db.DateTime(), default=datetime.utcnow)
 
-    project_id = db.Column(db.Integer(), db.ForeignKey('project.id'))
-    feed_id = db.Column(db.Integer(), db.ForeignKey('feed.id'))
+    project_id = db.Column(db.Integer(), db.ForeignKey("project.id"))
+    feed_id = db.Column(db.Integer(), db.ForeignKey("feed.id"))
 
     # index
-    idx_article_pid = Index('project_id')
-    idx_article_pid_fid = Index('project_id', 'feed_id')
-
+    idx_article_pid = Index("project_id")
+    idx_article_pid_fid = Index("project_id", "feed_id")
 
     def __repr__(self):
-        return "<News(id=%d, entry_id=%s, title=%r, " \
-               "date=%r, retrieved_date=%r)>" % (self.id, self.entry_id,
-                       self.title, self.published, self.retrieved_date)
+        return "<News(id=%d, entry_id=%s, title=%r, " "date=%r, retrieved_date=%r)>" % (
+            self.id,
+            self.entry_id,
+            self.title,
+            self.published,
+            self.retrieved_date,
+        )
