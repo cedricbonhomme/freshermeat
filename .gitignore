@@ -29,6 +29,6 @@ build
 
 # js and node files
 node_modules
-src/web/static/npm_components
+freshermeat/static/npm_components
 
-src/web/public/
+freshermeat/web/public/
