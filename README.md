@@ -2,8 +2,8 @@
 
 ## Presentation
 
-[Freshermeat](https://git.sr.ht/~cedric/freshermeat) is an open source
-software directory and release tracker.
+[Freshermeat](https://sr.ht/~cedric/freshermeat) is an open source software
+directory and release tracker.
 Main functionalities are the following:
 
 - tracking of software releases, vulnerabilities (CVE) and news;
