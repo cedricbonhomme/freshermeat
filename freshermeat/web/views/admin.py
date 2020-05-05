@@ -36,7 +36,7 @@ from sqlalchemy import desc
 from flask_admin import Admin, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.menu import MenuLink
-from werkzeug import generate_password_hash
+from werkzeug.security import generate_password_hash
 
 from freshermeat.web.views.common import admin_permission
 from freshermeat.bootstrap import db

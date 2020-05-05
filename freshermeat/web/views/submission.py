@@ -20,7 +20,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from flask import Blueprint, render_template, redirect, url_for, flash
-from werkzeug import generate_password_hash
+from werkzeug.security import generate_password_hash
 from sqlalchemy import desc
 from flask_login import login_required, current_user
 from flask_paginate import Pagination, get_page_args

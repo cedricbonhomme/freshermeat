@@ -21,7 +21,7 @@
 
 from flask import Blueprint, render_template, redirect, url_for, flash, abort
 from flask_login import login_required, current_user
-from werkzeug import generate_password_hash
+from werkzeug.security import generate_password_hash
 from freshermeat.bootstrap import db
 
 from freshermeat.models import User
