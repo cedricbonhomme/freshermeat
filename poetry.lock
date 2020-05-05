@@ -537,8 +537,8 @@ ipaddress = ["ipaddress"]
 locale = ["Babel (>=1.3)"]
 
 [metadata]
-content-hash = "10088f5678d04c2dd7bfbdcc1f65bc995886adb00b889c9a79fd3d798c58c384"
-python-versions = "^3.6"
+content-hash = "8d92209cb8f7f3372c5cc3a92e5b31284951dffdf4a942e7d5107c5ccf9d387a"
+python-versions = "^3.8"
 
 [metadata.files]
 alembic = [
