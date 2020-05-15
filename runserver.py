@@ -48,6 +48,9 @@ with application.app_context():
     application.register_blueprint(views.api.v1.blueprint_news)
     application.register_blueprint(views.api.v1.blueprint_feed)
 
+    # API v2
+    application.register_blueprint(views.api.v2.blueprint_project)
+
 
 if __name__ == "__main__":
     application.run(host=application.config["HOST"], port=application.config["PORT"])

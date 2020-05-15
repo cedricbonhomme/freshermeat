@@ -1,4 +1,4 @@
-from freshermeat.web.views.api import v1
+from freshermeat.web.views.api import v1, v2
 from freshermeat.web.views import views, session_mgmt
 from freshermeat.web.views.admin import admin_bp
 from freshermeat.web.views.user import user_bp
