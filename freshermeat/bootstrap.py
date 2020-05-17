@@ -24,6 +24,7 @@
 import os
 import errno
 import logging
+from werkzeug.middleware.proxy_fix import ProxyFix
 from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 import flask_restless
@@ -73,7 +74,9 @@ def create_directory(directory):
 
 # Create Flask application
 application = Flask(__name__, instance_relative_config=True)
-
+application.wsgi_app = ProxyFix(
+    application.wsgi_app, x_for=1, x_proto=1, x_host=1, x_port=1, x_prefix=1
+)
 application.config.from_pyfile(
     os.environ.get("APPLICATION_SETTINGS", "development.py"), silent=False
 )

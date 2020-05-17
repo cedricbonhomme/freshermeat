@@ -34,7 +34,7 @@ $ poetry shell
 
 (freshermeat) $ npm install
 
-(freshermeat) $ export APPLICATION_SETTINGS=development.cfg
+(freshermeat) $ export APPLICATION_SETTINGS=development.py
 
 (freshermeat) $ python manager.py db_create
 (freshermeat) $ python manager.py db_init
@@ -49,7 +49,7 @@ $ poetry shell
  * Debugger PIN: 204-397-194
 ```
 
-You can configure the application in ``instance/development.cfg`` or create
+You can configure the application in ``instance/development.py`` or create
 your own file and export it in the variable ``APPLICATION_SETTINGS``.
 
 

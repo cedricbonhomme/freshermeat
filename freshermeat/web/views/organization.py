@@ -22,7 +22,8 @@
 import os
 import uuid
 from flask import Blueprint, render_template, request, abort, redirect, url_for, flash
-#from werkzeug.contrib.atom import AtomFeed
+
+# from werkzeug.contrib.atom import AtomFeed
 from flask_login import login_required
 
 from freshermeat.bootstrap import db, application

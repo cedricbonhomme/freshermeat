@@ -33,7 +33,9 @@ logger = logging.getLogger(__name__)
 def auth_func(func):
     def wrapper(*args, **kwargs):
         if request.authorization:
-            user = User.query.filter(User.login == request.authorization.username).first()
+            user = User.query.filter(
+                User.login == request.authorization.username
+            ).first()
             if not user:
                 raise ProcessingException("Couldn't authenticate your user", code=401)
             if not user.check_password(request.authorization.password):
@@ -44,6 +46,7 @@ def auth_func(func):
         if not current_user.is_authenticated:
             raise ProcessingException(description="Not authenticated!", code=401)
         return func(*args, **kwargs)
+
     wrapper.__doc__ = func.__doc__
     wrapper.__name__ = func.__name__
     return wrapper

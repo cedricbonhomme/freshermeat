@@ -8,6 +8,7 @@ DEBUG = True
 TESTING = True
 
 FRESHERMEAT_INSTANCE_NAME = "Open Source Security Software"
+FRESHERMEAT_INSTANCE_URL = "https://open-source-security-software.net"
 
 DB_CONFIG_DICT = {
     "user": "pgsqluser",

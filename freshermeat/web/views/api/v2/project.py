@@ -1,8 +1,8 @@
-from flask import Blueprint
+from flask import Blueprint, render_template
 from flask_login import login_required, current_user
 from flask_restx import Api, Resource, fields, reqparse
 
-from freshermeat.bootstrap import db
+from freshermeat.bootstrap import db, application
 from freshermeat.models import Project
 from freshermeat.web.views.api.v2.common import auth_func
 
@@ -17,6 +17,17 @@ api = Api(
     # decorators = [auth_func]
     # All API metadatas
 )
+
+
+@api.documentation
+def custom_ui():
+    return render_template(
+        "swagger-ui.html",
+        title=api.title,
+        specs_url="{}/api/v2/projects/swagger.json".format(
+            application.config["FRESHERMEAT_INSTANCE_URL"]
+        ),
+    )
 
 
 # Argument Parsing
@@ -35,12 +46,14 @@ parser.add_argument("per_page", type=int, location="args")
 project = api.model(
     "Project",
     {
-        "id": fields.Integer(readonly=True, description="The project unique identifier"),
-        "name": fields.String(
-            description="Name of the project.",
+        "id": fields.Integer(
+            readonly=True, description="The project unique identifier"
         ),
+        "name": fields.String(description="Name of the project.",),
         "description": fields.String(description="The description of the project."),
-        "short_description": fields.String(description="The short descripton of the project."),
+        "short_description": fields.String(
+            description="The short descripton of the project."
+        ),
         "website": fields.String(description="The website of the project."),
         "organization": fields.String(
             attribute=lambda x: x.organization.name if x.organization else None,

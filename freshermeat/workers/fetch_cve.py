@@ -31,7 +31,7 @@ logger = logging.getLogger(__name__)
 
 sem = asyncio.Semaphore(20)
 
-cve_search = CVESearch(base_url='')
+cve_search = CVESearch(base_url="")
 
 
 async def get_cve(*args, **kwargs):
