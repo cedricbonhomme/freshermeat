@@ -96,10 +96,13 @@ class ProjectsList(Resource):
 
         try:
             query = Project.query
+            for arg in args:
+                if hasattr(Project, arg):
+                    query = query.filter(getattr(Project, arg) == args[arg])
             total = query.count()
             projects = query.all()
-            count = 0
-        except Exception:
+            count = total
+        except:
             return result, 200
         finally:
             if not projects:
