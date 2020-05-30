@@ -1,33 +1,12 @@
-from flask import Blueprint, render_template
-from flask_login import login_required, current_user
-from flask_restx import Api, Resource, fields, reqparse
+from flask import request
+from flask_restx import Namespace, Resource, fields, reqparse
 
 from freshermeat.bootstrap import db, application
 from freshermeat.models import Project
 from freshermeat.web.views.api.v2.common import auth_func
 
 
-blueprint = Blueprint("api", __name__, url_prefix="/api/v2/projects")
-api = Api(
-    blueprint,
-    title="Freshermeat - API v2",
-    version="2.0",
-    description="API v2 of Freshermeat.",
-    doc="/swagger/",
-    # decorators = [auth_func]
-    # All API metadatas
-)
-
-
-@api.documentation
-def custom_ui():
-    return render_template(
-        "swagger-ui.html",
-        title=api.title,
-        specs_url="{}/api/v2/projects/swagger.json".format(
-            application.config["FRESHERMEAT_INSTANCE_URL"]
-        ),
-    )
+project_ns = Namespace("projects", description="project related operations")
 
 
 # Argument Parsing
@@ -43,7 +22,7 @@ parser.add_argument("per_page", type=int, location="args")
 
 
 # Response marshalling
-project = api.model(
+project = project_ns.model(
     "Project",
     {
         "id": fields.Integer(
@@ -63,7 +42,7 @@ project = api.model(
     },
 )
 
-project_list_fields = api.model(
+project_list_fields = project_ns.model(
     "ProjectsList",
     {
         "metadata": fields.Raw(
@@ -74,13 +53,13 @@ project_list_fields = api.model(
 )
 
 
-@api.route("/")
+@project_ns.route("/")
 class ProjectsList(Resource):
     """Shows a list of all projects, and lets you POST to add new projects"""
 
-    @api.doc("list_projects")
-    @api.expect(parser)
-    @api.marshal_list_with(project_list_fields, skip_none=True)
+    @project_ns.doc("list_projects")
+    @project_ns.expect(parser)
+    @project_ns.marshal_list_with(project_list_fields, skip_none=True)
     def get(self):
         """List all projects"""
         args = parser.parse_args()
@@ -114,42 +93,45 @@ class ProjectsList(Resource):
 
         return result, 200
 
-    @api.doc("create_project")
-    @api.expect(project)
-    @api.marshal_with(project, code=201)
+    @project_ns.doc("create_project")
+    @project_ns.expect(project)
+    @project_ns.marshal_with(project, code=201)
+    @project_ns.doc(security='apikey')
     @auth_func
     def post(self):
         """Create a new project"""
-        new_project = Project(**api.payload)
+        new_project = Project(**project_ns.payload)
         db.session.add(new_project)
         db.session.commit()
         return new_project, 201
 
 
-@api.route("/<string:id>")
-@api.response(404, "Project not found")
-@api.param("id", "The project identifier")
+@project_ns.route("/<string:id>")
+@project_ns.response(404, "Project not found")
+@project_ns.param("id", "The project identifier")
 class projectItem(Resource):
     """Show a single project item and lets you delete them"""
 
-    @api.doc("get_project")
-    @api.marshal_with(project)
+    @project_ns.doc("get_project")
+    @project_ns.marshal_with(project)
     def get(self, id):
         """Fetch a given resource"""
         return Project.query.filter(Project.id == id).first(), 200
 
-    @api.doc("delete_project")
-    @api.response(204, "Project deleted")
+    @project_ns.doc("delete_project")
+    @project_ns.response(204, "Project deleted")
+    @project_ns.doc(security='apikey')
     @auth_func
     def delete(self, id):
         """Delete a project given its identifier"""
         # DAO.delete(id)
         return "", 204
 
-    @api.expect(project)
-    @api.marshal_with(project)
+    @project_ns.expect(project)
+    @project_ns.marshal_with(project)
+    @project_ns.doc(security='apikey')
     @auth_func
     def put(self, id):
         """Update a project given its identifier"""
-        # return DAO.update(id, api.payload)
+        # return DAO.update(id, project_ns.payload)
         pass

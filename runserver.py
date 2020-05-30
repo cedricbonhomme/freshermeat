@@ -49,7 +49,7 @@ with application.app_context():
     application.register_blueprint(views.api.v1.blueprint_feed)
 
     # API v2
-    application.register_blueprint(views.api.v2.blueprint_project)
+    application.register_blueprint(views.api.v2.api_blueprint)
 
 
 if __name__ == "__main__":
