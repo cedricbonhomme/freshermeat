@@ -47,6 +47,24 @@ img {
 }
 
 
+.btn-primary {
+    background-color: #006FBA;
+    color: white;
+}
+.btn-outline-primary {
+    border-color: #006FBA;
+    color: #006FBA;
+}
+.btn-secondary {
+    background-color: #006FBA;
+    color: white;
+}
+.btn-default {
+    background-color: #006FBA;
+    color: white;
+}
+
+
 /*
 Make bootstrap-select work with bootstrap 4 see:
 https://github.com/silviomoreto/bootstrap-select/issues/1135
