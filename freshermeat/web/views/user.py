@@ -71,3 +71,16 @@ def process_form():
     # flash(User %(user_login)s successfully updated.',
     #         user_login=form.login.data, 'success')
     return redirect(url_for("user_bp.form"))
+
+
+@user_bp.route("/generate_apikey", methods=["GET"])
+@login_required
+def generate_apikey():
+    """Generate an API key for a user."""
+    user = User.query.filter(User.id == current_user.id).first()
+    if user is None:
+        abort(404)
+    user.generate_apikey()
+    db.session.commit()
+    flash("New API key generated.", "success")
+    return redirect(url_for("user_bp.form"))
