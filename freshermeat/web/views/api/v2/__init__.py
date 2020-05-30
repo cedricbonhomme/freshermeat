@@ -4,7 +4,7 @@ from flask_restx import Api
 from freshermeat.bootstrap import application
 
 
-api_blueprint = Blueprint("api", __name__, url_prefix="/api/v2")
+api_blueprint = Blueprint("apiv2", __name__, url_prefix="/api/v2")
 
 
 def setup_api(application):

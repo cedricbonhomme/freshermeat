@@ -23,7 +23,7 @@
     </div>
     <div class="row justify-content-between">
             <div class="col-md-4">
-                <p class="text-justify">The Open Source Security Software directory is an open database.
+                <p class="text-justify">The Open Source Security Software directory is an open database.<br />
                 You can contribute to this directory by
                 <a href="{{ url_for('submission_bp.form_submission') }}">submitting</a>
                 an open source security project.</p>
@@ -31,6 +31,9 @@
             <div class="col-md-4 text-justify">
                 <p class="text-justify">Members can add new projects to the directory with a bookmarklet. Just add the following link to your browser's bookmarks.</p>
                 <a href="javascript:if(document.getSelection){s=document.getSelection();}else{s='';};document.location='{{ url | instance_domain_name }}/project/bookmarklet?url='+encodeURIComponent(document.location)+'&name='+encodeURIComponent(document.title)" class="btn btn-primary" role="button" aria-pressed="true">Add this project to Freshermeat</a>
+            </div>
+            <div class="col-md-4">
+                Check the <a href="{{ url_for('apiv2.doc') }}">documentation of the API</a>.
             </div>
     </div>
 </div>
