@@ -1,4 +1,5 @@
 from flask import request
+from flask_login import current_user
 from flask_restx import Namespace, Resource, fields, reqparse
 
 from freshermeat.bootstrap import db, application
@@ -100,6 +101,7 @@ class ProjectsList(Resource):
     @auth_func
     def post(self):
         """Create a new project"""
+        project_ns.payload["submitter_id"] = current_user.id
         new_project = Project(**project_ns.payload)
         db.session.add(new_project)
         db.session.commit()

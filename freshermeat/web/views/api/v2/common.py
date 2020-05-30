@@ -22,7 +22,7 @@
 import logging
 from flask import request
 from flask_login import current_user
-from flask_restless import ProcessingException
+from flask_restx import abort
 
 from freshermeat.web.views.common import login_user_bundle
 from freshermeat.models import User
@@ -37,14 +37,23 @@ def auth_func(func):
                 User.login == request.authorization.username
             ).first()
             if not user:
-                raise ProcessingException("Couldn't authenticate your user", code=401)
+                abort(401, Error="Couldn't authenticate your user")
             if not user.check_password(request.authorization.password):
-                raise ProcessingException("Couldn't authenticate your user", code=401)
+                abort(401, Error="Couldn't authenticate your user")
             if not user.is_active:
-                raise ProcessingException("Couldn't authenticate your user", code=401)
+                abort(401, Error="Couldn't authenticate your user")
             login_user_bundle(user)
+        elif "X-API-KEY" in request.headers:
+            token = request.headers.get("X-API-KEY", False)
+            if token:
+                user = User.query.filter(User.apikey == token).first()
+                if not user:
+                    abort(400, Error="Authentication required.")
+                login_user_bundle(user)
+
         if not current_user.is_authenticated:
-            raise ProcessingException(description="Not authenticated!", code=401)
+            abort(401, Error="Not authenticated.")
+
         return func(*args, **kwargs)
 
     wrapper.__doc__ = func.__doc__
