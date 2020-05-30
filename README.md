@@ -9,7 +9,7 @@ Main functionalities are the following:
 - tracking of software releases, vulnerabilities (CVE) and news;
 - subscribe to releases of a project or an organization via an ATOM feed;
 - JSON-based API in order to manages projects, releases, CVEs, etc. and
-  [documented with Swagger](https://open-source-security-software.net/api/v2/projects/swagger);
+  [documented with Swagger](https://open-source-security-software.net/api/v2);
 - management of organizations.
 
 Freshermeat instance for tracking security-oriented projects:  
