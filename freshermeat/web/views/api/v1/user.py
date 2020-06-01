@@ -34,7 +34,6 @@ def pre_get_single(search_params=None, **kw):
 def pre_get_many(search_params=None, **kw):
     filters = [
         dict(name="public_profile", op="eq", val=True),
-        dict(name="is_api", op="eq", val=False),
     ]
     # Check if there are any filters there already.
     if "filters" not in search_params:
