@@ -15,6 +15,7 @@ parser = reqparse.RequestParser()
 parser.add_argument("cve_id", type=str, help="The id of the CVE.")
 parser.add_argument("summary", type=str, help="The summary of the CVE.")
 parser.add_argument("project_id", type=str, help="Id of the project related to the CVE.")
+parser.add_argument("project_name", type=str, help="Name of the project related to the CVE.")
 parser.add_argument("page", type=int, default=1, location="args")
 parser.add_argument("per_page", type=int, location="args")
 
@@ -65,6 +66,9 @@ class CVEsList(Resource):
             for arg in args:
                 if hasattr(CVE, arg):
                     query = query.filter(getattr(CVE, arg) == args[arg])
+                else:
+                    p_arg = arg.split("_")[1]
+                    query = query.filter(CVE.project.has(**{p_arg: args[arg]}))
             total = query.count()
             cves = query.all()
             count = total
