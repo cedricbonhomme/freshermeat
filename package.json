@@ -12,7 +12,7 @@
     "datatables.net-bs4": "^1.10.20",
     "fork-awesome": "^1.1.7",
     "jquery": "^3.5.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "moment": "^2.24.0",
     "popper.js": "^1.16.1",
     "tinymce": "^5.2.2"
