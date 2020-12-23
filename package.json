@@ -4,18 +4,18 @@
   "license": "AGPL-3.0",
   "private": true,
   "dependencies": {
-    "bootstrap": "^4.5.2",
+    "bootstrap": "^4.5.3",
     "bootstrap-select": "^1.13.18",
-    "chart.js": "^2.9.3",
+    "chart.js": "^2.9.4",
     "datatables": "^1.10.18",
-    "datatables.net": "^1.10.21",
-    "datatables.net-bs4": "^1.10.21",
+    "datatables.net": "^1.10.23",
+    "datatables.net-bs4": "^1.10.23",
     "fork-awesome": "^1.1.7",
     "jquery": "^3.5.1",
-    "lodash": "^4.17.19",
-    "moment": "^2.27.0",
+    "lodash": "^4.17.20",
+    "moment": "^2.29.1",
     "popper.js": "^1.16.1",
-    "tinymce": "^5.4.1"
+    "tinymce": "^5.6.2"
   },
   "engines": {
     "yarn": ">= 1.0.0"
