@@ -56,7 +56,7 @@ your own file and export it in the variable ``APPLICATION_SETTINGS``.
 
 ## Workers
 
-Workers are located in the forder _freshermeat/workers/_ and can be launched
+Workers are located in the folder _freshermeat/workers/_ and can be launched
 periodically with __cron__.
 
 ### Retrieving CVEs
