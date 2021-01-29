@@ -106,7 +106,9 @@ def recent_releases():
         fe = fg.add_entry()
         fe.id("{} {}".format(release.project.name, release.id))
         fe.title("{} {}".format(release.project.name, release.version))
+        fe.description(release.changes)
         fe.link(href=release.release_url)
+        fe.updated(release.published_at.replace(tzinfo=timezone.utc))
         fe.published(release.published_at.replace(tzinfo=timezone.utc))
     atomfeed = fg.atom_str(pretty=True)
     return atomfeed
@@ -123,8 +125,10 @@ def recent_cves():
     for cve in cves:
         fe = fg.add_entry()
         fe.id(cve.cve_id)
-        fe.title("{}".format(cve.summary))
-        fe.link(href="http://cve.circl.lu/cve/" + cve.cve_id)
+        fe.title("{} - {}".format(cve.project.name, cve.cve_id))
+        fe.description(cve.summary)
+        fe.link(href="https://cve.circl.lu/cve/" + cve.cve_id)
+        fe.updated(cve.published_at.replace(tzinfo=timezone.utc))
         fe.published(cve.published_at.replace(tzinfo=timezone.utc))
     atomfeed = fg.atom_str(pretty=True)
     return atomfeed
@@ -133,17 +137,21 @@ def recent_cves():
 @current_app.route("/news.atom", methods=["GET"])
 def recent_news():
     """Generates a feed for the news."""
-    feed = AtomFeed("Recent news", feed_url=request.url, url=request.url_root)
+    fg = FeedGenerator()
+    fg.id(url_for("recent_news", _external=True))
+    fg.title("Recent news")
+    fg.link(href=request.url, rel="self")
     news = News.query.filter().order_by(desc(News.published)).limit(100)
     for a_news in news:
-        feed.add(
-            "{} - {}".format(a_news.project.name, a_news.title),
-            a_news.content,
-            id=a_news.entry_id,
-            url=a_news.link,
-            updated=a_news.published,
-        )
-    return feed.get_response()
+        fe = fg.add_entry()
+        fe.id(a_news.entry_id)
+        fe.title("{} - {}".format(a_news.project.name, a_news.title))
+        fe.description(a_news.content)
+        fe.link(href=a_news.link)
+        fe.updated(a_news.published_at.replace(tzinfo=timezone.utc))
+        fe.published(a_news.published_at.replace(tzinfo=timezone.utc))
+    atomfeed = fg.atom_str(pretty=True)
+    return atomfeed
 
 
 @current_app.route("/about", methods=["GET"])
