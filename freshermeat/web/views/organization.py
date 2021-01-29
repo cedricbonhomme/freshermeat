@@ -21,9 +21,9 @@
 
 import os
 import uuid
+from datetime import timezone
 from flask import Blueprint, render_template, request, abort, redirect, url_for, flash
-
-# from werkzeug.contrib.atom import AtomFeed
+from feedgen.feed import FeedGenerator
 from flask_login import login_required
 
 from freshermeat.bootstrap import db, application
@@ -64,21 +64,21 @@ def recent_releases(organization_name=None):
     ).first()
     if organization is None:
         abort(404)
-    feed = AtomFeed(
-        "Recent releases for {}".format(organization.name),
-        feed_url=request.url,
-        url=request.url_root,
-    )
+    fg = FeedGenerator()
+    fg.id(url_for("organization_bp.recent_releases", organization_name=organization.name, _external=True))
+    fg.title("Recent releases for {}".format(organization.name))
+    fg.link(href=request.url, rel="self")
     for project in organization.projects:
         for release in project.releases:
-            feed.add(
-                release.version,
-                release.changes,
-                id=release.id,
-                url=release.release_url,
-                updated=release.published_at,
-            )
-    return feed.get_response()
+            fe = fg.add_entry()
+            fe.id("{} {}".format(release.project.name, release.version))
+            fe.title("{} {}".format(release.project.name, release.version))
+            fe.description(release.changes)
+            fe.link(href=release.release_url)
+            fe.updated(release.published_at.replace(tzinfo=timezone.utc))
+            fe.published(release.published_at.replace(tzinfo=timezone.utc))
+    atomfeed = fg.atom_str(pretty=True)
+    return atomfeed
 
 
 @organization_bp.route("/create", methods=["GET"])
