@@ -21,10 +21,10 @@
 
 import os
 import uuid
+from datetime import timezone
 from flask import Blueprint, render_template, redirect, url_for, flash, request, abort
 from flask_login import login_required, current_user
-
-# from werkzeug.contrib.atom import AtomFeed
+from feedgen.feed import FeedGenerator
 
 from freshermeat.bootstrap import db, application
 from freshermeat.models import (
@@ -166,20 +166,20 @@ def recent_releases(project_name=None):
     project = Project.query.filter(Project.name == project_name).first()
     if project is None:
         abort(404)
-    feed = AtomFeed(
-        "Recent releases for {}".format(project.name),
-        feed_url=request.url,
-        url=request.url_root,
-    )
+    fg = FeedGenerator()
+    fg.id(url_for("project_bp.recent_releases", project_name=project.name, _external=True))
+    fg.title("Recent releases for {}".format(project.name))
+    fg.link(href=request.url, rel="self")
     for release in project.releases:
-        feed.add(
-            "{} {}".format(release.project.name, release.version),
-            release.changes,
-            id=release.id,
-            url=release.release_url,
-            updated=release.published_at,
-        )
-    return feed.get_response()
+        fe = fg.add_entry()
+        fe.id("{} {}".format(release.project.name, release.version))
+        fe.title("{} {}".format(release.project.name, release.version))
+        fe.description(release.changes)
+        fe.link(href=release.release_url)
+        fe.updated(release.published_at.replace(tzinfo=timezone.utc))
+        fe.published(release.published_at.replace(tzinfo=timezone.utc))
+    atomfeed = fg.atom_str(pretty=True)
+    return atomfeed
 
 
 @project_bp.route("/<string:project_name>/cves.atom", methods=["GET"])
@@ -188,20 +188,20 @@ def recent_cves(project_name=None):
     project = Project.query.filter(Project.name == project_name).first()
     if project is None:
         abort(404)
-    feed = AtomFeed(
-        "Recent CVEs for {}".format(project.name),
-        feed_url=request.url,
-        url=request.url_root,
-    )
+    fg = FeedGenerator()
+    fg.id(url_for("project_bp.recent_cves", project_name=project.name, _external=True))
+    fg.title("Recent CVEs for {}".format(project.name))
+    fg.link(href=request.url, rel="self")
     for cve in project.cves:
-        feed.add(
-            cve.cve_id,
-            cve.summary,
-            id=cve.id,
-            url="http://cve.circl.lu/cve/" + cve.cve_id,
-            updated=cve.published_at,
-        )
-    return feed.get_response()
+        fe = fg.add_entry()
+        fe.id(cve.cve_id)
+        fe.title("{} - {}".format(cve.project.name, cve.cve_id))
+        fe.description(cve.summary)
+        fe.link(href="https://cve.circl.lu/cve/" + cve.cve_id)
+        fe.updated(cve.published_at.replace(tzinfo=timezone.utc))
+        fe.published(cve.published_at.replace(tzinfo=timezone.utc))
+    atomfeed = fg.atom_str(pretty=True)
+    return atomfeed
 
 
 @project_bp.route("/<string:project_name>/news.atom", methods=["GET"])
@@ -210,20 +210,20 @@ def recent_news(project_name=None):
     project = Project.query.filter(Project.name == project_name).first()
     if project is None:
         abort(404)
-    feed = AtomFeed(
-        "Recent news for {}".format(project.name),
-        feed_url=request.url,
-        url=request.url_root,
-    )
-    for news in project.news:
-        feed.add(
-            "{}".format(news.title),
-            news.content,
-            id=news.entry_id,
-            url=news.link,
-            updated=news.published,
-        )
-    return feed.get_response()
+    fg = FeedGenerator()
+    fg.id(url_for("project_bp.recent_news", project_name=project.name, _external=True))
+    fg.title("Recent news for {}".format(project.name))
+    fg.link(href=request.url, rel="self")
+    for a_news in project.news:
+        fe = fg.add_entry()
+        fe.id(a_news.entry_id)
+        fe.title("{} - {}".format(a_news.project.name, a_news.title))
+        fe.description(a_news.content)
+        fe.link(href=a_news.link)
+        fe.updated(a_news.published_at.replace(tzinfo=timezone.utc))
+        fe.published(a_news.published_at.replace(tzinfo=timezone.utc))
+    atomfeed = fg.atom_str(pretty=True)
+    return atomfeed
 
 
 @project_bp.route("/create", methods=["GET"])

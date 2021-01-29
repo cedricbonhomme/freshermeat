@@ -104,7 +104,7 @@ def recent_releases():
     releases = Release.query.filter().order_by(desc(Release.published_at)).limit(100)
     for release in releases:
         fe = fg.add_entry()
-        fe.id("{} {}".format(release.project.name, release.id))
+        fe.id("{} {}".format(release.project.name, release.version))
         fe.title("{} {}".format(release.project.name, release.version))
         fe.description(release.changes)
         fe.link(href=release.release_url)
