@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Freshermeat - An open source software directory and release tracker.
-# Copyright (C) 2017-2020 Cédric Bonhomme - https://www.cedricbonhomme.org
+# Copyright (C) 2017-2021 Cédric Bonhomme - https://www.cedricbonhomme.org
 #
 # For more information: https://sr.ht/~cedric/freshermeat
 #
