@@ -21,6 +21,7 @@
 
 import os
 import logging
+from datetime import timezone
 from flask import (
     render_template,
     url_for,
@@ -31,8 +32,8 @@ from flask import (
     request,
 )
 
-# from werkzeug.contrib.atom import AtomFeed
 from sqlalchemy import desc
+from feedgen.feed import FeedGenerator
 
 from freshermeat.models import Release, Project, CVE, News
 from freshermeat.bootstrap import application
@@ -96,17 +97,19 @@ def index():
 @current_app.route("/releases.atom", methods=["GET"])
 def recent_releases():
     """Generates a feed for the releases."""
-    feed = AtomFeed("Recent releases", feed_url=request.url, url=request.url_root)
+    fg = FeedGenerator()
+    fg.id(url_for("recent_releases", _external=True))
+    fg.title("Recent releases")
+    fg.link(href=request.url, rel="self")
     releases = Release.query.filter().order_by(desc(Release.published_at)).limit(100)
     for release in releases:
-        feed.add(
-            "{} {}".format(release.project.name, release.version),
-            release.changes,
-            id=release.id,
-            url=release.release_url,
-            updated=release.published_at,
-        )
-    return feed.get_response()
+        fe = fg.add_entry()
+        fe.id("{} {}".format(release.project.name, release.id))
+        fe.title("{} {}".format(release.project.name, release.version))
+        fe.link(href=release.release_url)
+        fe.published(release.published_at.replace(tzinfo=timezone.utc))
+    atomfeed = fg.atom_str(pretty=True)
+    return atomfeed
 
 
 @current_app.route("/cves.atom", methods=["GET"])
