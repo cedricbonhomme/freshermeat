@@ -115,17 +115,19 @@ def recent_releases():
 @current_app.route("/cves.atom", methods=["GET"])
 def recent_cves():
     """Generates a feed for the CVEs."""
-    feed = AtomFeed("Recent CVEs", feed_url=request.url, url=request.url_root)
+    fg = FeedGenerator()
+    fg.id(url_for("recent_cves", _external=True))
+    fg.title("Recent CVEs")
+    fg.link(href=request.url, rel="self")
     cves = CVE.query.filter().order_by(desc(CVE.published_at)).limit(100)
     for cve in cves:
-        feed.add(
-            cve.cve_id,
-            cve.summary,
-            id=cve.id,
-            url="http://cve.circl.lu/cve/" + cve.cve_id,
-            updated=cve.published_at,
-        )
-    return feed.get_response()
+        fe = fg.add_entry()
+        fe.id(cve.cve_id)
+        fe.title("{}".format(cve.summary))
+        fe.link(href="http://cve.circl.lu/cve/" + cve.cve_id)
+        fe.published(cve.published_at.replace(tzinfo=timezone.utc))
+    atomfeed = fg.atom_str(pretty=True)
+    return atomfeed
 
 
 @current_app.route("/news.atom", methods=["GET"])
