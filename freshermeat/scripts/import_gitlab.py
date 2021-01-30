@@ -10,8 +10,7 @@ from freshermeat.bootstrap import db, application
 
 
 def import_project_from_gitlab(repository, submitter_id):
-    """Imports a project hosted from GitLab.
-    """
+    """Imports a project hosted from GitLab."""
     url_parts = urlparse(repository)
     gitlab_instance = url_parts.netloc
     owner, repo = url_parts.path.strip("/").split("/")

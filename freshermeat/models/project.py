@@ -29,8 +29,7 @@ association_table_project = db.Table(
 
 
 class Project(db.Model):
-    """Represent a project.
-    """
+    """Represent a project."""
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True)

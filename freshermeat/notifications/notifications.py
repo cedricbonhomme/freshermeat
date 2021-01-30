@@ -11,8 +11,7 @@ from bootstrap import mail, application, instance_domain_name
 
 
 def new_request_notification(request):
-    """New request notification.
-    """
+    """New request notification."""
     subject = "[{service}] New request".format(service=request.service.name)
     platform_url = urllib.parse.urljoin(
         instance_domain_name(), url_for("admin_bp.view_request", request_id=request.id)

@@ -167,7 +167,9 @@ def recent_releases(project_name=None):
     if project is None:
         abort(404)
     fg = FeedGenerator()
-    fg.id(url_for("project_bp.recent_releases", project_name=project.name, _external=True))
+    fg.id(
+        url_for("project_bp.recent_releases", project_name=project.name, _external=True)
+    )
     fg.title("Recent releases for {}".format(project.name))
     fg.link(href=request.url, rel="self")
     for release in project.releases:

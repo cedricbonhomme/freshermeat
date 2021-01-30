@@ -5,8 +5,7 @@ from freshermeat.models import Project
 
 
 class Release(db.Model):
-    """Represent a release.
-    """
+    """Represent a release."""
 
     id = db.Column(db.Integer, primary_key=True)
     version = db.Column(db.String(), default="", nullable=False)

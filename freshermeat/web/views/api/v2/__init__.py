@@ -9,7 +9,11 @@ api_blueprint = Blueprint("apiv2", __name__, url_prefix="/api/v2")
 
 def setup_api(application):
     authorizations = {
-        "apikey": {"type": "apiKey", "in": "header", "name": "X-API-KEY",}
+        "apikey": {
+            "type": "apiKey",
+            "in": "header",
+            "name": "X-API-KEY",
+        }
     }
 
     api = Api(
@@ -21,7 +25,7 @@ def setup_api(application):
         license_url="https://www.gnu.org/licenses/agpl-3.0.html",
         doc="/",
         security="apikey",
-        authorizations=authorizations
+        authorizations=authorizations,
     )
 
     @api.documentation

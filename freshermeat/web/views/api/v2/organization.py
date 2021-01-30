@@ -23,7 +23,6 @@ parser.add_argument("page", type=int, default=1, location="args")
 parser.add_argument("per_page", type=int, location="args")
 
 
-
 # Response marshalling
 organization = organization_ns.model(
     "Organization",
@@ -31,14 +30,20 @@ organization = organization_ns.model(
         "id": fields.Integer(
             readonly=True, description="The organization unique identifier"
         ),
-        "name": fields.String(description="Name of the organization.",),
-        "description": fields.String(description="The description of the organization."),
+        "name": fields.String(
+            description="Name of the organization.",
+        ),
+        "description": fields.String(
+            description="The description of the organization."
+        ),
         "short_description": fields.String(
             description="The short descripton of the organization."
         ),
         "website": fields.String(description="The website of the organization."),
         "cve_vendor": fields.String(description="CVE vendor of the organization."),
-        "last_updated": fields.DateTime(description="Last update time of the organization."),
+        "last_updated": fields.DateTime(
+            description="Last update time of the organization."
+        ),
     },
 )
 
@@ -48,7 +53,9 @@ organization_list_fields = organization_ns.model(
         "metadata": fields.Raw(
             description="Metada related to the result (number of page, current page, total number of objects)."
         ),
-        "data": fields.List(fields.Nested(organization), description="List of organizations"),
+        "data": fields.List(
+            fields.Nested(organization), description="List of organizations"
+        ),
     },
 )
 
@@ -70,7 +77,12 @@ class OrganizationsList(Resource):
 
         result = {
             "data": [],
-            "metadata": {"total": 0, "count": 0, "page": page, "per_page": per_page,},
+            "metadata": {
+                "total": 0,
+                "count": 0,
+                "page": page,
+                "per_page": per_page,
+            },
         }
 
         try:

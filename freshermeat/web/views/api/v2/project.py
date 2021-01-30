@@ -29,7 +29,9 @@ project = project_ns.model(
         "id": fields.Integer(
             readonly=True, description="The project unique identifier"
         ),
-        "name": fields.String(description="Name of the project.",),
+        "name": fields.String(
+            description="Name of the project.",
+        ),
         "description": fields.String(description="The description of the project."),
         "short_description": fields.String(
             description="The short descripton of the project."
@@ -71,7 +73,12 @@ class ProjectsList(Resource):
 
         result = {
             "data": [],
-            "metadata": {"total": 0, "count": 0, "page": page, "per_page": per_page,},
+            "metadata": {
+                "total": 0,
+                "count": 0,
+                "page": page,
+                "per_page": per_page,
+            },
         }
 
         try:
@@ -97,7 +104,7 @@ class ProjectsList(Resource):
     @project_ns.doc("create_project")
     @project_ns.expect(project)
     @project_ns.marshal_with(project, code=201)
-    @project_ns.doc(security='apikey')
+    @project_ns.doc(security="apikey")
     @auth_func
     def post(self):
         """Create a new project"""
@@ -122,7 +129,7 @@ class projectItem(Resource):
 
     @project_ns.doc("delete_project")
     @project_ns.response(204, "Project deleted")
-    @project_ns.doc(security='apikey')
+    @project_ns.doc(security="apikey")
     @auth_func
     def delete(self, id):
         """Delete a project given its identifier"""
@@ -131,7 +138,7 @@ class projectItem(Resource):
 
     @project_ns.expect(project)
     @project_ns.marshal_with(project)
-    @project_ns.doc(security='apikey')
+    @project_ns.doc(security="apikey")
     @auth_func
     def put(self, id):
         """Update a project given its identifier"""

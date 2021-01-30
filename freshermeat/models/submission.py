@@ -11,8 +11,7 @@ association_table_license = db.Table(
 
 
 class Submission(db.Model):
-    """Represent a submission.
-    """
+    """Represent a submission."""
 
     id = db.Column(db.Integer, primary_key=True)
     project_name = db.Column(db.String(100), unique=True)

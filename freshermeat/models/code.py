@@ -3,8 +3,7 @@ from freshermeat.bootstrap import db
 
 
 class Code(db.Model):
-    """Represent a source code (a repository).
-    """
+    """Represent a source code (a repository)."""
 
     id = db.Column(db.Integer(), primary_key=True)
     repository_url = db.Column(db.String(), nullable=False)

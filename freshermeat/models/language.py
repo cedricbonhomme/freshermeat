@@ -3,8 +3,7 @@ from freshermeat.bootstrap import db
 
 
 class Language(db.Model):
-    """Represent a language.
-    """
+    """Represent a language."""
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(), default="", nullable=False, unique=True)

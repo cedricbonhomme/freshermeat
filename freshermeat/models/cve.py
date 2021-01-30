@@ -3,8 +3,7 @@ from freshermeat.bootstrap import db
 
 
 class CVE(db.Model):
-    """Represent a CVE.
-    """
+    """Represent a CVE."""
 
     id = db.Column(db.Integer, primary_key=True)
     cve_id = db.Column(db.String(), nullable=False)

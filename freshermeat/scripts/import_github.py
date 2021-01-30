@@ -9,8 +9,7 @@ from freshermeat.bootstrap import db, application
 
 
 def import_project_from_github(owner, repo, submitter_id):
-    """Imports a project hosted from GitHub.
-    """
+    """Imports a project hosted from GitHub."""
     url = "https://api.github.com/repos/{owner}/{repo}".format(owner=owner, repo=repo)
     url = "{api_url}?client_id={client_id}&client_secret={client_secret}".format(
         api_url=url,
@@ -73,8 +72,7 @@ def import_project_from_github(owner, repo, submitter_id):
 
 
 def import_starred_projects_from_github(user, link=""):
-    """Imports the starred projects of a GitHub user.
-    """
+    """Imports the starred projects of a GitHub user."""
     if link != "":
         url = link
     else:
