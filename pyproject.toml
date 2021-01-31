@@ -25,7 +25,6 @@ alembic = "^1.3.3"
 maya = "^0.6.1"
 feedparser = "^5.2.1"
 psycopg2-binary = "^2.8.4"
-pycvesearch = {git = "https://github.com/cve-search/PyCVESearch.git"}
 flask_restx = "^0.2.0"
 feedgen = "^0.9.0"
 

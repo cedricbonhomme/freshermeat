@@ -22,7 +22,6 @@
 import asyncio
 import logging
 from datetime import datetime
-from pycvesearch import CVESearch
 
 from freshermeat.bootstrap import db
 from freshermeat.models import CVE, get_or_create
@@ -31,12 +30,10 @@ logger = logging.getLogger(__name__)
 
 sem = asyncio.Semaphore(20)
 
-cve_search = CVESearch(base_url="")
-
 
 async def get_cve(*args, **kwargs):
     try:
-        data = cve_search.search("{}/{}".format(args[0], args[1]))
+        data = # use the new CVE search API
         logger.info("CVE for {} retrieved".format(args[2]))
         return data
     except Exception as e:
