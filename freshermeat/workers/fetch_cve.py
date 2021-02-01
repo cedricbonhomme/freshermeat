@@ -54,7 +54,7 @@ async def insert_database(project):
     with (await sem):
         logger.info("Retrieving CVE for {}".format(project.name))
         vendors = project.cve_vendor.split(",")
-        for cve_vendor in project.cve_vendor:
+        for cve_vendor in vendors:
             cves = await get_cve(cve_vendor, project.cve_product, project.name)
             logger.info("Inserting CVE for {}".format(project.name))
             for cve in cves:
