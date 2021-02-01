@@ -60,7 +60,7 @@ async def insert_database(project):
             for cve in cves:
 
                 published_at = datetime.strptime(
-                    cve["Published"], "%Y-%m-%dT%H:%M:%S.%f"
+                    cve["Published"], "%Y-%m-%dT%H:%M:%S"
                 )
 
                 get_or_create(
