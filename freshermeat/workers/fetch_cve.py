@@ -23,6 +23,7 @@ import asyncio
 import logging
 from datetime import datetime
 
+import requests
 from freshermeat.bootstrap import db
 from freshermeat.models import CVE, get_or_create
 
@@ -33,9 +34,18 @@ sem = asyncio.Semaphore(20)
 
 async def get_cve(*args, **kwargs):
     try:
-        data = # use the new CVE search API
+        request_kwargs = {
+            "verify": True,
+            "allow_redirects": True,
+            "timeout": 15,
+            "headers": {"User-Agent": 'https://sr.ht/~cedric/freshermeat'},
+        }
+        result = requests.get("https://cvepremium.circl.lu/api/search/{}/{}".format(args[0], args[1]), **request_kwargs)
         logger.info("CVE for {} retrieved".format(args[2]))
-        return data
+        if result.status_code == 200:
+            if result.json()['total'] != 0:
+                return result.json()['results']
+        return []
     except Exception as e:
         raise e
 
