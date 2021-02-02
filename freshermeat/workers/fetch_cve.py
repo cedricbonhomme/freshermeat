@@ -38,13 +38,16 @@ async def get_cve(*args, **kwargs):
             "verify": True,
             "allow_redirects": True,
             "timeout": 15,
-            "headers": {"User-Agent": 'https://sr.ht/~cedric/freshermeat'},
+            "headers": {"User-Agent": "https://sr.ht/~cedric/freshermeat"},
         }
-        result = requests.get("https://cvepremium.circl.lu/api/search/{}/{}".format(args[0], args[1]), **request_kwargs)
+        result = requests.get(
+            "https://cvepremium.circl.lu/api/search/{}/{}".format(args[0], args[1]),
+            **request_kwargs
+        )
         logger.info("CVE for {} retrieved".format(args[2]))
         if result.status_code == 200:
-            if result.json()['total'] != 0:
-                return result.json()['results']
+            if result.json()["total"] != 0:
+                return result.json()["results"]
         return []
     except Exception as e:
         raise e
@@ -59,9 +62,7 @@ async def insert_database(project):
             logger.info("Inserting CVE for {}".format(project.name))
             for cve in cves:
 
-                published_at = datetime.strptime(
-                    cve["Published"], "%Y-%m-%dT%H:%M:%S"
-                )
+                published_at = datetime.strptime(cve["Published"], "%Y-%m-%dT%H:%M:%S")
 
                 get_or_create(
                     db.session,
