@@ -4,7 +4,7 @@
   "license": "AGPL-3.0",
   "private": true,
   "dependencies": {
-    "bootstrap": "^4.5.3",
+    "bootstrap": "^4.6.0",
     "bootstrap-select": "^1.13.18",
     "chart.js": "^2.9.4",
     "datatables": "^1.10.18",
