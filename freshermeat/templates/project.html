@@ -185,7 +185,7 @@ function loadCVEs() {
             })
             .map(function(cve){
                 var cardHTML = cveTemplate({
-                    'cve_url': 'http://cve.circl.lu/cve/' + cve.cve_id,
+                    'cve_url': 'http://cvepremium.circl.lu/cve/' + cve.cve_id,
                     'cve_id': cve.cve_id,
                     'published_at': moment(cve.published_at).fromNow(),
                     'cve_summary': cve.summary

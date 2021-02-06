@@ -127,7 +127,7 @@ def recent_cves():
         fe.id(cve.cve_id)
         fe.title("{} - {}".format(cve.project.name, cve.cve_id))
         fe.description(cve.summary)
-        fe.link(href="https://cve.circl.lu/cve/" + cve.cve_id)
+        fe.link(href="https://cvepremium.circl.lu/cve/" + cve.cve_id)
         fe.updated(cve.published_at.replace(tzinfo=timezone.utc))
         fe.published(cve.published_at.replace(tzinfo=timezone.utc))
     atomfeed = fg.atom_str(pretty=True)

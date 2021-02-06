@@ -47,4 +47,4 @@ MAIL_DEFAULT_SENDER = ""
 GITHUB_CLIENT_ID = ""
 GITHUB_CLIENT_SECRET = ""
 
-CVE_SEARCH_INSTANCE = "https://cve.circl.lu"
+CVE_SEARCH_INSTANCE = "https://cvepremium.circl.lu"
