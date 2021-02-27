@@ -222,8 +222,8 @@ def recent_news(project_name=None):
         fe.title("{} - {}".format(a_news.project.name, a_news.title))
         fe.description(a_news.content)
         fe.link(href=a_news.link)
-        fe.updated(a_news.published_at.replace(tzinfo=timezone.utc))
-        fe.published(a_news.published_at.replace(tzinfo=timezone.utc))
+        fe.updated(a_news.published.replace(tzinfo=timezone.utc))
+        fe.published(a_news.published.replace(tzinfo=timezone.utc))
     atomfeed = fg.atom_str(pretty=True)
     return atomfeed
 
