@@ -7,8 +7,8 @@
             <h1>{% if config.FRESHERMEAT_INSTANCE_NAME %}{{ config.FRESHERMEAT_INSTANCE_NAME }}{% else %}Freshermeat{% endif %}</h1>
             <div class="float-right text-right">
                 <h6>{{ nb_projects }} projects</h6>
-                <h6>{{ nb_releases }} releases</h6>
-                <h6>{{ nb_cves }} CVEs</h6>
+                <h6>{{ nb_releases }} releases <a href="{{ url_for('recent_releases') }}" type="application/atom+xml"><i class="fa fa-rss" aria-hidden="true"></i></a></h6>
+                <h6>{{ nb_cves }} CVEs <a href="{{ url_for('recent_cves') }}" type="application/atom+xml"><i class="fa fa-rss" aria-hidden="true"></i></a></h6>
             </div>
         </div>
     </div>

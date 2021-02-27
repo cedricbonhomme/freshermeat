@@ -101,7 +101,7 @@
                             {% endfor %}
                             </div>
                         </div>
-			            <div class="tab-pane fade" id="dependencies" role="tabpanel" aria-labelledby="dependencies-tab">
+                        <div class="tab-pane fade" id="dependencies" role="tabpanel" aria-labelledby="dependencies-tab">
                             <div class="list-group list-group-flush">
                             {% for project in project.dependencies  %}
                                 <a class="list-group-item list-group-item-action" href="{{ url_for('project_bp.get', project_name=project.name) }}">{{ project.name }}</a>
@@ -138,15 +138,15 @@
                     </ul>
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="releases" role="tabpanel" aria-labelledby="releases-tab">
-                            <a href="{{ url_for('project_bp.recent_releases', project_name=project.name) }}"><i class="fa fa-rss-square" aria-hidden="true" title="Recent releases for {{ project.name }}"></i></a>
+                            <a href="{{ url_for('project_bp.recent_releases', project_name=project.name) }}" type="application/atom+xml"><i class="fa fa-rss-square" aria-hidden="true" title="Recent releases for {{ project.name }}"></i></a>
                             <div id="project-releases" class="list-group list-group-flush"></div>
                         </div>
                         <div class="tab-pane fade" id="cves" role="tabpanel" aria-labelledby="cves-tab">
-                            <a href="{{ url_for('project_bp.recent_cves', project_name=project.name) }}"><i class="fa fa-rss-square" aria-hidden="true" title="Recent releases for {{ project.name }}"></i></a>
+                            <a href="{{ url_for('project_bp.recent_cves', project_name=project.name) }}" type="application/atom+xml"><i class="fa fa-rss-square" aria-hidden="true" title="Recent releases for {{ project.name }}"></i></a>
                             <div id="list-cves" class="list-group list-group-flush"></div>
                         </div>
                         <div class="tab-pane fade" id="news" role="tabpanel" aria-labelledby="news-tab">
-                            <a href="{{ url_for('project_bp.recent_news', project_name=project.name) }}"><i class="fa fa-rss-square" aria-hidden="true" title="Recent news for {{ project.name }}"></i></a>
+                            <a href="{{ url_for('project_bp.recent_news', project_name=project.name) }}" type="application/atom+xml"><i class="fa fa-rss-square" aria-hidden="true" title="Recent news for {{ project.name }}"></i></a>
                             <div id="project-news" class="list-group list-group-flush"></div>
                         </div>
                     </div>
