@@ -77,6 +77,13 @@ periodically with __cron__.
 (freshermeat) $ python manager.py fetch_news
 ```
 
+## Contributing
+
+Patches and questions? Send to my [public
+inbox](https://lists.sr.ht/~cedric/public-inbox):
+[`~cedric/public-inbox@lists.sr.ht`](mailto:~cedric/public-inbox@lists.sr.ht).
+Thanks!
+
 
 ## License
 
