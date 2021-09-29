@@ -8,14 +8,14 @@
     "bootstrap-select": "^1.13.18",
     "chart.js": "^2.9.4",
     "datatables": "^1.10.18",
-    "datatables.net": "^1.10.23",
-    "datatables.net-bs4": "^1.10.23",
-    "fork-awesome": "^1.1.7",
-    "jquery": "^3.5.1",
-    "lodash": "^4.17.20",
+    "datatables.net": "^1.11.3",
+    "datatables.net-bs4": "^1.11.3",
+    "fork-awesome": "^1.2.0",
+    "jquery": "^3.6.0",
+    "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "popper.js": "^1.16.1",
-    "tinymce": "^5.6.2"
+    "tinymce": "^5.9.2"
   },
   "engines": {
     "yarn": ">= 1.0.0"
