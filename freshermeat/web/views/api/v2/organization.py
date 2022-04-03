@@ -14,6 +14,7 @@ organization_ns = Namespace(
 parser = reqparse.RequestParser()
 parser.add_argument("name", type=str, help="Name of the organization.")
 parser.add_argument("description", type=str, help="Description of the organization.")
+parser.add_argument("organization_type", type=str, help="Type of the organization.")
 parser.add_argument(
     "short_description", type=str, help="Short descripton of the organization."
 )
@@ -35,6 +36,9 @@ organization = organization_ns.model(
         ),
         "description": fields.String(
             description="The description of the organization."
+        ),
+        "organization_type": fields.String(
+            description="The type of the organization."
         ),
         "short_description": fields.String(
             description="The short descripton of the organization."
@@ -85,19 +89,13 @@ class OrganizationsList(Resource):
             },
         }
 
-        try:
-            query = Organization.query
-            for arg in args:
-                if hasattr(Organization, arg):
-                    query = query.filter(getattr(Organization, arg) == args[arg])
-            total = query.count()
-            organizations = query.all()
-            count = total
-        except:
-            return result, 200
-        finally:
-            if not organizations:
-                return result, 200
+        query = Organization.query
+        for arg in args:
+            if hasattr(Organization, arg):
+                query = query.filter(getattr(Organization, arg) == args[arg])
+        total = query.count()
+        organizations = query.all()
+        count = total
 
         result["data"] = organizations
         result["metadata"]["total"] = total

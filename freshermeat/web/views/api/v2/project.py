@@ -17,7 +17,11 @@ parser.add_argument("description", type=str, help="Description of the project.")
 parser.add_argument(
     "short_description", type=str, help="Short descripton of the project."
 )
+parser.add_argument("tags", type=str, help="Tags of the project.")
+parser.add_argument("license", type=str, help="License of the project.")
+parser.add_argument("language", type=str, help="Language of the project.")
 parser.add_argument("website", type=int, help="Website of the project.")
+parser.add_argument("organization", type=str, help="Organization of the project.")
 parser.add_argument("page", type=int, default=1, location="args")
 parser.add_argument("per_page", type=int, location="args")
 
@@ -36,6 +40,9 @@ project = project_ns.model(
         "short_description": fields.String(
             description="The short descripton of the project."
         ),
+        "tag_objs": fields.List(fields.String(description="List of tags.")),
+        "licenses": fields.List(fields.String(description="List of licenses.")),
+        "languages": fields.List(fields.String(description="List of languages.")),
         "website": fields.String(description="The website of the project."),
         "organization": fields.String(
             attribute=lambda x: x.organization.name if x.organization else None,
@@ -66,6 +73,9 @@ class ProjectsList(Resource):
     def get(self):
         """List all projects"""
         args = parser.parse_args()
+        project_organization = args.pop("organization", None)
+        project_license = args.pop("license", None)
+        project_language = args.pop("language", None)
         args = {k: v for k, v in args.items() if v is not None}
 
         page = args.pop("page", 1)
@@ -81,19 +91,21 @@ class ProjectsList(Resource):
             },
         }
 
-        try:
-            query = Project.query
-            for arg in args:
-                if hasattr(Project, arg):
-                    query = query.filter(getattr(Project, arg) == args[arg])
-            total = query.count()
-            projects = query.all()
-            count = total
-        except:
-            return result, 200
-        finally:
-            if not projects:
-                return result, 200
+        query = Project.query
+        for arg in args:
+            if hasattr(Project, arg):
+                query = query.filter(getattr(Project, arg) == args[arg])
+        # Filter on other attributes
+        if project_organization is not None:
+            query = query.filter(Project.organization.has(name=project_organization))
+        if project_license is not None:
+            query = query.filter(Project.licenses.any(name=project_license))
+        if project_language is not None:
+            query = query.filter(Project.languages.any(name=project_language))
+
+        total = query.count()
+        projects = query.all()
+        count = total
 
         result["data"] = projects
         result["metadata"]["total"] = total

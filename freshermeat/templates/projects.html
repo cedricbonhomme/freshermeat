@@ -58,146 +58,179 @@
 </div><!-- /.container -->
 <script>
 $(document).ready(function() {
-    var url = "{{ url_for('projectapi0.projectapi',) }}" + "?results_per_page=50";
+    var url = "{{ url_for('apiv2.projects_projects_list', _external=True,) }}" + "?results_per_page=50";
     page_number = getUrlParameter('page');
     if (typeof page_number !== 'undefined') {
         url = url.concat("&page="+page_number);
     }
-    var filters = [];
-    tag_param = getUrlParameter('tag');
+
+    var filters = {};
+    tag_param = getUrlParameter('tags');
     if (typeof tag_param !== 'undefined') {
-        filters.push({"name": "tag_objs", "op": "any", "val": {"name":"text","op":"ilike","val": tag_param}});
+        filters["tags"] = tag_param;
     }
     organization_param = getUrlParameter('organization');
     if (typeof organization_param !== 'undefined') {
-        filters.push({"name":"organization","op":"has","val":{"name":"name","op":"eq","val": organization_param}});
+        filters["organization"] = organization_param;
     }
     license_param = getUrlParameter('license');
     if (typeof license_param !== 'undefined') {
-        filters.push({"name":"licenses","op":"any","val":{"name":"license_id","op":"eq","val": license_param}});
+        filters["license"] = license_param;
     }
     language_param = getUrlParameter('language');
     if (typeof language_param !== 'undefined') {
-        filters.push({"name":"languages","op":"any","val":{"name":"name","op":"eq","val": language_param}});
+        filters["language"] = language_param;
     }
-    description_param = getUrlParameter('description');
-    if (typeof description_param !== 'undefined') {
-        filters.push({"name":"description","op":"ilike","val":"%"+description_param+"%"});
-    }
-    submitter_param = getUrlParameter('submitter');
-    if (typeof submitter_param !== 'undefined') {
-         filters.push({"name": "submitter", "op": "has", "val": {"name":"login","op":"eq","val": submitter_param}});
-    }
-    updated_before = getUrlParameter('updated_before');
-    if (typeof updated_before !== 'undefined') {
-         filters.push({"name": "last_updated", "op": "lt", "val": updated_before});
-    }
-    updated_since = getUrlParameter('updated_since');
-    if (typeof updated_since !== 'undefined') {
-         filters.push({"name": "last_updated", "op": "gt", "val": updated_since});
-    }
+    // description_param = getUrlParameter('description');
+    // if (typeof description_param !== 'undefined') {
+    //     filters.push({"name":"description","op":"ilike","val":"%"+description_param+"%"});
+    // }
+    // submitter_param = getUrlParameter('submitter');
+    // if (typeof submitter_param !== 'undefined') {
+    //      filters.push({"name": "submitter", "op": "has", "val": {"name":"login","op":"eq","val": submitter_param}});
+    // }
+    // updated_before = getUrlParameter('updated_before');
+    // if (typeof updated_before !== 'undefined') {
+    //      filters.push({"name": "last_updated", "op": "lt", "val": updated_before});
+    // }
+    // updated_since = getUrlParameter('updated_since');
+    // if (typeof updated_since !== 'undefined') {
+    //      filters.push({"name": "last_updated", "op": "gt", "val": updated_since});
+    // }
+
     load_projects_list(url, filters);
 });
 function load_projects_list(url, filters) {
-    $.ajax({ // Get the list of projects
-        url: url,
-        data: {"q": JSON.stringify({"filters": filters})},
-        dataType: "json",
-        contentType: "application/json",
-        success: function(projects) {
-                $('#list-projects').empty();
-                projects.objects
-                .sort(function (a, b) {
-                    return a.last_updated < b.last_updated ;
-                })
-                .map(function (project) {
-                    var cardHTML = projectTemplate({
-                        'project_url': '/project/'+project.name,
-                        'project_name': project.name,
-                        'project_description': project.short_description,
-                        'project_last_update': moment(project.last_updated).fromNow(),
-                        'project_tags': project.tag_objs != 0 ?
-                                            '<i class="fa fa-tags" aria-hidden="true"></i>&nbsp;' +
-                                            project.tag_objs.reduce(function(acc, tag) {
-                                                link = '<a href="/projects/?tag=' + tag.text + '" class="text-muted" style="text-decoration: none">' + tag.text + '</a>&nbsp;';
-                                                return acc + link;
-                                            }, '') : ''
-                     });
-                     $('#list-projects').append(cardHTML);
-                });
-
-                if (projects.total_pages > 2) {
-                    $('#navigation').attr("style", "display: inline-block;");
-
-                    if (projects.page == 1) {
-                        $('#paginationF').parent().addClass("disabled");
-
-                        $('#pagination1').text(1);
-                        $('#pagination1').attr("href", "#");
-                        $('#pagination1').parent().addClass("disabled");
-
-                        $('#pagination2').text(2);
-                        $('#pagination2').attr("href", updateQueryStringParameter(window.location.href , "page", 2));
-
-                        $('#pagination3').text(3);
-                        $('#pagination3').attr("href", updateQueryStringParameter(window.location.href , "page", 3));
-
-                        $('#paginationL').attr("href", updateQueryStringParameter(window.location.href , "page", projects.total_pages));
-                    }
-                    else if (projects.page == projects.total_pages) {
-                        $('#paginationF').attr("href", updateQueryStringParameter(window.location.href , "page", 1));
-                        $('#paginationF').parent().removeClass("active");
-
-                        $('#pagination1').text(projects.page - 2);
-                        $('#pagination1').attr("href", updateQueryStringParameter(window.location.href , "page", projects.page - 2));
-
-                        $('#pagination2').text(projects.page - 1);
-                        $('#pagination2').attr("href", updateQueryStringParameter(window.location.href , "page", projects.page - 1));
-
-                        $('#pagination3').text(projects.page);
-                        $('#pagination3').attr("href", updateQueryStringParameter(window.location.href , "page", projects.page + 1));
-                        $('#pagination3').parent().addClass("disabled");
-
-                        $('#paginationL').parent().addClass("disabled");
-                    }
-                    else {
-                        $('#paginationF').attr("href", updateQueryStringParameter(window.location.href , "page", 1));
-                        $('#paginationF').parent().removeClass("active");
-
-                        $('#pagination1').text(projects.page - 1);
-                        $('#pagination1').attr("href", updateQueryStringParameter(window.location.href , "page", projects.page - 1));
-                        $('#pagination1').parent().removeClass("active");
-
-                        $('#pagination2').text(projects.page);
-                        $('#pagination2').attr("href", "#");
-                        $('#pagination2').parent().addClass("disabled");
-                        $('#pagination2').parent().addClass("active");
-
-                        $('#pagination3').text(projects.page + 1);
-                        $('#pagination3').attr("href", updateQueryStringParameter(window.location.href , "page", projects.page + 1));
-
-                        $('#paginationL').attr("href", updateQueryStringParameter(window.location.href , "page", projects.total_pages));
-                        $('#paginationL').parent().removeClass("active");
-                    }
-                }
-                else if (projects.total_pages == 2) {
-                    $('#navigation').attr("style", "display: inline-block;");
-
-                    $('#paginationF').parent().addClass("disabled");
-
-                    $('#pagination1').text(1);
-                    $('#pagination1').attr("href", updateQueryStringParameter(window.location.href , "page", 1));
-
-                    $('#pagination2').text(2);
-                    $('#pagination2').attr("href", updateQueryStringParameter(window.location.href , "page", 2));
-
-                    $('#pagination3').text(3);
-                    $('#pagination3').parent().remove();
-
-                    $('#paginationL').parent().addClass("disabled");
-                }
-            }
+    var url = new URL("{{ url_for('apiv2.projects_projects_list', _external=True,) }}");
+    for (let k in filters) { url.searchParams.append(k, filters[k]); }
+    
+    fetch(url)
+    .then(response => response.json())
+    .then(result => {
+      document.getElementById("list-projects").innerHTML = "";
+      result.data
+      .sort(function (a, b) {
+        return new Date(b.last_updated) - new Date(a.last_updated);
+      })
+      .map(function (project) {
+          var cardHTML = projectTemplate({
+              'project_url': '/project/'+project.name,
+              'project_name': project.name,
+              'project_description': project.short_description,
+              'project_last_update': moment(project.last_updated).fromNow(),
+              'project_tags': project.tag_objs != 0 ?
+                                  '<i class="fa fa-tags" aria-hidden="true"></i>&nbsp;' +
+                                  project.tag_objs.reduce(function(acc, tag) {
+                                      link = '<a href="/projects/?tags=' + tag + '" class="text-muted" style="text-decoration: none">' + tag + '</a>&nbsp;';
+                                      return acc + link;
+                                  }, '') : ''
+           });
+           $('#list-projects').append(cardHTML);
+      });
+    }).catch((error) => {
+      console.error('Error:', error);
     });
+    
+    
+    // $.ajax({ // Get the list of projects
+    //     url: url,
+    //     data: {"q": JSON.stringify({"filters": filters})},
+    //     dataType: "json",
+    //     contentType: "application/json",
+    //     success: function(projects) {
+    //             $('#list-projects').empty();
+    //             projects.objects
+    //             .sort(function (a, b) {
+    //                 return a.last_updated < b.last_updated ;
+    //             })
+    //             .map(function (project) {
+    //                 var cardHTML = projectTemplate({
+    //                     'project_url': '/project/'+project.name,
+    //                     'project_name': project.name,
+    //                     'project_description': project.short_description,
+    //                     'project_last_update': moment(project.last_updated).fromNow(),
+    //                     'project_tags': project.tag_objs != 0 ?
+    //                                         '<i class="fa fa-tags" aria-hidden="true"></i>&nbsp;' +
+    //                                         project.tag_objs.reduce(function(acc, tag) {
+    //                                             link = '<a href="/projects/?tag=' + tag.text + '" class="text-muted" style="text-decoration: none">' + tag.text + '</a>&nbsp;';
+    //                                             return acc + link;
+    //                                         }, '') : ''
+    //                  });
+    //                  $('#list-projects').append(cardHTML);
+    //             });
+    // 
+    //             if (projects.total_pages > 2) {
+    //                 $('#navigation').attr("style", "display: inline-block;");
+    // 
+    //                 if (projects.page == 1) {
+    //                     $('#paginationF').parent().addClass("disabled");
+    // 
+    //                     $('#pagination1').text(1);
+    //                     $('#pagination1').attr("href", "#");
+    //                     $('#pagination1').parent().addClass("disabled");
+    // 
+    //                     $('#pagination2').text(2);
+    //                     $('#pagination2').attr("href", updateQueryStringParameter(window.location.href , "page", 2));
+    // 
+    //                     $('#pagination3').text(3);
+    //                     $('#pagination3').attr("href", updateQueryStringParameter(window.location.href , "page", 3));
+    // 
+    //                     $('#paginationL').attr("href", updateQueryStringParameter(window.location.href , "page", projects.total_pages));
+    //                 }
+    //                 else if (projects.page == projects.total_pages) {
+    //                     $('#paginationF').attr("href", updateQueryStringParameter(window.location.href , "page", 1));
+    //                     $('#paginationF').parent().removeClass("active");
+    // 
+    //                     $('#pagination1').text(projects.page - 2);
+    //                     $('#pagination1').attr("href", updateQueryStringParameter(window.location.href , "page", projects.page - 2));
+    // 
+    //                     $('#pagination2').text(projects.page - 1);
+    //                     $('#pagination2').attr("href", updateQueryStringParameter(window.location.href , "page", projects.page - 1));
+    // 
+    //                     $('#pagination3').text(projects.page);
+    //                     $('#pagination3').attr("href", updateQueryStringParameter(window.location.href , "page", projects.page + 1));
+    //                     $('#pagination3').parent().addClass("disabled");
+    // 
+    //                     $('#paginationL').parent().addClass("disabled");
+    //                 }
+    //                 else {
+    //                     $('#paginationF').attr("href", updateQueryStringParameter(window.location.href , "page", 1));
+    //                     $('#paginationF').parent().removeClass("active");
+    // 
+    //                     $('#pagination1').text(projects.page - 1);
+    //                     $('#pagination1').attr("href", updateQueryStringParameter(window.location.href , "page", projects.page - 1));
+    //                     $('#pagination1').parent().removeClass("active");
+    // 
+    //                     $('#pagination2').text(projects.page);
+    //                     $('#pagination2').attr("href", "#");
+    //                     $('#pagination2').parent().addClass("disabled");
+    //                     $('#pagination2').parent().addClass("active");
+    // 
+    //                     $('#pagination3').text(projects.page + 1);
+    //                     $('#pagination3').attr("href", updateQueryStringParameter(window.location.href , "page", projects.page + 1));
+    // 
+    //                     $('#paginationL').attr("href", updateQueryStringParameter(window.location.href , "page", projects.total_pages));
+    //                     $('#paginationL').parent().removeClass("active");
+    //                 }
+    //             }
+    //             else if (projects.total_pages == 2) {
+    //                 $('#navigation').attr("style", "display: inline-block;");
+    // 
+    //                 $('#paginationF').parent().addClass("disabled");
+    // 
+    //                 $('#pagination1').text(1);
+    //                 $('#pagination1').attr("href", updateQueryStringParameter(window.location.href , "page", 1));
+    // 
+    //                 $('#pagination2').text(2);
+    //                 $('#pagination2').attr("href", updateQueryStringParameter(window.location.href , "page", 2));
+    // 
+    //                 $('#pagination3').text(3);
+    //                 $('#pagination3').parent().remove();
+    // 
+    //                 $('#paginationL').parent().addClass("disabled");
+    //             }
+    //         }
+    // });
 }
 </script>
 {% endblock %}

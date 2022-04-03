@@ -30,61 +30,63 @@
 </div><!-- /.container -->
 <script>
 $(document).ready(function() {
-    var filters = [];
-    organization_name = getUrlParameter('name');
-    if (typeof organization_name !== 'undefined') {
-        filters.push({"name": "name", "op": "ilike", "val": "%"+organization_name+"%"});
+    var filters = {};
+    name_param = getUrlParameter('name');
+    if (typeof name_param !== 'undefined') {
+        filters["name"] = name_param;
     }
-    organization_type = getUrlParameter('type');
-    if (typeof organization_type !== 'undefined') {
-        filters.push({"name": "organization_type", "op": "ilike", "val": "%"+organization_type+"%"});
+    type_param = getUrlParameter('type');
+    if (typeof type_param !== 'undefined') {
+        filters["organization_type"] = type_param;
     }
-    $.ajax({ // Get the list of organizations
-        url: "{{ url_for('organizationapi0.organizationapi',) }}" + "?results_per_page=50",
-        data: {"q": JSON.stringify({"filters": filters})},
-        dataType: "json",
-        contentType: "application/json",
-        success: function(organizations) {
-            organizations.objects
-            .sort(function (a, b) {
-                return a.last_updated < b.last_updated;
-            })
-            .map(function (organization) {
-                var div_organization = $("<div>");
-                div_organization.append('<ol class="breadcrumb">' +
-                                        '<li class="breadcrumb-item active">' +
-                                        '<a href="/organization/' + organization.name
-                                        + '">' + organization.name + '</a></li></ol>');
-                $('#list-organizations').append(div_organization);
+    
+    var url = new URL("{{ url_for('apiv2.organization_organizations_list', _external=True,) }}");
+    for (let k in filters) { url.searchParams.append(k, filters[k]); }
+    fetch(url)
+   .then(response => response.json())
+   .then(result => {
+     document.getElementById("list-organizations").innerHTML = "";
+     result.data
+     .sort(function (a, b) {
+       return new Date(b.last_updated) - new Date(a.last_updated);
+     })
+     .map(function (organization) {
+         var div_organization = $("<div>");
+         div_organization.append('<ol class="breadcrumb">' +
+                                 '<li class="breadcrumb-item active">' +
+                                 '<a href="/organization/' + organization.name
+                                 + '">' + organization.name + '</a></li></ol>');
+         $('#list-organizations').append(div_organization);
 
-                var div_organization_columns = $("<div>", {"class": "card-columns"});
+         var div_organization_columns = $("<div>", {"class": "card-columns"});
 
-                var filters = [{"name": "organization_id", "op": "eq", "val": organization.id}];
-                $.ajax({
-                    url: "{{ url_for('projectapi0.projectapi',) }}",
-                    data: {"q": JSON.stringify({"filters": filters})},
-                    dataType: "json",
-                    contentType: "application/json",
-                    success: function(projects) {
-                        projects.objects
-                        .sort(function (a, b) {
-                            return a.last_updated < b.last_updated;
-                        })
-                        .map(function (project) {
-                            var cardHTML = cardProjectTemplate({
-                                'logo': project.logo,
-                                'project_name': project.name,
-                                'project_description': project.short_description,
-                                'project_details': '/project/'+project.name
-                             });
-                             div_organization_columns.append(cardHTML);
-                        });
-                    }
+         var url = new URL("{{ url_for('apiv2.projects_projects_list', _external=True,) }}");
+         var filters = {"organization": organization.name};
+         for (let k in filters) { url.searchParams.append(k, filters[k]); }
+         fetch(url)
+         .then(response => response.json())
+         .then(result => {
+           result.data
+           .sort(function (a, b) {
+             return new Date(b.last_updated) - new Date(a.last_updated);
+           })
+           .map(function (project) {
+               var cardHTML = cardProjectTemplate({
+                   'logo': project.logo,
+                   'project_name': project.name,
+                   'project_description': project.short_description,
+                   'project_details': '/project/'+project.name
                 });
-                $('#list-organizations').append(div_organization_columns);
-            })
-        }
-    });
+                div_organization_columns.append(cardHTML);
+           });
+         }).catch((error) => {
+           console.error('Error:', error);
+         });
+        $('#list-organizations').append(div_organization_columns);
+     });
+   }).catch((error) => {
+     console.error('Error:', error);
+   });
 });
 </script>
 {% endblock %}

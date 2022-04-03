@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Freshermeat - An open source software directory and release tracker.
-# Copyright (C) 2017-2021 Cédric Bonhomme - https://www.cedricbonhomme.org
+# Copyright (C) 2017-2022 Cédric Bonhomme - https://www.cedricbonhomme.org
 #
 # For more information: https://sr.ht/~cedric/freshermeat
 #
@@ -19,10 +19,10 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from flask import flash, url_for, redirect
+from flask import url_for, redirect
 from flask_wtf import FlaskForm
 from wtforms import (
-    TextField,
+    StringField,
     TextAreaField,
     PasswordField,
     BooleanField,
@@ -33,8 +33,9 @@ from wtforms import (
     SelectMultipleField,
 )
 from flask_wtf.file import FileField
-from wtforms.fields.html5 import URLField
+from wtforms.fields import URLField
 from wtforms.validators import url
+from wtforms.validators import InputRequired
 
 from freshermeat.lib import misc_utils
 from freshermeat.models import Project, User, Organization, License, Language
@@ -64,17 +65,17 @@ class SigninForm(RedirectForm):
     Sign in form.
     """
 
-    login = TextField(
+    login = StringField(
         "Login",
         [
             validators.Length(min=3, max=30),
-            validators.Required("Please enter your login."),
+            InputRequired("Please enter your login."),
         ],
     )
     password = PasswordField(
         "Password",
         [
-            validators.Required("Please enter a password."),
+            InputRequired("Please enter a password."),
             validators.Length(min=6, max=100),
         ],
     )
@@ -102,21 +103,21 @@ class SigninForm(RedirectForm):
 
 
 class AddProjectForm(FlaskForm):
-    name = TextField("Name", [validators.Required("Please enter a name")])
+    name = StringField("Name", [InputRequired("Please enter a name")])
     description = TextAreaField("Description", [validators.Optional()])
-    short_description = TextField(
-        "Short description", [validators.Required("Please enter a short description")]
+    short_description = StringField(
+        "Short description", [InputRequired("Please enter a short description")]
     )
-    website = TextField("Website", [validators.Optional()])
+    website = StringField("Website", [validators.Optional()])
     licenses = SelectMultipleField(
-        "Licenses", [validators.Required("Please choose a license")], coerce=int
+        "Licenses", [InputRequired("Please choose a license")], coerce=int
     )
     languages = SelectMultipleField("Languages", [validators.Optional()], coerce=int)
     dependencies = SelectMultipleField(
         "Dependencies", [validators.Optional()], coerce=int
     )
     dependents = SelectMultipleField("Dependents", [validators.Optional()], coerce=int)
-    tags = TextField("Tags")
+    tags = StringField("Tags")
     organization_id = SelectField("Organization", [validators.Optional()], coerce=int)
     organization_id.choices = [(0, "")]
     organization_id.choices.extend(
@@ -124,12 +125,12 @@ class AddProjectForm(FlaskForm):
     )
     logo = FileField("Logo")
 
-    automatic_release_tracking = TextField(
+    automatic_release_tracking = StringField(
         "Automatic Release Tracking", [validators.Optional()]
     )
 
-    cve_vendor = TextField("CVE vendor", [validators.Optional()])
-    cve_product = TextField("CVE product", [validators.Optional()])
+    cve_vendor = StringField("CVE vendor", [validators.Optional()])
+    cve_product = StringField("CVE product", [validators.Optional()])
 
     submit = SubmitField("Save")
 
@@ -150,16 +151,16 @@ class AddProjectForm(FlaskForm):
 
 
 class AddOrganizationForm(FlaskForm):
-    name = TextField("Name", [validators.Required("Please enter a name")])
+    name = StringField("Name", [InputRequired("Please enter a name")])
     description = TextAreaField(
-        "Description", [validators.Required("Please enter a description")]
+        "Description", [InputRequired("Please enter a description")]
     )
-    short_description = TextField(
-        "Short description", [validators.Required("Please enter a short description")]
+    short_description = StringField(
+        "Short description", [InputRequired("Please enter a short description")]
     )
-    website = TextField("Website", [validators.Optional()])
-    organization_type = TextField("Organization type", [validators.Optional()])
-    cve_vendor = TextField("CVE vendor", [validators.Optional()])
+    website = StringField("Website", [validators.Optional()])
+    organization_type = StringField("Organization type", [validators.Optional()])
+    cve_vendor = StringField("CVE vendor", [validators.Optional()])
     logo = FileField("Logo")
     submit = SubmitField("Save")
 
@@ -169,11 +170,11 @@ class UserForm(FlaskForm):
     Create or edit a user (for the administrator).
     """
 
-    login = TextField(
+    login = StringField(
         "Login",
         [
             validators.Length(min=3, max=30),
-            validators.Required("Please enter your login."),
+            InputRequired("Please enter your login."),
         ],
     )
     password = PasswordField("Password")
@@ -189,11 +190,11 @@ class ProfileForm(FlaskForm):
     Edit a profile.
     """
 
-    login = TextField(
+    login = StringField(
         "Login",
         [
             validators.Length(min=3, max=30),
-            validators.Required("Please enter your login."),
+            InputRequired("Please enter your login."),
         ],
     )
     password = PasswordField("Password")
@@ -206,12 +207,12 @@ class CodeForm(FlaskForm):
     Management of code locations.
     """
 
-    repository_url = TextField(
-        "Repository URL", [validators.Required("Please enter a repository URL.")]
+    repository_url = StringField(
+        "Repository URL", [InputRequired("Please enter a repository URL.")]
     )
     scm_type = SelectField(
         "Repository type",
-        [validators.Required()],
+        [InputRequired()],
         coerce=str,
         choices=[
             ("Git", "Git"),
@@ -229,7 +230,7 @@ class FeedForm(FlaskForm):
     Management of feed locations.
     """
 
-    link = TextField("Feed URL", [validators.Required("Please enter a feed URL.")])
+    link = StringField("Feed URL", [InputRequired("Please enter a feed URL.")])
     submit = SubmitField("Save")
 
 
@@ -238,13 +239,13 @@ class SubmissionForm(FlaskForm):
     Create a submission.
     """
 
-    project_name = TextField("Name", [validators.Required("Please enter a name.")])
+    project_name = StringField("Name", [InputRequired("Please enter a name.")])
     project_description = TextAreaField("Description", [validators.Optional()])
     project_website = URLField(
-        "Website", [validators.Required("Please enter a Website."), url()]
+        "Website", [InputRequired("Please enter a Website."), url()]
     )
     licenses = SelectMultipleField(
-        "Licenses", [validators.Required("Please choose a license")], coerce=int
+        "Licenses", [InputRequired("Please choose a license")], coerce=int
     )
     submit = SubmitField("Submit")
 
