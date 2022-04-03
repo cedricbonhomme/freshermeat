@@ -1,10 +1,9 @@
 #! /usr/bin/python
-# -*- coding:utf-8 -*
-
 import json
 
-from freshermeat.models import Language, get_or_create
 from freshermeat.bootstrap import db
+from freshermeat.models import get_or_create
+from freshermeat.models import Language
 
 
 def import_languages(json_file):

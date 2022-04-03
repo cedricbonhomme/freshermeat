@@ -103,7 +103,7 @@ $(document).ready(function() {
 function load_projects_list(url, filters) {
     var url = new URL("{{ url_for('apiv2.projects_projects_list', _external=True,) }}");
     for (let k in filters) { url.searchParams.append(k, filters[k]); }
-    
+
     fetch(url)
     .then(response => response.json())
     .then(result => {
@@ -130,8 +130,8 @@ function load_projects_list(url, filters) {
     }).catch((error) => {
       console.error('Error:', error);
     });
-    
-    
+
+
     // $.ajax({ // Get the list of projects
     //     url: url,
     //     data: {"q": JSON.stringify({"filters": filters})},
@@ -158,75 +158,75 @@ function load_projects_list(url, filters) {
     //                  });
     //                  $('#list-projects').append(cardHTML);
     //             });
-    // 
+    //
     //             if (projects.total_pages > 2) {
     //                 $('#navigation').attr("style", "display: inline-block;");
-    // 
+    //
     //                 if (projects.page == 1) {
     //                     $('#paginationF').parent().addClass("disabled");
-    // 
+    //
     //                     $('#pagination1').text(1);
     //                     $('#pagination1').attr("href", "#");
     //                     $('#pagination1').parent().addClass("disabled");
-    // 
+    //
     //                     $('#pagination2').text(2);
     //                     $('#pagination2').attr("href", updateQueryStringParameter(window.location.href , "page", 2));
-    // 
+    //
     //                     $('#pagination3').text(3);
     //                     $('#pagination3').attr("href", updateQueryStringParameter(window.location.href , "page", 3));
-    // 
+    //
     //                     $('#paginationL').attr("href", updateQueryStringParameter(window.location.href , "page", projects.total_pages));
     //                 }
     //                 else if (projects.page == projects.total_pages) {
     //                     $('#paginationF').attr("href", updateQueryStringParameter(window.location.href , "page", 1));
     //                     $('#paginationF').parent().removeClass("active");
-    // 
+    //
     //                     $('#pagination1').text(projects.page - 2);
     //                     $('#pagination1').attr("href", updateQueryStringParameter(window.location.href , "page", projects.page - 2));
-    // 
+    //
     //                     $('#pagination2').text(projects.page - 1);
     //                     $('#pagination2').attr("href", updateQueryStringParameter(window.location.href , "page", projects.page - 1));
-    // 
+    //
     //                     $('#pagination3').text(projects.page);
     //                     $('#pagination3').attr("href", updateQueryStringParameter(window.location.href , "page", projects.page + 1));
     //                     $('#pagination3').parent().addClass("disabled");
-    // 
+    //
     //                     $('#paginationL').parent().addClass("disabled");
     //                 }
     //                 else {
     //                     $('#paginationF').attr("href", updateQueryStringParameter(window.location.href , "page", 1));
     //                     $('#paginationF').parent().removeClass("active");
-    // 
+    //
     //                     $('#pagination1').text(projects.page - 1);
     //                     $('#pagination1').attr("href", updateQueryStringParameter(window.location.href , "page", projects.page - 1));
     //                     $('#pagination1').parent().removeClass("active");
-    // 
+    //
     //                     $('#pagination2').text(projects.page);
     //                     $('#pagination2').attr("href", "#");
     //                     $('#pagination2').parent().addClass("disabled");
     //                     $('#pagination2').parent().addClass("active");
-    // 
+    //
     //                     $('#pagination3').text(projects.page + 1);
     //                     $('#pagination3').attr("href", updateQueryStringParameter(window.location.href , "page", projects.page + 1));
-    // 
+    //
     //                     $('#paginationL').attr("href", updateQueryStringParameter(window.location.href , "page", projects.total_pages));
     //                     $('#paginationL').parent().removeClass("active");
     //                 }
     //             }
     //             else if (projects.total_pages == 2) {
     //                 $('#navigation').attr("style", "display: inline-block;");
-    // 
+    //
     //                 $('#paginationF').parent().addClass("disabled");
-    // 
+    //
     //                 $('#pagination1').text(1);
     //                 $('#pagination1').attr("href", updateQueryStringParameter(window.location.href , "page", 1));
-    // 
+    //
     //                 $('#pagination2').text(2);
     //                 $('#pagination2').attr("href", updateQueryStringParameter(window.location.href , "page", 2));
-    // 
+    //
     //                 $('#pagination3').text(3);
     //                 $('#pagination3').parent().remove();
-    // 
+    //
     //                 $('#paginationL').parent().addClass("disabled");
     //             }
     //         }

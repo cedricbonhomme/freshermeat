@@ -1,18 +1,18 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -*-
-
 import urllib.parse
-from flask import render_template, url_for
-from flask_mail import Message
 
-from bootstrap import mail, application, instance_domain_name
+from bootstrap import instance_domain_name
+from bootstrap import mail
+from flask import render_template
+from flask import url_for
+from flask_mail import Message
 
 # from web.models import User
 
 
 def new_request_notification(request):
     """New request notification."""
-    subject = "[{service}] New request".format(service=request.service.name)
+    subject = f"[{request.service.name}] New request"
     platform_url = urllib.parse.urljoin(
         instance_domain_name(), url_for("admin_bp.view_request", request_id=request.id)
     )

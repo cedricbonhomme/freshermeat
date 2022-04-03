@@ -1,6 +1,4 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -*-
-
 # Freshermeat - An open source software directory and release tracker.
 # Copyright (C) 2017-2022 Cédric Bonhomme - https://www.cedricbonhomme.org
 #
@@ -18,17 +16,16 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 # required imports and code exection for basic functionning
-
-import os
 import errno
 import logging
-from werkzeug.middleware.proxy_fix import ProxyFix
-from flask import Flask, request
-from flask_sqlalchemy import SQLAlchemy
-import flask_restless
+import os
+
+from flask import Flask
+from flask import request
 from flask_mail import Mail
+from flask_sqlalchemy import SQLAlchemy
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 
 def set_logging(
@@ -100,6 +97,3 @@ application.jinja_env.filters["instance_domain_name"] = instance_domain_name
 set_logging(application.config["LOG_PATH"])
 
 create_directory(application.config["UPLOAD_FOLDER"])
-
-# Create the Flask-Restless API manager.
-manager = flask_restless.APIManager(application, flask_sqlalchemy_db=db)

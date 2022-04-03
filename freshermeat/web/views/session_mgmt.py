@@ -1,6 +1,4 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -*-
-
 # Freshermeat - An open source software directory and release tracker.
 # Copyright (C) 2017-2022 Cédric Bonhomme - https://www.cedricbonhomme.org
 #
@@ -18,25 +16,31 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 import logging
-
 from datetime import datetime
-from flask import render_template, session, url_for, redirect, current_app
-from flask_login import LoginManager, logout_user, login_required, current_user
-from flask_principal import (
-    Principal,
-    AnonymousIdentity,
-    UserNeed,
-    identity_changed,
-    identity_loaded,
-    session_identity_loader,
-)
+
+from flask import current_app
+from flask import redirect
+from flask import render_template
+from flask import session
+from flask import url_for
+from flask_login import current_user
+from flask_login import login_required
+from flask_login import LoginManager
+from flask_login import logout_user
+from flask_principal import AnonymousIdentity
+from flask_principal import identity_changed
+from flask_principal import identity_loaded
+from flask_principal import Principal
+from flask_principal import session_identity_loader
+from flask_principal import UserNeed
 
 from freshermeat.bootstrap import db
 from freshermeat.models import User
-from freshermeat.web.views.common import admin_role, api_role, login_user_bundle
 from freshermeat.web.forms import SigninForm
+from freshermeat.web.views.common import admin_role
+from freshermeat.web.views.common import api_role
+from freshermeat.web.views.common import login_user_bundle
 
 Principal(current_app)
 # Create a permission with a single Need, in this case a RoleNeed.
@@ -66,7 +70,7 @@ def on_identity_loaded(sender, identity):
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.filter(User.id == user_id, User.is_active == True).first()
+    return User.query.filter(User.id == user_id, User.is_active == True).first()  # noqa
 
 
 @current_app.before_request

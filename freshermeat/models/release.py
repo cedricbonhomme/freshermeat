@@ -1,5 +1,7 @@
 from datetime import datetime
+
 from sqlalchemy import event
+
 from freshermeat.bootstrap import db
 from freshermeat.models import Project
 

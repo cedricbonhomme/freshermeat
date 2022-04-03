@@ -1,6 +1,4 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -*-
-
 # Freshermeat - An open source software directory and release tracker.
 # Copyright (C) 2017-2022 Cédric Bonhomme - https://www.cedricbonhomme.org
 #
@@ -18,16 +16,13 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 from flask import current_app
 from flask_login import login_user
-from flask_principal import (
-    Identity,
-    Permission,
-    RoleNeed,
-    session_identity_loader,
-    identity_changed,
-)
+from flask_principal import Identity
+from flask_principal import identity_changed
+from flask_principal import Permission
+from flask_principal import RoleNeed
+from flask_principal import session_identity_loader
 
 admin_role = RoleNeed("admin")
 api_role = RoleNeed("api")

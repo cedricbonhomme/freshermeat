@@ -1,6 +1,4 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -*-
-
 # Freshermeat - An open source software directory and release tracker.
 # Copyright (C) 2017-2022 Cédric Bonhomme - https://www.cedricbonhomme.org
 #
@@ -18,39 +16,33 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 import logging
-from flask import (
-    Blueprint,
-    render_template,
-    redirect,
-    url_for,
-    current_app,
-    flash,
-    request,
-    abort,
-)
-from flask_login import login_required, current_user
-from flask_paginate import Pagination, get_page_args
-from sqlalchemy import desc
-from flask_admin import Admin, AdminIndexView
+
+from flask import Blueprint
+from flask import current_app
+from flask import flash
+from flask import redirect
+from flask import render_template
+from flask import url_for
+from flask_admin import Admin
+from flask_admin import AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.menu import MenuLink
+from flask_login import current_user
+from flask_login import login_required
 from werkzeug.security import generate_password_hash
 
-from freshermeat.web.views.common import admin_permission
 from freshermeat.bootstrap import db
+from freshermeat.models import Language
+from freshermeat.models import License
+from freshermeat.models import Organization
+from freshermeat.models import Project
+from freshermeat.models import Release
+from freshermeat.models import Submission
+from freshermeat.models import Tag
+from freshermeat.models import User
 from freshermeat.web.forms import UserForm
-from freshermeat.models import (
-    Organization,
-    Project,
-    Release,
-    User,
-    Tag,
-    Submission,
-    License,
-    Language,
-)
+from freshermeat.web.views.common import admin_permission
 
 logger = logging.getLogger(__name__)
 
@@ -68,11 +60,11 @@ def dashboard():
     nb_releases = Release.query.filter().count()
     nb_organizations = Organization.query.filter().count()
     nb_users = User.query.filter().count()
-    nb_admin = User.query.filter(User.is_admin == True).count()
+    nb_admin = User.query.filter(User.is_admin == True).count()  # noqa
     nb_unique_tags = Tag.query.distinct(Tag.text).count()
     nb_submissions = Submission.query.filter().count()
     nb_pending_submissions = Submission.query.filter(
-        Submission.reviewed == False
+        Submission.reviewed == False  # noqa
     ).count()
     return render_template(
         "admin/dashboard.html",
@@ -161,7 +153,7 @@ def process_user_form(user_id=None):
     db.session.add(new_user)
     db.session.commit()
     flash(
-        "User {user_login} successfully created.".format(user_login=new_user.login),
+        f"User {new_user.login} successfully created.",
         "success",
     )
 

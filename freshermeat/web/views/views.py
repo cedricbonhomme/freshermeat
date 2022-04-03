@@ -1,6 +1,4 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -*-
-
 # Freshermeat - An open source software directory and release tracker.
 # Copyright (C) 2017-2022 Cédric Bonhomme - https://www.cedricbonhomme.org
 #
@@ -18,25 +16,25 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-import os
 import logging
+import os
 from datetime import timezone
-from flask import (
-    render_template,
-    url_for,
-    redirect,
-    current_app,
-    flash,
-    send_from_directory,
-    request,
-)
 
-from sqlalchemy import desc
 from feedgen.feed import FeedGenerator
+from flask import current_app
+from flask import flash
+from flask import redirect
+from flask import render_template
+from flask import request
+from flask import send_from_directory
+from flask import url_for
+from sqlalchemy import desc
 
-from freshermeat.models import Release, Project, CVE, News
 from freshermeat.bootstrap import application
+from freshermeat.models import CVE
+from freshermeat.models import News
+from freshermeat.models import Project
+from freshermeat.models import Release
 
 logger = logging.getLogger(__name__)
 
@@ -59,12 +57,12 @@ def page_not_found(error):
 
 
 @current_app.errorhandler(500)
-def internal_server_error(error):
+def internal_server_error_500(error):
     return render_template("errors/500.html"), 500
 
 
 @current_app.errorhandler(503)
-def internal_server_error(error):
+def internal_server_error_503(error):
     return render_template("errors/503.html"), 503
 
 
@@ -74,7 +72,7 @@ def handle_sqlalchemy_assertion_error(error):
 
 
 @current_app.route("/public/<path:filename>", methods=["GET"])
-def uploaded_pictures(filename="Ladybug.jpg", methods=["GET"]):
+def uploaded_pictures(filename="Ladybug.jpg"):
     """
     Exposes public files (media uploaded by users, etc.).
     """
@@ -104,8 +102,8 @@ def recent_releases():
     releases = Release.query.filter().order_by(desc(Release.published_at)).limit(100)
     for release in releases:
         fe = fg.add_entry()
-        fe.id("{} {}".format(release.project.name, release.version))
-        fe.title("{} {}".format(release.project.name, release.version))
+        fe.id(f"{release.project.name} {release.version}")
+        fe.title(f"{release.project.name} {release.version}")
         fe.description(release.changes)
         fe.link(href=release.release_url)
         fe.updated(release.published_at.replace(tzinfo=timezone.utc))
@@ -125,7 +123,7 @@ def recent_cves():
     for cve in cves:
         fe = fg.add_entry()
         fe.id(cve.cve_id)
-        fe.title("{} - {}".format(cve.project.name, cve.cve_id))
+        fe.title(f"{cve.project.name} - {cve.cve_id}")
         fe.description(cve.summary)
         fe.link(href="https://cvepremium.circl.lu/cve/" + cve.cve_id)
         fe.updated(cve.published_at.replace(tzinfo=timezone.utc))
@@ -145,7 +143,7 @@ def recent_news():
     for a_news in news:
         fe = fg.add_entry()
         fe.id(a_news.entry_id)
-        fe.title("{} - {}".format(a_news.project.name, a_news.title))
+        fe.title(f"{a_news.project.name} - {a_news.title}")
         fe.description(a_news.content)
         fe.link(href=a_news.link)
         fe.updated(a_news.published.replace(tzinfo=timezone.utc))

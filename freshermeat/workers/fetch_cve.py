@@ -1,6 +1,4 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -*-
-
 # Freshermeat - An open source software directory and release tracker.
 # Copyright (C) 2017-2022 Cédric Bonhomme - https://www.cedricbonhomme.org
 #
@@ -18,14 +16,15 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 import asyncio
 import logging
 from datetime import datetime
 
 import requests
+
 from freshermeat.bootstrap import db
-from freshermeat.models import CVE, get_or_create
+from freshermeat.models import CVE
+from freshermeat.models import get_or_create
 
 logger = logging.getLogger(__name__)
 
@@ -41,10 +40,10 @@ async def get_cve(*args, **kwargs):
             "headers": {"User-Agent": "https://sr.ht/~cedric/freshermeat"},
         }
         result = requests.get(
-            "https://cvepremium.circl.lu/api/search/{}/{}".format(args[0], args[1]),
-            **request_kwargs
+            f"https://cvepremium.circl.lu/api/search/{args[0]}/{args[1]}",
+            **request_kwargs,
         )
-        logger.info("CVE for {} retrieved".format(args[2]))
+        logger.info(f"CVE for {args[2]} retrieved")
         if result.status_code == 200:
             if result.json()["total"] != 0:
                 return result.json()["results"]
@@ -55,11 +54,11 @@ async def get_cve(*args, **kwargs):
 
 async def insert_database(project):
     with (await sem):
-        logger.info("Retrieving CVE for {}".format(project.name))
+        logger.info(f"Retrieving CVE for {project.name}")
         vendors = project.cve_vendor.split(",")
         for cve_vendor in vendors:
             cves = await get_cve(cve_vendor, project.cve_product, project.name)
-            logger.info("Inserting CVE for {}".format(project.name))
+            logger.info(f"Inserting CVE for {project.name}")
             for cve in cves:
 
                 published_at = datetime.strptime(cve["Published"], "%Y-%m-%dT%H:%M:%S")
@@ -72,7 +71,7 @@ async def insert_database(project):
                         "summary": cve["summary"],
                         "published_at": published_at,
                         "project_id": project.id,
-                    }
+                    },
                 )
     return cves
 

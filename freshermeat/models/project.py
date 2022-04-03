@@ -1,7 +1,8 @@
 from datetime import datetime
+
+from sqlalchemy import event
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import validates
-from sqlalchemy import event
 
 from freshermeat.bootstrap import db
 

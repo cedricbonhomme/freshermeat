@@ -1,6 +1,4 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -*-
-
 # Freshermeat - An open source software directory and release tracker.
 # Copyright (C) 2017-2022 Cédric Bonhomme - https://www.cedricbonhomme.org
 #
@@ -18,29 +16,39 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 import os
 import uuid
 from datetime import timezone
-from flask import Blueprint, render_template, redirect, url_for, flash, request, abort
-from flask_login import login_required, current_user
-from feedgen.feed import FeedGenerator
 
-from freshermeat.bootstrap import db, application
-from freshermeat.models import (
-    get_or_create,
-    Project,
-    Code,
-    Organization,
-    Tag,
-    Icon,
-    License,
-    Language,
-    Feed,
-)
-from freshermeat.web.forms import AddProjectForm, CodeForm, FeedForm
+from feedgen.feed import FeedGenerator
+from flask import abort
+from flask import Blueprint
+from flask import flash
+from flask import redirect
+from flask import render_template
+from flask import request
+from flask import url_for
+from flask_login import current_user
+from flask_login import login_required
+from werkzeug.exceptions import BadRequest
+
+from freshermeat.bootstrap import application
+from freshermeat.bootstrap import db
+from freshermeat.models import Code
+from freshermeat.models import Feed
+from freshermeat.models import get_or_create
+from freshermeat.models import Icon
+from freshermeat.models import Language
+from freshermeat.models import License
+from freshermeat.models import Organization
+from freshermeat.models import Project
+from freshermeat.models import Tag
+from freshermeat.web.forms import AddProjectForm
+from freshermeat.web.forms import CodeForm
+from freshermeat.web.forms import FeedForm
 from freshermeat.web.utils.misc import similar_projects
-from freshermeat.web.utils.spawn import ERRORS, import_github, import_gitlab
+from freshermeat.web.utils.spawn import ERRORS
+
 
 project_bp = Blueprint("project_bp", __name__, url_prefix="/project")
 projects_bp = Blueprint("projects_bp", __name__, url_prefix="/projects")
@@ -116,7 +124,7 @@ def code_locations_process(project_name=None):
     try:
         db.session.commit()
         flash("New location successfully created.", "success")
-    except Exception as e:
+    except Exception:
         flash("Impossible to add a new location.", "success")
     return render_template("code.html", project=project, form=form)
 
@@ -155,7 +163,7 @@ def feed_locations_process(project_name=None):
     try:
         db.session.commit()
         flash("New feed successfully created.", "success")
-    except Exception as e:
+    except Exception:
         flash("Impossible to add a new feed.", "success")
     return render_template("feed.html", project=project, feeds=feeds, form=form)
 
@@ -170,12 +178,12 @@ def recent_releases(project_name=None):
     fg.id(
         url_for("project_bp.recent_releases", project_name=project.name, _external=True)
     )
-    fg.title("Recent releases for {}".format(project.name))
+    fg.title(f"Recent releases for {project.name}")
     fg.link(href=request.url, rel="self")
     for release in project.releases:
         fe = fg.add_entry()
-        fe.id("{} {}".format(release.project.name, release.version))
-        fe.title("{} {}".format(release.project.name, release.version))
+        fe.id(f"{release.project.name} {release.version}")
+        fe.title(f"{release.project.name} {release.version}")
         fe.description(release.changes)
         fe.link(href=release.release_url)
         fe.updated(release.published_at.replace(tzinfo=timezone.utc))
@@ -192,12 +200,12 @@ def recent_cves(project_name=None):
         abort(404)
     fg = FeedGenerator()
     fg.id(url_for("project_bp.recent_cves", project_name=project.name, _external=True))
-    fg.title("Recent CVEs for {}".format(project.name))
+    fg.title(f"Recent CVEs for {project.name}")
     fg.link(href=request.url, rel="self")
     for cve in project.cves:
         fe = fg.add_entry()
         fe.id(cve.cve_id)
-        fe.title("{} - {}".format(cve.project.name, cve.cve_id))
+        fe.title(f"{cve.project.name} - {cve.cve_id}")
         fe.description(cve.summary)
         fe.link(href="https://cvepremium.circl.lu/cve/" + cve.cve_id)
         fe.updated(cve.published_at.replace(tzinfo=timezone.utc))
@@ -214,12 +222,12 @@ def recent_news(project_name=None):
         abort(404)
     fg = FeedGenerator()
     fg.id(url_for("project_bp.recent_news", project_name=project.name, _external=True))
-    fg.title("Recent news for {}".format(project.name))
+    fg.title(f"Recent news for {project.name}")
     fg.link(href=request.url, rel="self")
     for a_news in project.news:
         fe = fg.add_entry()
         fe.id(a_news.entry_id)
-        fe.title("{} - {}".format(a_news.project.name, a_news.title))
+        fe.title(f"{a_news.project.name} - {a_news.title}")
         fe.description(a_news.content)
         fe.link(href=a_news.link)
         fe.updated(a_news.published.replace(tzinfo=timezone.utc))
@@ -353,7 +361,7 @@ def process_form(project_id=None):
                 db.session.delete(old_icon)
                 project.icon_url = None
                 db.session.commit()
-            except Exception as e:
+            except Exception:
                 pass
 
             # save the picture
@@ -375,7 +383,7 @@ def process_form(project_id=None):
                 ),
                 "success",
             )
-        except Exception as e:
+        except Exception:
             form.name.errors.append("Name already exists.")
         return redirect(url_for("project_bp.form", project_id=project.id))
 
@@ -391,7 +399,7 @@ def process_form(project_id=None):
     db.session.add(new_project)
     try:
         db.session.commit()
-    except Exception as e:
+    except Exception:
         # TODO: display the error
         return redirect(url_for("project_bp.form", project_id=new_project.id))
     # Tags
@@ -479,7 +487,7 @@ def import_project(import_from=None):
     result = result.decode()
     if "ERROR" in result:
         error_description = ERRORS[result]
-        flash("{error}".format(error=error_description), "danger")
+        flash(f"{error_description}", "danger")
 
         if "DUPLICATE_NAME" in result:
             return redirect(url_for("project_bp.get", project_name=result))
@@ -493,7 +501,7 @@ def import_project(import_from=None):
 def bookmarklet():
     url = (request.args if request.method == "GET" else request.form).get("url", None)
     if not url:
-        flash(gettext("Couldn't add project: url missing."), "error")
+        flash("Couldn't add project: url missing.", "error")
         raise BadRequest("url is missing")
 
     name = (request.args if request.method == "GET" else request.form).get("name", "")

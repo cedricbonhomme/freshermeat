@@ -1,6 +1,4 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -*-
-
 # Freshermeat - An open source software directory and release tracker.
 # Copyright (C) 2017-2022 Cédric Bonhomme - https://www.cedricbonhomme.org
 #
@@ -18,7 +16,6 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 from freshermeat.bootstrap import application
 
 with application.app_context():
@@ -34,19 +31,6 @@ with application.app_context():
     application.register_blueprint(views.stats_bp)
     application.register_blueprint(views.submissions_bp)
     application.register_blueprint(views.submission_bp)
-
-    # API v1
-    application.register_blueprint(views.api.v1.blueprint_organization)
-    application.register_blueprint(views.api.v1.blueprint_project)
-    application.register_blueprint(views.api.v1.blueprint_code)
-    application.register_blueprint(views.api.v1.blueprint_tag)
-    application.register_blueprint(views.api.v1.blueprint_user)
-    application.register_blueprint(views.api.v1.blueprint_release)
-    application.register_blueprint(views.api.v1.blueprint_cve)
-    application.register_blueprint(views.api.v1.blueprint_license)
-    application.register_blueprint(views.api.v1.blueprint_language)
-    application.register_blueprint(views.api.v1.blueprint_news)
-    application.register_blueprint(views.api.v1.blueprint_feed)
 
     # API v2
     application.register_blueprint(views.api.v2.api_blueprint)

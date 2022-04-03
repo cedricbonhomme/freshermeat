@@ -12,7 +12,7 @@ Main functionalities are the following:
   [documented with Swagger](https://open-source-security-software.net/api/v2);
 - management of organizations.
 
-Freshermeat instance for tracking security-oriented projects:  
+Freshermeat instance for tracking security-oriented projects:
 [https://open-source-security-software.net](https://open-source-security-software.net)
 
 

@@ -1,7 +1,8 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -*-
-
-from flask_restx import Namespace, Resource, fields, reqparse
+from flask_restx import fields
+from flask_restx import Namespace
+from flask_restx import reqparse
+from flask_restx import Resource
 
 from freshermeat.models import CVE
 
@@ -70,22 +71,16 @@ class CVEsList(Resource):
             },
         }
 
-        try:
-            query = CVE.query
-            for arg in args:
-                if hasattr(CVE, arg):
-                    query = query.filter(getattr(CVE, arg) == args[arg])
-                else:
-                    p_arg = arg.split("_")[1]
-                    query = query.filter(CVE.project.has(**{p_arg: args[arg]}))
-            total = query.count()
-            cves = query.all()
-            count = total
-        except:
-            return result, 200
-        finally:
-            if not cves:
-                return result, 200
+        query = CVE.query
+        for arg in args:
+            if hasattr(CVE, arg):
+                query = query.filter(getattr(CVE, arg) == args[arg])
+            else:
+                p_arg = arg.split("_")[1]
+                query = query.filter(CVE.project.has(**{p_arg: args[arg]}))
+        total = query.count()
+        cves = query.all()
+        count = total
 
         result["data"] = cves
         result["metadata"]["total"] = total

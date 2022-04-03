@@ -1,6 +1,4 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -*-
-
 # Freshermeat - An open source software directory and release tracker.
 # Copyright (C) 2017-2022 Cédric Bonhomme - https://www.cedricbonhomme.org
 #
@@ -18,14 +16,15 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 import json
-import requests
+
 import maya
+import requests
 from sqlalchemy import and_
 
-from freshermeat.bootstrap import db, application
-from freshermeat.models import Release, get_or_create
+from freshermeat.bootstrap import application
+from freshermeat.bootstrap import db
+from freshermeat.models import Release
 
 TIMEOUT = 2
 
@@ -37,7 +36,7 @@ async def retrieve_changelog(queue, projects):
 async def retrieve_gitlab(queue, projects):
     """Producer coro: retrieve releases from GitLab."""
     for project in projects:
-        print("Retrieving releases for {} (via GitLab coroutine)".format(project.name))
+        print(f"Retrieving releases for {project.name} (via GitLab coroutine)")
         api_url = project.automatic_release_tracking.split(":", 1)[1]
         try:
             r = requests.get(api_url, timeout=TIMEOUT)
@@ -67,7 +66,7 @@ async def retrieve_gitlab(queue, projects):
 async def retrieve_github(queue, projects):
     """Producer coro: retrieve releases from GitHub."""
     for project in projects:
-        print("Retrieving releases for {} (via GitHub coroutine)".format(project.name))
+        print(f"Retrieving releases for {project.name} (via GitHub coroutine)")
         r, releases = None, []
         url = "{api_url}?client_id={client_id}&client_secret={client_secret}".format(
             api_url=project.automatic_release_tracking.split(":", 1)[1],
@@ -118,7 +117,7 @@ async def insert_releases(queue, nḅ_producers=2):
                     published_at = maya.parse(release["published_at"]).datetime(
                         to_timezone="UTC", naive=True
                     )
-                except:
+                except Exception:
                     published_at = maya.now().datetime(to_timezone="UTC", naive=True)
 
                 new_release = Release(

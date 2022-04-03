@@ -1,7 +1,9 @@
+import logging
 import types
 import urllib
-import logging
-from flask import request, url_for
+
+from flask import request
+from flask import url_for
 
 logger = logging.getLogger(__name__)
 

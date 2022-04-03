@@ -1,7 +1,8 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -*-
-
-from flask_restx import Namespace, Resource, fields, reqparse
+from flask_restx import fields
+from flask_restx import Namespace
+from flask_restx import reqparse
+from flask_restx import Resource
 
 from freshermeat.models import User
 
@@ -66,22 +67,16 @@ class UsersList(Resource):
             },
         }
 
-        try:
-            query = User.query
-            for arg in args:
-                if hasattr(User, arg):
-                    query = query.filter(getattr(User, arg) == args[arg])
-                else:
-                    p_arg = arg.split("_")[1]
-                    query = query.filter(User.project.has(**{p_arg: args[arg]}))
-            total = query.count()
-            users = query.all()
-            count = total
-        except Exception:
-            return result, 200
-        finally:
-            if not users:
-                return result, 200
+        query = User.query
+        for arg in args:
+            if hasattr(User, arg):
+                query = query.filter(getattr(User, arg) == args[arg])
+            else:
+                p_arg = arg.split("_")[1]
+                query = query.filter(User.project.has(**{p_arg: args[arg]}))
+        total = query.count()
+        users = query.all()
+        count = total
 
         result["data"] = users
         result["metadata"]["total"] = total

@@ -1,12 +1,12 @@
 #! /usr/bin/python
-# -*- coding:utf-8 -*
-
 import json
-import requests
 from urllib.parse import urlparse
 
-from freshermeat.models import Project, Tag
-from freshermeat.bootstrap import db, application
+import requests
+
+from freshermeat.bootstrap import db
+from freshermeat.models import Project
+from freshermeat.models import Tag
 
 
 def import_project_from_gitlab(repository, submitter_id):
@@ -22,13 +22,13 @@ def import_project_from_gitlab(repository, submitter_id):
     try:
         r = requests.get(url)
         project = json.loads(r.text)
-    except:
+    except Exception:
         return "ERROR:OBSCURE"
 
     if Project.query.filter(Project.name == project["name"]).first():
         return "ERROR:DUPLICATE_NAME"
 
-    automatic_release_tracking = "gitlab:{url}/repository/tags".format(url=url)
+    automatic_release_tracking = f"gitlab:{url}/repository/tags"
 
     new_project = Project(
         name=project["name"],
@@ -44,7 +44,7 @@ def import_project_from_gitlab(repository, submitter_id):
     db.session.add(new_project)
     try:
         db.session.commit()
-    except Exception as e:
+    except Exception:
         db.session.rollback()
         return "ERROR:OBSCURE"
 

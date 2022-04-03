@@ -1,6 +1,4 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -*-
-
 # Freshermeat - An open source software directory and release tracker.
 # Copyright (C) 2017-2022 Cédric Bonhomme - https://www.cedricbonhomme.org
 #
@@ -18,18 +16,26 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 import os
 import uuid
 from datetime import timezone
-from flask import Blueprint, render_template, request, abort, redirect, url_for, flash
+
 from feedgen.feed import FeedGenerator
+from flask import abort
+from flask import Blueprint
+from flask import flash
+from flask import redirect
+from flask import render_template
+from flask import request
+from flask import url_for
 from flask_login import login_required
 
-from freshermeat.bootstrap import db, application
-from freshermeat.web.views.common import admin_permission
-from freshermeat.models import Organization, Icon
+from freshermeat.bootstrap import application
+from freshermeat.bootstrap import db
+from freshermeat.models import Icon
+from freshermeat.models import Organization
 from freshermeat.web.forms import AddOrganizationForm
+from freshermeat.web.views.common import admin_permission
 
 organization_bp = Blueprint("organization_bp", __name__, url_prefix="/organization")
 organizations_bp = Blueprint("organizations_bp", __name__, url_prefix="/organizations")
@@ -72,13 +78,13 @@ def recent_releases(organization_name=None):
             _external=True,
         )
     )
-    fg.title("Recent releases for {}".format(organization.name))
+    fg.title(f"Recent releases for {organization.name}")
     fg.link(href=request.url, rel="self")
     for project in organization.projects:
         for release in project.releases:
             fe = fg.add_entry()
-            fe.id("{} {}".format(release.project.name, release.version))
-            fe.title("{} {}".format(release.project.name, release.version))
+            fe.id(f"{release.project.name} {release.version}")
+            fe.title(f"{release.project.name} {release.version}")
             fe.description(release.changes)
             fe.link(href=release.release_url)
             fe.updated(release.published_at.replace(tzinfo=timezone.utc))
@@ -166,7 +172,7 @@ def process_form(organization_id=None):
                 ),
                 "success",
             )
-        except Exception as e:
+        except Exception:
             form.name.errors.append("Name already exists.")
         return redirect(
             url_for("organization_bp.form", organization_id=organization.id)
@@ -184,7 +190,7 @@ def process_form(organization_id=None):
     db.session.add(new_organization)
     try:
         db.session.commit()
-    except Exception as e:
+    except Exception:
         return redirect(
             url_for("organization_bp.form", organization_id=new_organization.id)
         )

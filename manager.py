@@ -1,6 +1,4 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -*-
-
 # Freshermeat - An open source software directory and release tracker.
 # Copyright (C) 2017-2022 Cédric Bonhomme - https://www.cedricbonhomme.org
 #
@@ -18,19 +16,22 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-import logging
 import asyncio
+import logging
 from datetime import datetime
-from werkzeug.security import generate_password_hash
+
+from flask_migrate import Migrate
+from flask_migrate import MigrateCommand
 from flask_script import Manager
-from flask_migrate import Migrate, MigrateCommand
 from sqlalchemy import and_
 
-from freshermeat.bootstrap import application, db
 import freshermeat.models
 import freshermeat.scripts
-from freshermeat.workers import fetch_cve, fetch_release, fetch_project_news
+from freshermeat.bootstrap import application
+from freshermeat.bootstrap import db
+from freshermeat.workers import fetch_cve
+from freshermeat.workers import fetch_project_news
+from freshermeat.workers import fetch_release
 
 
 logger = logging.getLogger("manager")
@@ -75,7 +76,7 @@ def db_init():
 @manager.command
 def create_user(login, password):
     "Initializes a user"
-    print("Creation of the user {} ...".format(login))
+    print(f"Creation of the user {login} ...")
     with application.app_context():
         freshermeat.scripts.create_user(login, password, False)
 
@@ -83,7 +84,7 @@ def create_user(login, password):
 @manager.command
 def create_admin(login, password):
     "Initializes an admin user"
-    print("Creation of the admin user {} ...".format(login))
+    print(f"Creation of the admin user {login} ...")
     with application.app_context():
         freshermeat.scripts.create_user(login, password, True)
 
@@ -91,7 +92,7 @@ def create_admin(login, password):
 @manager.command
 def import_languages(json_file):
     "Import languages from a JSON file"
-    print("Importing languages from {} ...".format(json_file))
+    print(f"Importing languages from {json_file} ...")
     with application.app_context():
         freshermeat.scripts.import_languages(json_file)
 
@@ -99,7 +100,7 @@ def import_languages(json_file):
 @manager.command
 def import_starred_projects_from_github(user):
     "Import GitHub starred projects of a user."
-    print("Importing GitHub starred projects of {} ...".format(user))
+    print(f"Importing GitHub starred projects of {user} ...")
     with application.app_context():
         freshermeat.scripts.import_starred_projects_from_github(user)
 
@@ -155,7 +156,7 @@ def fetch_cves(cve_vendor=None):
         loop.close()
         end = datetime.now()
 
-        logger.info("CVE fetcher finished in {} seconds.".format((end - start).seconds))
+        logger.info(f"CVE fetcher finished in {(end - start).seconds} seconds.")
 
 
 @manager.command

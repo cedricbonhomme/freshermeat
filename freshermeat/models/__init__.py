@@ -1,19 +1,17 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -*-
-
-from .project import Project
-from .user import User
-from .tag import Tag
 from .code import Code
-from .license import License
+from .cve import CVE
+from .feed import Feed
+from .icon import Icon
 from .language import Language
+from .license import License
+from .news import News
+from .project import Project  # noreorder
 from .organization import Organization
 from .release import Release
-from .cve import CVE
-from .icon import Icon
 from .submission import Submission
-from .feed import Feed
-from .news import News
+from .tag import Tag
+from .user import User
 
 __all__ = [
     "Project",

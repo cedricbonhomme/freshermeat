@@ -1,6 +1,7 @@
 import re
 import secrets
 from datetime import datetime
+
 from flask_login import UserMixin
 from sqlalchemy.orm import validates
 from werkzeug.security import check_password_hash
@@ -60,4 +61,4 @@ class User(db.Model, UserMixin):
     @validates("login")
     def validates_login(self, key, value):
         assert 3 <= len(value) <= 30, AssertionError("maximum length for login: 30")
-        return re.sub("[^a-zA-Z0-9_\.]", "", value.strip())
+        return re.sub(r"[^a-zA-Z0-9_\.]", "", value.strip())

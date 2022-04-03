@@ -1,6 +1,4 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -*-
-
 # Freshermeat - An open source software directory and release tracker.
 # Copyright (C) 2017-2022 Cédric Bonhomme - https://www.cedricbonhomme.org
 #
@@ -18,12 +16,17 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-from flask import Blueprint, render_template, redirect, url_for, flash, abort
-from flask_login import login_required, current_user
+from flask import abort
+from flask import Blueprint
+from flask import flash
+from flask import redirect
+from flask import render_template
+from flask import url_for
+from flask_login import current_user
+from flask_login import login_required
 from werkzeug.security import generate_password_hash
-from freshermeat.bootstrap import db
 
+from freshermeat.bootstrap import db
 from freshermeat.models import User
 from freshermeat.web.forms import ProfileForm
 

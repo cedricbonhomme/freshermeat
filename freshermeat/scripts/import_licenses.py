@@ -1,11 +1,10 @@
 #! /usr/bin/python
-# -*- coding:utf-8 -*
-
 import json
+
 import requests
 
-from freshermeat.models import License
 from freshermeat.bootstrap import db
+from freshermeat.models import License
 
 
 def import_osi_approved_licenses():

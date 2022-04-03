@@ -1,6 +1,6 @@
 import os
 
-HERE = os.path.abspath(os.path.dirname('.'))
+HERE = os.path.abspath(os.path.dirname("."))
 
 HOST = "127.0.0.1"
 PORT = 5000
@@ -26,7 +26,7 @@ SECRET_KEY = "SECRET KEY"
 SECURITY_PASSWORD_SALT = "SECURITY PASSWORD SALT"
 
 UPLOAD_FOLDER = "./freshermeat/web/public/pictures/"
-ALLOWED_EXTENSIONS = set(["png"])
+ALLOWED_EXTENSIONS = {"png"}
 
 LOG_PATH = "./var/log/freshermeat.log"
 LOG_LEVEL = "info"

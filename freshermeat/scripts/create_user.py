@@ -1,10 +1,8 @@
 #! /usr/bin/python
-# -*- coding:utf-8 -*
-
 from werkzeug.security import generate_password_hash
 
-from freshermeat.models import User
 from freshermeat.bootstrap import db
+from freshermeat.models import User
 
 
 def create_user(login, password, is_admin):

@@ -1,8 +1,9 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -*-
-
 from datetime import datetime
-from sqlalchemy import desc, Index
+
+from sqlalchemy import desc
+from sqlalchemy import Index
+
 from freshermeat.bootstrap import db
 from freshermeat.models.news import News
 

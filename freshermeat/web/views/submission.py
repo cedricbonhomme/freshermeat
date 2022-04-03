@@ -1,6 +1,4 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -*-
-
 # Freshermeat - An open source software directory and release tracker.
 # Copyright (C) 2017-2022 Cédric Bonhomme - https://www.cedricbonhomme.org
 #
@@ -18,17 +16,23 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-from flask import Blueprint, render_template, redirect, url_for, flash
-from werkzeug.security import generate_password_hash
+from flask import abort
+from flask import Blueprint
+from flask import flash
+from flask import redirect
+from flask import render_template
+from flask import url_for
+from flask_login import login_required
+from flask_paginate import get_page_args
+from flask_paginate import Pagination
 from sqlalchemy import desc
-from flask_login import login_required, current_user
-from flask_paginate import Pagination, get_page_args
-from freshermeat.bootstrap import db
 
-from freshermeat.web.views.common import admin_permission
-from freshermeat.models import Submission, License, Project
+from freshermeat.bootstrap import db
+from freshermeat.models import License
+from freshermeat.models import Project
+from freshermeat.models import Submission
 from freshermeat.web.forms import SubmissionForm
+from freshermeat.web.views.common import admin_permission
 
 
 submissions_bp = Blueprint("submissions_bp", __name__, url_prefix="/admin")
@@ -40,8 +44,6 @@ submission_bp = Blueprint("submission_bp", __name__, url_prefix="/submit")
 @admin_permission.require(http_exception=403)
 def list_submissions():
     """Return a page which will displays a paginated list of submissions."""
-    head_titles = ["Submissions"]
-
     submissions = Submission.query
 
     page, per_page, offset = get_page_args()
@@ -109,7 +111,7 @@ def accept(submission_id=None):
             ),
             "success",
         )
-    except Exception as e:
+    except Exception:
         flash("Impossible to create the project.", "danger")
         return redirect(url_for("submissions_bp.get", submission_id=submission_id))
     return redirect(url_for("project_bp.form", project_id=new_project.id))
@@ -185,7 +187,7 @@ def process_submission_form():
     db.session.commit()
     flash(
         "Thank you for your contribution. The submission will be reviewed"
-        + " before publication.",
+        " before publication.",
         "success",
     )
 

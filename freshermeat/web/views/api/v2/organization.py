@@ -1,7 +1,8 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -*-
-
-from flask_restx import Namespace, Resource, fields, reqparse
+from flask_restx import fields
+from flask_restx import Namespace
+from flask_restx import reqparse
+from flask_restx import Resource
 
 from freshermeat.models import Organization
 
@@ -37,9 +38,7 @@ organization = organization_ns.model(
         "description": fields.String(
             description="The description of the organization."
         ),
-        "organization_type": fields.String(
-            description="The type of the organization."
-        ),
+        "organization_type": fields.String(description="The type of the organization."),
         "short_description": fields.String(
             description="The short descripton of the organization."
         ),

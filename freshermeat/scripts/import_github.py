@@ -1,16 +1,18 @@
 #! /usr/bin/python
-# -*- coding:utf-8 -*
-
 import json
+
 import requests
 
-from freshermeat.models import Project, License, Code
-from freshermeat.bootstrap import db, application
+from freshermeat.bootstrap import application
+from freshermeat.bootstrap import db
+from freshermeat.models import Code
+from freshermeat.models import License
+from freshermeat.models import Project
 
 
 def import_project_from_github(owner, repo, submitter_id):
     """Imports a project hosted from GitHub."""
-    url = "https://api.github.com/repos/{owner}/{repo}".format(owner=owner, repo=repo)
+    url = f"https://api.github.com/repos/{owner}/{repo}"
     url = "{api_url}?client_id={client_id}&client_secret={client_secret}".format(
         api_url=url,
         client_id=application.config.get("GITHUB_CLIENT_ID", ""),
@@ -20,7 +22,7 @@ def import_project_from_github(owner, repo, submitter_id):
     try:
         r = requests.get(url)
         project = json.loads(r.text)
-    except:
+    except Exception:
         return "ERROR:OBSCURE"
 
     if Project.query.filter(Project.name == project["name"]).first():
@@ -31,7 +33,7 @@ def import_project_from_github(owner, repo, submitter_id):
         spdx_id = project.get("license").get("spdx_id")
         if spdx_id:
             license = License.query.filter(License.license_id == spdx_id).first()
-    except:
+    except Exception:
         pass
     # if not license:
     # return 'ERROR:NO_LICENSE'
@@ -54,7 +56,7 @@ def import_project_from_github(owner, repo, submitter_id):
     db.session.add(new_project)
     try:
         db.session.commit()
-    except Exception as e:
+    except Exception:
         db.session.rollback()
         return "ERROR:OBSCURE"
 
@@ -64,7 +66,7 @@ def import_project_from_github(owner, repo, submitter_id):
     db.session.add(new_code)
     try:
         db.session.commit()
-    except Exception as e:
+    except Exception:
         db.session.rollback()
         return "ERROR:OBSCURE"
 
@@ -76,7 +78,7 @@ def import_starred_projects_from_github(user, link=""):
     if link != "":
         url = link
     else:
-        url = "https://api.github.com/users/{user}/starred".format(user=user)
+        url = f"https://api.github.com/users/{user}/starred"
         url = "{api_url}?client_id={client_id}&client_secret={client_secret}".format(
             api_url=url,
             client_id=application.config.get("GITHUB_CLIENT_ID", ""),
@@ -106,14 +108,14 @@ def import_starred_projects_from_github(user, link=""):
                 license = License.query.filter(License.license_id == spdx_id).first()
                 if license:
                     new_project.licenses.append(license)
-        except:
+        except Exception:
             pass
 
         db.session.add(new_project)
         try:
             # names of projects are unique on freshermeat
             db.session.commit()
-        except Exception as e:
+        except Exception:
             db.session.rollback()
             pass
 

@@ -1,6 +1,4 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -*-
-
 # Freshermeat - An open source software directory and release tracker.
 # Copyright (C) 2017-2022 Cédric Bonhomme - https://www.cedricbonhomme.org
 #
@@ -18,14 +16,21 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-from flask import Blueprint, render_template, jsonify
 from datetime import datetime
 from datetime import timedelta
+
+from flask import Blueprint
+from flask import jsonify
+from flask import render_template
 from sqlalchemy import func
 
 from freshermeat.bootstrap import db
-from freshermeat.models import Project, License, Tag, Language, Organization, User
+from freshermeat.models import Language
+from freshermeat.models import License
+from freshermeat.models import Organization
+from freshermeat.models import Project
+from freshermeat.models import Tag
+from freshermeat.models import User
 
 stats_bp = Blueprint("stats_bp", __name__, url_prefix="/stats")
 

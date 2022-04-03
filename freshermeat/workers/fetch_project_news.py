@@ -1,10 +1,9 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -*-
-
 import logging
-import feedparser
-from time import mktime
 from datetime import datetime
+from time import mktime
+
+import feedparser
 from sqlalchemy import and_
 
 from freshermeat.bootstrap import db
@@ -22,7 +21,7 @@ def retrieve(feeds):
     for feed in feeds:
         try:
             data = feedparser.parse(feed.link)
-        except:
+        except Exception:
             continue
         for entry in data["entries"]:
 
@@ -35,7 +34,7 @@ def retrieve(feeds):
 
             try:
                 date = datetime.fromtimestamp(mktime(entry.published_parsed))
-            except:
+            except Exception:
                 date = datetime.utcnow()
 
             new_news = News(

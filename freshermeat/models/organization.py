@@ -1,9 +1,10 @@
 from datetime import datetime
-from sqlalchemy.orm import validates
-from sqlalchemy import event
 
-from freshermeat.models import Project
+from sqlalchemy import event
+from sqlalchemy.orm import validates
+
 from freshermeat.bootstrap import db
+from freshermeat.models import Project
 
 
 class Organization(db.Model):

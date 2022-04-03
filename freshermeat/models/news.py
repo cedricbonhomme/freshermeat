@@ -1,8 +1,8 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -*-
-
 from datetime import datetime
+
 from sqlalchemy import Index
+
 from freshermeat.bootstrap import db
 
 
@@ -24,7 +24,7 @@ class News(db.Model):
     idx_article_pid_fid = Index("project_id", "feed_id")
 
     def __repr__(self):
-        return "<News(id=%d, entry_id=%s, title=%r, " "date=%r, retrieved_date=%r)>" % (
+        return "<News(id=%d, entry_id=%s, title=%r, date=%r, retrieved_date=%r)>" % (
             self.id,
             self.entry_id,
             self.title,

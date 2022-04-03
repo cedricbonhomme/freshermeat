@@ -1,6 +1,4 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -*-
-
 # Freshermeat - An open source software directory and release tracker.
 # Copyright (C) 2017-2022 Cédric Bonhomme - https://www.cedricbonhomme.org
 #
@@ -18,14 +16,14 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 import logging
+
 from flask import request
 from flask_login import current_user
 from flask_restx import abort
 
-from freshermeat.web.views.common import login_user_bundle
 from freshermeat.models import User
+from freshermeat.web.views.common import login_user_bundle
 
 logger = logging.getLogger(__name__)
 

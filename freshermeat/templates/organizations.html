@@ -39,7 +39,7 @@ $(document).ready(function() {
     if (typeof type_param !== 'undefined') {
         filters["organization_type"] = type_param;
     }
-    
+
     var url = new URL("{{ url_for('apiv2.organization_organizations_list', _external=True,) }}");
     for (let k in filters) { url.searchParams.append(k, filters[k]); }
     fetch(url)

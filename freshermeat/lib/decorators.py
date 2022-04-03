@@ -1,10 +1,8 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -*-
-
 from threading import Thread
 
 
-def async(f):
+def async_maker(f):
     """
     This decorator enables to launch a task (for examle sending an email or
     indexing the database) in background.
