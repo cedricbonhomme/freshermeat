@@ -29,6 +29,19 @@ parser.add_argument("per_page", type=int, location="args")
 
 
 # Response marshalling
+license = project_ns.model(
+    "License",
+    {
+        "id": fields.Integer(readonly=True, description="The unique identifier"),
+        "name": fields.String(
+            description="Name of the license.",
+        ),
+        "license_id": fields.String(
+            description="Id of the license.",
+        ),
+    },
+)
+
 project = project_ns.model(
     "Project",
     {
@@ -43,7 +56,9 @@ project = project_ns.model(
             description="The short descripton of the project."
         ),
         "tag_objs": fields.List(fields.String(description="List of tags.")),
-        "licenses": fields.List(fields.String(description="List of licenses.")),
+        "licenses": fields.List(
+            fields.Nested(license), description="List of licenses."
+        ),
         "languages": fields.List(fields.String(description="List of languages.")),
         "website": fields.String(description="The website of the project."),
         "organization": fields.String(
@@ -101,7 +116,7 @@ class ProjectsList(Resource):
         if project_organization is not None:
             query = query.filter(Project.organization.has(name=project_organization))
         if project_license is not None:
-            query = query.filter(Project.licenses.any(name=project_license))
+            query = query.filter(Project.licenses.any(license_id=project_license))
         if project_language is not None:
             query = query.filter(Project.languages.any(name=project_language))
 

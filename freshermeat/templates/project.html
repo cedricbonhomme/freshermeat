@@ -168,31 +168,31 @@ function loadCVEs() {
         '</a>');
     $('#list-cves').empty();
     $('#list-cves').append('<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>');
-    var filters = [{"name": "project_id", "op": "eq", "val": "{{ project.id }}"}];
-    $.ajax({
-        url: "{{ url_for('CVEapi0.CVEapi',) }}",
-        data: {"q": JSON.stringify({"filters": filters})},
-        dataType: "json",
-        contentType: "application/json",
-        success: function(cves) {
-            $('#list-cves').empty();
-            if (cves.num_results == 0) {
-                $('#list-cves').append('No known vulnerabilities.')
-            }
-            cves.objects
-            .sort(function (a, b) {
-                return a.published_at < b.published_at;
-            })
-            .map(function(cve){
-                var cardHTML = cveTemplate({
-                    'cve_url': 'http://cvepremium.circl.lu/cve/' + cve.cve_id,
-                    'cve_id': cve.cve_id,
-                    'published_at': moment(cve.published_at).fromNow(),
-                    'cve_summary': cve.summary
-                });
-             $('#list-cves').append(cardHTML);
-            })
+    var url = new URL("{{ url_for('apiv2.cve_cv_es_list', _external=True,) }}");
+    var filters = {"project_id": {{ project.id }}};
+    for (let k in filters) { url.searchParams.append(k, filters[k]); }
+    fetch(url)
+    .then(response => response.json())
+    .then(result => {
+      document.getElementById("list-cves").innerHTML = "";
+      if (result.metadata.total == 0) {
+        $('#list-cves').append('No known vulnerabilities.')
         }
+      result.data
+      .sort(function (a, b) {
+        return new Date(b.published_at) - new Date(a.last_updated);
+      })
+      .map(function (cve) {
+          var cardHTML = cveTemplate({
+              'cve_url': 'http://cvepremium.circl.lu/cve/' + cve.cve_id,
+              'cve_id': cve.cve_id,
+              'published_at': moment(cve.published_at).fromNow(),
+              'cve_summary': cve.summary
+          });
+       $('#list-cves').append(cardHTML);
+      });
+    }).catch((error) => {
+      console.error('Error:', error);
     });
 }
 
@@ -207,31 +207,31 @@ function loadReleases() {
         '</a>');
     $('#project-releases').empty();
     $('#project-releases').append('<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>');
-    var filters = [{"name": "project_id", "op": "eq", "val": "{{ project.id }}"}];
-    $.ajax({
-        url: "{{ url_for('releaseapi0.releaseapi',) }}",
-        data: {"q": JSON.stringify({"filters": filters})},
-        dataType: "json",
-        contentType: "application/json",
-        success: function(releases) {
-            $('#project-releases').empty();
-            if (releases.num_results == 0) {
-                $('#project-releases').append('No known releases.')
-            }
-            releases.objects
-            .sort(function (a, b) {
-                return a.published_at < b.published_at;
-            })
-            .map(function(release){
-                var cardHTML = releaseTemplate({
-                    'release_url': release.release_url,
-                    'version': release.version,
-                    'published_at': moment(release.published_at).fromNow(),
-                    'changes': release.changes
-                });
-                $('#project-releases').append(cardHTML);
-            })
-        }
+    var url = new URL("{{ url_for('apiv2.release_releases_list', _external=True,) }}");
+    var filters = {"project_id": "{{ project.id }}"};
+    for (let k in filters) { url.searchParams.append(k, filters[k]); }
+    fetch(url)
+    .then(response => response.json())
+    .then(result => {
+      document.getElementById("project-releases").innerHTML = "";
+      if (result.metadata.total == 0) {
+          $('#project-releases').append('No known releases.')
+      }
+      result.data
+      .sort(function (a, b) {
+        return new Date(b.published_at) - new Date(a.last_updated);
+      })
+      .map(function (release) {
+          var cardHTML = releaseTemplate({
+              'release_url': release.release_url,
+              'version': release.version,
+              'published_at': moment(release.published_at).fromNow(),
+              'changes': release.changes
+          });
+          $('#project-releases').append(cardHTML);
+      });
+    }).catch((error) => {
+      console.error('Error:', error);
     });
 }
 
@@ -245,80 +245,86 @@ function loadNews() {
         '</a>');
     $('#project-news').empty();
     $('#project-news').append('<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>');
-    var filters = [{"name": "project_id", "op": "eq", "val": "{{ project.id }}"}];
-    $.ajax({
-        url: "{{ url_for('newsapi0.newsapi',) }}" + "?results_per_page=100",
-        data: {"q": JSON.stringify({"filters": filters})},
-        dataType: "json",
-        contentType: "application/json",
-        success: function(news) {
-            $('#project-news').empty();
-            if (news.num_results == 0) {
-                $('#project-news').append('No news.')
-            }
-            news.objects
-            .sort(function (a, b) {
-                return a.published < b.published;
-            })
-            .map(function(elem){
-                var cardHTML = newsTemplate({
-                    'news_url': elem.link,
-                    'title': elem.title,
-                    'published': moment(elem.published).fromNow()
-                });
-                $('#project-news').append(cardHTML);
-            })
-        }
+    var url = new URL("{{ url_for('apiv2.news_news_list', _external=True,) }}");
+    var filters = {"project_id": "{{ project.id }}"};
+    for (let k in filters) { url.searchParams.append(k, filters[k]); }
+    fetch(url)
+    .then(response => response.json())
+    .then(result => {
+      document.getElementById("project-news").innerHTML = "";
+      if (result.metadata.total == 0) {
+          $('#project-news').append('No known news.')
+      }
+      result.data
+      .sort(function (a, b) {
+        return new Date(b.published_at) - new Date(a.last_updated);
+      })
+      .map(function (release) {
+          var cardHTML = newsTemplate({
+              'news_url': elem.link,
+              'title': elem.title,
+              'published': moment(elem.published).fromNow()
+          });
+          $('#project-news').append(cardHTML);
+      });
+    }).catch((error) => {
+      console.error('Error:', error);
     });
 }
 $(document).ready(function() {
     // Get information about the project in the URL parameter
     // var url = window.location.pathname;
     // var project = url.split("/").slice(-1)[0];
-    var filters = [{"name": "name", "op": "eq", "val": "{{ project.name }}"}];
-    $.ajax({
-        url: "{{ url_for('projectapi0.projectapi',) }}",
-        data: {"q": JSON.stringify({"filters": filters})},
-        dataType: "json",
-        contentType: "application/json",
-        success: function(project) {
+    var url = new URL("{{ url_for('apiv2.projects_projects_list', _external=True,) }}");
+    var filters = {"name": "{{ project.name }}"};
+    for (let k in filters) { url.searchParams.append(k, filters[k]); }
+    fetch(url)
+    .then(response => response.json())
+    .then(result => {
+      // document.getElementById("list-projects").innerHTML = "";
+      result.data
+      .sort(function (a, b) {
+        return new Date(b.last_updated) - new Date(a.last_updated);
+      })
+      .map(function (project) {
+          project.tag_objs.map(function(tag){
+              var a = document.createElement('a');
+              var linkText = document.createTextNode(tag);
+              a.appendChild(linkText);
+              a.setAttribute('title', tag);
+              a.setAttribute('class', 'btn btn-outline-dark btn-sm');
+              a.setAttribute('style', 'margin:1px');
+              a.setAttribute('href', '/projects/?tags='+tag);
+              $("#project-tags").append(a);
+              $("#project-tags").append('&nbsp;');
+          })
 
-            project.objects[0].tag_objs.map(function(tag){
-                var a = document.createElement('a');
-                var linkText = document.createTextNode(tag.text);
-                a.appendChild(linkText);
-                a.setAttribute('title', tag.text);
-                a.setAttribute('class', 'btn btn-outline-dark btn-sm');
-                a.setAttribute('style', 'margin:1px');
-                a.setAttribute('href', '/projects/?tag='+tag.text);
-                $("#project-tags").append(a);
-                $("#project-tags").append('&nbsp;');
-            })
+          project.licenses.map(function(license){
+              var a = document.createElement('a');
+              var linkText = document.createTextNode(license.name);
+              a.appendChild(linkText);
+              a.setAttribute('title', license.name);
+              a.setAttribute('class', 'btn btn-outline-dark btn-sm');
+              a.setAttribute('style', 'margin:1px');
+              a.setAttribute('href', '/projects/?license='+license.license_id);
+              $("#project-licenses").append(a);
+              $("#project-licenses").append('&nbsp;');
+          })
 
-            project.objects[0].licenses.map(function(license){
-                var a = document.createElement('a');
-                var linkText = document.createTextNode(license.name);
-                a.appendChild(linkText);
-                a.setAttribute('title', license.name);
-                a.setAttribute('class', 'btn btn-outline-dark btn-sm');
-                a.setAttribute('style', 'margin:1px');
-                a.setAttribute('href', '/projects/?license='+license.license_id);
-                $("#project-licenses").append(a);
-                $("#project-licenses").append('&nbsp;');
-            })
-
-            project.objects[0].languages.map(function(language){
-                var a = document.createElement('a');
-                var linkText = document.createTextNode(language.name);
-                a.appendChild(linkText);
-                a.setAttribute('title', language.name);
-                a.setAttribute('class', 'btn btn-outline-dark btn-sm');
-                a.setAttribute('style', 'margin:1px');
-                a.setAttribute('href', '/projects/?language='+language.name);
-                $("#project-languages").append(a);
-                $("#project-languages").append('&nbsp;');
-            })
-        }
+          project.languages.map(function(language){
+              var a = document.createElement('a');
+              var linkText = document.createTextNode(language);
+              a.appendChild(linkText);
+              a.setAttribute('title', language);
+              a.setAttribute('class', 'btn btn-outline-dark btn-sm');
+              a.setAttribute('style', 'margin:1px');
+              a.setAttribute('href', '/projects/?language='+language);
+              $("#project-languages").append(a);
+              $("#project-languages").append('&nbsp;');
+          })
+      });
+    }).catch((error) => {
+      console.error('Error:', error);
     });
 
     loadReleases();

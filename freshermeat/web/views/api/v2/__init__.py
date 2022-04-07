@@ -39,12 +39,25 @@ def setup_api(application):
             ),
         )
 
-    from freshermeat.web.views.api.v2 import project, organization, cve, user
+    from freshermeat.web.views.api.v2 import (
+        project,
+        organization,
+        cve,
+        user,
+        release,
+        news,
+        license,
+        language,
+    )
 
     api.add_namespace(organization.organization_ns, path="/organization")
     api.add_namespace(project.project_ns, path="/projects")
     api.add_namespace(user.user_ns, path="/user")
     api.add_namespace(cve.cve_ns, path="/cve")
+    api.add_namespace(release.release_ns, path="/release")
+    api.add_namespace(news.news_ns, path="/news")
+    api.add_namespace(license.license_ns, path="/license")
+    api.add_namespace(language.language_ns, path="/language")
 
     return api
 

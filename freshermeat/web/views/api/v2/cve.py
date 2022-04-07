@@ -30,6 +30,8 @@ cve = cve_ns.model(
         "cve_id": fields.String(
             description="The id of the CVE.",
         ),
+        "cve_url": fields.String(description="The URL of the CVE."),
+        "cve_summary": fields.String(description="The summary of the CVE."),
         "summary": fields.String(description="The summary of the CVE."),
         "published_at": fields.DateTime(description="Date of publication of the CVE."),
     },

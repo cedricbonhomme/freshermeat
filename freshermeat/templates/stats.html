@@ -36,41 +36,36 @@
 </div>
 <script>
 $(document).ready(function() {
-    $.ajax({
-        url: "{{ url_for('stats_bp.licenses',) }}",
-        dataType: "json",
-        contentType: "application/json",
-        success: function(licenses) {
-            var ctx = document.getElementById("licenses-pie-chart").getContext('2d');
-            var myChart = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: Object.keys(licenses),
-                    datasets: [{
-                        data: Object.values(licenses),
-                        borderWidth: 1,
-                        backgroundColor: colors.concat(_.times(Object.keys(licenses).length, pastelColorMaker))
-                    }]
-                },
-                options: {
-                    onClick: function(evt) {
-                        var license_label = myChart.getElementsAtEvent(evt)[0]._model.label;
-                        filters = [{"name":"name","op":"eq","val":license_label}];
-                        $.ajax({
-                            url: "{{ url_for('licenseapi0.licenseapi',) }}",
-                            data: {"q": JSON.stringify({"filters": filters})},
-                            dataType: "json",
-                            contentType: "application/json",
-                            success: function(licenses) {
-                                if (licenses.num_results == 1) {
-                                    window.location = '/projects?license='+licenses.objects[0].license_id;
-                                }
-                            }
-                        });
-                    }
+    fetch("{{ url_for('stats_bp.licenses',) }}")
+    .then(response => response.json())
+    .then(licenses => {
+        var ctx = document.getElementById("licenses-pie-chart").getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: Object.keys(licenses),
+                datasets: [{
+                    data: Object.values(licenses),
+                    borderWidth: 1,
+                    backgroundColor: colors.concat(_.times(Object.keys(licenses).length, pastelColorMaker))
+                }]
+            },
+            options: {
+                onClick: function(evt) {
+                    var license_label = myChart.getElementsAtEvent(evt)[0]._model.label;
+                    var url = new URL("{{ url_for('apiv2.license_licenses_list', _external=True,) }}");
+                    var filters = {"name": license_label};
+                    for (let k in filters) { url.searchParams.append(k, filters[k]); }
+                    fetch(url)
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.metadata.total == 1) {
+                            window.location = '/projects?license='+result.data[0].license_id;
+                        }
+                    })
                 }
-            });
-        }
+            }
+        });
     });
 
     $.ajax({
@@ -92,18 +87,16 @@ $(document).ready(function() {
                 options: {
                     onClick: function(evt) {
                         var language_label = myChart.getElementsAtEvent(evt)[0]._model.label;
-                        filters = [{"name":"name","op":"eq","val":language_label}];
-                        $.ajax({
-                            url: "{{ url_for('languageapi0.languageapi',) }}",
-                            data: {"q": JSON.stringify({"filters": filters})},
-                            dataType: "json",
-                            contentType: "application/json",
-                            success: function(languages) {
-                                if (languages.num_results == 1) {
-                                    window.location = '/projects?language='+languages.objects[0].name;
-                                }
+                        var url = new URL("{{ url_for('apiv2.language_languages_list', _external=True,) }}");
+                        var filters = {"name": language_label};
+                        for (let k in filters) { url.searchParams.append(k, filters[k]); }
+                        fetch(url)
+                        .then(response => response.json())
+                        .then(result => {
+                            if (result.metadata.total == 1) {
+                                window.location = '/projects?language='+result.data[0].name;
                             }
-                        });
+                        })
                     }
                 }
             });
