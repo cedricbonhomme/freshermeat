@@ -52,7 +52,8 @@ $(document).ready(function() {
             },
             options: {
                 onClick: function(evt) {
-                    var license_label = myChart.getElementsAtEvent(evt)[0]._model.label;
+                    var node = myChart.getElementsAtEventForMode(evt, 'point', { intersect: false });
+                    var license_label = Object.keys(licenses)[node[0].index];
                     var url = new URL("{{ url_for('apiv2.license_licenses_list', _external=True,) }}");
                     var filters = {"name": license_label};
                     for (let k in filters) { url.searchParams.append(k, filters[k]); }
@@ -86,7 +87,8 @@ $(document).ready(function() {
                 },
                 options: {
                     onClick: function(evt) {
-                        var language_label = myChart.getElementsAtEvent(evt)[0]._model.label;
+                        var node = myChart.getElementsAtEventForMode(evt, 'point', { intersect: false });
+                        var language_label = Object.keys(languages)[node[0].index];
                         var url = new URL("{{ url_for('apiv2.language_languages_list', _external=True,) }}");
                         var filters = {"name": language_label};
                         for (let k in filters) { url.searchParams.append(k, filters[k]); }
@@ -142,7 +144,8 @@ $(document).ready(function() {
                 },
                 options: {
                     onClick: function(evt) {
-                        var organization_type = myChart.getElementsAtEvent(evt)[0]._model.label;
+                        var node = myChart.getElementsAtEventForMode(evt, 'point', { intersect: false });
+                        var organization_type = Object.keys(organizations)[node[0].index];
                         window.location = '/organizations?type='+organization_type;
                     }
                 }
@@ -170,7 +173,8 @@ $(document).ready(function() {
                     onClick: function(evt) {
                         var before = new Date();
                         var after = new Date();
-                        var timelaps = myChart.getElementsAtEvent(evt)[0]._model.label;
+                        var node = myChart.getElementsAtEventForMode(evt, 'point', { intersect: false });
+                        var timelaps = Object.keys(time_laps)[node[0].index];
                         if (timelaps == "less than 1 month") {
                             after.setMonth(after.getMonth() - 1);
                             window.location = '/projects?updated_since='+after.toLocaleDateString();
@@ -223,7 +227,8 @@ $(document).ready(function() {
                 },
                 options: {
                     onClick: function(evt) {
-                        var submitter = myChart.getElementsAtEvent(evt)[0]._model.label;
+                        var node = myChart.getElementsAtEventForMode(evt, 'point', { intersect: false });
+                        var submitter = Object.keys(submitters)[node[0].index];
                         window.location = '/user/'+submitter;
                     }
                 }
