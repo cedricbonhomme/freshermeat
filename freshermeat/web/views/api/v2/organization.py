@@ -13,6 +13,7 @@ organization_ns = Namespace(
 
 # Argument Parsing
 parser = reqparse.RequestParser()
+parser.add_argument("id", type=int, help="Id of the organization.")
 parser.add_argument("name", type=str, help="Name of the organization.")
 parser.add_argument("description", type=str, help="Description of the organization.")
 parser.add_argument("organization_type", type=str, help="Type of the organization.")

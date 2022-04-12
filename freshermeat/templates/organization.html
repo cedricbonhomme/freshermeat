@@ -89,28 +89,27 @@
 $(document).ready(function() {
     var div_project_columns = $("<div>", {"class": "card-columns"});
 
-    var filters = [{"name": "organization_id", "op": "eq",
-                    "val": "{{ organization.id }}"}];
-    $.ajax({
-        url: "{{ url_for('projectapi0.projectapi',) }}",
-        data: {"q": JSON.stringify({"filters": filters})},
-        dataType: "json",
-        contentType: "application/json",
-        success: function(projects) {
-            projects.objects
-            .sort(function (a, b) {
-                return a.last_updated < b.last_updated;
-            })
-            .map(function (project) {
-                var cardHTML = cardProjectTemplate({
-                    'logo': project.logo,
-                    'project_name': project.name,
-                    'project_description': project.short_description,
-                    'project_details': '/project/'+project.name
-                 });
-                 div_project_columns.append(cardHTML);
-            });
-        }
+    var url = new URL("{{ url_for('apiv2.projects_projects_list', _external=True) }}")
+    var filters = {"organization_id": {{ organization.id }}};
+    for (let k in filters) { url.searchParams.append(k, filters[k]); }
+    fetch(url)
+    .then(response => response.json())
+    .then(result => {
+      result.data
+      .sort(function (a, b) {
+        return new Date(b.last_updated) - new Date(a.last_updated);
+      })
+      .map(function (project) {
+          var cardHTML = cardProjectTemplate({
+              'logo': project.logo,
+              'project_name': project.name,
+              'project_description': project.short_description,
+              'project_details': '/project/'+project.name
+           });
+           div_project_columns.append(cardHTML);
+      });
+    }).catch((error) => {
+      console.error('Error:', error);
     });
     $('#list-projects').append(div_project_columns);
 
