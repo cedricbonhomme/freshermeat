@@ -75,24 +75,24 @@ $(document).ready(function() {
     });
 });
 function searchProject() {
-    var url = "{{ url_for('projectapi0.projectapi',) }}";
+    var url = new URL("{{ url_for('apiv2.projects_projects_list', _external=True,) }}");
     var project_name = document.getElementById("project_name").value;
     if ('' == project_name) {
         return;
     }
-    filters = [{"name":"name","op":"ilike","val":project_name}];
-    $.ajax({ // Get the list of projects
-        url: url,
-        data: {"q": JSON.stringify({"filters": filters})},
-        dataType: "json",
-        contentType: "application/json",
-        success: function(result) {
-            if (result.num_results != 0) {
-                document.getElementById("name_error").textContent = 'A project with the same name already exists.';
-            } else {
-                document.getElementById("name_error").textContent = '';
-            }
-        }
+    filters = {"name": project_name};
+    for (let k in filters) { url.searchParams.append(k, filters[k]); }
+
+    fetch(url)
+    .then(response => response.json())
+    .then(result => {
+      if (result.metadata.total != 0) {
+          document.getElementById("name_error").textContent = 'A project with the same name already exists.';
+      } else {
+          document.getElementById("name_error").textContent = '';
+      }
+    }).catch((error) => {
+      console.error('Error:', error);
     });
 }
 </script>
