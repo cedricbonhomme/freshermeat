@@ -67,18 +67,18 @@ $( ".delete-code" ).on( "click", function() {
         return;
     }
     var row = $(this).closest('tr');
-    $.ajax({
-        type: "DELETE",
-        url: "{{ url_for('codeapi0.codeapi',) }}" + "/" + row.attr('code-id'),
-        dataType: "json",
-        contentType: "application/json",
-        success: function(result) {
-            row.remove();
-        },
-        error: function(e) {
-            $('.modal-body').html(e.statusText);
-            $('#messageModal').modal('show');
+    var url = "/api/v2/code/" + row.attr('code-id');
+    fetch(url, {
+        method: "DELETE",
+        headers: {
+            'Content-Type': 'application/json'
         }
+    })
+    .then(result => {
+        row.remove();
+    }).catch((error) => {
+        $('.modal-body').html(e.statusText);
+        $('#messageModal').modal('show');
     });
 });
 });
