@@ -25,7 +25,7 @@
                 </thead>
                 <tbody>
                 {% for feed in feeds %}
-                    <tr code-id="{{ feed.id }}">
+                    <tr feed-id="{{ feed.id }}">
                         <td>{{ loop.index }}</td>
                         <td>{{ feed.link }}</td>
                         <td>{{ feed.created_date }}</td>
@@ -60,18 +60,18 @@ $( ".delete-code" ).on( "click", function() {
         return;
     }
     var row = $(this).closest('tr');
-    $.ajax({
-        type: "DELETE",
-        url: "{{ url_for('feedapi0.feedapi',) }}" + "/" + row.attr('code-id'),
-        dataType: "json",
-        contentType: "application/json",
-        success: function(result) {
-            row.remove();
-        },
-        error: function(e) {
-            $('.modal-body').html(e.statusText);
-            $('#messageModal').modal('show');
+    var url = "/api/v2/feed/" + row.attr('feed-id');
+    fetch(url, {
+        method: "DELETE",
+        headers: {
+            'Content-Type': 'application/json'
         }
+    })
+    .then(result => {
+        row.remove();
+    }).catch((error) => {
+        $('.modal-body').html(e.statusText);
+        $('#messageModal').modal('show');
     });
 });
 });
