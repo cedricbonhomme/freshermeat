@@ -30,29 +30,18 @@ logger = logging.getLogger(__name__)
 
 def auth_func(func):
     def wrapper(*args, **kwargs):
-        user = None
-
-        if request.authorization:
-            user = User.query.filter(
-                User.login == request.authorization.username
-            ).first()
-            if not user.check_password(request.authorization.password):
-                abort(401, Error="Couldn't authenticate your user.")
-        elif "X-API-KEY" in request.headers:
-            token = request.headers.get("X-API-KEY", False)
-            if token:
-                user = User.query.filter(User.apikey == token).first()
-
-        if not user:
-            abort(401, Error="Couldn't authenticate your user.")
-        if not user.is_active:
-            abort(401, Error="Couldn't authenticate your user.")
-
-        login_user_bundle(user)
-
         if not current_user.is_authenticated:
-            abort(401, Error="Couldn't authenticate your user.")
-
+            if "X-API-KEY" in request.headers:
+                token = request.headers.get("X-API-KEY", False)
+                if token:
+                    user = User.query.filter(User.apikey == token).first()
+                    if not user:
+                        abort(401, Error="Couldn't authenticate your user.")
+                    if not user.is_active:
+                        abort(403, Error="Couldn't authenticate your user.")
+                    login_user_bundle(user)
+            else:
+                abort(401, Error="Authentication required.")
         return func(*args, **kwargs)
 
     wrapper.__doc__ = func.__doc__
