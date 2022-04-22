@@ -35,45 +35,43 @@
     </div>
 </div>
 <script>
-$(document).ready(function() {
-    fetch("{{ url_for('stats_bp.licenses',) }}")
-    .then(response => response.json())
-    .then(licenses => {
-        var ctx = document.getElementById("licenses-pie-chart").getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: Object.keys(licenses),
-                datasets: [{
-                    data: Object.values(licenses),
-                    borderWidth: 1,
-                    backgroundColor: colors.concat(_.times(Object.keys(licenses).length, pastelColorMaker))
-                }]
-            },
-            options: {
-                onClick: function(evt) {
-                    var node = myChart.getElementsAtEventForMode(evt, 'point', { intersect: false });
-                    var license_label = Object.keys(licenses)[node[0].index];
-                    var url = new URL("{{ url_for('apiv2.license_licenses_list', _external=True,) }}");
-                    var filters = {"name": license_label};
-                    for (let k in filters) { url.searchParams.append(k, filters[k]); }
-                    fetch(url)
-                    .then(response => response.json())
-                    .then(result => {
-                        if (result.metadata.total == 1) {
-                            window.location = '/projects?license='+result.data[0].license_id;
-                        }
-                    })
+    $(document).ready(function() {
+        fetch("{{ url_for('stats_bp.licenses',) }}")
+        .then(response => response.json())
+        .then(licenses => {
+            var ctx = document.getElementById("licenses-pie-chart").getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: Object.keys(licenses),
+                    datasets: [{
+                        data: Object.values(licenses),
+                        borderWidth: 1,
+                        backgroundColor: colors.concat(_.times(Object.keys(licenses).length, pastelColorMaker))
+                    }]
+                },
+                options: {
+                    onClick: function(evt) {
+                        var node = myChart.getElementsAtEventForMode(evt, 'point', { intersect: false });
+                        var license_label = Object.keys(licenses)[node[0].index];
+                        var url = new URL("{{ url_for('apiv2.license_licenses_list', _external=True,) }}");
+                        var filters = {"name": license_label};
+                        for (let k in filters) { url.searchParams.append(k, filters[k]); }
+                        fetch(url)
+                        .then(response => response.json())
+                        .then(result => {
+                            if (result.metadata.total == 1) {
+                                window.location = '/projects?license='+result.data[0].license_id;
+                            }
+                        })
+                    }
                 }
-            }
+            });
         });
-    });
 
-    $.ajax({
-        url: "{{ url_for('stats_bp.languages',) }}",
-        dataType: "json",
-        contentType: "application/json",
-        success: function(languages) {
+        fetch("{{ url_for('stats_bp.languages',) }}")
+        .then(response => response.json())
+        .then(languages => {
             var ctx = document.getElementById("languages-pie-chart").getContext('2d');
             var myChart = new Chart(ctx, {
                 type: 'pie',
@@ -102,35 +100,33 @@ $(document).ready(function() {
                     }
                 }
             });
-        }
-    });
+        }).catch((error) => {
+            console.error('Error:', error);
+        });
 
-    $.ajax({
-        url: "{{ url_for('stats_bp.tags',) }}",
-        dataType: "json",
-        contentType: "application/json",
-        success: function(tags) {
+        fetch("{{ url_for('stats_bp.tags',) }}")
+        .then(response => response.json())
+        .then(tags => {
             var max = Object.values(tags).reduce(function(a,b) {
                 return Math.max(a, b);
             });
             for (tag in tags) {
                 if (tag != '') {
                     $("#tags-cloud").append('<a href="/projects/?tags=' +
-                                        tag + '" title="' + tags[tag] +
-                                        ' project(s)"><font size=' +
-                                        Math.min(1 + (tags[tag] * 7) / max, 7) +
-                                        "' id='" + tag + "'>" +
-                                        tag + "</font></a>&nbsp;");
+                    tag + '" title="' + tags[tag] +
+                    ' project(s)"><font size=' +
+                    Math.min(1 + (tags[tag] * 7) / max, 7) +
+                    "' id='" + tag + "'>" +
+                    tag + "</font></a>&nbsp;");
                 }
             }
-        }
-    });
+        }).catch((error) => {
+            console.error('Error:', error);
+        });
 
-    $.ajax({
-        url: "{{ url_for('stats_bp.organizations',) }}",
-        dataType: "json",
-        contentType: "application/json",
-        success: function(organizations) {
+        fetch("{{ url_for('stats_bp.organizations',) }}")
+        .then(response => response.json())
+        .then(organizations => {
             var ctx = document.getElementById("organizations-pie-chart").getContext('2d');
             var myChart = new Chart(ctx, {
                 type: 'pie',
@@ -150,14 +146,13 @@ $(document).ready(function() {
                     }
                 }
             });
-        }
-    });
+        }).catch((error) => {
+            console.error('Error:', error);
+        });
 
-    $.ajax({
-        url: "{{ url_for('stats_bp.activity',) }}",
-        dataType: "json",
-        contentType: "application/json",
-        success: function(time_laps) {
+        fetch("{{ url_for('stats_bp.activity',) }}")
+        .then(response => response.json())
+        .then(time_laps => {
             var ctx = document.getElementById("activity-pie-chart").getContext('2d');
             var myChart = new Chart(ctx, {
                 type: 'pie',
@@ -206,14 +201,13 @@ $(document).ready(function() {
                     }
                 }
             });
-        }
-    });
+        }).catch((error) => {
+            console.error('Error:', error);
+        });
 
-    $.ajax({
-        url: "{{ url_for('stats_bp.submitters',) }}",
-        dataType: "json",
-        contentType: "application/json",
-        success: function(submitters) {
+        fetch("{{ url_for('stats_bp.submitters',) }}")
+        .then(response => response.json())
+        .then(submitters => {
             var ctx = document.getElementById("submitters-pie-chart").getContext('2d');
             var myChart = new Chart(ctx, {
                 type: 'pie',
@@ -233,8 +227,9 @@ $(document).ready(function() {
                     }
                 }
             });
-        }
+        }).catch((error) => {
+            console.error('Error:', error);
+        });
     });
-});
 </script>
 {% endblock %}

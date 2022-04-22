@@ -185,71 +185,70 @@ $(document).ready(function() {
       console.error('Error:', error);
     });
 
-    $.ajax({
-        url: "{{ url_for('stats_bp.activity', organization_name=organization.name) }}",
-        dataType: "json",
-        contentType: "application/json",
-        success: function(time_laps) {
-            var ctx = document.getElementById("activity-pie-chart").getContext('2d');
-            var myChart = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: Object.keys(time_laps),
-                    datasets: [{
-                        data: Object.values(time_laps),
-                        borderWidth: 1,
-                        backgroundColor: colors.concat(_.times(Object.keys(time_laps).length, pastelColorMaker))
-                    }]
-                },
-                options: {
-                    onClick: function(evt) {
-                        var before = new Date();
-                        var after = new Date();
-                        var node = myChart.getElementsAtEventForMode(evt, 'point', { intersect: false });
-                        var timelaps = Object.keys(time_laps)[node[0].index];
-                        if (timelaps == "less than 1 month") {
-                            after.setMonth(after.getMonth() - 1);
-                            window.location = '/projects?updated_since=' +
-                                after.toLocaleDateString()+'&organization={{organization.name}}';
-                        }
-                        if (timelaps == "between 1 and 3 months") {
-                            before.setMonth(before.getMonth() - 1);
-                            after.setMonth(after.getMonth() - 3);
-                            window.location = '/projects?updated_since=' +
-                                after.toLocaleDateString()+'&updated_before=' +
-                                before.toLocaleDateString()+'&organization={{organization.name}}';
-                        }
-                        if (timelaps == "between 3 and 6 months") {
-                            before.setMonth(before.getMonth() - 3);
-                            after.setMonth(after.getMonth() - 6);
-                            window.location = '/projects?updated_since=' +
-                                after.toLocaleDateString()+'&updated_before=' +
-                                before.toLocaleDateString()+'&organization={{organization.name}}';
-                        }
-                        if (timelaps == "between 6 months and 1 year") {
-                            before.setMonth(before.getMonth() - 6);
-                            after.setMonth(after.getMonth() - 12);
-                            window.location = '/projects?updated_since=' +
-                                after.toLocaleDateString()+'&updated_before=' +
-                                before.toLocaleDateString()+'&organization={{organization.name}}';
-                        }
-                        if (timelaps == "between 1 and 2 years") {
-                            before.setMonth(before.getMonth() - 12);
-                            after.setMonth(after.getMonth() - 24);
-                            window.location = '/projects?updated_since=' +
-                                after.toLocaleDateString()+'&updated_before=' +
-                                before.toLocaleDateString()+'&organization={{organization.name}}';
-                        }
-                        if (timelaps == "more than 2 years") {
-                            before.setMonth(before.getMonth() - 24);
-                            window.location = '/projects?updated_before=' +
-                                before.toLocaleDateString()+'&organization={{organization.name}}';
-                        }
+    fetch("{{ url_for('stats_bp.activity', organization_name=organization.name) }}")
+    .then(response => response.json())
+    .then(time_laps => {
+        var ctx = document.getElementById("activity-pie-chart").getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: Object.keys(time_laps),
+                datasets: [{
+                    data: Object.values(time_laps),
+                    borderWidth: 1,
+                    backgroundColor: colors.concat(_.times(Object.keys(time_laps).length, pastelColorMaker))
+                }]
+            },
+            options: {
+                onClick: function(evt) {
+                    var before = new Date();
+                    var after = new Date();
+                    var node = myChart.getElementsAtEventForMode(evt, 'point', { intersect: false });
+                    var timelaps = Object.keys(time_laps)[node[0].index];
+                    if (timelaps == "less than 1 month") {
+                        after.setMonth(after.getMonth() - 1);
+                        window.location = '/projects?updated_since=' +
+                            after.toLocaleDateString()+'&organization={{organization.name}}';
+                    }
+                    if (timelaps == "between 1 and 3 months") {
+                        before.setMonth(before.getMonth() - 1);
+                        after.setMonth(after.getMonth() - 3);
+                        window.location = '/projects?updated_since=' +
+                            after.toLocaleDateString()+'&updated_before=' +
+                            before.toLocaleDateString()+'&organization={{organization.name}}';
+                    }
+                    if (timelaps == "between 3 and 6 months") {
+                        before.setMonth(before.getMonth() - 3);
+                        after.setMonth(after.getMonth() - 6);
+                        window.location = '/projects?updated_since=' +
+                            after.toLocaleDateString()+'&updated_before=' +
+                            before.toLocaleDateString()+'&organization={{organization.name}}';
+                    }
+                    if (timelaps == "between 6 months and 1 year") {
+                        before.setMonth(before.getMonth() - 6);
+                        after.setMonth(after.getMonth() - 12);
+                        window.location = '/projects?updated_since=' +
+                            after.toLocaleDateString()+'&updated_before=' +
+                            before.toLocaleDateString()+'&organization={{organization.name}}';
+                    }
+                    if (timelaps == "between 1 and 2 years") {
+                        before.setMonth(before.getMonth() - 12);
+                        after.setMonth(after.getMonth() - 24);
+                        window.location = '/projects?updated_since=' +
+                            after.toLocaleDateString()+'&updated_before=' +
+                            before.toLocaleDateString()+'&organization={{organization.name}}';
+                    }
+                    if (timelaps == "more than 2 years") {
+                        before.setMonth(before.getMonth() - 24);
+                        window.location = '/projects?updated_before=' +
+                            before.toLocaleDateString()+'&organization={{organization.name}}';
                     }
                 }
-            });
-        }
-    });
+            }
+        });
+      }).catch((error) => {
+        console.error('Error:', error);
+      });
 });
 </script>
 {% endblock %}
