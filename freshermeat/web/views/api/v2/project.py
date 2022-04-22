@@ -158,21 +158,3 @@ class projectItem(Resource):
     def get(self, id):
         """Fetch a given resource"""
         return Project.query.filter(Project.id == id).first(), 200
-
-    @project_ns.doc("delete_project")
-    @project_ns.response(204, "Project deleted")
-    @project_ns.doc(security="apikey")
-    @auth_func
-    def delete(self, id):
-        """Delete a project given its identifier"""
-        # DAO.delete(id)
-        return "", 204
-
-    @project_ns.expect(project)
-    @project_ns.marshal_with(project)
-    @project_ns.doc(security="apikey")
-    @auth_func
-    def put(self, id):
-        """Update a project given its identifier"""
-        # return DAO.update(id, project_ns.payload)
-        pass

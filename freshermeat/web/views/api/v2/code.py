@@ -4,7 +4,9 @@ from flask_restx import Namespace
 from flask_restx import reqparse
 from flask_restx import Resource
 
+from freshermeat.bootstrap import db
 from freshermeat.models import Code
+from freshermeat.web.views.api.v2.common import auth_func
 
 
 code_ns = Namespace("code", description="Code related operations")
@@ -81,3 +83,26 @@ class CodesList(Resource):
         result["metadata"]["count"] = count
 
         return result, 200
+
+
+@code_ns.route("/<string:id>")
+@code_ns.response(404, "Code not found")
+@code_ns.param("id", "The code identifier")
+class CodeItem(Resource):
+    """Show a single code item and lets you delete them"""
+
+    @code_ns.doc("get_code")
+    @code_ns.marshal_with(code)
+    def get(self, id):
+        """Fetch a given resource"""
+        return Code.query.filter(Code.id == id).first(), 200
+
+    @code_ns.doc("delete_code")
+    @code_ns.response(204, "Code deleted")
+    @code_ns.doc(security="apikey")
+    @auth_func
+    def delete(self, id):
+        """Delete a code given its identifier"""
+        Code.query.filter(Code.id == id).delete()
+        db.session.commit()
+        return "", 204
