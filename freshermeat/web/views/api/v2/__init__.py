@@ -49,6 +49,7 @@ def setup_api(application):
         license,
         language,
         code,
+        feed,
     )
 
     api.add_namespace(organization.organization_ns, path="/organization")
@@ -60,6 +61,7 @@ def setup_api(application):
     api.add_namespace(license.license_ns, path="/license")
     api.add_namespace(language.language_ns, path="/language")
     api.add_namespace(code.code_ns, path="/code")
+    api.add_namespace(feed.feed_ns, path="/feed")
 
     return api
 
