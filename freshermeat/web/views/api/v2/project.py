@@ -123,6 +123,7 @@ class ProjectsList(Resource):
         if project_language is not None:
             query = query.filter(Project.languages.any(name=project_language))
 
+        query = query.order_by(Project.last_updated.desc())
         total = query.count()
         query = query.limit(per_page)
         results = query.offset(page * per_page)
