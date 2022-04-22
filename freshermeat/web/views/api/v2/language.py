@@ -1,4 +1,3 @@
-#! /usr/bin/env python
 from flask_restx import fields
 from flask_restx import Namespace
 from flask_restx import reqparse
@@ -7,7 +6,7 @@ from flask_restx import Resource
 from freshermeat.models import Language
 
 
-language_ns = Namespace("language", description="Language related operations")
+language_ns = Namespace("language", description="Language related operations.")
 
 # Argument Parsing
 parser = reqparse.RequestParser()
@@ -25,7 +24,7 @@ language = language_ns.model(
             description="The id of the language.",
         ),
         "name": fields.String(description="The name of the language."),
-        "created_at": fields.DateTime(description="Date of creation of the language."),
+        "created_at": fields.DateTime(description="Date of addition of the language."),
     },
 )
 
@@ -33,16 +32,16 @@ language_list_fields = language_ns.model(
     "LanguagesList",
     {
         "metadata": fields.Raw(
-            description="Metada related to the result (number of page, current page, total number of objects)."
+            description="Metada (number of page, current page, total number of items)."
         ),
-        "data": fields.List(fields.Nested(language), description="List of languages"),
+        "data": fields.List(fields.Nested(language), description="List of items."),
     },
 )
 
 
 @language_ns.route("/")
 class LanguagesList(Resource):
-    """Create new languages."""
+    """Shows a list of all languages."""
 
     @language_ns.doc("list_languages")
     @language_ns.expect(parser)

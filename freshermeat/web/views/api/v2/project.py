@@ -9,7 +9,7 @@ from freshermeat.models import Project
 from freshermeat.web.views.api.v2.common import auth_func
 
 
-project_ns = Namespace("projects", description="project related operations")
+project_ns = Namespace("projects", description="Project related operations.")
 
 
 # Argument Parsing
@@ -76,22 +76,22 @@ project_list_fields = project_ns.model(
     "ProjectsList",
     {
         "metadata": fields.Raw(
-            description="Metada related to the result (number of page, current page, total number of objects)."
+            description="Metada (number of page, current page, total number of items)."
         ),
-        "data": fields.List(fields.Nested(project), description="List of projects"),
+        "data": fields.List(fields.Nested(project), description="List of items."),
     },
 )
 
 
 @project_ns.route("/")
 class ProjectsList(Resource):
-    """Shows a list of all projects, and lets you POST to add new projects"""
+    """Shows a list of all projects, and lets you POST to add new projects."""
 
     @project_ns.doc("list_projects")
     @project_ns.expect(parser)
     @project_ns.marshal_list_with(project_list_fields, skip_none=True)
     def get(self):
-        """List all projects"""
+        """List all projects."""
         args = parser.parse_args()
         project_organization = args.pop("organization", None)
         project_license = args.pop("license", None)
@@ -139,7 +139,7 @@ class ProjectsList(Resource):
     @project_ns.doc(security="apikey")
     @auth_func
     def post(self):
-        """Create a new project"""
+        """Create a new project."""
         project_ns.payload["submitter_id"] = current_user.id
         new_project = Project(**project_ns.payload)
         db.session.add(new_project)
@@ -151,10 +151,10 @@ class ProjectsList(Resource):
 @project_ns.response(404, "Project not found")
 @project_ns.param("id", "The project identifier")
 class projectItem(Resource):
-    """Show a single project item and lets you delete them"""
+    """Show a single project item and lets you delete them."""
 
     @project_ns.doc("get_project")
     @project_ns.marshal_with(project)
     def get(self, id):
-        """Fetch a given resource"""
+        """Fetch a given resource."""
         return Project.query.filter(Project.id == id).first(), 200

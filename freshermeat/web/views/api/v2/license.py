@@ -1,4 +1,3 @@
-#! /usr/bin/env python
 from flask_restx import fields
 from flask_restx import Namespace
 from flask_restx import reqparse
@@ -34,16 +33,16 @@ license_list_fields = license_ns.model(
     "LicensesList",
     {
         "metadata": fields.Raw(
-            description="Metada related to the result (number of page, current page, total number of objects)."
+            description="Metada (number of page, current page, total number of items)."
         ),
-        "data": fields.List(fields.Nested(license), description="List of licenses"),
+        "data": fields.List(fields.Nested(license), description="List of items."),
     },
 )
 
 
 @license_ns.route("/")
 class LicensesList(Resource):
-    """Create new licenses."""
+    """Shows a list of all licences."""
 
     @license_ns.doc("list_license")
     @license_ns.expect(parser)

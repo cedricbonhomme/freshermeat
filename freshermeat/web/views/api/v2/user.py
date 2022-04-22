@@ -1,4 +1,3 @@
-#! /usr/bin/env python
 from flask_restx import fields
 from flask_restx import Namespace
 from flask_restx import reqparse
@@ -7,15 +6,12 @@ from flask_restx import Resource
 from freshermeat.models import User
 
 
-user_ns = Namespace("user", description="User related operations")
+user_ns = Namespace("user", description="User related operations.")
 
 # Argument Parsing
 parser = reqparse.RequestParser()
 parser.add_argument("user_id", type=str, help="The id of the user.")
 parser.add_argument("login", type=str, help="The login of the user.")
-# parser.add_argument(
-#     "project_name", type=str, help="Name of the project related to the user."
-# )
 parser.add_argument("page", type=int, default=1, location="args")
 parser.add_argument("per_page", type=int, location="args")
 
@@ -35,22 +31,22 @@ user_list_fields = user_ns.model(
     "UsersList",
     {
         "metadata": fields.Raw(
-            description="Metada related to the result (number of page, current page, total number of objects)."
+            description="Metada (number of page, current page, total number of items)."
         ),
-        "data": fields.List(fields.Nested(user), description="List of users"),
+        "data": fields.List(fields.Nested(user), description="List of items."),
     },
 )
 
 
 @user_ns.route("/")
 class UsersList(Resource):
-    """Create new users."""
+    """Shows a list of all users."""
 
     @user_ns.doc("list_users")
     @user_ns.expect(parser)
     @user_ns.marshal_list_with(user_list_fields, skip_none=True)
     def get(self):
-        """List all users"""
+        """List all users."""
         args = parser.parse_args()
         args = {k: v for k, v in args.items() if v is not None}
 

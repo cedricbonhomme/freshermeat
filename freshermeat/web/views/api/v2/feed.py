@@ -1,4 +1,3 @@
-#! /usr/bin/env python
 from flask_restx import fields
 from flask_restx import Namespace
 from flask_restx import reqparse
@@ -9,7 +8,7 @@ from freshermeat.models import Feed
 from freshermeat.web.views.api.v2.common import auth_func
 
 
-feed_ns = Namespace("feed", description="Feed related operations")
+feed_ns = Namespace("feed", description="Feed related operations.")
 
 # Argument Parsing
 parser = reqparse.RequestParser()
@@ -34,22 +33,22 @@ feed_list_fields = feed_ns.model(
     "FeedsList",
     {
         "metadata": fields.Raw(
-            description="Metada related to the result (number of page, current page, total number of objects)."
+            description="Metada (number of page, current page, total number of items)."
         ),
-        "data": fields.List(fields.Nested(feed), description="List of feed"),
+        "data": fields.List(fields.Nested(feed), description="List of items."),
     },
 )
 
 
 @feed_ns.route("/")
 class FeedsList(Resource):
-    """Create new feeds."""
+    """Shows a list of all feeds."""
 
     @feed_ns.doc("list_feeds")
     @feed_ns.expect(parser)
     @feed_ns.marshal_list_with(feed_list_fields, skip_none=True)
     def get(self):
-        """List all feeds"""
+        """List all feeds."""
         args = parser.parse_args()
         args = {k: v for k, v in args.items() if v is not None}
 
@@ -88,7 +87,7 @@ class FeedsList(Resource):
 @feed_ns.response(404, "Feed not found")
 @feed_ns.param("id", "The feed identifier")
 class FeedItem(Resource):
-    """Show a single feed item and lets you delete them"""
+    """Show a single feed item and lets you delete them."""
 
     @feed_ns.doc("get_feed")
     @feed_ns.marshal_with(feed)
@@ -101,7 +100,7 @@ class FeedItem(Resource):
     @feed_ns.doc(security="apikey")
     @auth_func
     def delete(self, id):
-        """Delete a feed given its identifier"""
+        """Delete a feed given its identifier."""
         Feed.query.filter(Feed.id == id).delete()
         db.session.commit()
         return "", 204

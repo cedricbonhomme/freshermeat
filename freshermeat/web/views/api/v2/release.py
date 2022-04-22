@@ -1,4 +1,3 @@
-#! /usr/bin/env python
 from flask_restx import fields
 from flask_restx import Namespace
 from flask_restx import reqparse
@@ -9,7 +8,7 @@ from freshermeat.models import Release
 from freshermeat.web.views.api.v2.common import auth_func
 
 
-release_ns = Namespace("release", description="Release related operations")
+release_ns = Namespace("release", description="Release related operations.")
 
 # Argument Parsing
 parser = reqparse.RequestParser()
@@ -42,16 +41,16 @@ release_list_fields = release_ns.model(
     "ReleasesList",
     {
         "metadata": fields.Raw(
-            description="Metada related to the result (number of page, current page, total number of objects)."
+            description="Metada (number of page, current page, total number of items)."
         ),
-        "data": fields.List(fields.Nested(release), description="List of releases"),
+        "data": fields.List(fields.Nested(release), description="List of items."),
     },
 )
 
 
 @release_ns.route("/")
 class ReleasesList(Resource):
-    """Create new releases."""
+    """Shows a list of all releases."""
 
     @release_ns.doc("list_releases")
     @release_ns.expect(parser)
@@ -96,12 +95,12 @@ class ReleasesList(Resource):
 @release_ns.response(404, "Release not found")
 @release_ns.param("id", "The release identifier")
 class ReleaseItem(Resource):
-    """Show a single release item and lets you delete them"""
+    """Show a single release item and lets you delete them."""
 
     @release_ns.doc("get_release")
     @release_ns.marshal_with(release)
     def get(self, id):
-        """Fetch a given resource"""
+        """Fetch a given resource."""
         return Release.query.filter(Release.id == id).first(), 200
 
     @release_ns.doc("delete_release")
@@ -109,7 +108,7 @@ class ReleaseItem(Resource):
     @release_ns.doc(security="apikey")
     @auth_func
     def delete(self, id):
-        """Delete a release given its identifier"""
+        """Delete a release given its identifier."""
         Release.query.filter(Release.id == id).delete()
         db.session.commit()
         return "", 204

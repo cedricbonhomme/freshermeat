@@ -89,7 +89,7 @@ def tags():
 
 @stats_bp.route("/organizations.json", methods=["GET"])
 def organizations():
-    """Returns a JSON with the different types of organizations (Non-profit, Governmental, etc.)."""
+    """Returns a JSON with the different types of organizations."""
     result = (
         db.session.query(
             Organization.organization_type, func.count(Organization.organization_type)

@@ -1,4 +1,3 @@
-#! /usr/bin/env python
 from flask_restx import fields
 from flask_restx import Namespace
 from flask_restx import reqparse
@@ -8,7 +7,7 @@ from freshermeat.models import Organization
 
 
 organization_ns = Namespace(
-    "organization", description="organization related operations"
+    "organization", description="Organization related operations."
 )
 
 # Argument Parsing
@@ -31,7 +30,7 @@ organization = organization_ns.model(
     "Organization",
     {
         "id": fields.Integer(
-            readonly=True, description="The organization unique identifier"
+            readonly=True, description="The organization unique identifier."
         ),
         "name": fields.String(
             description="Name of the organization.",
@@ -55,24 +54,22 @@ organization_list_fields = organization_ns.model(
     "OrganizationsList",
     {
         "metadata": fields.Raw(
-            description="Metada related to the result (number of page, current page, total number of objects)."
+            description="Metada (number of page, current page, total number of items)."
         ),
-        "data": fields.List(
-            fields.Nested(organization), description="List of organizations"
-        ),
+        "data": fields.List(fields.Nested(organization), description="List of items."),
     },
 )
 
 
 @organization_ns.route("/")
 class OrganizationsList(Resource):
-    """Create new organizations."""
+    """Shows a list of all organizations."""
 
     @organization_ns.doc("list_organizations")
     @organization_ns.expect(parser)
     @organization_ns.marshal_list_with(organization_list_fields, skip_none=True)
     def get(self):
-        """List all organizations"""
+        """List all organizations."""
         args = parser.parse_args()
         args = {k: v for k, v in args.items() if v is not None}
 

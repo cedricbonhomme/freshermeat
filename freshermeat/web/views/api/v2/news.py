@@ -1,4 +1,3 @@
-#! /usr/bin/env python
 from flask_restx import fields
 from flask_restx import Namespace
 from flask_restx import reqparse
@@ -7,7 +6,7 @@ from flask_restx import Resource
 from freshermeat.models import News
 
 
-news_ns = Namespace("news", description="News related operations")
+news_ns = Namespace("news", description="News related operations.")
 
 # Argument Parsing
 parser = reqparse.RequestParser()
@@ -37,22 +36,22 @@ news_list_fields = news_ns.model(
     "NewsList",
     {
         "metadata": fields.Raw(
-            description="Metada related to the result (number of page, current page, total number of objects)."
+            description="Metada (number of page, current page, total number of items)."
         ),
-        "data": fields.List(fields.Nested(news), description="List of news"),
+        "data": fields.List(fields.Nested(news), description="List of items."),
     },
 )
 
 
 @news_ns.route("/")
 class NewsList(Resource):
-    """Create new news."""
+    """Shows a list of all news."""
 
     @news_ns.doc("list_news")
     @news_ns.expect(parser)
     @news_ns.marshal_list_with(news_list_fields, skip_none=True)
     def get(self):
-        """List all news"""
+        """List all news."""
         args = parser.parse_args()
         args = {k: v for k, v in args.items() if v is not None}
 

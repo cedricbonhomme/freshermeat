@@ -7,7 +7,7 @@ from flask_restx import Resource
 from freshermeat.models import CVE
 
 
-cve_ns = Namespace("cve", description="CVE related operations")
+cve_ns = Namespace("cve", description="CVE related operations.")
 
 # Argument Parsing
 parser = reqparse.RequestParser()
@@ -31,7 +31,6 @@ cve = cve_ns.model(
             description="The id of the CVE.",
         ),
         "cve_url": fields.String(description="The URL of the CVE."),
-        "cve_summary": fields.String(description="The summary of the CVE."),
         "summary": fields.String(description="The summary of the CVE."),
         "published_at": fields.DateTime(description="Date of publication of the CVE."),
     },
@@ -41,22 +40,22 @@ cve_list_fields = cve_ns.model(
     "CVEsList",
     {
         "metadata": fields.Raw(
-            description="Metada related to the result (number of page, current page, total number of objects)."
+            description="Metada (number of page, current page, total number of items)."
         ),
-        "data": fields.List(fields.Nested(cve), description="List of CVEs"),
+        "data": fields.List(fields.Nested(cve), description="List of items."),
     },
 )
 
 
 @cve_ns.route("/")
 class CVEsList(Resource):
-    """Create new CVEs."""
+    """Shows a list of all CVEs."""
 
     @cve_ns.doc("list_cves")
     @cve_ns.expect(parser)
     @cve_ns.marshal_list_with(cve_list_fields, skip_none=True)
     def get(self):
-        """List all CVEs"""
+        """List all CVEs."""
         args = parser.parse_args()
         args = {k: v for k, v in args.items() if v is not None}
 
