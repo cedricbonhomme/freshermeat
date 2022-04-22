@@ -4,7 +4,9 @@ from flask_restx import Namespace
 from flask_restx import reqparse
 from flask_restx import Resource
 
+from freshermeat.bootstrap import db
 from freshermeat.models import Release
+from freshermeat.web.views.api.v2.common import auth_func
 
 
 release_ns = Namespace("release", description="Release related operations")
@@ -88,3 +90,26 @@ class ReleasesList(Resource):
         result["metadata"]["count"] = count
 
         return result, 200
+
+
+@release_ns.route("/<string:id>")
+@release_ns.response(404, "Release not found")
+@release_ns.param("id", "The release identifier")
+class ReleaseItem(Resource):
+    """Show a single release item and lets you delete them"""
+
+    @release_ns.doc("get_release")
+    @release_ns.marshal_with(release)
+    def get(self, id):
+        """Fetch a given resource"""
+        return Release.query.filter(Release.id == id).first(), 200
+
+    @release_ns.doc("delete_release")
+    @release_ns.response(204, "Release deleted")
+    @release_ns.doc(security="apikey")
+    @auth_func
+    def delete(self, id):
+        """Delete a release given its identifier"""
+        Release.query.filter(Release.id == id).delete()
+        db.session.commit()
+        return "", 204
