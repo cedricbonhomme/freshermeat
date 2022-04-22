@@ -39,7 +39,7 @@
                         <td>{{ loop.index }}</td>
                         <td>{{ release.version }}</td>
                         <td>{{ release.published_at }}</td>
-                        <th class="delete-release"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;<i class="fa fa-trash delete-code" aria-hidden="true"></i></th>
+                        <th><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;<i class="fa fa-trash delete-release" aria-hidden="true"></i></th>
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -50,24 +50,24 @@
 </div><!-- /.container -->
 <script>
 $(document).ready(function() {
-    $( ".delete-code" ).on( "click", function() {
+    $( ".delete-release" ).on( "click", function() {
         answer = confirm('You are going to delete this release.');
         if (!answer) {
             return;
         }
         var row = $(this).closest('tr');
-        $.ajax({
-            type: "DELETE",
-            url: "{{ url_for('releaseapi0.releaseapi',) }}" + "/" + row.attr('release-id'),
-            dataType: "json",
-            contentType: "application/json",
-            success: function(result) {
-                row.remove();
-            },
-            error: function(e) {
-                $('.modal-body').html(e.statusText);
-                $('#messageModal').modal('show');
+        var url = "/api/v2/release/" + row.attr('release-id');
+        fetch(url, {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json'
             }
+        })
+        .then(result => {
+            row.remove();
+        }).catch((error) => {
+            $('.modal-body').html(e.statusText);
+            $('#messageModal').modal('show');
         });
     });
 })
