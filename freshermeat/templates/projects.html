@@ -58,7 +58,7 @@
 </div><!-- /.container -->
 <script>
 $(document).ready(function() {
-    var url = "{{ url_for('apiv2.projects_projects_list', _external=True,) }}" + "?results_per_page=50";
+    var url = "{{ url_for('apiv2.projects_projects_list', per_page=2, _external=True,) }}";
     page_number = getUrlParameter('page');
     if (typeof page_number !== 'undefined') {
         url = url.concat("&page="+page_number);
@@ -101,7 +101,7 @@ $(document).ready(function() {
     load_projects_list(url, filters);
 });
 function load_projects_list(url, filters) {
-    var url = new URL("{{ url_for('apiv2.projects_projects_list', _external=True,) }}");
+    var url = new URL("{{ url_for('apiv2.projects_projects_list', per_page=50, _external=True,) }}");
     for (let k in filters) { url.searchParams.append(k, filters[k]); }
 
     fetch(url)

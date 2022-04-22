@@ -29,10 +29,10 @@
                 {% endif %}
             </h3>
             <div id="list-projects" class="list-group">
-	      <div class="d-flex justify-content-center">
-                  <div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>
-	      </div>
-	    </div>
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>
+                </div>
+            </div>
         </div>
         <div class="col">
             <br />
@@ -44,82 +44,82 @@
                 {% endif %}
             </h3>
             <div id="list-organizations">
-	        <div class="d-flex justify-content-center">
-                     <div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>
-	        </div>
-	    </div>
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>
+                </div>
+            </div>
             <h3>People</h3>
             <div id="list-people">
-	        <div class="d-flex justify-content-center">
+                <div class="d-flex justify-content-center">
                     <div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>
-	        </div>
-	    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div><!-- /.container -->
 <script>
-$(document).ready(function() {
-   fetch("{{ url_for('apiv2.projects_projects_list',) }}")
-   .then(response => response.json())
-   .then(result => {
-     document.getElementById("list-projects").innerHTML = "";
-     result.data
-     .sort(function (a, b) {
-       return new Date(b.last_updated) - new Date(a.last_updated);
-     })
-     .map(function (project) {
-         var cardHTML = projectHomeTemplate({
-             'project_url': '/project/'+project.name,
-             'project_name': project.name,
-             'project_description': project.short_description,
-             'project_last_update': moment(project.last_updated).fromNow()
-          });
-          $('#list-projects').append(cardHTML);
-     });
-   }).catch((error) => {
-     console.error('Error:', error);
-   });
-
-   fetch("{{ url_for('apiv2.organization_organizations_list',) }}")
-  .then(response => response.json())
-  .then(result => {
-    document.getElementById("list-organizations").innerHTML = "";
-    result.data
-    .sort(function (a, b) {
-      return new Date(b.last_updated) - new Date(a.last_updated);
-    })
-    .map(function (organization) {
-        var cardHTML = organizationTemplate({
-            'organization_url': '/organization/'+organization.name,
-            'organization_name': organization.name,
-            'organization_short_description': organization.short_description,
-            'organization_last_update': moment(organization.last_updated).fromNow()
-         });
-         $('#list-organizations').append(cardHTML);
-    });
-  }).catch((error) => {
-    console.error('Error:', error);
-  });
-
-
-  fetch("{{ url_for('apiv2.user_users_list',) }}")
- .then(response => response.json())
- .then(result => {
-   document.getElementById("list-people").innerHTML = "";
-   result.data
-   .sort(function (a, b) {
-     return new Date(b.last_updated) - new Date(a.last_updated);
-   })
-   .map(function (user) {
-       var cardHTML = userTemplate({
-           'user_url': '/user/'+user.login,
-           'user_login': user.login
+    $(document).ready(function() {
+        fetch("{{ url_for('apiv2.projects_projects_list', per_page=20) }}")
+        .then(response => response.json())
+        .then(result => {
+            document.getElementById("list-projects").innerHTML = "";
+            result.data
+            .sort(function (a, b) {
+                return new Date(b.last_updated) - new Date(a.last_updated);
+            })
+            .map(function (project) {
+                var cardHTML = projectHomeTemplate({
+                    'project_url': '/project/'+project.name,
+                    'project_name': project.name,
+                    'project_description': project.short_description,
+                    'project_last_update': moment(project.last_updated).fromNow()
+                });
+                $('#list-projects').append(cardHTML);
+            });
+        }).catch((error) => {
+            console.error('Error:', error);
         });
-        $('#list-people').append(cardHTML);
-   });
- }).catch((error) => {
-   console.error('Error:', error);
- });
-});
+
+        fetch("{{ url_for('apiv2.organization_organizations_list',) }}")
+        .then(response => response.json())
+        .then(result => {
+            document.getElementById("list-organizations").innerHTML = "";
+            result.data
+            .sort(function (a, b) {
+                return new Date(b.last_updated) - new Date(a.last_updated);
+            })
+            .map(function (organization) {
+                var cardHTML = organizationTemplate({
+                    'organization_url': '/organization/'+organization.name,
+                    'organization_name': organization.name,
+                    'organization_short_description': organization.short_description,
+                    'organization_last_update': moment(organization.last_updated).fromNow()
+                });
+                $('#list-organizations').append(cardHTML);
+            });
+        }).catch((error) => {
+            console.error('Error:', error);
+        });
+
+
+        fetch("{{ url_for('apiv2.user_users_list',) }}")
+        .then(response => response.json())
+        .then(result => {
+            document.getElementById("list-people").innerHTML = "";
+            result.data
+            .sort(function (a, b) {
+                return new Date(b.last_updated) - new Date(a.last_updated);
+            })
+            .map(function (user) {
+                var cardHTML = userTemplate({
+                    'user_url': '/user/'+user.login,
+                    'user_login': user.login
+                });
+                $('#list-people').append(cardHTML);
+            });
+        }).catch((error) => {
+            console.error('Error:', error);
+        });
+    });
 </script>
 {% endblock %}
