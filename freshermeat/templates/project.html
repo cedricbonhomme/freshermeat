@@ -250,7 +250,7 @@
     for (let k in filters) { url.searchParams.append(k, filters[k]); }
     fetch(url)
     .then(response => response.json())
-    .then(result => {
+    .then(elem => {
       document.getElementById("project-news").innerHTML = "";
       if (result.metadata.total == 0) {
         $('#project-news').append('No known news.')
