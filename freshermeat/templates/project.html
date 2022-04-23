@@ -250,7 +250,7 @@
     for (let k in filters) { url.searchParams.append(k, filters[k]); }
     fetch(url)
     .then(response => response.json())
-    .then(elem => {
+    .then(result => {
       document.getElementById("project-news").innerHTML = "";
       if (result.metadata.total == 0) {
         $('#project-news').append('No known news.')
@@ -261,9 +261,9 @@
       })
       .map(function (release) {
         var cardHTML = newsTemplate({
-          'news_url': elem.link,
-          'title': elem.title,
-          'published': moment(elem.published).fromNow()
+          'news_url': release.link,
+          'title': release.title,
+          'published': moment(release.published).fromNow()
         });
         $('#project-news').append(cardHTML);
       });
