@@ -97,7 +97,6 @@ class ProjectsList(Resource):
         project_license = args.pop("license", None)
         project_language = args.pop("language", None)
         args = {k: v for k, v in args.items() if v is not None}
-
         page = args.pop("page", 1) - 1
         per_page = args.pop("per_page", 10)
 

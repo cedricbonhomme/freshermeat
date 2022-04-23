@@ -58,8 +58,7 @@ class CVEsList(Resource):
         """List all CVEs."""
         args = parser.parse_args()
         args = {k: v for k, v in args.items() if v is not None}
-
-        page = args.pop("page", 1)
+        page = args.pop("page", 1) - 1
         per_page = args.pop("per_page", 10)
 
         result = {
@@ -79,11 +78,14 @@ class CVEsList(Resource):
             else:
                 p_arg = arg.split("_")[1]
                 query = query.filter(CVE.project.has(**{p_arg: args[arg]}))
-        total = query.count()
-        cves = query.all()
-        count = total
 
-        result["data"] = cves
+        query = query.order_by(CVE.published_at.desc())
+        total = query.count()
+        query = query.limit(per_page)
+        results = query.offset(page * per_page)
+        count = query.count()
+
+        result["data"] = results
         result["metadata"]["total"] = total
         result["metadata"]["count"] = count
 

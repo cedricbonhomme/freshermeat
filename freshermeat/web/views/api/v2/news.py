@@ -54,8 +54,7 @@ class NewsList(Resource):
         """List all news."""
         args = parser.parse_args()
         args = {k: v for k, v in args.items() if v is not None}
-
-        page = args.pop("page", 1)
+        page = args.pop("page", 1) - 1
         per_page = args.pop("per_page", 10)
 
         result = {
@@ -75,11 +74,14 @@ class NewsList(Resource):
             else:
                 p_arg = arg.split("_")[1]
                 query = query.filter(News.project.has(**{p_arg: args[arg]}))
-        total = query.count()
-        news = query.all()
-        count = total
 
-        result["data"] = news
+        query = query.order_by(News.published.desc())
+        total = query.count()
+        query = query.limit(per_page)
+        results = query.offset(page * per_page)
+        count = query.count()
+
+        result["data"] = results
         result["metadata"]["total"] = total
         result["metadata"]["count"] = count
 
