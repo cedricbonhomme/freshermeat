@@ -1,92 +1,92 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
-    <br />
-    <div class="row">
-        <div class="col-md">
-            <h3>Organizations
-                {% if current_user.is_authenticated and current_user.is_admin %}
-                <a href="{{ url_for('organization_bp.form') }}">
-                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                </a>
-                {% endif %}
-            </h3>
-        </div>
-        <div class="col-md">
-            <form method="GET" id="searchForm">
-                <div class="form-row align-items-center float-right">
-                    <div class="col-auto">
-                        <label class="sr-only" for="inlineFormInput">Search</label>
-                        <input type="text" class="form-control mb-2" id="inlineFormInput" name="name" placeholder="Search">
-                    </div>
-                    <div class="col-auto">
-                        <button type="submit" class="btn btn-secondary mb-2">Submit</button>
-                    </div>
-                </div>
-            </form>
-        </div>
+  <br />
+  <div class="row">
+    <div class="col-md">
+      <h3>Organizations
+        {% if current_user.is_authenticated and current_user.is_admin %}
+        <a href="{{ url_for('organization_bp.form') }}">
+          <i class="fa fa-plus-circle" aria-hidden="true"></i>
+        </a>
+        {% endif %}
+      </h3>
     </div>
-    <div id="list-organizations"></div>
+    <div class="col-md">
+      <form method="GET" id="searchForm">
+        <div class="form-row align-items-center float-right">
+          <div class="col-auto">
+            <label class="sr-only" for="inlineFormInput">Search</label>
+            <input type="text" class="form-control mb-2" id="inlineFormInput" name="name" placeholder="Search">
+          </div>
+          <div class="col-auto">
+            <button type="submit" class="btn btn-secondary mb-2">Submit</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div id="list-organizations"></div>
 </div><!-- /.container -->
 <script>
-$(document).ready(function() {
+  document.addEventListener("DOMContentLoaded", function() {
     var filters = {};
     name_param = getUrlParameter('name');
     if (typeof name_param !== 'undefined') {
-        filters["name"] = name_param;
+      filters["name"] = name_param;
     }
     type_param = getUrlParameter('type');
     if (typeof type_param !== 'undefined') {
-        filters["organization_type"] = type_param;
+      filters["organization_type"] = type_param;
     }
 
     var url = new URL("{{ url_for('apiv2.organization_organizations_list', _external=True,) }}");
     for (let k in filters) { url.searchParams.append(k, filters[k]); }
     fetch(url)
-   .then(response => response.json())
-   .then(result => {
-     document.getElementById("list-organizations").innerHTML = "";
-     result.data
-     .sort(function (a, b) {
-       return new Date(b.last_updated) - new Date(a.last_updated);
-     })
-     .map(function (organization) {
-         var div_organization = $("<div>");
-         div_organization.append('<ol class="breadcrumb">' +
-                                 '<li class="breadcrumb-item active">' +
-                                 '<a href="/organization/' + organization.name
-                                 + '">' + organization.name + '</a></li></ol>');
-         $('#list-organizations').append(div_organization);
+    .then(response => response.json())
+    .then(result => {
+      document.getElementById("list-organizations").innerHTML = "";
+      result.data
+      .sort(function (a, b) {
+        return new Date(b.last_updated) - new Date(a.last_updated);
+      })
+      .map(function (organization) {
+        var div_organization = $("<div>");
+          div_organization.append('<ol class="breadcrumb">' +
+            '<li class="breadcrumb-item active">' +
+              '<a href="/organization/' + organization.name
+              + '">' + organization.name + '</a></li></ol>');
+              $('#list-organizations').append(div_organization);
 
-         var div_organization_columns = $("<div>", {"class": "card-columns"});
+              var div_organization_columns = $("<div>", {"class": "card-columns"});
 
-         var url = new URL("{{ url_for('apiv2.projects_projects_list', _external=True,) }}");
-         var filters = {"organization": organization.name};
-         for (let k in filters) { url.searchParams.append(k, filters[k]); }
-         fetch(url)
-         .then(response => response.json())
-         .then(result => {
-           result.data
-           .sort(function (a, b) {
-             return new Date(b.last_updated) - new Date(a.last_updated);
-           })
-           .map(function (project) {
-               var cardHTML = cardProjectTemplate({
-                   'logo': project.logo,
-                   'project_name': project.name,
-                   'project_description': project.short_description,
-                   'project_details': '/project/'+project.name
+                var url = new URL("{{ url_for('apiv2.projects_projects_list', _external=True,) }}");
+                var filters = {"organization": organization.name};
+                for (let k in filters) { url.searchParams.append(k, filters[k]); }
+                fetch(url)
+                .then(response => response.json())
+                .then(result => {
+                  result.data
+                  .sort(function (a, b) {
+                    return new Date(b.last_updated) - new Date(a.last_updated);
+                  })
+                  .map(function (project) {
+                    var cardHTML = cardProjectTemplate({
+                      'logo': project.logo,
+                      'project_name': project.name,
+                      'project_description': project.short_description,
+                      'project_details': '/project/'+project.name
+                    });
+                    div_organization_columns.append(cardHTML);
+                  });
+                }).catch((error) => {
+                  console.error('Error:', error);
                 });
-                div_organization_columns.append(cardHTML);
-           });
-         }).catch((error) => {
-           console.error('Error:', error);
-         });
-        $('#list-organizations').append(div_organization_columns);
-     });
-   }).catch((error) => {
-     console.error('Error:', error);
-   });
-});
-</script>
-{% endblock %}
+                $('#list-organizations').append(div_organization_columns);
+              });
+            }).catch((error) => {
+              console.error('Error:', error);
+            });
+          });
+        </script>
+        {% endblock %}

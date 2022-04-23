@@ -1,50 +1,50 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
-    <div class="row">
-        <div class="col">
-            <br />
-            {{ pagination.links }}
-        </div>
+  <div class="row">
+    <div class="col">
+      <br />
+      {{ pagination.links }}
     </div>
-    <div class="row">
-        <div class="col">
-            <h1>Recent submissions</h1>
-            <table class="table">
-                <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Name</th>
-                      <th>Website</th>
-                      <th>Date</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  {% for submission in submissions %}
-                    <tr {% if not submission.reviewed %}class="table-warning"{% endif %}>
-                        <td><a href="{{ url_for('submissions_bp.get', submission_id=submission.id) }}">{{ submission.id }}</a></td>
-                        <td>{{ submission.project_name }}</td>
-                        <td>{{ submission.project_website }}</td>
-                        <td>{{ submission.created_at | datetimeformat }}</td>
-                    </tr>
-                  {% endfor %}
-              </tbody>
-          </table>
-        </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <h1>Recent submissions</h1>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Website</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for submission in submissions %}
+          <tr {% if not submission.reviewed %}class="table-warning"{% endif %}>
+            <td><a href="{{ url_for('submissions_bp.get', submission_id=submission.id) }}">{{ submission.id }}</a></td>
+            <td>{{ submission.project_name }}</td>
+            <td>{{ submission.project_website }}</td>
+            <td>{{ submission.created_at | datetimeformat }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
-    <div class="row">
-        <div class="col">
-            <br />
-            {{ pagination.links }}
-        </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <br />
+      {{ pagination.links }}
     </div>
+  </div>
 </div><!-- /.container -->
 <script>
-$(document).ready(function() {
+  document.addEventListener("DOMContentLoaded", function() {
     $('.table').dataTable( {
-        paginate: false,
-        "order": [[ 4, "desc" ]] // sort on date
+      paginate: false,
+      "order": [[ 4, "desc" ]] // sort on date
     });
-});
+  });
 </script>
 {% endblock %}

@@ -3,73 +3,73 @@
 <div id="messageModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm">
     <div id="modal-content" class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title">Error</h5>
-        </div>
-        <div class="modal-body"></div>
+      <div class="modal-header">
+        <h5 class="modal-title">Error</h5>
+      </div>
+      <div class="modal-body"></div>
     </div>
   </div>
 </div>
 <div id="messageModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm">
     <div id="modal-content" class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title">Error</h5>
-        </div>
-        <div class="modal-body"></div>
+      <div class="modal-header">
+        <h5 class="modal-title">Error</h5>
+      </div>
+      <div class="modal-body"></div>
     </div>
   </div>
 </div>
 <div class="container">
-    <div class="row">
-        <div class="col">
-            <h3>Releases</h3>
-            <table id="table-codes" class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Version</th>
-                        <th>Date</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for release in project.releases %}
-                    <tr release-id="{{ release.id }}">
-                        <td>{{ loop.index }}</td>
-                        <td>{{ release.version }}</td>
-                        <td>{{ release.published_at }}</td>
-                        <th><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;<i class="fa fa-trash delete-release" aria-hidden="true"></i></th>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+  <div class="row">
+    <div class="col">
+      <h3>Releases</h3>
+      <table id="table-codes" class="table table-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Version</th>
+            <th>Date</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for release in project.releases %}
+          <tr release-id="{{ release.id }}">
+            <td>{{ loop.index }}</td>
+            <td>{{ release.version }}</td>
+            <td>{{ release.published_at }}</td>
+            <th><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;<i class="fa fa-trash delete-release" aria-hidden="true"></i></th>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
 
-        </div>
     </div>
+  </div>
 </div><!-- /.container -->
 <script>
-$(document).ready(function() {
+  document.addEventListener("DOMContentLoaded", function() {
     $( ".delete-release" ).on( "click", function() {
-        answer = confirm('You are going to delete this release.');
-        if (!answer) {
-            return;
+      answer = confirm('You are going to delete this release.');
+      if (!answer) {
+        return;
+      }
+      var row = $(this).closest('tr');
+      var url = "/api/v2/release/" + row.attr('release-id');
+      fetch(url, {
+        method: "DELETE",
+        headers: {
+          'Content-Type': 'application/json'
         }
-        var row = $(this).closest('tr');
-        var url = "/api/v2/release/" + row.attr('release-id');
-        fetch(url, {
-            method: "DELETE",
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(result => {
-            row.remove();
-        }).catch((error) => {
-            $('.modal-body').html(e.statusText);
-            $('#messageModal').modal('show');
-        });
+      })
+      .then(result => {
+        row.remove();
+      }).catch((error) => {
+        $('.modal-body').html(e.statusText);
+        $('#messageModal').modal('show');
+      });
     });
-})
+  })
 </script>
 {% endblock %}

@@ -1,105 +1,105 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
-    <div class="row">
-        <div class="col-3">
-            <h3>{{ action }}</h3>
+  <div class="row">
+    <div class="col-3">
+      <h3>{{ action }}</h3>
+    </div>
+    {% if action == "Edit organization" %}
+    <div class="col">
+      <small><a href="{{ url_for('organization_bp.get', organization_name=organization.name) }}">organization page</a></small>
+    </div>
+    {% endif %}
+  </div>
+
+  <form action="" method="post" name="save" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    <div class="form-row">
+      <div class="col">
+        <div class="form-group">
+          <label for="{{ form.name.id }}" class="control-label">{{ form.name.label }}</label>
+          <div>
+            {{ form.name(class_="form-control") }}
+          </div>
+          {% for error in form.name.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
         </div>
-        {% if action == "Edit organization" %}
-        <div class="col">
-            <small><a href="{{ url_for('organization_bp.get', organization_name=organization.name) }}">organization page</a></small>
-        </div>
-        {% endif %}
+      </div>
     </div>
 
-    <form action="" method="post" name="save" enctype="multipart/form-data">
-        {{ form.hidden_tag() }}
-        <div class="form-row">
-            <div class="col">
-                <div class="form-group">
-                    <label for="{{ form.name.id }}" class="control-label">{{ form.name.label }}</label>
-                    <div>
-                        {{ form.name(class_="form-control") }}
-                    </div>
-                    {% for error in form.name.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-                </div>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="col">
-                <div class="form-group">
-                    <label for="{{ form.short_description.id }}" class="control-label">{{ form.short_description.label }}</label>
-                    <div>
-                        {{ form.short_description(class_="form-control") }}
-                    </div>
-                    {% for error in form.short_description.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-                </div>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="col">
-                <div class="form-group">
-                    <label for="{{ form.description.id }}" class="control-label">{{ form.description.label }}</label>
-                    <div>
-                        {{ form.description(class_="form-control") }}
-                    </div>
-                    {% for error in form.description.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-                </div>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="col">
-                <div class="form-group">
-                    <label for="{{ form.website.id }}" class="control-label">{{ form.website.label }}</label>
-                    <div>
-                        {{ form.website(class_="form-control") }}
-                    </div>
-                    {% for error in form.website.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-                </div>
-            </div>
-            <div class="col">
-                <div class="form-group">
-                    <label for="{{ form.organization_type.id }}" class="control-label">{{ form.organization_type.label }}</label>
-                    <div>
-                        {{ form.organization_type(class_="form-control") }}
-                    </div>
-                    {% for error in form.organization_type.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-                </div>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="col">
-                <div class="form-group">
-                    <label for="{{ form.logo.id }}" class="control-label">{{ form.logo.label }}</label>
-                    <div>
-                        {{ form.logo(class_="form-control") }}
-                    </div>
-                    {% for error in form.logo.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-                </div>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="col">
-                <div class="form-group">
-                    <label for="{{ form.cve_vendor.id }}" class="control-label">{{ form.cve_vendor.label }}</label>
-                    <div>
-                        {{ form.cve_vendor(class_="form-control") }}
-                    </div>
-                    {% for error in form.cve_vendor.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-                </div>
-            </div>
-        </div>
-
+    <div class="form-row">
+      <div class="col">
         <div class="form-group">
-            <div class="">
-                {{ form.submit(class_="btn btn-default") }}
-            </div>
+          <label for="{{ form.short_description.id }}" class="control-label">{{ form.short_description.label }}</label>
+          <div>
+            {{ form.short_description(class_="form-control") }}
+          </div>
+          {% for error in form.short_description.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
         </div>
-    </form>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="col">
+        <div class="form-group">
+          <label for="{{ form.description.id }}" class="control-label">{{ form.description.label }}</label>
+          <div>
+            {{ form.description(class_="form-control") }}
+          </div>
+          {% for error in form.description.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="col">
+        <div class="form-group">
+          <label for="{{ form.website.id }}" class="control-label">{{ form.website.label }}</label>
+          <div>
+            {{ form.website(class_="form-control") }}
+          </div>
+          {% for error in form.website.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label for="{{ form.organization_type.id }}" class="control-label">{{ form.organization_type.label }}</label>
+          <div>
+            {{ form.organization_type(class_="form-control") }}
+          </div>
+          {% for error in form.organization_type.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="col">
+        <div class="form-group">
+          <label for="{{ form.logo.id }}" class="control-label">{{ form.logo.label }}</label>
+          <div>
+            {{ form.logo(class_="form-control") }}
+          </div>
+          {% for error in form.logo.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="col">
+        <div class="form-group">
+          <label for="{{ form.cve_vendor.id }}" class="control-label">{{ form.cve_vendor.label }}</label>
+          <div>
+            {{ form.cve_vendor(class_="form-control") }}
+          </div>
+          {% for error in form.cve_vendor.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="">
+        {{ form.submit(class_="btn btn-default") }}
+      </div>
+    </div>
+  </form>
 </div><!-- /.container -->
 {% endblock %}

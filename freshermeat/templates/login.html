@@ -2,32 +2,32 @@
 {% block content %}
 <br />
 <div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <form action="{{ url_for('login') }}" method="post">
-                        {{ form.hidden_tag() }}
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <form action="{{ url_for('login') }}" method="post">
+            {{ form.hidden_tag() }}
 
-                        <div class="form-group">
-                        {{ form.login(class_="form-control", placeholder='Your login') }}
-                        </div>
-                        {% for message in form.login.errors %}
-                            <div class="alert alert-warning" role="alert">{{ message }}</div>
-                        {% endfor %}
-
-                        <div class="form-group">
-                        {{ form.password(class_="form-control", placeholder='Your Password') }}
-                        </div>
-                        {% for message in form.password.errors %}
-                            <div class="alert alert-warning" role="alert">{{ message }}</div>
-                        {% endfor %}
-
-                        {{ form.submit(class_="btn btn-default") }}
-                    </form>
-                </div>
+            <div class="form-group">
+              {{ form.login(class_="form-control", placeholder='Your login') }}
             </div>
+            {% for message in form.login.errors %}
+            <div class="alert alert-warning" role="alert">{{ message }}</div>
+            {% endfor %}
+
+            <div class="form-group">
+              {{ form.password(class_="form-control", placeholder='Your Password') }}
+            </div>
+            {% for message in form.password.errors %}
+            <div class="alert alert-warning" role="alert">{{ message }}</div>
+            {% endfor %}
+
+            {{ form.submit(class_="btn btn-default") }}
+          </form>
         </div>
+      </div>
     </div>
+  </div>
 </div><!-- /.container -->
 {% endblock %}

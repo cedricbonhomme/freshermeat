@@ -1,235 +1,235 @@
 {% extends "layout.html" %}}
 {% block content %}
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-5">
-            <h2>Licenses distribution</h2>
-            <canvas id="licenses-pie-chart" width="100%" height="100%"></canvas>
-        </div>
-        <div class="col-md-5 offset-md-2">
-            <h2>Explore tags</h2>
-            <div id="tags-cloud" class="text-justify"></div>
-        </div>
+  <div class="row">
+    <div class="col-md-5">
+      <h2>Licenses distribution</h2>
+      <canvas id="licenses-pie-chart" width="100%" height="100%"></canvas>
     </div>
-    <div class="row">
-        <div class="col-md-5">
-            <h2>Languages distribution</h2>
-            <canvas id="languages-pie-chart" width="100%" height="100%"></canvas>
-        </div>
-        <div class="col-md-5 offset-md-2">
-            <h2>Organizations</h2>
-            <canvas id="organizations-pie-chart" width="100%" height="100%"></canvas>
-        </div>
+    <div class="col-md-5 offset-md-2">
+      <h2>Explore tags</h2>
+      <div id="tags-cloud" class="text-justify"></div>
     </div>
-    <div class="row">
-        <div class="col-md-5" id="activity">
-            <h2>Projects activity</h2>
-            <p class="text-muted">Repartition of projects activity.</p>
-            <canvas id="activity-pie-chart" width="100%" height="100%"></canvas>
-        </div>
-        <div class="col-md-5 offset-md-2" id="submitters">
-            <h2>Submitters</h2>
-            <p class="text-muted">Number of projects submitted per contributor.</p>
-            <canvas id="submitters-pie-chart" width="100%" height="100%"></canvas>
-        </div>
+  </div>
+  <div class="row">
+    <div class="col-md-5">
+      <h2>Languages distribution</h2>
+      <canvas id="languages-pie-chart" width="100%" height="100%"></canvas>
     </div>
+    <div class="col-md-5 offset-md-2">
+      <h2>Organizations</h2>
+      <canvas id="organizations-pie-chart" width="100%" height="100%"></canvas>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-5" id="activity">
+      <h2>Projects activity</h2>
+      <p class="text-muted">Repartition of projects activity.</p>
+      <canvas id="activity-pie-chart" width="100%" height="100%"></canvas>
+    </div>
+    <div class="col-md-5 offset-md-2" id="submitters">
+      <h2>Submitters</h2>
+      <p class="text-muted">Number of projects submitted per contributor.</p>
+      <canvas id="submitters-pie-chart" width="100%" height="100%"></canvas>
+    </div>
+  </div>
 </div>
 <script>
-    $(document).ready(function() {
-        fetch("{{ url_for('stats_bp.licenses',) }}")
-        .then(response => response.json())
-        .then(licenses => {
-            var ctx = document.getElementById("licenses-pie-chart").getContext('2d');
-            var myChart = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: Object.keys(licenses),
-                    datasets: [{
-                        data: Object.values(licenses),
-                        borderWidth: 1,
-                        backgroundColor: colors.concat(_.times(Object.keys(licenses).length, pastelColorMaker))
-                    }]
-                },
-                options: {
-                    onClick: function(evt) {
-                        var node = myChart.getElementsAtEventForMode(evt, 'point', { intersect: false });
-                        var license_label = Object.keys(licenses)[node[0].index];
-                        var url = new URL("{{ url_for('apiv2.license_licenses_list', _external=True,) }}");
-                        var filters = {"name": license_label};
-                        for (let k in filters) { url.searchParams.append(k, filters[k]); }
-                        fetch(url)
-                        .then(response => response.json())
-                        .then(result => {
-                            if (result.metadata.total == 1) {
-                                window.location = '/projects?license='+result.data[0].license_id;
-                            }
-                        })
-                    }
-                }
-            });
-        });
-
-        fetch("{{ url_for('stats_bp.languages',) }}")
-        .then(response => response.json())
-        .then(languages => {
-            var ctx = document.getElementById("languages-pie-chart").getContext('2d');
-            var myChart = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: Object.keys(languages),
-                    datasets: [{
-                        data: Object.values(languages),
-                        borderWidth: 1,
-                        backgroundColor: colors.concat(_.times(Object.keys(languages).length, pastelColorMaker))
-                    }]
-                },
-                options: {
-                    onClick: function(evt) {
-                        var node = myChart.getElementsAtEventForMode(evt, 'point', { intersect: false });
-                        var language_label = Object.keys(languages)[node[0].index];
-                        var url = new URL("{{ url_for('apiv2.language_languages_list', _external=True,) }}");
-                        var filters = {"name": language_label};
-                        for (let k in filters) { url.searchParams.append(k, filters[k]); }
-                        fetch(url)
-                        .then(response => response.json())
-                        .then(result => {
-                            if (result.metadata.total == 1) {
-                                window.location = '/projects?language='+result.data[0].name;
-                            }
-                        })
-                    }
-                }
-            });
-        }).catch((error) => {
-            console.error('Error:', error);
-        });
-
-        fetch("{{ url_for('stats_bp.tags',) }}")
-        .then(response => response.json())
-        .then(tags => {
-            var max = Object.values(tags).reduce(function(a,b) {
-                return Math.max(a, b);
-            });
-            for (tag in tags) {
-                if (tag != '') {
-                    $("#tags-cloud").append('<a href="/projects/?tags=' +
-                    tag + '" title="' + tags[tag] +
-                    ' project(s)"><font size=' +
-                    Math.min(1 + (tags[tag] * 7) / max, 7) +
-                    "' id='" + tag + "'>" +
-                    tag + "</font></a>&nbsp;");
-                }
-            }
-        }).catch((error) => {
-            console.error('Error:', error);
-        });
-
-        fetch("{{ url_for('stats_bp.organizations',) }}")
-        .then(response => response.json())
-        .then(organizations => {
-            var ctx = document.getElementById("organizations-pie-chart").getContext('2d');
-            var myChart = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: Object.keys(organizations),
-                    datasets: [{
-                        data: Object.values(organizations),
-                        borderWidth: 1,
-                        backgroundColor: colors.concat(_.times(Object.keys(organizations).length, pastelColorMaker))
-                    }]
-                },
-                options: {
-                    onClick: function(evt) {
-                        var node = myChart.getElementsAtEventForMode(evt, 'point', { intersect: false });
-                        var organization_type = Object.keys(organizations)[node[0].index];
-                        window.location = '/organizations?type='+organization_type;
-                    }
-                }
-            });
-        }).catch((error) => {
-            console.error('Error:', error);
-        });
-
-        fetch("{{ url_for('stats_bp.activity',) }}")
-        .then(response => response.json())
-        .then(time_laps => {
-            var ctx = document.getElementById("activity-pie-chart").getContext('2d');
-            var myChart = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: Object.keys(time_laps),
-                    datasets: [{
-                        data: Object.values(time_laps),
-                        borderWidth: 1,
-                        backgroundColor: colors.concat(_.times(Object.keys(time_laps).length, pastelColorMaker))
-                    }]
-                },
-                options: {
-                    onClick: function(evt) {
-                        var before = new Date();
-                        var after = new Date();
-                        var node = myChart.getElementsAtEventForMode(evt, 'point', { intersect: false });
-                        var timelaps = Object.keys(time_laps)[node[0].index];
-                        if (timelaps == "less than 1 month") {
-                            after.setMonth(after.getMonth() - 1);
-                            window.location = '/projects?updated_since='+after.toLocaleDateString();
-                        }
-                        if (timelaps == "between 1 and 3 months") {
-                            before.setMonth(before.getMonth() - 1);
-                            after.setMonth(after.getMonth() - 3);
-                            window.location = '/projects?updated_since='+after.toLocaleDateString()+'&updated_before='+before.toLocaleDateString();
-                        }
-                        if (timelaps == "between 3 and 6 months") {
-                            before.setMonth(before.getMonth() - 3);
-                            after.setMonth(after.getMonth() - 6);
-                            window.location = '/projects?updated_since='+after.toLocaleDateString()+'&updated_before='+before.toLocaleDateString();
-                        }
-                        if (timelaps == "between 6 months and 1 year") {
-                            before.setMonth(before.getMonth() - 6);
-                            after.setMonth(after.getMonth() - 12);
-                            window.location = '/projects?updated_since='+after.toLocaleDateString()+'&updated_before='+before.toLocaleDateString();
-                        }
-                        if (timelaps == "between 1 and 2 years") {
-                            before.setMonth(before.getMonth() - 12);
-                            after.setMonth(after.getMonth() - 24);
-                            window.location = '/projects?updated_since='+after.toLocaleDateString()+'&updated_before='+before.toLocaleDateString();
-                        }
-                        if (timelaps == "more than 2 years") {
-                            before.setMonth(before.getMonth() - 24);
-                            window.location = '/projects?updated_before='+before.toLocaleDateString();
-                        }
-                    }
-                }
-            });
-        }).catch((error) => {
-            console.error('Error:', error);
-        });
-
-        fetch("{{ url_for('stats_bp.submitters',) }}")
-        .then(response => response.json())
-        .then(submitters => {
-            var ctx = document.getElementById("submitters-pie-chart").getContext('2d');
-            var myChart = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: Object.keys(submitters),
-                    datasets: [{
-                        data: Object.values(submitters),
-                        borderWidth: 1,
-                        backgroundColor: colors.concat(_.times(Object.keys(submitters).length, pastelColorMaker))
-                    }]
-                },
-                options: {
-                    onClick: function(evt) {
-                        var node = myChart.getElementsAtEventForMode(evt, 'point', { intersect: false });
-                        var submitter = Object.keys(submitters)[node[0].index];
-                        window.location = '/user/'+submitter;
-                    }
-                }
-            });
-        }).catch((error) => {
-            console.error('Error:', error);
-        });
+  document.addEventListener("DOMContentLoaded", function() {
+    fetch("{{ url_for('stats_bp.licenses',) }}")
+    .then(response => response.json())
+    .then(licenses => {
+      var ctx = document.getElementById("licenses-pie-chart").getContext('2d');
+      var myChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: Object.keys(licenses),
+          datasets: [{
+            data: Object.values(licenses),
+            borderWidth: 1,
+            backgroundColor: colors.concat(_.times(Object.keys(licenses).length, pastelColorMaker))
+          }]
+        },
+        options: {
+          onClick: function(evt) {
+            var node = myChart.getElementsAtEventForMode(evt, 'point', { intersect: false });
+            var license_label = Object.keys(licenses)[node[0].index];
+            var url = new URL("{{ url_for('apiv2.license_licenses_list', _external=True,) }}");
+            var filters = {"name": license_label};
+            for (let k in filters) { url.searchParams.append(k, filters[k]); }
+            fetch(url)
+            .then(response => response.json())
+            .then(result => {
+              if (result.metadata.total == 1) {
+                window.location = '/projects?license='+result.data[0].license_id;
+              }
+            })
+          }
+        }
+      });
     });
+
+    fetch("{{ url_for('stats_bp.languages',) }}")
+    .then(response => response.json())
+    .then(languages => {
+      var ctx = document.getElementById("languages-pie-chart").getContext('2d');
+      var myChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: Object.keys(languages),
+          datasets: [{
+            data: Object.values(languages),
+            borderWidth: 1,
+            backgroundColor: colors.concat(_.times(Object.keys(languages).length, pastelColorMaker))
+          }]
+        },
+        options: {
+          onClick: function(evt) {
+            var node = myChart.getElementsAtEventForMode(evt, 'point', { intersect: false });
+            var language_label = Object.keys(languages)[node[0].index];
+            var url = new URL("{{ url_for('apiv2.language_languages_list', _external=True,) }}");
+            var filters = {"name": language_label};
+            for (let k in filters) { url.searchParams.append(k, filters[k]); }
+            fetch(url)
+            .then(response => response.json())
+            .then(result => {
+              if (result.metadata.total == 1) {
+                window.location = '/projects?language='+result.data[0].name;
+              }
+            })
+          }
+        }
+      });
+    }).catch((error) => {
+      console.error('Error:', error);
+    });
+
+    fetch("{{ url_for('stats_bp.tags',) }}")
+    .then(response => response.json())
+    .then(tags => {
+      var max = Object.values(tags).reduce(function(a,b) {
+        return Math.max(a, b);
+      });
+      for (tag in tags) {
+        if (tag != '') {
+          $("#tags-cloud").append('<a href="/projects/?tags=' +
+          tag + '" title="' + tags[tag] +
+          ' project(s)"><font size=' +
+          Math.min(1 + (tags[tag] * 7) / max, 7) +
+          "' id='" + tag + "'>" +
+          tag + "</font></a>&nbsp;");
+        }
+      }
+    }).catch((error) => {
+      console.error('Error:', error);
+    });
+
+    fetch("{{ url_for('stats_bp.organizations',) }}")
+    .then(response => response.json())
+    .then(organizations => {
+      var ctx = document.getElementById("organizations-pie-chart").getContext('2d');
+      var myChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: Object.keys(organizations),
+          datasets: [{
+            data: Object.values(organizations),
+            borderWidth: 1,
+            backgroundColor: colors.concat(_.times(Object.keys(organizations).length, pastelColorMaker))
+          }]
+        },
+        options: {
+          onClick: function(evt) {
+            var node = myChart.getElementsAtEventForMode(evt, 'point', { intersect: false });
+            var organization_type = Object.keys(organizations)[node[0].index];
+            window.location = '/organizations?type='+organization_type;
+          }
+        }
+      });
+    }).catch((error) => {
+      console.error('Error:', error);
+    });
+
+    fetch("{{ url_for('stats_bp.activity',) }}")
+    .then(response => response.json())
+    .then(time_laps => {
+      var ctx = document.getElementById("activity-pie-chart").getContext('2d');
+      var myChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: Object.keys(time_laps),
+          datasets: [{
+            data: Object.values(time_laps),
+            borderWidth: 1,
+            backgroundColor: colors.concat(_.times(Object.keys(time_laps).length, pastelColorMaker))
+          }]
+        },
+        options: {
+          onClick: function(evt) {
+            var before = new Date();
+            var after = new Date();
+            var node = myChart.getElementsAtEventForMode(evt, 'point', { intersect: false });
+            var timelaps = Object.keys(time_laps)[node[0].index];
+            if (timelaps == "less than 1 month") {
+              after.setMonth(after.getMonth() - 1);
+              window.location = '/projects?updated_since='+after.toLocaleDateString();
+            }
+            if (timelaps == "between 1 and 3 months") {
+              before.setMonth(before.getMonth() - 1);
+              after.setMonth(after.getMonth() - 3);
+              window.location = '/projects?updated_since='+after.toLocaleDateString()+'&updated_before='+before.toLocaleDateString();
+            }
+            if (timelaps == "between 3 and 6 months") {
+              before.setMonth(before.getMonth() - 3);
+              after.setMonth(after.getMonth() - 6);
+              window.location = '/projects?updated_since='+after.toLocaleDateString()+'&updated_before='+before.toLocaleDateString();
+            }
+            if (timelaps == "between 6 months and 1 year") {
+              before.setMonth(before.getMonth() - 6);
+              after.setMonth(after.getMonth() - 12);
+              window.location = '/projects?updated_since='+after.toLocaleDateString()+'&updated_before='+before.toLocaleDateString();
+            }
+            if (timelaps == "between 1 and 2 years") {
+              before.setMonth(before.getMonth() - 12);
+              after.setMonth(after.getMonth() - 24);
+              window.location = '/projects?updated_since='+after.toLocaleDateString()+'&updated_before='+before.toLocaleDateString();
+            }
+            if (timelaps == "more than 2 years") {
+              before.setMonth(before.getMonth() - 24);
+              window.location = '/projects?updated_before='+before.toLocaleDateString();
+            }
+          }
+        }
+      });
+    }).catch((error) => {
+      console.error('Error:', error);
+    });
+
+    fetch("{{ url_for('stats_bp.submitters',) }}")
+    .then(response => response.json())
+    .then(submitters => {
+      var ctx = document.getElementById("submitters-pie-chart").getContext('2d');
+      var myChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: Object.keys(submitters),
+          datasets: [{
+            data: Object.values(submitters),
+            borderWidth: 1,
+            backgroundColor: colors.concat(_.times(Object.keys(submitters).length, pastelColorMaker))
+          }]
+        },
+        options: {
+          onClick: function(evt) {
+            var node = myChart.getElementsAtEventForMode(evt, 'point', { intersect: false });
+            var submitter = Object.keys(submitters)[node[0].index];
+            window.location = '/user/'+submitter;
+          }
+        }
+      });
+    }).catch((error) => {
+      console.error('Error:', error);
+    });
+  });
 </script>
 {% endblock %}

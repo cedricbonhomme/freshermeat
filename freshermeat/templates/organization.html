@@ -1,254 +1,254 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container-fluid">
-    <br />
-    <div class="row">
-        <div class="col-md-2">
-            {% if organization.icon_url  %}
-            <img id="project-logo" src="{{ url_for('uploaded_pictures', filename=organization.icon_url) }}" class="logo" />
-            {% endif %}
-        </div>
-        <div class="col-md">
-            <h3 id="organization-name">{{ organization.name }}</h3>
-            <small><a href="{{ url_for('organization_bp.form', organization_id=organization.id) }}">Settings</a></small>
-        </div>
-        <div class="col-md">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md">
-                            <h5>Website</h5>
-                        </div>
-                        <div class="col-md">
-                            <p><a href="{{ organization.website }}">{{ organization.website }}</a></p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md">
-                            <h5>Description</h5>
-                        </div>
-                        <div class="col-md">
-                            <p class="text-justify">{{ organization.description }}</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md">
-                            <h5>Organization type</h5>
-                        </div>
-                        <div class="col-md">
-                            <p>{{ organization.organization_type }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <br />
+  <div class="row">
+    <div class="col-md-2">
+      {% if organization.icon_url  %}
+      <img id="project-logo" src="{{ url_for('uploaded_pictures', filename=organization.icon_url) }}" class="logo" />
+      {% endif %}
     </div>
-    <br />
-    <div class="row">
-        <div class="col-md-12">
-            <div>
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item active">Projects ({{organization.projects.count() }})</li>
-                    <li class="breadcrumb-item active">
-                        <a href="{{ url_for('organization_bp.recent_releases', organization_name=organization.name) }}"><i class="fa fa-rss" aria-hidden="true" title="Recent releases for {{ organization.name }}"></i></a>
-                    </li>
-                </ol>
-            </div>
-            <div id="list-projects"></div>
-        </div>
+    <div class="col-md">
+      <h3 id="organization-name">{{ organization.name }}</h3>
+      <small><a href="{{ url_for('organization_bp.form', organization_id=organization.id) }}">Settings</a></small>
     </div>
+    <div class="col-md">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md">
+              <h5>Website</h5>
+            </div>
+            <div class="col-md">
+              <p><a href="{{ organization.website }}">{{ organization.website }}</a></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md">
+              <h5>Description</h5>
+            </div>
+            <div class="col-md">
+              <p class="text-justify">{{ organization.description }}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md">
+              <h5>Organization type</h5>
+            </div>
+            <div class="col-md">
+              <p>{{ organization.organization_type }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-md-12">
+      <div>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item active">Projects ({{organization.projects.count() }})</li>
+          <li class="breadcrumb-item active">
+            <a href="{{ url_for('organization_bp.recent_releases', organization_name=organization.name) }}"><i class="fa fa-rss" aria-hidden="true" title="Recent releases for {{ organization.name }}"></i></a>
+          </li>
+        </ol>
+      </div>
+      <div id="list-projects"></div>
+    </div>
+  </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <div>
-                <ol class="breadcrumb">
-                    <li id="section-stats" class="breadcrumb-item active">Statistics</li>
-                </ol>
-            </div>
-        </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div>
+        <ol class="breadcrumb">
+          <li id="section-stats" class="breadcrumb-item active">Statistics</li>
+        </ol>
+      </div>
     </div>
-    <div class="row">
-        <div class="col-md-5">
-            <h2>Licenses distribution</h2>
-            <canvas id="licenses-pie-chart" width="100%" height="100%"></canvas>
-        </div>
-        <div class="col-md-5 offset-md-2">
-            <h2>Languages distribution</h2>
-            <canvas id="languages-pie-chart" width="100%" height="100%"></canvas>
-        </div>
+  </div>
+  <div class="row">
+    <div class="col-md-5">
+      <h2>Licenses distribution</h2>
+      <canvas id="licenses-pie-chart" width="100%" height="100%"></canvas>
     </div>
-    <div class="row">
-        <div class="col-md-5" id="activity">
-            <h2>Projects activity</h2>
-            <p class="text-muted">Repartition of projects activity.</p>
-            <canvas id="activity-pie-chart" width="100%" height="100%"></canvas>
-        </div>
+    <div class="col-md-5 offset-md-2">
+      <h2>Languages distribution</h2>
+      <canvas id="languages-pie-chart" width="100%" height="100%"></canvas>
     </div>
+  </div>
+  <div class="row">
+    <div class="col-md-5" id="activity">
+      <h2>Projects activity</h2>
+      <p class="text-muted">Repartition of projects activity.</p>
+      <canvas id="activity-pie-chart" width="100%" height="100%"></canvas>
+    </div>
+  </div>
 </div><!-- /.container -->
 <script>
-$(document).ready(function() {
+  document.addEventListener("DOMContentLoaded", function() {
     var div_project_columns = $("<div>", {"class": "card-columns"});
 
-    var url = new URL("{{ url_for('apiv2.projects_projects_list', _external=True) }}")
-    var filters = {"organization_id": {{ organization.id }}};
-    for (let k in filters) { url.searchParams.append(k, filters[k]); }
-    fetch(url)
-    .then(response => response.json())
-    .then(result => {
-      result.data
-      .sort(function (a, b) {
-        return new Date(b.last_updated) - new Date(a.last_updated);
-      })
-      .map(function (project) {
+      var url = new URL("{{ url_for('apiv2.projects_projects_list', _external=True) }}")
+      var filters = {"organization_id": {{ organization.id }}};
+      for (let k in filters) { url.searchParams.append(k, filters[k]); }
+      fetch(url)
+      .then(response => response.json())
+      .then(result => {
+        result.data
+        .sort(function (a, b) {
+          return new Date(b.last_updated) - new Date(a.last_updated);
+        })
+        .map(function (project) {
           var cardHTML = cardProjectTemplate({
-              'logo': project.logo,
-              'project_name': project.name,
-              'project_description': project.short_description,
-              'project_details': '/project/'+project.name
-           });
-           div_project_columns.append(cardHTML);
-      });
-    }).catch((error) => {
-      console.error('Error:', error);
-    });
-    $('#list-projects').append(div_project_columns);
-
-
-    fetch("{{ url_for('stats_bp.licenses', organization_name=organization.name) }}")
-    .then(response => response.json())
-    .then(licenses => {
-      var ctx = document.getElementById("licenses-pie-chart").getContext('2d');
-      var myChart = new Chart(ctx, {
-          type: 'pie',
-          data: {
-              labels: Object.keys(licenses),
-              datasets: [{
-                  data: Object.values(licenses),
-                  borderWidth: 1,
-                  backgroundColor: colors.concat(_.times(Object.keys(licenses).length, pastelColorMaker))
-              }]
-          },
-          options: {
-              onClick: function(evt) {
-                  var node = myChart.getElementsAtEventForMode(evt, 'point', { intersect: false });
-                  var license_label = Object.keys(licenses)[node[0].index];
-                  var url = new URL("{{ url_for('apiv2.license_licenses_list', _external=True,) }}");
-                  var filters = {"name": license_label};
-                  for (let k in filters) { url.searchParams.append(k, filters[k]); }
-                  fetch(url)
-                  .then(response => response.json())
-                  .then(result => {
-                      if (result.metadata.total == 1) {
-                          window.location = '/projects?license='+result.data[0].license_id+'&organization={{organization.name}}';
-                      }
-                  })
-              }
-          }
-      });
-    }).catch((error) => {
-      console.error('Error:', error);
-    });
-
-
-    fetch("{{ url_for('stats_bp.languages', organization_name=organization.name) }}")
-    .then(response => response.json())
-    .then(languages => {
-        var ctx = document.getElementById("languages-pie-chart").getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: Object.keys(languages),
-                datasets: [{
-                    data: Object.values(languages),
-                    borderWidth: 1,
-                    backgroundColor: colors.concat(_.times(Object.keys(languages).length, pastelColorMaker))
-                }]
-            },
-            options: {
-                onClick: function(evt) {
-                    var node = myChart.getElementsAtEventForMode(evt, 'point', { intersect: false });
-                    var language_label = Object.keys(languages)[node[0].index];
-                    var url = new URL("{{ url_for('apiv2.language_languages_list', _external=True,) }}");
-                    var filters = {"name": language_label};
-                    for (let k in filters) { url.searchParams.append(k, filters[k]); }
-                    fetch(url)
-                    .then(response => response.json())
-                    .then(result => {
-                        if (result.metadata.total == 1) {
-                            window.location = '/projects?language='+result.data[0].name+'&organization={{organization.name}}';
-                        }
-                    })
-                }
-            }
-        });
-    }).catch((error) => {
-      console.error('Error:', error);
-    });
-
-    fetch("{{ url_for('stats_bp.activity', organization_name=organization.name) }}")
-    .then(response => response.json())
-    .then(time_laps => {
-        var ctx = document.getElementById("activity-pie-chart").getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: Object.keys(time_laps),
-                datasets: [{
-                    data: Object.values(time_laps),
-                    borderWidth: 1,
-                    backgroundColor: colors.concat(_.times(Object.keys(time_laps).length, pastelColorMaker))
-                }]
-            },
-            options: {
-                onClick: function(evt) {
-                    var before = new Date();
-                    var after = new Date();
-                    var node = myChart.getElementsAtEventForMode(evt, 'point', { intersect: false });
-                    var timelaps = Object.keys(time_laps)[node[0].index];
-                    if (timelaps == "less than 1 month") {
-                        after.setMonth(after.getMonth() - 1);
-                        window.location = '/projects?updated_since=' +
-                            after.toLocaleDateString()+'&organization={{organization.name}}';
-                    }
-                    if (timelaps == "between 1 and 3 months") {
-                        before.setMonth(before.getMonth() - 1);
-                        after.setMonth(after.getMonth() - 3);
-                        window.location = '/projects?updated_since=' +
-                            after.toLocaleDateString()+'&updated_before=' +
-                            before.toLocaleDateString()+'&organization={{organization.name}}';
-                    }
-                    if (timelaps == "between 3 and 6 months") {
-                        before.setMonth(before.getMonth() - 3);
-                        after.setMonth(after.getMonth() - 6);
-                        window.location = '/projects?updated_since=' +
-                            after.toLocaleDateString()+'&updated_before=' +
-                            before.toLocaleDateString()+'&organization={{organization.name}}';
-                    }
-                    if (timelaps == "between 6 months and 1 year") {
-                        before.setMonth(before.getMonth() - 6);
-                        after.setMonth(after.getMonth() - 12);
-                        window.location = '/projects?updated_since=' +
-                            after.toLocaleDateString()+'&updated_before=' +
-                            before.toLocaleDateString()+'&organization={{organization.name}}';
-                    }
-                    if (timelaps == "between 1 and 2 years") {
-                        before.setMonth(before.getMonth() - 12);
-                        after.setMonth(after.getMonth() - 24);
-                        window.location = '/projects?updated_since=' +
-                            after.toLocaleDateString()+'&updated_before=' +
-                            before.toLocaleDateString()+'&organization={{organization.name}}';
-                    }
-                    if (timelaps == "more than 2 years") {
-                        before.setMonth(before.getMonth() - 24);
-                        window.location = '/projects?updated_before=' +
-                            before.toLocaleDateString()+'&organization={{organization.name}}';
-                    }
-                }
-            }
+            'logo': project.logo,
+            'project_name': project.name,
+            'project_description': project.short_description,
+            'project_details': '/project/'+project.name
+          });
+          div_project_columns.append(cardHTML);
         });
       }).catch((error) => {
         console.error('Error:', error);
       });
-});
-</script>
-{% endblock %}
+      $('#list-projects').append(div_project_columns);
+
+
+      fetch("{{ url_for('stats_bp.licenses', organization_name=organization.name) }}")
+      .then(response => response.json())
+      .then(licenses => {
+        var ctx = document.getElementById("licenses-pie-chart").getContext('2d');
+        var myChart = new Chart(ctx, {
+          type: 'pie',
+          data: {
+            labels: Object.keys(licenses),
+            datasets: [{
+              data: Object.values(licenses),
+              borderWidth: 1,
+              backgroundColor: colors.concat(_.times(Object.keys(licenses).length, pastelColorMaker))
+            }]
+          },
+          options: {
+            onClick: function(evt) {
+              var node = myChart.getElementsAtEventForMode(evt, 'point', { intersect: false });
+              var license_label = Object.keys(licenses)[node[0].index];
+              var url = new URL("{{ url_for('apiv2.license_licenses_list', _external=True,) }}");
+              var filters = {"name": license_label};
+              for (let k in filters) { url.searchParams.append(k, filters[k]); }
+              fetch(url)
+              .then(response => response.json())
+              .then(result => {
+                if (result.metadata.total == 1) {
+                  window.location = '/projects?license='+result.data[0].license_id+'&organization={{organization.name}}';
+                }
+              })
+            }
+          }
+        });
+      }).catch((error) => {
+        console.error('Error:', error);
+      });
+
+
+      fetch("{{ url_for('stats_bp.languages', organization_name=organization.name) }}")
+      .then(response => response.json())
+      .then(languages => {
+        var ctx = document.getElementById("languages-pie-chart").getContext('2d');
+        var myChart = new Chart(ctx, {
+          type: 'pie',
+          data: {
+            labels: Object.keys(languages),
+            datasets: [{
+              data: Object.values(languages),
+              borderWidth: 1,
+              backgroundColor: colors.concat(_.times(Object.keys(languages).length, pastelColorMaker))
+            }]
+          },
+          options: {
+            onClick: function(evt) {
+              var node = myChart.getElementsAtEventForMode(evt, 'point', { intersect: false });
+              var language_label = Object.keys(languages)[node[0].index];
+              var url = new URL("{{ url_for('apiv2.language_languages_list', _external=True,) }}");
+              var filters = {"name": language_label};
+              for (let k in filters) { url.searchParams.append(k, filters[k]); }
+              fetch(url)
+              .then(response => response.json())
+              .then(result => {
+                if (result.metadata.total == 1) {
+                  window.location = '/projects?language='+result.data[0].name+'&organization={{organization.name}}';
+                }
+              })
+            }
+          }
+        });
+      }).catch((error) => {
+        console.error('Error:', error);
+      });
+
+      fetch("{{ url_for('stats_bp.activity', organization_name=organization.name) }}")
+      .then(response => response.json())
+      .then(time_laps => {
+        var ctx = document.getElementById("activity-pie-chart").getContext('2d');
+        var myChart = new Chart(ctx, {
+          type: 'pie',
+          data: {
+            labels: Object.keys(time_laps),
+            datasets: [{
+              data: Object.values(time_laps),
+              borderWidth: 1,
+              backgroundColor: colors.concat(_.times(Object.keys(time_laps).length, pastelColorMaker))
+            }]
+          },
+          options: {
+            onClick: function(evt) {
+              var before = new Date();
+              var after = new Date();
+              var node = myChart.getElementsAtEventForMode(evt, 'point', { intersect: false });
+              var timelaps = Object.keys(time_laps)[node[0].index];
+              if (timelaps == "less than 1 month") {
+                after.setMonth(after.getMonth() - 1);
+                window.location = '/projects?updated_since=' +
+                after.toLocaleDateString()+'&organization={{organization.name}}';
+              }
+              if (timelaps == "between 1 and 3 months") {
+                before.setMonth(before.getMonth() - 1);
+                after.setMonth(after.getMonth() - 3);
+                window.location = '/projects?updated_since=' +
+                after.toLocaleDateString()+'&updated_before=' +
+                before.toLocaleDateString()+'&organization={{organization.name}}';
+              }
+              if (timelaps == "between 3 and 6 months") {
+                before.setMonth(before.getMonth() - 3);
+                after.setMonth(after.getMonth() - 6);
+                window.location = '/projects?updated_since=' +
+                after.toLocaleDateString()+'&updated_before=' +
+                before.toLocaleDateString()+'&organization={{organization.name}}';
+              }
+              if (timelaps == "between 6 months and 1 year") {
+                before.setMonth(before.getMonth() - 6);
+                after.setMonth(after.getMonth() - 12);
+                window.location = '/projects?updated_since=' +
+                after.toLocaleDateString()+'&updated_before=' +
+                before.toLocaleDateString()+'&organization={{organization.name}}';
+              }
+              if (timelaps == "between 1 and 2 years") {
+                before.setMonth(before.getMonth() - 12);
+                after.setMonth(after.getMonth() - 24);
+                window.location = '/projects?updated_since=' +
+                after.toLocaleDateString()+'&updated_before=' +
+                before.toLocaleDateString()+'&organization={{organization.name}}';
+              }
+              if (timelaps == "more than 2 years") {
+                before.setMonth(before.getMonth() - 24);
+                window.location = '/projects?updated_before=' +
+                before.toLocaleDateString()+'&organization={{organization.name}}';
+              }
+            }
+          }
+        });
+      }).catch((error) => {
+        console.error('Error:', error);
+      });
+    });
+  </script>
+  {% endblock %}

@@ -1,15 +1,15 @@
 html {
-    position: relative;
-    min-height: 100%;
+  position: relative;
+  min-height: 100%;
 }
 body {
-    /* Margin bottom by footer height */
-    margin-bottom: 60px;
-    padding-top: 56px;
-    background-color: rgb(246, 248, 250);
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+  padding-top: 56px;
+  background-color: rgb(246, 248, 250);
 }
 img {
-    padding: 5px;
+  padding: 5px;
 }
 .banner {
   background: url(/static/img/20141019T151624.png) no-repeat center center ;
@@ -32,36 +32,36 @@ img {
   background-color: #343a40;
 }
 .footer a {
-    color: white;
+  color: white;
 }
 
 .logo {
-    max-width: 300px;
+  max-width: 300px;
 }
 
 
 .input-inline {
-    min-width: 0;
-    width: 200px;
-    display: block;
+  min-width: 0;
+  width: 200px;
+  display: block;
 }
 
 
 .btn-primary {
-    background-color: #006FBA;
-    color: white;
+  background-color: #006FBA;
+  color: white;
 }
 .btn-outline-primary {
-    border-color: #006FBA;
-    color: #006FBA;
+  border-color: #006FBA;
+  color: #006FBA;
 }
 .btn-secondary {
-    background-color: #006FBA;
-    color: white;
+  background-color: #006FBA;
+  color: white;
 }
 .btn-default {
-    background-color: #006FBA;
-    color: white;
+  background-color: #006FBA;
+  color: white;
 }
 
 

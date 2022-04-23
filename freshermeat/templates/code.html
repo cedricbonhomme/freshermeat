@@ -3,84 +3,84 @@
 <div id="messageModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm">
     <div id="modal-content" class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title">Error</h5>
-        </div>
-        <div class="modal-body"></div>
+      <div class="modal-header">
+        <h5 class="modal-title">Error</h5>
+      </div>
+      <div class="modal-body"></div>
     </div>
   </div>
 </div>
 <div class="container">
-    <div class="row">
-        <div class="col">
-            <h3>Code locations</h3>
-            <table id="table-codes" class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Repository type</th>
-                        <th>Repository location</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for code in project.code_locations %}
-                    <tr code-id="{{ code.id }}">
-                        <td>{{ loop.index }}</td>
-                        <td>{{ code.scm_type }}</td>
-                        <td>{{ code.repository_url }}</td>
-                        <th><i class="fa fa-trash delete-code" aria-hidden="true"></i></th>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+  <div class="row">
+    <div class="col">
+      <h3>Code locations</h3>
+      <table id="table-codes" class="table table-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Repository type</th>
+            <th>Repository location</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for code in project.code_locations %}
+          <tr code-id="{{ code.id }}">
+            <td>{{ loop.index }}</td>
+            <td>{{ code.scm_type }}</td>
+            <td>{{ code.repository_url }}</td>
+            <th><i class="fa fa-trash delete-code" aria-hidden="true"></i></th>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
 
 
-            <h4>Add a new code location</h4>
-            <form action="" method="post">
-                {{ form.hidden_tag() }}
+      <h4>Add a new code location</h4>
+      <form action="" method="post">
+        {{ form.hidden_tag() }}
 
-                <div class="form-group">
-                {{ form.repository_url(class_="form-control", placeholder='Repository URL') }}
-                </div>
-                {% for message in form.repository_url.errors %}
-                    <div class="alert alert-warning" role="alert">{{ message }}</div>
-                {% endfor %}
-
-                <div class="form-group">
-                {{ form.scm_type(class_="form-control", placeholder='Repository type') }}
-                </div>
-                {% for message in form.scm_type.errors %}
-                    <div class="alert alert-warning" role="alert">{{ message }}</div>
-                {% endfor %}
-
-                {{ form.submit(class_="btn btn-default") }}
-            </form>
+        <div class="form-group">
+          {{ form.repository_url(class_="form-control", placeholder='Repository URL') }}
         </div>
+        {% for message in form.repository_url.errors %}
+        <div class="alert alert-warning" role="alert">{{ message }}</div>
+        {% endfor %}
+
+        <div class="form-group">
+          {{ form.scm_type(class_="form-control", placeholder='Repository type') }}
+        </div>
+        {% for message in form.scm_type.errors %}
+        <div class="alert alert-warning" role="alert">{{ message }}</div>
+        {% endfor %}
+
+        {{ form.submit(class_="btn btn-default") }}
+      </form>
     </div>
+  </div>
 </div><!-- /.container -->
 <script>
-$(document).ready(function() {
-$( ".delete-code" ).on( "click", function() {
-    answer = confirm('You are going to delete this code location.');
-    if (!answer) {
+  document.addEventListener("DOMContentLoaded", function() {
+    $( ".delete-code" ).on( "click", function() {
+      answer = confirm('You are going to delete this code location.');
+      if (!answer) {
         return;
-    }
-    var row = $(this).closest('tr');
-    var url = "/api/v2/code/" + row.attr('code-id');
-    fetch(url, {
+      }
+      var row = $(this).closest('tr');
+      var url = "/api/v2/code/" + row.attr('code-id');
+      fetch(url, {
         method: "DELETE",
         headers: {
-            'Content-Type': 'application/json'
+          'Content-Type': 'application/json'
         }
-    })
-    .then(result => {
+      })
+      .then(result => {
         row.remove();
-    }).catch((error) => {
+      }).catch((error) => {
         $('.modal-body').html(e.statusText);
         $('#messageModal').modal('show');
+      });
     });
-});
-});
+  });
 </script>
 {% endblock %}

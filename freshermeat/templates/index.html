@@ -1,125 +1,125 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container-fluid">
-    <div class="banner row">
-        <div class="col">
-            <br /><br />
-            <h1>{% if config.FRESHERMEAT_INSTANCE_NAME %}{{ config.FRESHERMEAT_INSTANCE_NAME }}{% else %}Freshermeat{% endif %}</h1>
-            <div class="float-right text-right">
-                <h6>{{ nb_projects }} projects</h6>
-                <h6>{{ nb_releases }} releases <a href="{{ url_for('recent_releases') }}" type="application/atom+xml"><i class="fa fa-rss" aria-hidden="true"></i></a></h6>
-                <h6>{{ nb_cves }} CVEs <a href="{{ url_for('recent_cves') }}" type="application/atom+xml"><i class="fa fa-rss" aria-hidden="true"></i></a></h6>
-            </div>
-        </div>
+  <div class="banner row">
+    <div class="col">
+      <br /><br />
+      <h1>{% if config.FRESHERMEAT_INSTANCE_NAME %}{{ config.FRESHERMEAT_INSTANCE_NAME }}{% else %}Freshermeat{% endif %}</h1>
+      <div class="float-right text-right">
+        <h6>{{ nb_projects }} projects</h6>
+        <h6>{{ nb_releases }} releases <a href="{{ url_for('recent_releases') }}" type="application/atom+xml"><i class="fa fa-rss" aria-hidden="true"></i></a></h6>
+        <h6>{{ nb_cves }} CVEs <a href="{{ url_for('recent_cves') }}" type="application/atom+xml"><i class="fa fa-rss" aria-hidden="true"></i></a></h6>
+      </div>
     </div>
+  </div>
 </div>
 <div class="container">
-    <div class="row">
-        <div class="col">
-            <br />
-            <h3>Projects
-                {% if current_user.is_authenticated %}
-                <a href="{{ url_for('project_bp.form') }}">
-                    <i class="fa fa-plus-circle" aria-hidden="true" style="color:black;" title="Create a project"></i>
-                </a>
-                {% else %}
-                <a href="{{ url_for('submission_bp.form_submission') }}">
-                    <i class="fa fa-plus-circle" aria-hidden="true" style="color:black;" title="Submit a project"></i>
-                </a>
-                {% endif %}
-            </h3>
-            <div id="list-projects" class="list-group">
-                <div class="d-flex justify-content-center">
-                    <div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>
-                </div>
-            </div>
+  <div class="row">
+    <div class="col">
+      <br />
+      <h3>Projects
+        {% if current_user.is_authenticated %}
+        <a href="{{ url_for('project_bp.form') }}">
+          <i class="fa fa-plus-circle" aria-hidden="true" style="color:black;" title="Create a project"></i>
+        </a>
+        {% else %}
+        <a href="{{ url_for('submission_bp.form_submission') }}">
+          <i class="fa fa-plus-circle" aria-hidden="true" style="color:black;" title="Submit a project"></i>
+        </a>
+        {% endif %}
+      </h3>
+      <div id="list-projects" class="list-group">
+        <div class="d-flex justify-content-center">
+          <div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>
         </div>
-        <div class="col">
-            <br />
-            <h3>Organizations
-                {% if current_user.is_authenticated and current_user.is_admin %}
-                <a href="{{ url_for('organization_bp.form') }}">
-                    <i class="fa fa-plus-circle" aria-hidden="true" style="color:black;" title="Create an organization"></i>
-                </a>
-                {% endif %}
-            </h3>
-            <div id="list-organizations">
-                <div class="d-flex justify-content-center">
-                    <div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>
-                </div>
-            </div>
-            <h3>People</h3>
-            <div id="list-people">
-                <div class="d-flex justify-content-center">
-                    <div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
+    <div class="col">
+      <br />
+      <h3>Organizations
+        {% if current_user.is_authenticated and current_user.is_admin %}
+        <a href="{{ url_for('organization_bp.form') }}">
+          <i class="fa fa-plus-circle" aria-hidden="true" style="color:black;" title="Create an organization"></i>
+        </a>
+        {% endif %}
+      </h3>
+      <div id="list-organizations">
+        <div class="d-flex justify-content-center">
+          <div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>
+        </div>
+      </div>
+      <h3>People</h3>
+      <div id="list-people">
+        <div class="d-flex justify-content-center">
+          <div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div><!-- /.container -->
 <script>
-    $(document).ready(function() {
-        fetch("{{ url_for('apiv2.projects_projects_list', per_page=20) }}")
-        .then(response => response.json())
-        .then(result => {
-            document.getElementById("list-projects").innerHTML = "";
-            result.data
-            .sort(function (a, b) {
-                return new Date(b.last_updated) - new Date(a.last_updated);
-            })
-            .map(function (project) {
-                var cardHTML = projectHomeTemplate({
-                    'project_url': '/project/'+project.name,
-                    'project_name': project.name,
-                    'project_description': project.short_description,
-                    'project_last_update': moment(project.last_updated).fromNow()
-                });
-                $('#list-projects').append(cardHTML);
-            });
-        }).catch((error) => {
-            console.error('Error:', error);
+  document.addEventListener("DOMContentLoaded", function() {
+    fetch("{{ url_for('apiv2.projects_projects_list', per_page=20) }}")
+    .then(response => response.json())
+    .then(result => {
+      document.getElementById("list-projects").innerHTML = "";
+      result.data
+      .sort(function (a, b) {
+        return new Date(b.last_updated) - new Date(a.last_updated);
+      })
+      .map(function (project) {
+        var cardHTML = projectHomeTemplate({
+          'project_url': '/project/'+project.name,
+          'project_name': project.name,
+          'project_description': project.short_description,
+          'project_last_update': moment(project.last_updated).fromNow()
         });
-
-        fetch("{{ url_for('apiv2.organization_organizations_list',) }}")
-        .then(response => response.json())
-        .then(result => {
-            document.getElementById("list-organizations").innerHTML = "";
-            result.data
-            .sort(function (a, b) {
-                return new Date(b.last_updated) - new Date(a.last_updated);
-            })
-            .map(function (organization) {
-                var cardHTML = organizationTemplate({
-                    'organization_url': '/organization/'+organization.name,
-                    'organization_name': organization.name,
-                    'organization_short_description': organization.short_description,
-                    'organization_last_update': moment(organization.last_updated).fromNow()
-                });
-                $('#list-organizations').append(cardHTML);
-            });
-        }).catch((error) => {
-            console.error('Error:', error);
-        });
-
-
-        fetch("{{ url_for('apiv2.user_users_list',) }}")
-        .then(response => response.json())
-        .then(result => {
-            document.getElementById("list-people").innerHTML = "";
-            result.data
-            .sort(function (a, b) {
-                return new Date(b.last_updated) - new Date(a.last_updated);
-            })
-            .map(function (user) {
-                var cardHTML = userTemplate({
-                    'user_url': '/user/'+user.login,
-                    'user_login': user.login
-                });
-                $('#list-people').append(cardHTML);
-            });
-        }).catch((error) => {
-            console.error('Error:', error);
-        });
+        $('#list-projects').append(cardHTML);
+      });
+    }).catch((error) => {
+      console.error('Error:', error);
     });
+
+    fetch("{{ url_for('apiv2.organization_organizations_list',) }}")
+    .then(response => response.json())
+    .then(result => {
+      document.getElementById("list-organizations").innerHTML = "";
+      result.data
+      .sort(function (a, b) {
+        return new Date(b.last_updated) - new Date(a.last_updated);
+      })
+      .map(function (organization) {
+        var cardHTML = organizationTemplate({
+          'organization_url': '/organization/'+organization.name,
+          'organization_name': organization.name,
+          'organization_short_description': organization.short_description,
+          'organization_last_update': moment(organization.last_updated).fromNow()
+        });
+        $('#list-organizations').append(cardHTML);
+      });
+    }).catch((error) => {
+      console.error('Error:', error);
+    });
+
+
+    fetch("{{ url_for('apiv2.user_users_list',) }}")
+    .then(response => response.json())
+    .then(result => {
+      document.getElementById("list-people").innerHTML = "";
+      result.data
+      .sort(function (a, b) {
+        return new Date(b.last_updated) - new Date(a.last_updated);
+      })
+      .map(function (user) {
+        var cardHTML = userTemplate({
+          'user_url': '/user/'+user.login,
+          'user_login': user.login
+        });
+        $('#list-people').append(cardHTML);
+      });
+    }).catch((error) => {
+      console.error('Error:', error);
+    });
+  });
 </script>
 {% endblock %}

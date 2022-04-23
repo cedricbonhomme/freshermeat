@@ -4,61 +4,61 @@
 {% endblock %}
 {% block content %}
 <div class="container">
-    <h2>{{ action | safe }}</h2>
-    <form action="" method="post" name="saveprofileform" id="profileform">
-        {{ form.hidden_tag() }}
+  <h2>{{ action | safe }}</h2>
+  <form action="" method="post" name="saveprofileform" id="profileform">
+    {{ form.hidden_tag() }}
 
-        {{ form.login.label }}
-        {{ form.login(class_="form-control") }} {% for error in form.login.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+    {{ form.login.label }}
+    {{ form.login(class_="form-control") }} {% for error in form.login.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
 
-        {{ form.password.label }}
-        {{ form.password(class_="form-control") }} {% for error in form.password.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+    {{ form.password.label }}
+    {{ form.password(class_="form-control") }} {% for error in form.password.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
 
-        {{ form.public_profile.label }}
-        {{ form.public_profile(class_="form-control") }} {% for error in form.public_profile.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+    {{ form.public_profile.label }}
+    {{ form.public_profile(class_="form-control") }} {% for error in form.public_profile.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
 
-        <br />
-        {{ form.submit(class_="btn btn-default") }}
-    </form>
-    <br /><hr />
-    <div class="row">
-        <div class="col">
-            <form class="navbar-form navbar-right">
-                <label class="sr-only" for="inlineFormInputGroupAPIKey">API key</label>
-                <div class="input-group mb-2 mr-sm-2">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text mb-2">API key</div>
-                    </div>
-                    <input type="text" class="form-control" id="inlineFormInputGroupAPIKey" value="{{ current_user.apikey }}" readonly>
-                    <div class="input-group-append">
-                        <a href="#" class="btn btn-dark mb-2" onclick="copyToClipboard()" title="Copy to clipboard"><i class="fa fa-clipboard" aria-hidden="true"></i></a>
-                    </div>
-                    <div class="input-group-append">
-                        <a href="{{ url_for('user_bp.generate_apikey', user_id=user.id) }}" class="btn btn-primary mb-2" onclick="return confirm('You are going to generate a new API key.');">Generate new API key</a>
-                    </div>
-                </div>
-          </form>
-      </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <p>You can check the <a href="{{ url_for('apiv2.doc') }}">documentation of the API</a>.</p>
+    <br />
+    {{ form.submit(class_="btn btn-default") }}
+  </form>
+  <br /><hr />
+  <div class="row">
+    <div class="col">
+      <form class="navbar-form navbar-right">
+        <label class="sr-only" for="inlineFormInputGroupAPIKey">API key</label>
+        <div class="input-group mb-2 mr-sm-2">
+          <div class="input-group-prepend">
+            <div class="input-group-text mb-2">API key</div>
+          </div>
+          <input type="text" class="form-control" id="inlineFormInputGroupAPIKey" value="{{ current_user.apikey }}" readonly>
+          <div class="input-group-append">
+            <a href="#" class="btn btn-dark mb-2" onclick="copyToClipboard()" title="Copy to clipboard"><i class="fa fa-clipboard" aria-hidden="true"></i></a>
+          </div>
+          <div class="input-group-append">
+            <a href="{{ url_for('user_bp.generate_apikey', user_id=user.id) }}" class="btn btn-primary mb-2" onclick="return confirm('You are going to generate a new API key.');">Generate new API key</a>
+          </div>
         </div>
-     </div>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <p>You can check the <a href="{{ url_for('apiv2.doc') }}">documentation of the API</a>.</p>
+    </div>
+  </div>
 </div>
 <script>
-    function copyToClipboard() {
-        const copyText = document.getElementById("inlineFormInputGroupAPIKey").value;
-        const textArea = document.createElement('textarea');
-        textArea.textContent = copyText;
-        // document.body.append(textArea);
-        // textArea.select();
-        navigator.clipboard.writeText(textArea.value).then(function() {
-              /* clipboard successfully set */
-              alert('API key copied to your clipboard.');
-            }, function() {
-              /* clipboard write failed */
-        });
-    }
+  function copyToClipboard() {
+    const copyText = document.getElementById("inlineFormInputGroupAPIKey").value;
+    const textArea = document.createElement('textarea');
+    textArea.textContent = copyText;
+    // document.body.append(textArea);
+    // textArea.select();
+    navigator.clipboard.writeText(textArea.value).then(function() {
+      /* clipboard successfully set */
+      alert('API key copied to your clipboard.');
+    }, function() {
+      /* clipboard write failed */
+    });
+  }
 </script>
 {% endblock %}

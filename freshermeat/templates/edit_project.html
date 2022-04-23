@@ -1,142 +1,142 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
-    <div class="row">
-        <div class="col-3">
-            <h3>{{ action }}</h3>
+  <div class="row">
+    <div class="col-3">
+      <h3>{{ action }}</h3>
+    </div>
+    {% if action == "Edit project" %}
+    <div class="col">
+      <small><a href="{{ url_for('project_bp.get', project_name=project.name) }}">project page</a></small>
+    </div>
+    {% endif %}
+  </div>
+
+  <form action="" method="post" name="save" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    <br />
+    <h4 id="general-information">General project Information</h4>
+    <div class="form-row">
+      <div class="col">
+        <div class="form-group">
+          <label for="{{ form.name.id }}" class="control-label">{{ form.name.label }}</label>
+          <div>
+            {{ form.name(class_="form-control", onfocusout="searchProject()") }}
+          </div>
+          <span id="name_error" style="color: red;"></span>
+          {% for error in form.name.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
         </div>
-        {% if action == "Edit project" %}
-        <div class="col">
-            <small><a href="{{ url_for('project_bp.get', project_name=project.name) }}">project page</a></small>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label for="{{ form.short_description.id }}" class="control-label">{{ form.short_description.label }}</label>
+          <div>
+            {{ form.short_description(class_="form-control") }}
+          </div>
+          {% for error in form.short_description.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
         </div>
-        {% endif %}
+      </div>
     </div>
 
-    <form action="" method="post" name="save" enctype="multipart/form-data">
-        {{ form.hidden_tag() }}
-        <br />
-        <h4 id="general-information">General project Information</h4>
-        <div class="form-row">
-            <div class="col">
-                <div class="form-group">
-                    <label for="{{ form.name.id }}" class="control-label">{{ form.name.label }}</label>
-                    <div>
-                        {{ form.name(class_="form-control", onfocusout="searchProject()") }}
-                    </div>
-                    <span id="name_error" style="color: red;"></span>
-                    {% for error in form.name.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-                </div>
-            </div>
-            <div class="col">
-                <div class="form-group">
-                    <label for="{{ form.short_description.id }}" class="control-label">{{ form.short_description.label }}</label>
-                    <div>
-                        {{ form.short_description(class_="form-control") }}
-                    </div>
-                    {% for error in form.short_description.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-                </div>
-            </div>
+    <div class="form-group">
+      <label for="{{ form.description.id }}" class="control-label">{{ form.description.label }}</label>
+      <div>
+        {{ form.description(class_="form-control") }}
+      </div>
+      {% for error in form.description.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+    </div>
+
+    <div class="form-group">
+      <label for="{{ form.tags.id }}" class="control-label">{{ form.tags.label }}</label>
+      <div>
+        {{ form.tags(class_="form-control", placeholder='Optional') }}
+      </div>
+      {% for error in form.tags.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="{{ form.website.id }}" class="control-label">{{ form.website.label }}</label>
+        <div>
+          {{ form.website(class_="form-control", placeholder='Optional') }}
         </div>
-
-        <div class="form-group">
-            <label for="{{ form.description.id }}" class="control-label">{{ form.description.label }}</label>
-            <div>
-                {{ form.description(class_="form-control") }}
-            </div>
-            {% for error in form.description.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+        {% for error in form.website.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+      </div>
+      <div class="form-group col-md-4">
+        <label for="{{ form.logo.id }}" class="control-label">{{ form.logo.label }}</label>
+        <div>
+          {{ form.logo(placeholder='Optional') }}
         </div>
+        {% for error in form.logo.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+      </div>
+    </div>
 
-        <div class="form-group">
-            <label for="{{ form.tags.id }}" class="control-label">{{ form.tags.label }}</label>
-            <div>
-                {{ form.tags(class_="form-control", placeholder='Optional') }}
-            </div>
-            {% for error in form.tags.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+    <div class="form-row">
+      <div class="form-group col-md-7">
+        <label for="{{ form.licenses.id }}" class="control-label">{{ form.licenses.label }}</label>
+        <div>
+          {{ form.licenses(class_="selectpicker", **{'data-live-search':'true', 'data-width':'auto'}) }}
         </div>
-
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="{{ form.website.id }}" class="control-label">{{ form.website.label }}</label>
-                <div>
-                    {{ form.website(class_="form-control", placeholder='Optional') }}
-                </div>
-                {% for error in form.website.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-            </div>
-            <div class="form-group col-md-4">
-                <label for="{{ form.logo.id }}" class="control-label">{{ form.logo.label }}</label>
-                <div>
-                    {{ form.logo(placeholder='Optional') }}
-                </div>
-                {% for error in form.logo.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-            </div>
+        {% for error in form.licenses.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+      </div>
+      <div class="form-group col-md-3">
+        <label for="{{ form.languages.id }}" class="control-label">{{ form.languages.label }}</label>
+        <div>
+          {{ form.languages(class_="selectpicker", **{'data-live-search':'true', 'data-width':'auto'}) }}
         </div>
+        {% for error in form.languages.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+      </div>
+    </div>
 
-        <div class="form-row">
-            <div class="form-group col-md-7">
-                <label for="{{ form.licenses.id }}" class="control-label">{{ form.licenses.label }}</label>
-                <div>
-                    {{ form.licenses(class_="selectpicker", **{'data-live-search':'true', 'data-width':'auto'}) }}
-                </div>
-                {% for error in form.licenses.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-            </div>
-            <div class="form-group col-md-3">
-                <label for="{{ form.languages.id }}" class="control-label">{{ form.languages.label }}</label>
-                <div>
-                    {{ form.languages(class_="selectpicker", **{'data-live-search':'true', 'data-width':'auto'}) }}
-                </div>
-                {% for error in form.languages.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-            </div>
+    {% if current_user.is_admin %}
+    <div class="form-row">
+      <div class="form-group col-md-8">
+        <label for="{{ form.organization_id.id }}" class="control-label">{{ form.organization_id.label }}</label>
+        <div>
+          {{ form.organization_id(class_="selectpicker", **{'data-live-search':'true', 'data-width':'auto'}) }}
         </div>
+        {% for error in form.organization_id.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+      </div>
+    </div>
+    {% endif %}
 
-        {% if current_user.is_admin %}
-        <div class="form-row">
-            <div class="form-group col-md-8">
-                <label for="{{ form.organization_id.id }}" class="control-label">{{ form.organization_id.label }}</label>
-                <div>
-                    {{ form.organization_id(class_="selectpicker", **{'data-live-search':'true', 'data-width':'auto'}) }}
-                </div>
-                {% for error in form.organization_id.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-            </div>
-        </div>
-        {% endif %}
+    <hr />
 
-        <hr />
-
-        <h4 id="related-projects">Related projects</h4>
-        <div class="form-row">
-        <div class="form-group col-md-6">
+    <h4 id="related-projects">Related projects</h4>
+    <div class="form-row">
+      <div class="form-group col-md-6">
         <label for="{{ form.dependencies.id }}" class="control-label">{{ form.dependencies.label }}</label>
         <div>
-        {{ form.dependencies(class_="selectpicker", **{'data-live-search':'true', 'data-width':'auto'}) }}
+          {{ form.dependencies(class_="selectpicker", **{'data-live-search':'true', 'data-width':'auto'}) }}
         </div>
         {% for error in form.dependencies.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-        </div>
-        <div class="form-group col-md-6">
+      </div>
+      <div class="form-group col-md-6">
         <label for="{{ form.dependents.id }}" class="control-label">{{ form.dependents.label }}</label>
         <div>
-        {{ form.dependents(class_="selectpicker", **{'data-live-search':'true', 'data-width':'auto'}) }}
+          {{ form.dependents(class_="selectpicker", **{'data-live-search':'true', 'data-width':'auto'}) }}
         </div>
         {% for error in form.dependents.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-        </div>
-        </div>
+      </div>
+    </div>
 
-        <hr />
+    <hr />
 
-        <h4 id="release-submission">Release submission</h4>
-        <h5>Automatic release tracking</h5>
-        <div class="form-row">
-            <div class="form-group col-md-12">
-                <div>
-                    {{ form.automatic_release_tracking(class_="form-control", placeholder='github:https://api.github.com/repos/<username>/<repository>/releases') }}
-                </div>
-                {% for error in form.automatic_release_tracking.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-            Future releases will be automatically created. Currently only GitHub is supported.
-            </div>
+    <h4 id="release-submission">Release submission</h4>
+    <h5>Automatic release tracking</h5>
+    <div class="form-row">
+      <div class="form-group col-md-12">
+        <div>
+          {{ form.automatic_release_tracking(class_="form-control", placeholder='github:https://api.github.com/repos/<username>/<repository>/releases') }}
+          </div>
+          {% for error in form.automatic_release_tracking.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+          Future releases will be automatically created. Currently only GitHub is supported.
+        </div>
         <h5>Submiting a release programmatically</h5>
         <pre><code>curl -i --user <var>login</var>:<var>password</var>
-     -H "Content-Type: application/json" -H "Accept: application/json" -X POST
-     -d '{"project_id":"id","version":"0.1","state":"stable","scope":"minor bugfix","changes":"This new release..."}'
-     {{ url | instance_domain_name }}/api/v1/release</code></pre>
+          -H "Content-Type: application/json" -H "Accept: application/json" -X POST
+          -d '{"project_id":"id","version":"0.1","state":"stable","scope":"minor bugfix","changes":"This new release..."}'
+          {{ url | instance_domain_name }}/api/v1/release</code></pre>
         </div>
         <p>This example uses the API in order to submit a new release.</p>
 
@@ -144,67 +144,67 @@
 
         <h4 id="Vulnerability-tracking">Vulnerability tracking</h4>
         <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="{{ form.cve_vendor.id }}" class="control-label">{{ form.cve_vendor.label }}</label>
-                <div>
-                    {{ form.cve_vendor(class_="form-control") }}
-                </div>
-                {% for error in form.cve_vendor.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+          <div class="form-group col-md-6">
+            <label for="{{ form.cve_vendor.id }}" class="control-label">{{ form.cve_vendor.label }}</label>
+            <div>
+              {{ form.cve_vendor(class_="form-control") }}
             </div>
-            <div class="form-group col-md-6">
-                <label for="{{ form.cve_product.id }}" class="control-label">{{ form.cve_product.label }}</label>
-                <div>
-                    {{ form.cve_product(class_="form-control") }}
-                </div>
-                {% for error in form.cve_product.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+            {% for error in form.cve_vendor.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+          </div>
+          <div class="form-group col-md-6">
+            <label for="{{ form.cve_product.id }}" class="control-label">{{ form.cve_product.label }}</label>
+            <div>
+              {{ form.cve_product(class_="form-control") }}
             </div>
+            {% for error in form.cve_product.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+          </div>
         </div>
 
         <div class="form-group">
-            <div class="">
-                {{ form.submit(class_="btn btn-default") }}
-            </div>
+          <div class="">
+            {{ form.submit(class_="btn btn-default") }}
+          </div>
         </div>
-    </form>
-</div><!-- /.container -->
-<script>
-$(document).ready(function() {
-    $('.selectpicker').selectpicker();
-    tinymce.init({
-        selector: 'textarea',
-        height: 500,
-        menubar: false,
-        plugins: [
+      </form>
+    </div><!-- /.container -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        $('.selectpicker').selectpicker();
+        tinymce.init({
+          selector: 'textarea',
+          height: 500,
+          menubar: false,
+          plugins: [
           'advlist autolink lists link image charmap print preview anchor textcolor',
           'searchreplace visualblocks code fullscreen',
           'insertdatetime media table contextmenu paste code help'
-        ],
-        toolbar: 'insert | undo redo |  formatselect | bold italic backcolor  | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
-        content_css: [
+          ],
+          toolbar: 'insert | undo redo |  formatselect | bold italic backcolor  | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
+          content_css: [
           '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
           '//www.tinymce.com/css/codepen.min.css']
-    });
-});
-function searchProject() {
-    var url = new URL("{{ url_for('apiv2.projects_projects_list', _external=True,) }}");
-    var project_name = document.getElementById("name").value;
-    if ('' == project_name) {
-        return;
-    }
-    filters = {"name": project_name};
-    for (let k in filters) { url.searchParams.append(k, filters[k]); }
+        });
+      });
+      function searchProject() {
+        var url = new URL("{{ url_for('apiv2.projects_projects_list', _external=True,) }}");
+        var project_name = document.getElementById("name").value;
+        if ('' == project_name) {
+          return;
+        }
+        filters = {"name": project_name};
+        for (let k in filters) { url.searchParams.append(k, filters[k]); }
 
-    fetch(url)
-    .then(response => response.json())
-    .then(result => {
-      if (result.metadata.total != 0) {
-          document.getElementById("name_error").textContent = 'A project with the same name already exists.';
-      } else {
-          document.getElementById("name_error").textContent = '';
+        fetch(url)
+        .then(response => response.json())
+        .then(result => {
+          if (result.metadata.total != 0) {
+            document.getElementById("name_error").textContent = 'A project with the same name already exists.';
+          } else {
+            document.getElementById("name_error").textContent = '';
+          }
+        }).catch((error) => {
+          console.error('Error:', error);
+        });
       }
-    }).catch((error) => {
-      console.error('Error:', error);
-    });
-}
-</script>
-{% endblock %}
+    </script>
+    {% endblock %}

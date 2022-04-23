@@ -1,84 +1,84 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <h3>{{ action }}</h3>
+  <div class="row">
+    <div class="col-md-12">
+      <h3>{{ action }}</h3>
+    </div>
+  </div>
+
+  <form action="" method="post" name="save" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="{{ form.project_name.id }}" class="control-label">{{ form.project_name.label }}</label>
+        <div>
+          {{ form.project_name(class_="form-control", onfocusout="searchProject()") }}
         </div>
+        <span id="name_error" style="color: red;"></span>
+        {% for error in form.project_name.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+      </div>
     </div>
 
-    <form action="" method="post" name="save" enctype="multipart/form-data">
-        {{ form.hidden_tag() }}
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="{{ form.project_name.id }}" class="control-label">{{ form.project_name.label }}</label>
-                <div>
-                    {{ form.project_name(class_="form-control", onfocusout="searchProject()") }}
-                </div>
-                <span id="name_error" style="color: red;"></span>
-                {% for error in form.project_name.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-            </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="{{ form.project_website.id }}" class="control-label">{{ form.project_website.label }}</label>
+        <div>
+          {{ form.project_website(class_="form-control") }}
         </div>
+        {% for error in form.project_website.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+      </div>
 
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="{{ form.project_website.id }}" class="control-label">{{ form.project_website.label }}</label>
-                <div>
-                    {{ form.project_website(class_="form-control") }}
-                </div>
-                {% for error in form.project_website.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-            </div>
-
-            <div class="form-group col-md-6">
-                <label for="{{ form.licenses.id }}" class="control-label">{{ form.licenses.label }}</label>
-                <div>
-                    {{ form.licenses(class_="selectpicker", **{'data-live-search':'true', 'data-width':'100%'}) }}
-                </div>
-                {% for error in form.licenses.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-            </div>
+      <div class="form-group col-md-6">
+        <label for="{{ form.licenses.id }}" class="control-label">{{ form.licenses.label }}</label>
+        <div>
+          {{ form.licenses(class_="selectpicker", **{'data-live-search':'true', 'data-width':'100%'}) }}
         </div>
+        {% for error in form.licenses.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+      </div>
+    </div>
 
-        <div class="form-row">
-            <div class="form-group col-md-12">
-                <label for="{{ form.project_description.id }}" class="control-label">{{ form.project_description.label }}</label>
-                <div>
-                    {{ form.project_description(class_="form-control") }}
-                </div>
-                {% for error in form.project_description.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-            </div>
+    <div class="form-row">
+      <div class="form-group col-md-12">
+        <label for="{{ form.project_description.id }}" class="control-label">{{ form.project_description.label }}</label>
+        <div>
+          {{ form.project_description(class_="form-control") }}
         </div>
+        {% for error in form.project_description.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+      </div>
+    </div>
 
 
-        <div class="form-group">
-            <div class="">
-                {{ form.submit(class_="btn btn-default") }}
-            </div>
-        </div>
-    </form>
+    <div class="form-group">
+      <div class="">
+        {{ form.submit(class_="btn btn-default") }}
+      </div>
+    </div>
+  </form>
 </div><!-- /.container -->
 <script>
-$(document).ready(function() {
+  document.addEventListener("DOMContentLoaded", function() {
     $('.selectpicker').selectpicker();
     tinymce.init({
-        selector: 'textarea',
-        height: 500,
-        menubar: false,
-        plugins: [
-          'advlist autolink lists link image charmap print preview anchor textcolor',
-          'searchreplace visualblocks code fullscreen',
-          'insertdatetime media table contextmenu paste code help'
-        ],
-        toolbar: 'insert | undo redo |  formatselect | bold italic backcolor  | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
-        content_css: [
-          '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
-          '//www.tinymce.com/css/codepen.min.css']
+      selector: 'textarea',
+      height: 500,
+      menubar: false,
+      plugins: [
+      'advlist autolink lists link image charmap print preview anchor textcolor',
+      'searchreplace visualblocks code fullscreen',
+      'insertdatetime media table contextmenu paste code help'
+      ],
+      toolbar: 'insert | undo redo |  formatselect | bold italic backcolor  | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
+      content_css: [
+      '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+      '//www.tinymce.com/css/codepen.min.css']
     });
-});
-function searchProject() {
+  });
+  function searchProject() {
     var url = new URL("{{ url_for('apiv2.projects_projects_list', _external=True,) }}");
     var project_name = document.getElementById("project_name").value;
     if ('' == project_name) {
-        return;
+      return;
     }
     filters = {"name": project_name};
     for (let k in filters) { url.searchParams.append(k, filters[k]); }
@@ -87,13 +87,13 @@ function searchProject() {
     .then(response => response.json())
     .then(result => {
       if (result.metadata.total != 0) {
-          document.getElementById("name_error").textContent = 'A project with the same name already exists.';
+        document.getElementById("name_error").textContent = 'A project with the same name already exists.';
       } else {
-          document.getElementById("name_error").textContent = '';
+        document.getElementById("name_error").textContent = '';
       }
     }).catch((error) => {
       console.error('Error:', error);
     });
-}
+  }
 </script>
 {% endblock %}

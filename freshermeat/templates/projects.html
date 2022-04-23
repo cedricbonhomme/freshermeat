@@ -1,85 +1,85 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
-    <br />
-    <div class="row">
-        <div class="col-md">
-            <h3>Projects
-              {% if current_user.is_authenticated %}
-              <a href="{{ url_for('project_bp.form') }}">
-                <i class="fa fa-plus-circle" aria-hidden="true"></i>
-              </a>
-              {% endif %}
-            </h3>
-        </div>
-        <div class="col-md">
-            <form method="GET" id="searchForm">
-                <div class="form-row align-items-center float-right">
-                    <div class="col-auto">
-                        <label class="sr-only" for="inlineFormInput">Search</label>
-                        <input type="text" class="form-control mb-2" id="inlineFormInput" name="description" placeholder="Search">
-                    </div>
-                    <div class="col-auto">
-                        <button type="submit" class="btn btn-secondary mb-2">Submit</button>
-                    </div>
-                </div>
-            </form>
-        </div>
+  <br />
+  <div class="row">
+    <div class="col-md">
+      <h3>Projects
+        {% if current_user.is_authenticated %}
+        <a href="{{ url_for('project_bp.form') }}">
+          <i class="fa fa-plus-circle" aria-hidden="true"></i>
+        </a>
+        {% endif %}
+      </h3>
     </div>
-    <div class="row">
-        <div class="col-md">
-            <div id="list-projects" class="list-group">
-                <div class="d-flex justify-content-center">
-                    <div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>
-                </div>
-            </div>
+    <div class="col-md">
+      <form method="GET" id="searchForm">
+        <div class="form-row align-items-center float-right">
+          <div class="col-auto">
+            <label class="sr-only" for="inlineFormInput">Search</label>
+            <input type="text" class="form-control mb-2" id="inlineFormInput" name="description" placeholder="Search">
+          </div>
+          <div class="col-auto">
+            <button type="submit" class="btn btn-secondary mb-2">Submit</button>
+          </div>
         </div>
+      </form>
     </div>
-    <br />
-    <nav id="navigation" style="display: none;">
-        <ul class="pagination">
-            <li class="page-item">
-                <a class="page-link" href="#" id="paginationF">First</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="#" id="pagination1"></a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="#" id="pagination2"></a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="#" id="pagination3"></a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="#" id="paginationL">Last</a>
-            </li>
-        </ul>
-    </nav>
+  </div>
+  <div class="row">
+    <div class="col-md">
+      <div id="list-projects" class="list-group">
+        <div class="d-flex justify-content-center">
+          <div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br />
+  <nav id="navigation" style="display: none;">
+    <ul class="pagination">
+      <li class="page-item">
+        <a class="page-link" href="#" id="paginationF">First</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="#" id="pagination1"></a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="#" id="pagination2"></a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="#" id="pagination3"></a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="#" id="paginationL">Last</a>
+      </li>
+    </ul>
+  </nav>
 </div><!-- /.container -->
 <script>
-$(document).ready(function() {
+  document.addEventListener("DOMContentLoaded", function() {
     var url = "{{ url_for('apiv2.projects_projects_list', per_page=2, _external=True,) }}";
     page_number = getUrlParameter('page');
     if (typeof page_number !== 'undefined') {
-        url = url.concat("&page="+page_number);
+      url = url.concat("&page="+page_number);
     }
 
     var filters = {};
     tag_param = getUrlParameter('tags');
     if (typeof tag_param !== 'undefined') {
-        filters["tags"] = tag_param;
+      filters["tags"] = tag_param;
     }
     organization_param = getUrlParameter('organization');
     if (typeof organization_param !== 'undefined') {
-        filters["organization"] = organization_param;
+      filters["organization"] = organization_param;
     }
     license_param = getUrlParameter('license');
     if (typeof license_param !== 'undefined') {
-        filters["license"] = license_param;
+      filters["license"] = license_param;
     }
     language_param = getUrlParameter('language');
     if (typeof language_param !== 'undefined') {
-        filters["language"] = language_param;
+      filters["language"] = language_param;
     }
     // description_param = getUrlParameter('description');
     // if (typeof description_param !== 'undefined') {
@@ -99,8 +99,8 @@ $(document).ready(function() {
     // }
 
     load_projects_list(url, filters);
-});
-function load_projects_list(url, filters) {
+  });
+  function load_projects_list(url, filters) {
     var url = new URL("{{ url_for('apiv2.projects_projects_list', per_page=50, _external=True,) }}");
     for (let k in filters) { url.searchParams.append(k, filters[k]); }
 
@@ -113,19 +113,19 @@ function load_projects_list(url, filters) {
         return new Date(b.last_updated) - new Date(a.last_updated);
       })
       .map(function (project) {
-          var cardHTML = projectTemplate({
-              'project_url': '/project/'+project.name,
-              'project_name': project.name,
-              'project_description': project.short_description,
-              'project_last_update': moment(project.last_updated).fromNow(),
-              'project_tags': project.tag_objs != 0 ?
-                                  '<i class="fa fa-tags" aria-hidden="true"></i>&nbsp;' +
-                                  project.tag_objs.reduce(function(acc, tag) {
-                                      link = '<a href="/projects/?tags=' + tag + '" class="text-muted" style="text-decoration: none">' + tag + '</a>&nbsp;';
-                                      return acc + link;
-                                  }, '') : ''
-           });
-           $('#list-projects').append(cardHTML);
+        var cardHTML = projectTemplate({
+          'project_url': '/project/'+project.name,
+          'project_name': project.name,
+          'project_description': project.short_description,
+          'project_last_update': moment(project.last_updated).fromNow(),
+          'project_tags': project.tag_objs != 0 ?
+          '<i class="fa fa-tags" aria-hidden="true"></i>&nbsp;' +
+          project.tag_objs.reduce(function(acc, tag) {
+            link = '<a href="/projects/?tags=' + tag + '" class="text-muted" style="text-decoration: none">' + tag + '</a>&nbsp;';
+            return acc + link;
+          }, '') : ''
+        });
+        $('#list-projects').append(cardHTML);
       });
     }).catch((error) => {
       console.error('Error:', error);
@@ -231,6 +231,6 @@ function load_projects_list(url, filters) {
     //             }
     //         }
     // });
-}
+  }
 </script>
 {% endblock %}
