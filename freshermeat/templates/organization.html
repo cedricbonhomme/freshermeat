@@ -89,166 +89,166 @@
   document.addEventListener("DOMContentLoaded", function() {
     var div_project_columns = $("<div>", {"class": "card-columns"});
 
-      var url = new URL("{{ url_for('apiv2.projects_projects_list', _external=True) }}")
-      var filters = {"organization_id": {{ organization.id }}};
-      for (let k in filters) { url.searchParams.append(k, filters[k]); }
-      fetch(url)
-      .then(response => response.json())
-      .then(result => {
-        result.data
-        .sort(function (a, b) {
-          return new Date(b.last_updated) - new Date(a.last_updated);
-        })
-        .map(function (project) {
-          var cardHTML = cardProjectTemplate({
-            'logo': project.logo,
-            'project_name': project.name,
-            'project_description': project.short_description,
-            'project_details': '/project/'+project.name
-          });
-          div_project_columns.append(cardHTML);
+    var url = new URL("{{ url_for('apiv2.projects_projects_list', _external=True) }}")
+    var filters = {"organization_id": {{ organization.id }}};
+    for (let k in filters) { url.searchParams.append(k, filters[k]); }
+    fetch(url)
+    .then(response => response.json())
+    .then(result => {
+      result.data
+      .sort(function (a, b) {
+        return new Date(b.last_updated) - new Date(a.last_updated);
+      })
+      .map(function (project) {
+        var cardHTML = cardProjectTemplate({
+          'logo': project.logo,
+          'project_name': project.name,
+          'project_description': project.short_description,
+          'project_details': '/project/'+project.name
         });
-      }).catch((error) => {
-        console.error('Error:', error);
+        div_project_columns.append(cardHTML);
       });
-      $('#list-projects').append(div_project_columns);
-
-
-      fetch("{{ url_for('stats_bp.licenses', organization_name=organization.name) }}")
-      .then(response => response.json())
-      .then(licenses => {
-        var ctx = document.getElementById("licenses-pie-chart").getContext('2d');
-        var myChart = new Chart(ctx, {
-          type: 'pie',
-          data: {
-            labels: Object.keys(licenses),
-            datasets: [{
-              data: Object.values(licenses),
-              borderWidth: 1,
-              backgroundColor: colors.concat(_.times(Object.keys(licenses).length, pastelColorMaker))
-            }]
-          },
-          options: {
-            onClick: function(evt) {
-              var node = myChart.getElementsAtEventForMode(evt, 'point', { intersect: false });
-              var license_label = Object.keys(licenses)[node[0].index];
-              var url = new URL("{{ url_for('apiv2.license_licenses_list', _external=True,) }}");
-              var filters = {"name": license_label};
-              for (let k in filters) { url.searchParams.append(k, filters[k]); }
-              fetch(url)
-              .then(response => response.json())
-              .then(result => {
-                if (result.metadata.total == 1) {
-                  window.location = '/projects?license='+result.data[0].license_id+'&organization={{organization.name}}';
-                }
-              })
-            }
-          }
-        });
-      }).catch((error) => {
-        console.error('Error:', error);
-      });
-
-
-      fetch("{{ url_for('stats_bp.languages', organization_name=organization.name) }}")
-      .then(response => response.json())
-      .then(languages => {
-        var ctx = document.getElementById("languages-pie-chart").getContext('2d');
-        var myChart = new Chart(ctx, {
-          type: 'pie',
-          data: {
-            labels: Object.keys(languages),
-            datasets: [{
-              data: Object.values(languages),
-              borderWidth: 1,
-              backgroundColor: colors.concat(_.times(Object.keys(languages).length, pastelColorMaker))
-            }]
-          },
-          options: {
-            onClick: function(evt) {
-              var node = myChart.getElementsAtEventForMode(evt, 'point', { intersect: false });
-              var language_label = Object.keys(languages)[node[0].index];
-              var url = new URL("{{ url_for('apiv2.language_languages_list', _external=True,) }}");
-              var filters = {"name": language_label};
-              for (let k in filters) { url.searchParams.append(k, filters[k]); }
-              fetch(url)
-              .then(response => response.json())
-              .then(result => {
-                if (result.metadata.total == 1) {
-                  window.location = '/projects?language='+result.data[0].name+'&organization={{organization.name}}';
-                }
-              })
-            }
-          }
-        });
-      }).catch((error) => {
-        console.error('Error:', error);
-      });
-
-      fetch("{{ url_for('stats_bp.activity', organization_name=organization.name) }}")
-      .then(response => response.json())
-      .then(time_laps => {
-        var ctx = document.getElementById("activity-pie-chart").getContext('2d');
-        var myChart = new Chart(ctx, {
-          type: 'pie',
-          data: {
-            labels: Object.keys(time_laps),
-            datasets: [{
-              data: Object.values(time_laps),
-              borderWidth: 1,
-              backgroundColor: colors.concat(_.times(Object.keys(time_laps).length, pastelColorMaker))
-            }]
-          },
-          options: {
-            onClick: function(evt) {
-              var before = new Date();
-              var after = new Date();
-              var node = myChart.getElementsAtEventForMode(evt, 'point', { intersect: false });
-              var timelaps = Object.keys(time_laps)[node[0].index];
-              if (timelaps == "less than 1 month") {
-                after.setMonth(after.getMonth() - 1);
-                window.location = '/projects?updated_since=' +
-                after.toLocaleDateString()+'&organization={{organization.name}}';
-              }
-              if (timelaps == "between 1 and 3 months") {
-                before.setMonth(before.getMonth() - 1);
-                after.setMonth(after.getMonth() - 3);
-                window.location = '/projects?updated_since=' +
-                after.toLocaleDateString()+'&updated_before=' +
-                before.toLocaleDateString()+'&organization={{organization.name}}';
-              }
-              if (timelaps == "between 3 and 6 months") {
-                before.setMonth(before.getMonth() - 3);
-                after.setMonth(after.getMonth() - 6);
-                window.location = '/projects?updated_since=' +
-                after.toLocaleDateString()+'&updated_before=' +
-                before.toLocaleDateString()+'&organization={{organization.name}}';
-              }
-              if (timelaps == "between 6 months and 1 year") {
-                before.setMonth(before.getMonth() - 6);
-                after.setMonth(after.getMonth() - 12);
-                window.location = '/projects?updated_since=' +
-                after.toLocaleDateString()+'&updated_before=' +
-                before.toLocaleDateString()+'&organization={{organization.name}}';
-              }
-              if (timelaps == "between 1 and 2 years") {
-                before.setMonth(before.getMonth() - 12);
-                after.setMonth(after.getMonth() - 24);
-                window.location = '/projects?updated_since=' +
-                after.toLocaleDateString()+'&updated_before=' +
-                before.toLocaleDateString()+'&organization={{organization.name}}';
-              }
-              if (timelaps == "more than 2 years") {
-                before.setMonth(before.getMonth() - 24);
-                window.location = '/projects?updated_before=' +
-                before.toLocaleDateString()+'&organization={{organization.name}}';
-              }
-            }
-          }
-        });
-      }).catch((error) => {
-        console.error('Error:', error);
-      });
+    }).catch((error) => {
+      console.error('Error:', error);
     });
-  </script>
-  {% endblock %}
+    $('#list-projects').append(div_project_columns);
+
+
+  fetch("{{ url_for('stats_bp.licenses', organization_name=organization.name) }}")
+  .then(response => response.json())
+  .then(licenses => {
+    var ctx = document.getElementById("licenses-pie-chart").getContext('2d');
+    var myChart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: Object.keys(licenses),
+        datasets: [{
+          data: Object.values(licenses),
+          borderWidth: 1,
+          backgroundColor: colors.concat(_.times(Object.keys(licenses).length, pastelColorMaker))
+        }]
+      },
+      options: {
+        onClick: function(evt) {
+          var node = myChart.getElementsAtEventForMode(evt, 'point', { intersect: false });
+          var license_label = Object.keys(licenses)[node[0].index];
+          var url = new URL("{{ url_for('apiv2.license_licenses_list', _external=True,) }}");
+          var filters = {"name": license_label};
+          for (let k in filters) { url.searchParams.append(k, filters[k]); }
+          fetch(url)
+          .then(response => response.json())
+          .then(result => {
+            if (result.metadata.total == 1) {
+              window.location = '/projects?license='+result.data[0].license_id+'&organization={{organization.name}}';
+            }
+          })
+        }
+      }
+    });
+  }).catch((error) => {
+    console.error('Error:', error);
+  });
+
+
+  fetch("{{ url_for('stats_bp.languages', organization_name=organization.name) }}")
+  .then(response => response.json())
+  .then(languages => {
+    var ctx = document.getElementById("languages-pie-chart").getContext('2d');
+    var myChart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: Object.keys(languages),
+        datasets: [{
+          data: Object.values(languages),
+          borderWidth: 1,
+          backgroundColor: colors.concat(_.times(Object.keys(languages).length, pastelColorMaker))
+        }]
+      },
+      options: {
+        onClick: function(evt) {
+          var node = myChart.getElementsAtEventForMode(evt, 'point', { intersect: false });
+          var language_label = Object.keys(languages)[node[0].index];
+          var url = new URL("{{ url_for('apiv2.language_languages_list', _external=True,) }}");
+          var filters = {"name": language_label};
+          for (let k in filters) { url.searchParams.append(k, filters[k]); }
+          fetch(url)
+          .then(response => response.json())
+          .then(result => {
+            if (result.metadata.total == 1) {
+              window.location = '/projects?language='+result.data[0].name+'&organization={{organization.name}}';
+            }
+          })
+        }
+      }
+    });
+  }).catch((error) => {
+    console.error('Error:', error);
+  });
+
+  fetch("{{ url_for('stats_bp.activity', organization_name=organization.name) }}")
+  .then(response => response.json())
+  .then(time_laps => {
+    var ctx = document.getElementById("activity-pie-chart").getContext('2d');
+    var myChart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: Object.keys(time_laps),
+        datasets: [{
+          data: Object.values(time_laps),
+          borderWidth: 1,
+          backgroundColor: colors.concat(_.times(Object.keys(time_laps).length, pastelColorMaker))
+        }]
+      },
+      options: {
+        onClick: function(evt) {
+          var before = new Date();
+          var after = new Date();
+          var node = myChart.getElementsAtEventForMode(evt, 'point', { intersect: false });
+          var timelaps = Object.keys(time_laps)[node[0].index];
+          if (timelaps == "less than 1 month") {
+            after.setMonth(after.getMonth() - 1);
+            window.location = '/projects?updated_since=' +
+            after.toLocaleDateString()+'&organization={{organization.name}}';
+          }
+          if (timelaps == "between 1 and 3 months") {
+            before.setMonth(before.getMonth() - 1);
+            after.setMonth(after.getMonth() - 3);
+            window.location = '/projects?updated_since=' +
+            after.toLocaleDateString()+'&updated_before=' +
+            before.toLocaleDateString()+'&organization={{organization.name}}';
+          }
+          if (timelaps == "between 3 and 6 months") {
+            before.setMonth(before.getMonth() - 3);
+            after.setMonth(after.getMonth() - 6);
+            window.location = '/projects?updated_since=' +
+            after.toLocaleDateString()+'&updated_before=' +
+            before.toLocaleDateString()+'&organization={{organization.name}}';
+          }
+          if (timelaps == "between 6 months and 1 year") {
+            before.setMonth(before.getMonth() - 6);
+            after.setMonth(after.getMonth() - 12);
+            window.location = '/projects?updated_since=' +
+            after.toLocaleDateString()+'&updated_before=' +
+            before.toLocaleDateString()+'&organization={{organization.name}}';
+          }
+          if (timelaps == "between 1 and 2 years") {
+            before.setMonth(before.getMonth() - 12);
+            after.setMonth(after.getMonth() - 24);
+            window.location = '/projects?updated_since=' +
+            after.toLocaleDateString()+'&updated_before=' +
+            before.toLocaleDateString()+'&organization={{organization.name}}';
+          }
+          if (timelaps == "more than 2 years") {
+            before.setMonth(before.getMonth() - 24);
+            window.location = '/projects?updated_before=' +
+            before.toLocaleDateString()+'&organization={{organization.name}}';
+          }
+        }
+      }
+    });
+  }).catch((error) => {
+    console.error('Error:', error);
+  });
+});
+</script>
+{% endblock %}
