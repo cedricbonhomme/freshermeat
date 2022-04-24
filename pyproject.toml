@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "freshermeat"
-version = "0.7"
+version = "0.8.0"
 description = "Freshermeat is an open source software directory and release tracker."
 authors = ["Cédric Bonhomme <cedric@cedricbonhomme.org>"]
 license = "AGPL-3.0-or-later"

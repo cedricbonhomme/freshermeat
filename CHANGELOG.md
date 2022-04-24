@@ -1,7 +1,20 @@
 Freshermeat Changelog
 =====================
 
-## 0.7 (2019-09-07)
+## 0.8.0 (2022-04-25)
+
+### New
+
+- a new API based on Flask-RESTX is now available and replaces the previous API.
+  It is documented with Swagger.
+
+### improvements
+
+- the JavaScript code of the templates has been improved;
+- all back-end and front-end dependencies are now up-to-date.
+
+
+## 0.7.0 (2019-09-07)
 
 ### New
 
@@ -14,7 +27,7 @@ Freshermeat Changelog
   to be added in the database);
 - introduction of statistics per organizations (organization/<org-name>);
 - added a route which returns an atom feed of CVEs.
-- added global recent CVEs ATOM feed in the layout template;
+- added global recent CVEs ATOM feed in the layout template.
 
 ### Changes
 
@@ -24,7 +37,7 @@ Freshermeat Changelog
 - various improvements in the back-end and bug fixes.
 
 
-## 0.6 (2018-10-02)
+## 0.6.0 (2018-10-02)
 
 - added the possibility for any user to submit a project to the directory;
 - added the possibility to define dependents and dependencies for projects;
