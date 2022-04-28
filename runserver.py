@@ -16,7 +16,27 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from freshermeat import commands
 from freshermeat.bootstrap import application
+
+
+def register_commands(app):
+    """Register Click commands."""
+    app.cli.add_command(commands.uml_graph)
+    app.cli.add_command(commands.db_empty)
+    app.cli.add_command(commands.db_create)
+    app.cli.add_command(commands.db_init)
+    app.cli.add_command(commands.create_user)
+    app.cli.add_command(commands.create_admin)
+    app.cli.add_command(commands.import_languages)
+    app.cli.add_command(commands.import_starred_projects_from_github)
+    app.cli.add_command(commands.import_project_from_github)
+    app.cli.add_command(commands.import_project_from_gitlab)
+    app.cli.add_command(commands.import_osi_approved_licenses)
+    app.cli.add_command(commands.fetch_cves)
+    app.cli.add_command(commands.fetch_releases)
+    app.cli.add_command(commands.fetch_news)
+
 
 with application.app_context():
 
@@ -34,6 +54,8 @@ with application.app_context():
 
     # API v2
     application.register_blueprint(views.api.v2.api_blueprint)
+
+    register_commands(application)
 
 
 if __name__ == "__main__":

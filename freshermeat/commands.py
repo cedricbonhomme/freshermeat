@@ -14,15 +14,13 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU Affero General Public License for more details.
 #
-# You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# You should have received a copy of the GNU Affero General Public License
 import asyncio
 import logging
 from datetime import datetime
 
-from flask_migrate import Migrate
-from flask_migrate import MigrateCommand
-from flask_script import Manager
+import click
 from sqlalchemy import and_
 
 import freshermeat.models
@@ -36,26 +34,22 @@ from freshermeat.workers import fetch_release
 
 logger = logging.getLogger("manager")
 
-Migrate(application, db)
-manager = Manager(application)
-manager.add_command("db", MigrateCommand)
 
-
-@manager.command
+@application.cli.command("uml_graph")
 def uml_graph():
     "UML graph from the models."
     with application.app_context():
         freshermeat.models.uml_graph(db)
 
 
-@manager.command
+@application.cli.command("db_empty")
 def db_empty():
     "Will drop every datas stocked in db."
     with application.app_context():
         freshermeat.models.db_empty(db)
 
 
-@manager.command
+@application.cli.command("db_create")
 def db_create():
     "Will create the database."
     with application.app_context():
@@ -66,14 +60,16 @@ def db_create():
         )
 
 
-@manager.command
+@application.cli.command("db_init")
 def db_init():
     "Will create the database from conf parameters."
     with application.app_context():
         freshermeat.models.db_init(db)
 
 
-@manager.command
+@application.cli.command("create_user")
+@click.option("--login", default="admin", help="Login")
+@click.option("--password", default="password", help="Password")
 def create_user(login, password):
     "Initializes a user"
     print(f"Creation of the user {login} ...")
@@ -81,7 +77,9 @@ def create_user(login, password):
         freshermeat.scripts.create_user(login, password, False)
 
 
-@manager.command
+@application.cli.command("create_admin")
+@click.option("--login", default="admin", help="Login")
+@click.option("--password", default="password", help="Password")
 def create_admin(login, password):
     "Initializes an admin user"
     print(f"Creation of the admin user {login} ...")
@@ -89,7 +87,12 @@ def create_admin(login, password):
         freshermeat.scripts.create_user(login, password, True)
 
 
-@manager.command
+@application.cli.command("import_languages")
+@click.option(
+    "--json_file",
+    default="var/languages.json",
+    help="Import languages from a JSON file.",
+)
 def import_languages(json_file):
     "Import languages from a JSON file"
     print(f"Importing languages from {json_file} ...")
@@ -97,7 +100,8 @@ def import_languages(json_file):
         freshermeat.scripts.import_languages(json_file)
 
 
-@manager.command
+@application.cli.command("import_starred_projects_from_github")
+@click.option("--user", help="Import starred projects of a user from GitHub.")
 def import_starred_projects_from_github(user):
     "Import GitHub starred projects of a user."
     print(f"Importing GitHub starred projects of {user} ...")
@@ -105,7 +109,10 @@ def import_starred_projects_from_github(user):
         freshermeat.scripts.import_starred_projects_from_github(user)
 
 
-@manager.command
+@application.cli.command("import_project_from_github")
+@click.option("--owner", help="Owner")
+@click.option("--repo", help="Repository")
+@click.option("--submitter_id", help="Id of the submitter")
 def import_project_from_github(owner, repo, submitter_id):
     "Import a project from GitHub."
     with application.app_context():
@@ -115,7 +122,9 @@ def import_project_from_github(owner, repo, submitter_id):
         print(stdout)
 
 
-@manager.command
+@application.cli.command("import_project_from_gitlab")
+@click.option("--repository", help="Repository")
+@click.option("--submitter_id", help="Id of the submitter")
 def import_project_from_gitlab(repository, submitter_id):
     "Import a project from GitLab."
     with application.app_context():
@@ -125,7 +134,7 @@ def import_project_from_gitlab(repository, submitter_id):
         print(stdout)
 
 
-@manager.command
+@application.cli.command("import_osi_approved_licenses")
 def import_osi_approved_licenses():
     "Import OSI approved licenses."
     print("Importing OSI approved licenses...")
@@ -133,8 +142,9 @@ def import_osi_approved_licenses():
         freshermeat.scripts.import_osi_approved_licenses()
 
 
-@manager.command
-def fetch_cves(cve_vendor=None):
+@application.cli.command("fetch_cves")
+@click.option("--cve_vendor", default=None)
+def fetch_cves(cve_vendor):
     "Crawl the CVE."
     with application.app_context():
 
@@ -159,7 +169,7 @@ def fetch_cves(cve_vendor=None):
         logger.info(f"CVE fetcher finished in {(end - start).seconds} seconds.")
 
 
-@manager.command
+@application.cli.command("fetch_releases")
 def fetch_releases():
     """Automatic release tracking
     Retrieves the new releases of the projects."""
@@ -192,14 +202,10 @@ def fetch_releases():
     loop.close()
 
 
-@manager.command
+@application.cli.command("fetch_news")
 def fetch_news():
     """Automatic news tracking
     Retrieves the new of the projects."""
     feeds = freshermeat.models.Feed.query.all()
 
     fetch_project_news.retrieve(feeds)
-
-
-if __name__ == "__main__":
-    manager.run()

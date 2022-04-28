@@ -24,6 +24,7 @@ import os
 from flask import Flask
 from flask import request
 from flask_mail import Mail
+from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.middleware.proxy_fix import ProxyFix
 
@@ -79,6 +80,7 @@ application.config.from_pyfile(
 )
 db = SQLAlchemy(application)
 mail = Mail(application)
+migrate = Migrate(application, db)
 
 
 # Jinja filters
