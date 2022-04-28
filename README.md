@@ -35,15 +35,16 @@ $ poetry shell
 
 (freshermeat) $ npm install
 
+(freshermeat) $ export FLASK_APP=runserver.py
 (freshermeat) $ export APPLICATION_SETTINGS=development.py
 
-(freshermeat) $ python manager.py db_create
-(freshermeat) $ python manager.py db_init
-(freshermeat) $ python manager.py create_admin <login> <password>
-(freshermeat) $ python manager.py import_projects var/projects.json
-(freshermeat) $ python manager.py import_osi_approved_licenses
+(freshermeat) $ flask db_create
+(freshermeat) $ flask db_init
+(freshermeat) $ flask create_admin <login> <password>
+(freshermeat) $ flask import_projects var/projects.json
+(freshermeat) $ flask import_osi_approved_licenses
 
-(freshermeat) $ python runserver.py
+(freshermeat) $ flask run
  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
  * Restarting with stat
  * Debugger is active!
@@ -62,19 +63,19 @@ periodically with __cron__.
 ### Retrieving CVEs
 
 ```bash
-(freshermeat) $ python manager.py fetch_cves
+$ FLASK_APP=runserver.py poetry run flask fetch_cves
 ```
 
 ### Release tracking
 
 ```bash
-(freshermeat) $ python manager.py fetch_releases
+$ FLASK_APP=runserver.py poetry run flask fetch_releases
 ```
 
 ### Retrieving news about projects
 
 ```bash
-(freshermeat) $ python manager.py fetch_news
+$ FLASK_APP=runserver.py poetry run flask fetch_news
 ```
 
 ## Contributing

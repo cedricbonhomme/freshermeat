@@ -1,3 +1,4 @@
+import os
 import subprocess
 import sys
 
@@ -11,16 +12,22 @@ ERRORS = {
 
 
 def import_github(repository, submitter_id=None):
+    print("test")
     owner, repo = repository.split("/")[-2:]
+    env = os.environ.copy()
+    env["FLASK_APP"] = "runserver.py"
     cmd = [
-        sys.executable,
-        application.config["HERE"] + "/manager.py",
+        sys.exec_prefix + "/bin/flask",
         "import_project_from_github",
+        "--owner",
         owner,
+        "--repo",
         repo,
+        "--submitter_id",
         str(submitter_id),
     ]
-    p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    print(cmd)
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
     (stdout, stderr) = p.communicate()
     return stdout
 
