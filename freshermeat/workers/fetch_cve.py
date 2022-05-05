@@ -53,7 +53,7 @@ async def get_cve(*args, **kwargs):
 
 
 async def insert_database(project):
-    with (await sem):
+    async with sem:
         logger.info(f"Retrieving CVE for {project.name}")
         vendors = project.cve_vendor.split(",")
         for cve_vendor in vendors:
@@ -84,16 +84,19 @@ async def init_process(project):
         logger.exception("init_process: " + str(e))
 
 
-def retrieve(loop, projects):
+def retrieve(projects):
     """
     Launch the processus.
     """
+    print(projects)
     # Launch the process for all the projects
     logger.info("Retrieving CVEs...")
+    loop = asyncio.get_event_loop()
     tasks = [asyncio.ensure_future(init_process(project)) for project in projects]
     try:
         loop.run_until_complete(asyncio.wait(tasks))
     except Exception:
         logger.exception("an error occured")
     finally:
+        loop.close()
         logger.info("CVEs retrieved")

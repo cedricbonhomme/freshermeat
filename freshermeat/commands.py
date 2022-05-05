@@ -146,27 +146,23 @@ def import_osi_approved_licenses():
 @click.option("--cve_vendor", default=None)
 def fetch_cves(cve_vendor):
     "Crawl the CVE."
-    with application.app_context():
-
-        query = freshermeat.models.Project.query.filter(
-            and_(
-                freshermeat.models.Project.cve_vendor != "",
-                freshermeat.models.Project.cve_product != "",
-            )
+    query = freshermeat.models.Project.query.filter(
+        and_(
+            freshermeat.models.Project.cve_vendor != "",
+            freshermeat.models.Project.cve_product != "",
         )
-        if cve_vendor:
-            query = query.filter(freshermeat.models.Project.cve_vendor == cve_vendor)
-        projects = query.all()
+    )
+    if cve_vendor:
+        query = query.filter(freshermeat.models.Project.cve_vendor == cve_vendor)
+    projects = query.all()
 
-        logger.info("Starting CVE fetcher.")
+    logger.info("Starting CVE fetcher.")
 
-        start = datetime.now()
-        loop = asyncio.get_event_loop()
-        fetch_cve.retrieve(loop, projects)
-        loop.close()
-        end = datetime.now()
+    start = datetime.now()
+    fetch_cve.retrieve(projects)
+    end = datetime.now()
 
-        logger.info(f"CVE fetcher finished in {(end - start).seconds} seconds.")
+    logger.info(f"CVE fetcher finished in {(end - start).seconds} seconds.")
 
 
 @application.cli.command("fetch_releases")
@@ -207,5 +203,4 @@ def fetch_news():
     """Automatic news tracking
     Retrieves the new of the projects."""
     feeds = freshermeat.models.Feed.query.all()
-
     fetch_project_news.retrieve(feeds)
