@@ -1,6 +1,14 @@
 Freshermeat Changelog
 =====================
 
+## 0.8.1 (2022-05-06)
+
+### Changes
+
+- migrated all commands to the internal Flask Command Line Interface;
+- fixed issues in async workers due to new syntax.
+
+
 ## 0.8.0 (2022-04-25)
 
 ### New
