@@ -88,7 +88,6 @@ def retrieve(projects):
     """
     Launch the processus.
     """
-    print(projects)
     # Launch the process for all the projects
     logger.info("Retrieving CVEs...")
     loop = asyncio.get_event_loop()
