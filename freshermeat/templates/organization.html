@@ -132,7 +132,7 @@
         onClick: function(evt) {
           var node = myChart.getElementsAtEventForMode(evt, 'point', { intersect: false });
           var license_label = Object.keys(licenses)[node[0].index];
-          var url = new URL("{{ url_for('apiv2.license_licenses_list', _external=True,) }}");
+          var url = new URL("{{ url_for('apiv2.license_licenses_list',) }}", "{{ url | instance_domain_name }}");
           var filters = {"name": license_label};
           for (let k in filters) { url.searchParams.append(k, filters[k]); }
           fetch(url)
@@ -168,7 +168,7 @@
         onClick: function(evt) {
           var node = myChart.getElementsAtEventForMode(evt, 'point', { intersect: false });
           var language_label = Object.keys(languages)[node[0].index];
-          var url = new URL("{{ url_for('apiv2.language_languages_list', _external=True,) }}");
+          var url = new URL("{{ url_for('apiv2.language_languages_list',) }}", "{{ url | instance_domain_name }}");
           var filters = {"name": language_label};
           for (let k in filters) { url.searchParams.append(k, filters[k]); }
           fetch(url)

@@ -40,7 +40,7 @@
       filters["organization_type"] = type_param;
     }
 
-    var url = new URL("{{ url_for('apiv2.organization_organizations_list', _external=True,) }}");
+    var url = new URL("{{ url_for('apiv2.organization_organizations_list',) }}", "{{ url | instance_domain_name }}");
     for (let k in filters) { url.searchParams.append(k, filters[k]); }
     fetch(url)
     .then(response => response.json())
@@ -60,7 +60,7 @@
 
               var div_organization_columns = $("<div>", {"class": "card-columns"});
 
-                var url = new URL("{{ url_for('apiv2.projects_projects_list', _external=True,) }}");
+                var url = new URL("{{ url_for('apiv2.projects_projects_list',) }}", "{{ url | instance_domain_name }}");
                 var filters = {"organization": organization.name};
                 for (let k in filters) { url.searchParams.append(k, filters[k]); }
                 fetch(url)

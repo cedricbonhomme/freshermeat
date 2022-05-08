@@ -75,7 +75,7 @@
     });
   });
   function searchProject() {
-    var url = new URL("{{ url_for('apiv2.projects_projects_list', _external=True,) }}");
+    var url = new URL("{{ url_for('apiv2.projects_projects_list',) }}", "{{ url | instance_domain_name }}");
     var project_name = document.getElementById("project_name").value;
     if ('' == project_name) {
       return;

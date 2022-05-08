@@ -101,7 +101,7 @@
     load_projects_list(url, filters);
   });
   function load_projects_list(url, filters) {
-    var url = new URL("{{ url_for('apiv2.projects_projects_list', per_page=50, _external=True,) }}");
+    var url = new URL("{{ url_for('apiv2.projects_projects_list', per_page=50,) }}", "{{ url | instance_domain_name }}");
     for (let k in filters) { url.searchParams.append(k, filters[k]); }
 
     fetch(url)
