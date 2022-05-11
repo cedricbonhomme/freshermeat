@@ -142,7 +142,7 @@
               <div id="project-releases" class="list-group list-group-flush"></div>
             </div>
             <div class="tab-pane fade" id="cves" role="tabpanel" aria-labelledby="cves-tab">
-              <a href="{{ url_for('project_bp.recent_cves', project_name=project.name) }}" type="application/atom+xml"><i class="fa fa-rss-square" aria-hidden="true" title="Recent releases for {{ project.name }}"></i></a>
+              <a href="{{ url_for('project_bp.recent_cves', project_name=project.name) }}" type="application/atom+xml"><i class="fa fa-rss-square" aria-hidden="true" title="Recent CVEs for {{ project.name }}"></i></a>
               <div id="list-cves" class="list-group list-group-flush"></div>
             </div>
             <div class="tab-pane fade" id="news" role="tabpanel" aria-labelledby="news-tab">
