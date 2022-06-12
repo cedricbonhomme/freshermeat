@@ -30,8 +30,7 @@
   <script src="{{ url_for('static', filename='js/templates.js') }}"></script>
   <title>{% if head_titles %}{{ ' - '.join(head_titles + ['']) }}{% endif %}
     {% if config.FRESHERMEAT_INSTANCE_NAME %}{{ config.FRESHERMEAT_INSTANCE_NAME }}{% else %}Freshermeat{% endif %}
-    {% if head_titles_tail %}{{ ' - '.join([''] + head_titles_tail) }}{% endif %}
-  </title>
+    {% if head_titles_tail %}{{ ' - '.join([''] + head_titles_tail) }}{% endif %}</title>
   {% endblock %}
 </head>
 {% block page_body %}

@@ -95,6 +95,8 @@ def instance_domain_name(*args):
 application.jinja_env.filters["datetimeformat"] = datetimeformat
 application.jinja_env.filters["instance_domain_name"] = instance_domain_name
 
+application.jinja_env.trim_blocks = True
+application.jinja_env.lstrip_blocks = True
 
 set_logging(application.config["LOG_PATH"])
 
