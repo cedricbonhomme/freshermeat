@@ -6,16 +6,16 @@
   "dependencies": {
     "bootstrap": "^4.6.0",
     "bootstrap-select": "^1.13.18",
-    "chart.js": "^3.7.1",
+    "chart.js": "^3.8.0",
     "datatables": "^1.10.18",
-    "datatables.net": "^1.11.5",
-    "datatables.net-bs4": "^1.11.5",
+    "datatables.net": "^1.12.1",
+    "datatables.net-bs4": "^1.12.1",
     "fork-awesome": "^1.2.0",
     "jquery": "^3.6.0",
     "lodash": "^4.17.21",
     "moment": "^2.29.3",
     "popper.js": "^1.16.1",
-    "tinymce": "^6.0.1"
+    "tinymce": "^6.0.3"
   },
   "engines": {
     "yarn": ">= 1.0.0"
