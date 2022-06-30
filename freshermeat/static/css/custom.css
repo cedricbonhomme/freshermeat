@@ -12,7 +12,7 @@ img {
   padding: 5px;
 }
 .banner {
-  background: url(/static/img/20141019T151624.png) no-repeat center center ;
+  background: url(/static/img/landscape.webp) no-repeat center center ;
   background-size: cover;
   height: 350px;
   line-height: 350px;
