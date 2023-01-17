@@ -38,33 +38,29 @@ logger = logging.getLogger("manager")
 @application.cli.command("uml_graph")
 def uml_graph():
     "UML graph from the models."
-    with application.app_context():
-        freshermeat.models.uml_graph(db)
+    freshermeat.models.uml_graph(db)
 
 
 @application.cli.command("db_empty")
 def db_empty():
     "Will drop every datas stocked in db."
-    with application.app_context():
-        freshermeat.models.db_empty(db)
+    freshermeat.models.db_empty(db)
 
 
 @application.cli.command("db_create")
 def db_create():
     "Will create the database."
-    with application.app_context():
-        freshermeat.models.db_create(
-            db,
-            application.config["DB_CONFIG_DICT"],
-            application.config["DATABASE_NAME"],
-        )
+    freshermeat.models.db_create(
+        db,
+        application.config["DB_CONFIG_DICT"],
+        application.config["DATABASE_NAME"],
+    )
 
 
 @application.cli.command("db_init")
 def db_init():
     "Will create the database from conf parameters."
-    with application.app_context():
-        freshermeat.models.db_init(db)
+    freshermeat.models.db_init(db)
 
 
 @application.cli.command("create_user")
@@ -73,8 +69,7 @@ def db_init():
 def create_user(login, password):
     "Initializes a user"
     print(f"Creation of the user {login} ...")
-    with application.app_context():
-        freshermeat.scripts.create_user(login, password, False)
+    freshermeat.scripts.create_user(login, password, False)
 
 
 @application.cli.command("create_admin")
@@ -83,8 +78,7 @@ def create_user(login, password):
 def create_admin(login, password):
     "Initializes an admin user"
     print(f"Creation of the admin user {login} ...")
-    with application.app_context():
-        freshermeat.scripts.create_user(login, password, True)
+    freshermeat.scripts.create_user(login, password, True)
 
 
 @application.cli.command("import_languages")
@@ -96,8 +90,7 @@ def create_admin(login, password):
 def import_languages(json_file):
     "Import languages from a JSON file"
     print(f"Importing languages from {json_file} ...")
-    with application.app_context():
-        freshermeat.scripts.import_languages(json_file)
+    freshermeat.scripts.import_languages(json_file)
 
 
 @application.cli.command("import_starred_projects_from_github")
@@ -105,8 +98,7 @@ def import_languages(json_file):
 def import_starred_projects_from_github(user):
     "Import GitHub starred projects of a user."
     print(f"Importing GitHub starred projects of {user} ...")
-    with application.app_context():
-        freshermeat.scripts.import_starred_projects_from_github(user)
+    freshermeat.scripts.import_starred_projects_from_github(user)
 
 
 @application.cli.command("import_project_from_github")
@@ -115,11 +107,11 @@ def import_starred_projects_from_github(user):
 @click.option("--submitter_id", help="Id of the submitter")
 def import_project_from_github(owner, repo, submitter_id):
     "Import a project from GitHub."
-    with application.app_context():
-        stdout = freshermeat.scripts.import_project_from_github(
-            owner, repo, submitter_id
-        )
-        print(stdout)
+
+    stdout = freshermeat.scripts.import_project_from_github(
+        owner, repo, submitter_id
+    )
+    print(stdout)
 
 
 @application.cli.command("import_project_from_gitlab")
@@ -127,19 +119,18 @@ def import_project_from_github(owner, repo, submitter_id):
 @click.option("--submitter_id", help="Id of the submitter")
 def import_project_from_gitlab(repository, submitter_id):
     "Import a project from GitLab."
-    with application.app_context():
-        stdout = freshermeat.scripts.import_project_from_gitlab(
-            repository, submitter_id
-        )
-        print(stdout)
+    stdout = freshermeat.scripts.import_project_from_gitlab(
+        repository, submitter_id
+    )
+    print(stdout)
 
 
 @application.cli.command("import_osi_approved_licenses")
 def import_osi_approved_licenses():
     "Import OSI approved licenses."
     print("Importing OSI approved licenses...")
-    with application.app_context():
-        freshermeat.scripts.import_osi_approved_licenses()
+
+    freshermeat.scripts.import_osi_approved_licenses()
 
 
 @application.cli.command("fetch_cves")
