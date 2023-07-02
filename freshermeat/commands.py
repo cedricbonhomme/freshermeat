@@ -108,9 +108,7 @@ def import_starred_projects_from_github(user):
 def import_project_from_github(owner, repo, submitter_id):
     "Import a project from GitHub."
 
-    stdout = freshermeat.scripts.import_project_from_github(
-        owner, repo, submitter_id
-    )
+    stdout = freshermeat.scripts.import_project_from_github(owner, repo, submitter_id)
     print(stdout)
 
 
@@ -119,9 +117,7 @@ def import_project_from_github(owner, repo, submitter_id):
 @click.option("--submitter_id", help="Id of the submitter")
 def import_project_from_gitlab(repository, submitter_id):
     "Import a project from GitLab."
-    stdout = freshermeat.scripts.import_project_from_gitlab(
-        repository, submitter_id
-    )
+    stdout = freshermeat.scripts.import_project_from_gitlab(repository, submitter_id)
     print(stdout)
 
 
