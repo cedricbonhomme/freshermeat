@@ -40,7 +40,7 @@ $ poetry shell
 
 (freshermeat) $ flask db_create
 (freshermeat) $ flask db_init
-(freshermeat) $ flask create_admin <login> <password>
+(freshermeat) $ flask create_admin --login <login> --password <password>
 (freshermeat) $ flask import_projects var/projects.json
 (freshermeat) $ flask import_osi_approved_licenses
 

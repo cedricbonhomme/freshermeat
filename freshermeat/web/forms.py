@@ -36,7 +36,6 @@ from wtforms.validators import url
 from freshermeat.lib import misc_utils
 from freshermeat.models import Language
 from freshermeat.models import License
-from freshermeat.models import Organization
 from freshermeat.models import Project
 from freshermeat.models import User
 
@@ -120,9 +119,6 @@ class AddProjectForm(FlaskForm):
     tags = StringField("Tags")
     organization_id = SelectField("Organization", [validators.Optional()], coerce=int)
     organization_id.choices = [(0, "")]
-    organization_id.choices.extend(
-        [(org.id, org.name) for org in Organization.query.all()]
-    )
     logo = FileField("Logo")
 
     automatic_release_tracking = StringField(

@@ -22,6 +22,7 @@ from datetime import datetime
 from flask import current_app
 from flask import redirect
 from flask import render_template
+from flask import request
 from flask import session
 from flask import url_for
 from flask_login import current_user
@@ -85,7 +86,7 @@ def login():
     if current_user.is_authenticated:
         return redirect(url_for("index"))
     form = SigninForm()
-    if form.validate_on_submit():
+    if request.method == "POST" and form.validate():  # fixes an issue in flask-wtf
         login_user_bundle(form.user)
         return form.redirect("index")
     head_titles_tail = ["Login"]
