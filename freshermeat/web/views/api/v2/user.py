@@ -1,10 +1,6 @@
-from flask_restx import fields
-from flask_restx import Namespace
-from flask_restx import reqparse
-from flask_restx import Resource
+from flask_restx import Namespace, Resource, fields, reqparse
 
 from freshermeat.models import User
-
 
 user_ns = Namespace("user", description="User related operations.")
 

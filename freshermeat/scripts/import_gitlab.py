@@ -5,8 +5,7 @@ from urllib.parse import urlparse
 import requests
 
 from freshermeat.bootstrap import db
-from freshermeat.models import Project
-from freshermeat.models import Tag
+from freshermeat.models import Project, Tag
 
 
 def import_project_from_gitlab(repository, submitter_id):

@@ -1,12 +1,8 @@
-from flask_restx import fields
-from flask_restx import Namespace
-from flask_restx import reqparse
-from flask_restx import Resource
+from flask_restx import Namespace, Resource, fields, reqparse
 
 from freshermeat.bootstrap import db
 from freshermeat.models import Release
 from freshermeat.web.views.api.v2.common import auth_func
-
 
 release_ns = Namespace("release", description="Release related operations.")
 

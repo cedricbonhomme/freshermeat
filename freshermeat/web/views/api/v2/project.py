@@ -1,13 +1,9 @@
 from flask_login import current_user
-from flask_restx import fields
-from flask_restx import Namespace
-from flask_restx import reqparse
-from flask_restx import Resource
+from flask_restx import Namespace, Resource, fields, reqparse
 
 from freshermeat.bootstrap import db
 from freshermeat.models import Project
 from freshermeat.web.views.api.v2.common import auth_func
-
 
 project_ns = Namespace("projects", description="Project related operations.")
 

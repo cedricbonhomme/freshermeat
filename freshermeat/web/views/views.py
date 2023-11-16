@@ -21,20 +21,19 @@ import os
 from datetime import timezone
 
 from feedgen.feed import FeedGenerator
-from flask import current_app
-from flask import flash
-from flask import redirect
-from flask import render_template
-from flask import request
-from flask import send_from_directory
-from flask import url_for
+from flask import (
+    current_app,
+    flash,
+    redirect,
+    render_template,
+    request,
+    send_from_directory,
+    url_for,
+)
 from sqlalchemy import desc
 
 from freshermeat.bootstrap import application
-from freshermeat.models import CVE
-from freshermeat.models import News
-from freshermeat.models import Project
-from freshermeat.models import Release
+from freshermeat.models import CVE, News, Project, Release
 
 logger = logging.getLogger(__name__)
 

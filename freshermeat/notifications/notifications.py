@@ -1,10 +1,8 @@
 #! /usr/bin/env python
 import urllib.parse
 
-from bootstrap import instance_domain_name
-from bootstrap import mail
-from flask import render_template
-from flask import url_for
+from bootstrap import instance_domain_name, mail
+from flask import render_template, url_for
 from flask_mail import Message
 
 # from web.models import User

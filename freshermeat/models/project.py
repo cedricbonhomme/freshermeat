@@ -6,7 +6,6 @@ from sqlalchemy.orm import validates
 
 from freshermeat.bootstrap import db
 
-
 association_table_license = db.Table(
     "association_projects_licenses",
     db.metadata,

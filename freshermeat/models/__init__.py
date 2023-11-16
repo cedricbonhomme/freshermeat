@@ -6,8 +6,8 @@ from .icon import Icon
 from .language import Language
 from .license import License
 from .news import News
-from .project import Project  # noreorder
 from .organization import Organization
+from .project import Project  # noreorder
 from .release import Release
 from .submission import Submission
 from .tag import Tag
@@ -28,14 +28,14 @@ __all__ = [
     "News",
 ]
 
-from sqlalchemy.engine import reflection
 from sqlalchemy import create_engine
+from sqlalchemy.engine import reflection
 from sqlalchemy.schema import (
-    MetaData,
-    Table,
+    DropConstraint,
     DropTable,
     ForeignKeyConstraint,
-    DropConstraint,
+    MetaData,
+    Table,
 )
 
 

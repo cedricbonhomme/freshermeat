@@ -16,20 +16,13 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-from flask import abort
-from flask import Blueprint
-from flask import flash
-from flask import redirect
-from flask import render_template
-from flask import url_for
-from flask_login import current_user
-from flask_login import login_required
+from flask import Blueprint, abort, flash, redirect, render_template, url_for
+from flask_login import current_user, login_required
 from werkzeug.security import generate_password_hash
 
 from freshermeat.bootstrap import db
 from freshermeat.models import User
 from freshermeat.web.forms import ProfileForm
-
 
 user_bp = Blueprint("user_bp", __name__, url_prefix="/user")
 

@@ -1,10 +1,6 @@
-from flask_restx import fields
-from flask_restx import Namespace
-from flask_restx import reqparse
-from flask_restx import Resource
+from flask_restx import Namespace, Resource, fields, reqparse
 
 from freshermeat.models import News
-
 
 news_ns = Namespace("news", description="News related operations.")
 

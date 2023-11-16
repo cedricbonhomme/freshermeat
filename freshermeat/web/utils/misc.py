@@ -1,8 +1,7 @@
 from collections import Counter
 
 from freshermeat.bootstrap import application
-from freshermeat.models import Project
-from freshermeat.models import Tag
+from freshermeat.models import Project, Tag
 
 
 def allowed_file(filename):

@@ -1,7 +1,6 @@
 #! /usr/bin/env python
 import logging
-from urllib.parse import urljoin
-from urllib.parse import urlparse
+from urllib.parse import urljoin, urlparse
 
 from flask import request
 

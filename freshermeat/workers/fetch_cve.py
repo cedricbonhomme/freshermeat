@@ -23,8 +23,7 @@ from datetime import datetime
 import requests
 
 from freshermeat.bootstrap import db
-from freshermeat.models import CVE
-from freshermeat.models import get_or_create
+from freshermeat.models import CVE, get_or_create
 
 logger = logging.getLogger(__name__)
 

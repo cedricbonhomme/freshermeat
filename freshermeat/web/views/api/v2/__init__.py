@@ -1,9 +1,7 @@
-from flask import Blueprint
-from flask import render_template
+from flask import Blueprint, render_template
 from flask_restx import Api
 
 from freshermeat.bootstrap import application
-
 
 api_blueprint = Blueprint("apiv2", __name__, url_prefix="/api/v2")
 
@@ -40,16 +38,16 @@ def setup_api(application):
         )
 
     from freshermeat.web.views.api.v2 import (
-        project,
-        organization,
-        cve,
-        user,
-        release,
-        news,
-        license,
-        language,
         code,
+        cve,
         feed,
+        language,
+        license,
+        news,
+        organization,
+        project,
+        release,
+        user,
     )
 
     api.add_namespace(organization.organization_ns, path="/organization")
