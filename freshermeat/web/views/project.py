@@ -21,23 +21,31 @@ import uuid
 from datetime import timezone
 
 from feedgen.feed import FeedGenerator
-from flask import Blueprint, abort, flash, redirect, render_template, request, url_for
-from flask_login import current_user, login_required
+from flask import abort
+from flask import Blueprint
+from flask import flash
+from flask import redirect
+from flask import render_template
+from flask import request
+from flask import url_for
+from flask_login import current_user
+from flask_login import login_required
 from werkzeug.exceptions import BadRequest
 
-from freshermeat.bootstrap import application, db
-from freshermeat.models import (
-    Code,
-    Feed,
-    Icon,
-    Language,
-    License,
-    Organization,
-    Project,
-    Tag,
-    get_or_create,
-)
-from freshermeat.web.forms import AddProjectForm, CodeForm, FeedForm
+from freshermeat.bootstrap import application
+from freshermeat.bootstrap import db
+from freshermeat.models import Code
+from freshermeat.models import Feed
+from freshermeat.models import get_or_create
+from freshermeat.models import Icon
+from freshermeat.models import Language
+from freshermeat.models import License
+from freshermeat.models import Organization
+from freshermeat.models import Project
+from freshermeat.models import Tag
+from freshermeat.web.forms import AddProjectForm
+from freshermeat.web.forms import CodeForm
+from freshermeat.web.forms import FeedForm
 from freshermeat.web.utils.misc import similar_projects
 from freshermeat.web.utils.spawn import ERRORS
 

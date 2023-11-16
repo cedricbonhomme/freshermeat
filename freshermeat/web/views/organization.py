@@ -21,11 +21,19 @@ import uuid
 from datetime import timezone
 
 from feedgen.feed import FeedGenerator
-from flask import Blueprint, abort, flash, redirect, render_template, request, url_for
+from flask import abort
+from flask import Blueprint
+from flask import flash
+from flask import redirect
+from flask import render_template
+from flask import request
+from flask import url_for
 from flask_login import login_required
 
-from freshermeat.bootstrap import application, db
-from freshermeat.models import Icon, Organization
+from freshermeat.bootstrap import application
+from freshermeat.bootstrap import db
+from freshermeat.models import Icon
+from freshermeat.models import Organization
 from freshermeat.web.forms import AddOrganizationForm
 from freshermeat.web.views.common import admin_permission
 

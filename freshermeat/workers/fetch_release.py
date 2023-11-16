@@ -22,7 +22,8 @@ import maya
 import requests
 from sqlalchemy import and_
 
-from freshermeat.bootstrap import application, db
+from freshermeat.bootstrap import application
+from freshermeat.bootstrap import db
 from freshermeat.models import Release
 
 TIMEOUT = 2
@@ -111,7 +112,6 @@ async def insert_releases(queue, nḅ_producers=2):
                 ).count()
                 == 0
             ):
-
                 try:
                     published_at = maya.parse(release["published_at"]).datetime(
                         to_timezone="UTC", naive=True

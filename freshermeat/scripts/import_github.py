@@ -3,8 +3,11 @@ import json
 
 import requests
 
-from freshermeat.bootstrap import application, db
-from freshermeat.models import Code, License, Project
+from freshermeat.bootstrap import application
+from freshermeat.bootstrap import db
+from freshermeat.models import Code
+from freshermeat.models import License
+from freshermeat.models import Project
 
 
 def import_project_from_github(owner, repo, submitter_id):

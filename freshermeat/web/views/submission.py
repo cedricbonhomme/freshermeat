@@ -16,13 +16,21 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-from flask import Blueprint, abort, flash, redirect, render_template, url_for
+from flask import abort
+from flask import Blueprint
+from flask import flash
+from flask import redirect
+from flask import render_template
+from flask import url_for
 from flask_login import login_required
-from flask_paginate import Pagination, get_page_args
+from flask_paginate import get_page_args
+from flask_paginate import Pagination
 from sqlalchemy import desc
 
 from freshermeat.bootstrap import db
-from freshermeat.models import License, Project, Submission
+from freshermeat.models import License
+from freshermeat.models import Project
+from freshermeat.models import Submission
 from freshermeat.web.forms import SubmissionForm
 from freshermeat.web.views.common import admin_permission
 

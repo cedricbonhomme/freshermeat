@@ -39,7 +39,6 @@ def register_commands(app):
 
 
 with application.app_context():
-
     from freshermeat.web import views
 
     application.register_blueprint(views.admin_bp)

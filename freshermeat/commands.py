@@ -25,8 +25,11 @@ from sqlalchemy import and_
 
 import freshermeat.models
 import freshermeat.scripts
-from freshermeat.bootstrap import application, db
-from freshermeat.workers import fetch_cve, fetch_project_news, fetch_release
+from freshermeat.bootstrap import application
+from freshermeat.bootstrap import db
+from freshermeat.workers import fetch_cve
+from freshermeat.workers import fetch_project_news
+from freshermeat.workers import fetch_release
 
 logger = logging.getLogger("manager")
 

@@ -1,7 +1,8 @@
 #! /usr/bin/env python
 from datetime import datetime
 
-from sqlalchemy import Index, desc
+from sqlalchemy import desc
+from sqlalchemy import Index
 
 from freshermeat.bootstrap import db
 from freshermeat.models.news import News

@@ -1,4 +1,7 @@
-from flask_restx import Namespace, Resource, fields, reqparse
+from flask_restx import fields
+from flask_restx import Namespace
+from flask_restx import reqparse
+from flask_restx import Resource
 
 from freshermeat.bootstrap import db
 from freshermeat.models import Code

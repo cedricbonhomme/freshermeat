@@ -16,13 +16,21 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-from datetime import datetime, timedelta
+from datetime import datetime
+from datetime import timedelta
 
-from flask import Blueprint, jsonify, render_template
+from flask import Blueprint
+from flask import jsonify
+from flask import render_template
 from sqlalchemy import func
 
 from freshermeat.bootstrap import db
-from freshermeat.models import Language, License, Organization, Project, Tag, User
+from freshermeat.models import Language
+from freshermeat.models import License
+from freshermeat.models import Organization
+from freshermeat.models import Project
+from freshermeat.models import Tag
+from freshermeat.models import User
 
 stats_bp = Blueprint("stats_bp", __name__, url_prefix="/stats")
 

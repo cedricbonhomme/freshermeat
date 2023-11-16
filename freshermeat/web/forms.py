@@ -16,25 +16,28 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-from flask import redirect, url_for
+from flask import redirect
+from flask import url_for
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField
-from wtforms import (
-    BooleanField,
-    HiddenField,
-    PasswordField,
-    SelectField,
-    SelectMultipleField,
-    StringField,
-    SubmitField,
-    TextAreaField,
-    validators,
-)
+from wtforms import BooleanField
+from wtforms import HiddenField
+from wtforms import PasswordField
+from wtforms import SelectField
+from wtforms import SelectMultipleField
+from wtforms import StringField
+from wtforms import SubmitField
+from wtforms import TextAreaField
+from wtforms import validators
 from wtforms.fields import URLField
-from wtforms.validators import InputRequired, url
+from wtforms.validators import InputRequired
+from wtforms.validators import url
 
 from freshermeat.lib import misc_utils
-from freshermeat.models import Language, License, Project, User
+from freshermeat.models import Language
+from freshermeat.models import License
+from freshermeat.models import Project
+from freshermeat.models import User
 
 
 class RedirectForm(FlaskForm):

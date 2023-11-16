@@ -17,24 +17,29 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import logging
 
-from flask import Blueprint, current_app, flash, redirect, render_template, url_for
-from flask_admin import Admin, AdminIndexView
+from flask import Blueprint
+from flask import current_app
+from flask import flash
+from flask import redirect
+from flask import render_template
+from flask import url_for
+from flask_admin import Admin
+from flask_admin import AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.menu import MenuLink
-from flask_login import current_user, login_required
+from flask_login import current_user
+from flask_login import login_required
 from werkzeug.security import generate_password_hash
 
 from freshermeat.bootstrap import db
-from freshermeat.models import (
-    Language,
-    License,
-    Organization,
-    Project,
-    Release,
-    Submission,
-    Tag,
-    User,
-)
+from freshermeat.models import Language
+from freshermeat.models import License
+from freshermeat.models import Organization
+from freshermeat.models import Project
+from freshermeat.models import Release
+from freshermeat.models import Submission
+from freshermeat.models import Tag
+from freshermeat.models import User
 from freshermeat.web.forms import UserForm
 from freshermeat.web.views.common import admin_permission
 

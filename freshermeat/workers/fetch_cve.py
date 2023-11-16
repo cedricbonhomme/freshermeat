@@ -23,7 +23,8 @@ from datetime import datetime
 import requests
 
 from freshermeat.bootstrap import db
-from freshermeat.models import CVE, get_or_create
+from freshermeat.models import CVE
+from freshermeat.models import get_or_create
 
 logger = logging.getLogger(__name__)
 
@@ -59,7 +60,6 @@ async def insert_database(project):
             cves = await get_cve(cve_vendor, project.cve_product, project.name)
             logger.info(f"Inserting CVE for {project.name}")
             for cve in cves:
-
                 published_at = datetime.strptime(cve["Published"], "%Y-%m-%dT%H:%M:%S")
 
                 get_or_create(

@@ -24,7 +24,6 @@ def retrieve(feeds):
         except Exception:
             continue
         for entry in data["entries"]:
-
             exist = News.query.filter(
                 and_(News.entry_id == entry.id, News.project_id == feed.project_id)
             ).count()
