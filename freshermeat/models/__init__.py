@@ -6,8 +6,8 @@ from .icon import Icon
 from .language import Language
 from .license import License
 from .news import News
-from .organization import Organization
 from .project import Project  # noreorder
+from .organization import Organization
 from .release import Release
 from .submission import Submission
 from .tag import Tag
@@ -105,7 +105,6 @@ def db_empty(db):
     # the transaction only applies if the DB supports
     # transactional DDL, i.e. Postgresql, MS SQL Server
     with conn.begin() as trans:
-
         inspector = reflection.Inspector.from_engine(db.engine)
 
         # gather all data first before dropping anything.
