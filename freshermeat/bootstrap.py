@@ -89,6 +89,8 @@ def datetimeformat(value, format="%Y-%m-%d %H:%M"):
 
 
 def instance_domain_name(*args):
+    if application.config["DEBUG"]:
+        return request.url_root.strip("/")
     return request.url_root.replace("http", "https").strip("/")
 
 
