@@ -17,6 +17,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import json
+import random
 
 import maya
 import requests
@@ -65,20 +66,22 @@ async def retrieve_gitlab(queue, projects):
 
 async def retrieve_github(queue, projects):
     """Producer coro: retrieve releases from GitHub."""
-    for project in projects:
+    payload = {
+        "client_id": application.config.get("GITHUB_CLIENT_ID", ""),
+        "client_secret": application.config.get("GITHUB_CLIENT_SECRET", ""),
+    }
+    all_projects = projects.all()
+    random.shuffle(all_projects)
+    for project in all_projects:
         print(f"Retrieving releases for {project.name} (via GitHub coroutine)")
         r, releases = None, []
-        url = "{api_url}?client_id={client_id}&client_secret={client_secret}".format(
-            api_url=project.automatic_release_tracking.split(":", 1)[1],
-            client_id=application.config.get("GITHUB_CLIENT_ID", ""),
-            client_secret=application.config.get("GITHUB_CLIENT_SECRET", ""),
-        )
+        url = project.automatic_release_tracking.split(":", 1)[1]
         try:
-            r = requests.get(url, timeout=TIMEOUT)
-        except Exception as e:
-            print(e)
+            r = requests.get(url, params=payload, timeout=TIMEOUT)
+        except Exception:
             continue
         if not r and r.status_code != 200:
+            print(r.reason)
             continue
         releases = json.loads(r.text)
         await queue.put((project.id, releases))
