@@ -44,10 +44,11 @@ $ poetry shell
 (freshermeat) $ flask import_osi_approved_licenses
 
 (freshermeat) $ flask run
- * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
- * Restarting with stat
- * Debugger is active!
- * Debugger PIN: 204-397-194
+ * Serving Flask app 'runserver.py'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
 ```
 
 You can configure the application in ``instance/development.py`` or create
