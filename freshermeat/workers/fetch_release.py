@@ -66,9 +66,11 @@ async def retrieve_gitlab(queue, projects):
 
 async def retrieve_github(queue, projects):
     """Producer coro: retrieve releases from GitHub."""
-    payload = {
-        "client_id": application.config.get("GITHUB_CLIENT_ID", ""),
-        "client_secret": application.config.get("GITHUB_CLIENT_SECRET", ""),
+    headers = {
+        # "client_id": application.config.get("GITHUB_CLIENT_ID", ""),
+        # "client_secret": application.config.get("GITHUB_CLIENT_SECRET", ""),
+        "Authorization": "Bearer {}".format(application.config.get("GITHUB_TOKEN", "")),
+        "Accept": "application/vnd.github.v3+json",
     }
     all_projects = projects.all()
     random.shuffle(all_projects)
@@ -77,7 +79,7 @@ async def retrieve_github(queue, projects):
         r, releases = None, []
         url = project.automatic_release_tracking.split(":", 1)[1]
         try:
-            r = requests.get(url, params=payload, timeout=TIMEOUT)
+            r = requests.get(url, headers=headers, timeout=TIMEOUT)
         except Exception:
             continue
         if not r and r.status_code != 200:
