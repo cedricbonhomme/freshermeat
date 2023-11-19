@@ -259,11 +259,11 @@
       .sort(function (a, b) {
         return new Date(b.published_at) - new Date(a.last_updated);
       })
-      .map(function (release) {
+      .map(function (news) {
         var cardHTML = newsTemplate({
-          'news_url': release.link,
-          'title': release.title,
-          'published': moment(release.published).fromNow()
+          'news_url': news.link,
+          'title': news.title,
+          'published': moment(news.published).fromNow()
         });
         $('#project-news').append(cardHTML);
       });

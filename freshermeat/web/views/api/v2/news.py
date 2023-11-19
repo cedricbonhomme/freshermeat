@@ -21,10 +21,10 @@ parser.add_argument("per_page", type=int, location="args")
 news = news_ns.model(
     "News",
     {
-        "news_id": fields.String(
+        "id": fields.String(
             description="The id of the news.",
         ),
-        "news_url": fields.String(description="The URL of the news."),
+        "link": fields.String(description="The URL of the news."),
         "title": fields.String(description="The title of the news."),
         "project_id": fields.String(description="The id of the project."),
         "published": fields.DateTime(description="Date of publication of the news."),
