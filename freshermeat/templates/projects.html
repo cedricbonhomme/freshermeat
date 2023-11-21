@@ -81,6 +81,10 @@
     if (typeof language_param !== 'undefined') {
       filters["language"] = language_param;
     }
+    description_param = getUrlParameter('description');
+    if (typeof description_param !== 'undefined') {
+      filters["description"] = description_param;
+    }
     // description_param = getUrlParameter('description');
     // if (typeof description_param !== 'undefined') {
     //     filters.push({"name":"description","op":"ilike","val":"%"+description_param+"%"});

@@ -112,7 +112,7 @@ class ProjectsList(Resource):
         query = Project.query
         for arg in args:
             if hasattr(Project, arg):
-                query = query.filter(getattr(Project, arg) == args[arg])
+                query = query.filter(getattr(Project, arg).ilike(f"%{args[arg]}%"))
         # Filter on other attributes
         if project_organization is not None:
             query = query.filter(Project.organization.has(name=project_organization))
