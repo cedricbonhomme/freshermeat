@@ -3,7 +3,22 @@ Freshermeat Changelog
 
 ## 0.9.0 (not yet released)
 
-###
+### Improvements
+
+- Improvements to the releases worker;
+- updated Wed editor for the description of the projects;
+- open external links with noopenner noreferrer attributes;
+
+
+### Fixes
+
+- fixes in the templates for the list of projects, project details;
+- fixed an issue in the list of news dedicated to the projects;
+- fixed the serialization of the data in the API (for the news);
+
+### Changes
+
+- updated all JavaScript and Python dependencies;
 
 
 
