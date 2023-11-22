@@ -164,7 +164,14 @@ def process_user_form(user_id=None):
 @admin_permission.require(http_exception=403)
 def delete_user(user_id=None):
     """Let an administrator delete a user."""
-    pass
+    user = User.query.filter(User.id == user_id).first()
+    if user.id == current_user.id:
+        flash("You can not delete your own user.", "danger")
+    else:
+        db.session.delete(user)
+        db.session.commit()
+        flash("User deleted.", "success")
+    return redirect(url_for("admin_bp.list_users"))
 
 
 @admin_bp.route("/user/toggle/<int:user_id>", methods=["GET"])
@@ -172,7 +179,19 @@ def delete_user(user_id=None):
 @admin_permission.require(http_exception=403)
 def toggle_user(user_id=None):
     """Let an administrator enable or disable a user."""
-    pass
+    user = User.query.filter(User.id == user_id).first()
+    if user.id == current_user.id:
+        flash("You can not do this change to your own user.", "danger")
+    else:
+        user.is_active = not user.is_active
+        db.session.commit()
+        flash(
+            "User {status}.".format(
+                status="activated" if user.is_active else "deactivated"
+            ),
+            "success",
+        )
+    return redirect(url_for("admin_bp.list_users"))
 
 
 # Flask-Admin views
