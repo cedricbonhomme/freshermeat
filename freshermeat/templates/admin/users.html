@@ -26,12 +26,11 @@
           {% if user.id != current_user.id %}
           <a href="{{ url_for("admin_bp.toggle_user", user_id=user.id) }}">
             {% if user.is_active %}
-            <i class="glyphicon glyphicon-ban-circle" title="Disable this account"></i>
+            <i class="fa fa-ban" aria-hidden="true" title="Disable this account"></i>
             {% else %}
-            <i class="glyphicon glyphicon-ok-circle" title="Enable this account"></i>
-            {% endif %}
-          </a>
-          <a href="{{ url_for("admin_bp.delete_user", user_id=user.id) }}"><i class="glyphicon glyphicon-remove" title="Delete this user" onclick="return confirm('You are going to delete this account.');"></i></a>
+            <i class="fa fa-check-circle" aria-hidden="true" title="Enable this account"></i>
+            {% endif %}</a>&nbsp;
+          <a href="{{ url_for("admin_bp.delete_user", user_id=user.id) }}"><i class="fa fa-times" aria-hidden="true" title="Delete this user" onclick="return confirm('You are going to delete this account.');"></i></a>
           {% endif %}
         </td>
       </tr>
@@ -47,7 +46,7 @@
       columnDefs: [
       {
         bSortable: false,
-        targets: [0, 5]
+        targets: [0, 4]
       }
       ]
     });
