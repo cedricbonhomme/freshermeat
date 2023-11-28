@@ -19,6 +19,7 @@
 import logging
 import os
 from datetime import timezone
+from urllib.parse import urljoin
 
 from feedgen.feed import FeedGenerator
 from flask import current_app
@@ -125,7 +126,9 @@ def recent_cves():
         fe.id(cve.cve_id)
         fe.title(f"{cve.project.name} - {cve.cve_id}")
         fe.description(cve.summary)
-        fe.link(href="https://cvepremium.circl.lu/cve/" + cve.cve_id)
+        fe.link(
+            href=urljoin(application.config["CVE_SEARCH_INSTANCE"], f"cve/{cve.cve_id}")
+        )
         fe.updated(cve.published_at.replace(tzinfo=timezone.utc))
         fe.published(cve.published_at.replace(tzinfo=timezone.utc))
     atomfeed = fg.atom_str(pretty=True)
