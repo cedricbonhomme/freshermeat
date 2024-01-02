@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 # Freshermeat - An open source software directory and release tracker.
-# Copyright (C) 2017-2023 Cédric Bonhomme - https://www.cedricbonhomme.org
+# Copyright (C) 2017-2024 Cédric Bonhomme - https://www.cedricbonhomme.org
 #
 # For more information: https://sr.ht/~cedric/freshermeat
 #
