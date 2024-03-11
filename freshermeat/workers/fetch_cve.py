@@ -2,7 +2,7 @@
 # Freshermeat - An open source software directory and release tracker.
 # Copyright (C) 2017-2024 Cédric Bonhomme - https://www.cedricbonhomme.org
 #
-# For more information: https://sr.ht/~cedric/freshermeat
+# For more information: https://github.com/cedricbonhomme/freshermeat
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -37,7 +37,7 @@ async def get_cve(*args, **kwargs):
             "verify": True,
             "allow_redirects": True,
             "timeout": 15,
-            "headers": {"User-Agent": "https://sr.ht/~cedric/freshermeat"},
+            "headers": {"User-Agent": "https://github.com/cedricbonhomme/freshermeat"},
         }
         result = requests.get(
             f"https://cvepremium.circl.lu/api/search/{args[0]}/{args[1]}",

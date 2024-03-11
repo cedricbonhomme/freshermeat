@@ -2,7 +2,7 @@
 
 ## Presentation
 
-[Freshermeat](https://sr.ht/~cedric/freshermeat) is an open source software
+[Freshermeat](https://github.com/cedricbonhomme/freshermeat) is an open source software
 directory and release tracker.
 Main functionalities are the following:
 
@@ -28,7 +28,7 @@ $ sudo apt install postgresql npm
 
 
 ```bash
-$ git clone https://git.sr.ht/~cedric/freshermeat
+$ git clone https://github.com/cedricbonhomme/freshermeat
 $ cd freshermeat/
 $ poetry install
 $ poetry shell
@@ -64,27 +64,20 @@ periodically with __cron__.
 ### Retrieving CVEs
 
 ```bash
-$ FLASK_APP=runserver.py poetry run flask fetch_cves
+$ poetry run flask fetch_cves
 ```
 
 ### Release tracking
 
 ```bash
-$ FLASK_APP=runserver.py poetry run flask fetch_releases
+$ poetry run flask fetch_releases
 ```
 
 ### Retrieving news about projects
 
 ```bash
-$ FLASK_APP=runserver.py poetry run flask fetch_news
+$ poetry run flask fetch_news
 ```
-
-## Contributing
-
-Patches and questions? Send to my [public
-inbox](https://lists.sr.ht/~cedric/public-inbox):
-[`~cedric/public-inbox@lists.sr.ht`](mailto:~cedric/public-inbox@lists.sr.ht).
-Thanks!
 
 
 ## License
@@ -93,3 +86,8 @@ This software is licensed under
 [GNU Affero General Public License version 3](https://www.gnu.org/licenses/agpl-3.0.html)
 
 Copyright (C) 2017-2024 [Cédric Bonhomme](https://www.cedricbonhomme.org)
+
+
+## Contact
+
+[Cédric Bonhomme](https://www.cedricbonhomme.org)
