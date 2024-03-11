@@ -35,7 +35,6 @@ $ poetry shell
 
 (freshermeat) $ npm install
 
-(freshermeat) $ export FLASK_APP=runserver.py
 (freshermeat) $ export APPLICATION_SETTINGS=development.py
 
 (freshermeat) $ flask db_create
@@ -43,12 +42,14 @@ $ poetry shell
 (freshermeat) $ flask create_admin --login <login> --password <password>
 (freshermeat) $ flask import_osi_approved_licenses
 
-(freshermeat) $ flask run
- * Serving Flask app 'runserver.py'
- * Debug mode: off
+(freshermeat) $ flask run --debug
+ * Debug mode: on
 WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
  * Running on http://127.0.0.1:5000
 Press CTRL+C to quit
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 315-271-316
 ```
 
 You can configure the application in ``instance/development.py`` or create

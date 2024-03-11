@@ -4,7 +4,6 @@ HERE = os.path.abspath(os.path.dirname("."))
 
 HOST = "127.0.0.1"
 PORT = 5000
-DEBUG = True
 TESTING = True
 
 FRESHERMEAT_INSTANCE_NAME = "Open Source Security Software"
@@ -31,7 +30,7 @@ MAIL_SERVER = "localhost"
 MAIL_PORT = 25
 MAIL_USE_TLS = False
 MAIL_USE_SSL = False
-MAIL_DEBUG = DEBUG
+MAIL_DEBUG = True
 MAIL_USERNAME = None
 MAIL_PASSWORD = None
 MAIL_DEFAULT_SENDER = ""
