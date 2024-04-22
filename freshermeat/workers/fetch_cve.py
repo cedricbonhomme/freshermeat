@@ -52,6 +52,30 @@ async def get_cve(*args, **kwargs):
         raise e
 
 
+async def get_cve_vulnerability_lookup(*args, **kwargs):
+    """
+    Get recent CVEs for a product and a vendor by querying a vulnerability-lookup instance:
+    https://vulnerability.circl.lu
+    """
+    try:
+        request_kwargs = {
+            "verify": True,
+            "allow_redirects": True,
+            "timeout": 15,
+            "headers": {"User-Agent": "https://github.com/cedricbonhomme/freshermeat"},
+        }
+        result = requests.get(
+            f"https://vulnerability.circl.lu/api/search/{args[0]}/{args[1]}",
+            **request_kwargs,
+        )
+        logger.info(f"CVE for {args[2]} retrieved")
+        if result.status_code == 200:
+            return result.json()["cvelistv5"]
+        return []
+    except Exception as e:
+        raise e
+
+
 async def insert_database(project):
     async with sem:
         logger.info(f"Retrieving CVE for {project.name}")
