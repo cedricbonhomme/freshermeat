@@ -143,13 +143,13 @@ redis = ["redis (>=2.10.5)"]
 
 [[package]]
 name = "certifi"
-version = "2024.2.2"
+version = "2024.6.2"
 description = "Python package for providing Mozilla's CA Bundle."
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "certifi-2024.2.2-py3-none-any.whl", hash = "sha256:dc383c07b76109f368f6106eee2b593b04a011ea4d55f652c6ca24a754d1cdd1"},
-    {file = "certifi-2024.2.2.tar.gz", hash = "sha256:0569859f95fc761b18b45ef421b1290a0f65f147e92a1e5eb3e635f9a5e4e66f"},
+    {file = "certifi-2024.6.2-py3-none-any.whl", hash = "sha256:ddc6c8ce995e6987e7faf5e3f1b02b302836a0e5d98ece18392cb1a36c72ad56"},
+    {file = "certifi-2024.6.2.tar.gz", hash = "sha256:3cd43f1c6fa7dedc5899d69d3ad0398fd018ad1a17fba83ddaf78aa46c747516"},
 ]
 
 [[package]]
@@ -300,13 +300,13 @@ files = [
 
 [[package]]
 name = "cyclonedx-python-lib"
-version = "7.3.4"
+version = "7.4.0"
 description = "Python library for CycloneDX"
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "cyclonedx_python_lib-7.3.4-py3-none-any.whl", hash = "sha256:8b6dc39f2281feb7fbf9b174fa5d8d3f8f7b51fd6f1d83e9b4c9bbd60ec2ab91"},
-    {file = "cyclonedx_python_lib-7.3.4.tar.gz", hash = "sha256:f374855bd6b736b3a6be4eec93b5ca7f160c8282fe4ba5486518da11dbe83f1b"},
+    {file = "cyclonedx_python_lib-7.4.0-py3-none-any.whl", hash = "sha256:fc423e7f46d772e5ded29a48cb0743233e692e5853c49b829efc0f59014efde1"},
+    {file = "cyclonedx_python_lib-7.4.0.tar.gz", hash = "sha256:09b10736a7f440262578fa40f470b448de1ebf3c7a71e2ff0a4af0781d3a3b42"},
 ]
 
 [package.dependencies]
@@ -1182,17 +1182,14 @@ files = [
 
 [[package]]
 name = "nodeenv"
-version = "1.8.0"
+version = "1.9.1"
 description = "Node.js virtual environment builder"
 optional = false
-python-versions = ">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*"
+python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*,>=2.7"
 files = [
-    {file = "nodeenv-1.8.0-py2.py3-none-any.whl", hash = "sha256:df865724bb3c3adc86b3876fa209771517b0cfe596beff01a92700e0e8be4cec"},
-    {file = "nodeenv-1.8.0.tar.gz", hash = "sha256:d51e0c37e64fbf47d017feac3145cdbb58836d7eee8c6f6d3b6880c5456227d2"},
+    {file = "nodeenv-1.9.1-py2.py3-none-any.whl", hash = "sha256:ba11c9782d29c27c70ffbdda2d7415098754709be8a7056d79a737cd901155c9"},
+    {file = "nodeenv-1.9.1.tar.gz", hash = "sha256:6ec12890a2dab7946721edbfbcd91f3319c6ccc9aec47be7c7e6b7011ee6645f"},
 ]
-
-[package.dependencies]
-setuptools = "*"
 
 [[package]]
 name = "packageurl-python"
@@ -1770,13 +1767,13 @@ files = [
 
 [[package]]
 name = "reorder-python-imports"
-version = "3.12.0"
+version = "3.13.0"
 description = "Tool for reordering python imports"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "reorder_python_imports-3.12.0-py2.py3-none-any.whl", hash = "sha256:930c23a42192b365e20e191a4d304d93e645bd44c242d8bc64accc4a3b2b0f3d"},
-    {file = "reorder_python_imports-3.12.0.tar.gz", hash = "sha256:f93106a662b0c034ca81c91fd1c2f21a1e94ece47c9f192672e2a13c8ec1856c"},
+    {file = "reorder_python_imports-3.13.0-py2.py3-none-any.whl", hash = "sha256:cc20b1fe4f7fde98f3725d7e4588ae8a553f4824d72e1c5c3a2e3eb2bf382bca"},
+    {file = "reorder_python_imports-3.13.0.tar.gz", hash = "sha256:994235fe9273373af6df7290de6a362a2426eb9bb800f5197367fe54b081f4d9"},
 ]
 
 [package.dependencies]
@@ -1784,13 +1781,13 @@ classify-imports = ">=4.1"
 
 [[package]]
 name = "requests"
-version = "2.32.1"
+version = "2.32.3"
 description = "Python HTTP for Humans."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "requests-2.32.1-py3-none-any.whl", hash = "sha256:21ac9465cdf8c1650fe1ecde8a71669a93d4e6f147550483a2967d08396a56a5"},
-    {file = "requests-2.32.1.tar.gz", hash = "sha256:eb97e87e64c79e64e5b8ac75cee9dd1f97f49e289b083ee6be96268930725685"},
+    {file = "requests-2.32.3-py3-none-any.whl", hash = "sha256:70761cfe03c773ceb22aa2f671b4757976145175cdfca038c02654d061d6dcc6"},
+    {file = "requests-2.32.3.tar.gz", hash = "sha256:55365417734eb18255590a9ff9eb97e9e1da868d4ccd6402399eaf68af20a760"},
 ]
 
 [package.dependencies]
@@ -2127,13 +2124,13 @@ files = [
 
 [[package]]
 name = "typing-extensions"
-version = "4.11.0"
+version = "4.12.1"
 description = "Backported and Experimental Type Hints for Python 3.8+"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "typing_extensions-4.11.0-py3-none-any.whl", hash = "sha256:c1f94d72897edaf4ce775bb7558d5b79d8126906a14ea5ed1635921406c0387a"},
-    {file = "typing_extensions-4.11.0.tar.gz", hash = "sha256:83f085bd5ca59c80295fc2a82ab5dac679cbe02b9f33f7d83af68e241bea51b0"},
+    {file = "typing_extensions-4.12.1-py3-none-any.whl", hash = "sha256:6024b58b69089e5a89c347397254e35f1bf02a907728ec7fee9bf0fe837d203a"},
+    {file = "typing_extensions-4.12.1.tar.gz", hash = "sha256:915f5e35ff76f56588223f15fdd5938f9a1cf9195c0de25130c627e4d597f6d1"},
 ]
 
 [[package]]
