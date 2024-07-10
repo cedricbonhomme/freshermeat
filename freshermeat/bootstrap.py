@@ -26,6 +26,7 @@ from flask import request
 from flask_mail import Mail
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+from flask_wtf.csrf import CSRFProtect
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 
@@ -78,6 +79,7 @@ application.wsgi_app = ProxyFix(
 application.config.from_pyfile(
     os.environ.get("APPLICATION_SETTINGS", "development.py"), silent=False
 )
+csrf = CSRFProtect(application)
 db = SQLAlchemy(application)
 mail = Mail(application)
 migrate = Migrate(application, db)
