@@ -3,8 +3,10 @@ from flask import render_template
 from flask_restx import Api
 
 from freshermeat.bootstrap import application
+from freshermeat.bootstrap import csrf
 
 api_blueprint = Blueprint("apiv2", __name__, url_prefix="/api/v2")
+csrf.exempt(api_blueprint)
 
 
 def setup_api(application):
